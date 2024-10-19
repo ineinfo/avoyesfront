@@ -1,0 +1,174 @@
+"use client"
+import React from "react";
+import "../assets/css/style.css";
+import "../assets/css/responsive.css";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const Footer = () => {
+  const pathname = usePathname(); // Get current path
+  if (pathname === "/login" || pathname === "/otp" || pathname === "/forgotpassword" || pathname === "/new-password" || pathname === "/register") {
+    return null;
+  }
+  return (
+    <>
+      <footer className="footer">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-3">
+              <div className="footer-logo mb-3">
+                <img src="/logo.png" alt="Logo" />
+              </div>
+              <p className="ftr-para">
+                This company meets the highest standard of social and
+                environmental performance transparency and accountability{" "}
+              </p>
+              <div className="footer-social-icons">
+                <Link href="#" className="social-icon">
+                  <i className="bi bi-facebook"></i>
+                </Link>{" "}
+                <Link href="#" className="social-icon">
+                  <i className="bi bi-twitter"></i>
+                </Link>{" "}
+                <Link href="#" className="social-icon">
+                  <i className="bi bi-instagram"></i>
+                </Link>{" "}
+                <Link href="#" className="social-icon">
+                  <i className="bi bi-tiktok"></i>
+                </Link>{" "}
+              </div>
+            </div>
+
+            <div className="col-md-2">
+              <h5 className="ftr-company-head">Categories</h5>
+              <div className="ftr-head-btm-border"></div>
+              <ul className="list-unstyled ftr-links">
+                <li>
+                  <Link href="/marketplace" className="text-decoration-none">
+                    Market Place
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Events
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Foodies
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Activities
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="col-md-2">
+              <h5 className="ftr-help-head">Quick Links</h5>
+              <div className="ftr-head-btm-border"></div>
+              <ul className="list-unstyled ftr-links">
+                <li>
+                  <Link href="/contact-us" className="text-decoration-none">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faqs" className="text-decoration-none">
+                    FAQs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="terms-and-conditions"
+                    className="text-decoration-none"
+                  >
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy-policy" className="text-decoration-none">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/customer-support" className="text-decoration-none">
+                    Customer Support
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="col-md-2">
+              <h5 className="ftr-faq-head">Quick Links</h5>
+              <div className="ftr-head-btm-border"></div>
+              <ul className="list-unstyled ftr-links">
+                <li>
+                  <Link href="/brandpartner" className="text-decoration-none">
+                    Brand Partner
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/deliverydetails" className="text-decoration-none">
+                    Delivery Details
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Manage Deliveries
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Orders
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-decoration-none">
+                    Payments
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="col-md-3">
+              <h5 className="ftr-join-head">Join Our Community</h5>
+              <div className="ftr-head-btm-border"></div>
+              <form role="search" method="get" action="">
+                <div className="input-container">
+                  <input
+                    type="search"
+                    className="search-input"
+                    name="s"
+                    placeholder="Search"
+                  />
+                  <button type="submit" className="search-submit" name="submit">
+
+                    <i
+                      className="bi bi-arrow-right d-flex align-items-center"
+                    ></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div className="border-bottom-footer"></div>
+          <div className="footer-2 d-flex justify-content-between align-items-center">
+            <div className="copyright">
+              <p className="m-0">
+                @2024 Avoyes LIFE STYLE PRIVATE LIMITED All Rights Reserved
+              </p>
+            </div>
+            <div className="ftr-2-icon">
+              <img src="ftr-img.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+};
+
+export default Footer;
