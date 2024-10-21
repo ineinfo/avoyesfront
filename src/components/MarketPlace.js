@@ -9,6 +9,7 @@ import Link from "next/link";
 import Cookies from 'js-cookie';
 import WishlistApi from "@/utils/api/WishlistApi";
 import {addToCart} from "@/utils/api/CartApi";
+import defaultImg from '../../public/defaultImg.jpg';
 
 const MarketPlace = () => {
   const [showingCount, setShowingCount] = useState(12);
@@ -22,6 +23,10 @@ const MarketPlace = () => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [mainImage, setMainImage] = useState("");
   const [wishlistStatus, setWishlistStatus] = useState({});
+  const [selectedColor, setSelectedColor] = useState(""); 
+
+
+
 
   const getColorIdByTitle = (colorTitle) => {
     const colorIds = selectedProduct.color_ids || ""; 
@@ -620,22 +625,22 @@ const MarketPlace = () => {
                     <div className="col-lg-6">
                       <div className="row">
                         <div className="col-3 thumb-margin text-center">
-                          <img
-                            src={selectedProduct?.image_url1}
-                            className="img-fluid thumbnail w-75"
-                            onClick={() =>
-                              changeImage(selectedProduct?.image_url1)
-                            }
-                            alt="Thumbnail 1"
-                          />
-                          <img
-                            src={selectedProduct?.image_url2}
-                            className="img-fluid thumbnail w-75"
-                            onClick={() =>
-                              changeImage(selectedProduct?.image_url2)
-                            }
-                            alt="Thumbnail 2"
-                          />
+                        <img
+  src={selectedProduct?.image_url1}  // Original image URL
+  className="img-fluid thumbnail w-75"
+  onClick={() => changeImage(selectedProduct?.image_url1)}  // Click event to change the image
+  alt="Thumbnail 1"  // Descriptive text for accessibility (shown only if both the image and default fail)
+  onError={(e) => { e.target.src = defaultImg; }}  // Replace with default image if original fails
+/>
+
+<img
+  src={selectedProduct?.image_url2}  // Original image URL
+  className="img-fluid thumbnail w-75"
+  onClick={() => changeImage(selectedProduct?.image_url2)}  // Click event to change the image
+  alt="Thumbnail 2"  // Descriptive text for accessibility (shown only if both the image and default fail)
+  onError={(e) => { e.target.src = defaultImg; }}  // Replace with default image if original fails
+/>
+
                           <img
                             src={selectedProduct?.image_url3}
                             className="img-fluid thumbnail w-75"
@@ -643,6 +648,7 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url3)
                             }
                             alt="Thumbnail 3"
+                            onError={(e) => e.target.src = defaultImg} 
                           />
                           <img
                             src={selectedProduct?.image_url4}
@@ -651,6 +657,7 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url4)
                             }
                             alt="Thumbnail 4"
+                            onError={(e) => e.target.src = defaultImg} 
                           />
                         </div>
                         <div className="col-9">
@@ -659,6 +666,7 @@ const MarketPlace = () => {
                             src={mainImage || selectedProduct?.image_url5} 
                             className="img-fluid w-100"
                             alt="Main Product"
+                            onError={(e) => e.target.src = defaultImg} 
                           />
                         </div>
                       </div>
@@ -724,7 +732,9 @@ const MarketPlace = () => {
                                     width: "22px",
                                     borderRadius: "2px",
                                     marginRight: "16px",
-                                    border: activeColor === color ? "2px solid black" : "none",
+                                    border: activeColor === color ? "3px solid black" : "none",
+                                    padding: selectedColor === color ? "5px" : "8px",
+                                    transition: "all 0.3s ease", 
                                     cursor: 'pointer',
                                   }}
                                 ></div>

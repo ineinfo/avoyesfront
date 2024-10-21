@@ -11,6 +11,7 @@ import WishlistApi from "@/utils/api/WishlistApi";
  import {addToCart} from "@/utils/api/CartApi";
  import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import defaultImg from '../../public/defaultImg.jpg';
  
 
 const ProductDetails = () => {
@@ -267,6 +268,7 @@ const handleAddToCart = async () => {
                     onClick={() => changeImage(src)}
                     style={{ cursor: "pointer" }}
                     alt={`Thumbnail ${index + 1}`}
+                    onError={(e) => e.target.src = defaultImg} 
                   />
                 ))}
                   </div>
@@ -372,7 +374,9 @@ const handleAddToCart = async () => {
                   width: "22px",
                   borderRadius: "2px",
                   marginRight: "16px",
-                  border: selectedColor === color ? "2px solid black" : "none", 
+                  border: selectedColor === color ?"3px solid #000" : "1px solid #ccc", 
+                  padding: selectedColor === color ? "2px" : "5px",
+                  transition: "all 0.3s ease", 
                   cursor: 'pointer', 
                 }}
               ></div>

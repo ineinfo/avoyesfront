@@ -185,13 +185,13 @@ const Header = () => {
               <div key={item.product_id} className="row checkout-product-1 align-items-center mx-4 prd-border">
                 <div className="col-xl-2 col-lg-2 col-md-4 col-6">
                   <div className="img">
-                    <img src={item.image_url} alt={item.title} style={{ width: '50px', height: '50px' }} />
+                    <img src={item.image_url} alt={item.title} style={{ width: '80px', height: '80px' }} />
                   </div>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-8 p-0 col-6">
                   <div className="product-name-with-category ms-4">
                     <h5 className="mb-1">{item.title}</h5>
-                    <p className="m-0">Category: {/* Add category here if available */}</p>
+                    <p className="m-0">Category: {item.category_title}</p>
                   </div>
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-5 side-mt-md col-5">
