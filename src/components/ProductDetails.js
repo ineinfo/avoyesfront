@@ -10,7 +10,8 @@ import Cookies from 'js-cookie';
 import WishlistApi from "@/utils/api/WishlistApi";
  import {addToCart} from "@/utils/api/CartApi";
  import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+ import 'react-toastify/dist/ReactToastify.css';
+ 
 import defaultImg from '../../public/defaultImg.jpg';
  
 
@@ -102,7 +103,7 @@ const toggleHeart = async () => {
     const fetchProductDetails = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:3002/api/products/${id}`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products/${id}`);
           const productData = response.data.data[0];
           setProduct(productData);
           

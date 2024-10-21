@@ -91,7 +91,7 @@ const MarketPlace = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3002/api/products");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products`);
       if (!response.ok) {
         throw new Error("Error fetching products");
       }
@@ -106,7 +106,7 @@ const MarketPlace = () => {
 
   const fetchProductDetails = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3002/api/products/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch product details");
       }
@@ -300,7 +300,7 @@ const MarketPlace = () => {
                   <div className="showing">
                     <div className="dropdown">
                       <button
-                        className="btn dropdown-toggle-no-style" // Removed `dropdown-toggle` class
+                        className="btn dropdown-toggle-no-style" 
                         type="button"
                         id="dropdownMenuButton"
                         data-bs-toggle="dropdown"
@@ -308,7 +308,7 @@ const MarketPlace = () => {
                       >
                         Showing: <span id="showingOption">{showingCount}</span>
                         <i className="fa fa-chevron-down ms-1"></i>{" "}
-                        {/* Your custom icon */}
+                   
                       </button>
                       <ul
                         className="dropdown-menu dropdown-menu-custom border-0"
@@ -625,22 +625,24 @@ const MarketPlace = () => {
                     <div className="col-lg-6">
                       <div className="row">
                         <div className="col-3 thumb-margin text-center">
-                        <img
-  src={selectedProduct?.image_url1}  // Original image URL
-  className="img-fluid thumbnail w-75"
-  onClick={() => changeImage(selectedProduct?.image_url1)}  // Click event to change the image
-  alt="Thumbnail 1"  // Descriptive text for accessibility (shown only if both the image and default fail)
-  onError={(e) => { e.target.src = defaultImg; }}  // Replace with default image if original fails
-/>
-
-<img
-  src={selectedProduct?.image_url2}  // Original image URL
-  className="img-fluid thumbnail w-75"
-  onClick={() => changeImage(selectedProduct?.image_url2)}  // Click event to change the image
-  alt="Thumbnail 2"  // Descriptive text for accessibility (shown only if both the image and default fail)
-  onError={(e) => { e.target.src = defaultImg; }}  // Replace with default image if original fails
-/>
-
+                          <img
+                            src={selectedProduct?.image_url1}
+                            className="img-fluid thumbnail w-75"
+                            onClick={() =>
+                              changeImage(selectedProduct?.image_url1)
+                            }
+                            alt="Thumbnail 1"
+                            onError={(e) => e.target.src = defaultImg} 
+                          />
+                          <img
+                            src={selectedProduct?.image_url2}
+                            className="img-fluid thumbnail w-75"
+                            onClick={() =>
+                              changeImage(selectedProduct?.image_url2)
+                            }
+                            alt="Thumbnail 2"
+                             onError={(e) => e.target.src = defaultImg}
+                          />
                           <img
                             src={selectedProduct?.image_url3}
                             className="img-fluid thumbnail w-75"

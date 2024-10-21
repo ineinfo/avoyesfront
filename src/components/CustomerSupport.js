@@ -15,7 +15,7 @@ const CustomerSupport = () => {
     useEffect(() => {
         const fetchFAQs = async () => {
             try {
-                const response = await axios.get("http://localhost:3002/api/faqs/"); // Use axios for the API call
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/faqs/`); 
                 
                 if (Array.isArray(response.data.data)) {
                     setFaqs(response.data.data);

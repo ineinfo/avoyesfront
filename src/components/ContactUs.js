@@ -14,7 +14,7 @@ const ContactUs = () => {
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/api/contactus");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/contactus`);
         console.log("d");
         
         if (response.data.status) {
@@ -42,7 +42,7 @@ const ContactUs = () => {
     setError(""); 
   
     try {
-      const response = await axios.post("http://localhost:3002/api/contact-inquiry", formData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/contact-inquiry`, formData);
       if (response.data.status) {
         alert("Your inquiry has been submitted successfully!");
         setFormData({ name: "", email: "", phone: "", message: "" }); // Reset form

@@ -9,7 +9,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Ensure Bootstrap and other libraries are available
-import "bootstrap/dist/css/bootstrap.min.css";
 import { CustomCarousel, MyCarousel } from "@/components/Carousel";
 import Link from "next/link";
 

@@ -13,7 +13,7 @@ const Faqs = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch("http://localhost:3002/api/faqs/");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/faqs/`);
         const data = await response.json();
         console.log(data);
         if (Array.isArray(data.data)) {

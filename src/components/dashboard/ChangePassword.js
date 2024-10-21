@@ -34,7 +34,7 @@ const ChangePassword = () => {
     
             console.log('Request Data:', requestData); 
     
-            const response = await axios.put('http://localhost:3002/api/users/changepassword', requestData, {
+            const response = await axios.put(`${process.env.NEXTAUTH_URL}/users/changepassword`, requestData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

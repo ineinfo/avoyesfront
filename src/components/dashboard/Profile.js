@@ -39,7 +39,7 @@ const Profile = () => {
       const fetchProfileData = async () => {
         if (userId) {
           try {
-            const response = await axios.get(`http://localhost:3002/api/users/${userId}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/${userId}`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
@@ -112,7 +112,7 @@ const Profile = () => {
     }
 
     try {
-      await axios.put(`http://localhost:3002/api/users/${userId}`, formData, {
+      await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',

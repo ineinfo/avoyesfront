@@ -14,6 +14,7 @@ const ManageAddress = () => {
   const [currentAddress, setCurrentAddress] = useState(null);
   
   const userId = Cookies.get('id'); // Get user_id from cookies
+  const ROUTE = "http://localhost:3002/api"
 
 
   const countryMap = {
@@ -38,7 +39,7 @@ const ManageAddress = () => {
 //   const handleDelete = async (addressId) => {
 //     const accessToken = Cookies.get('accessToken');
 //     try {
-//         await axios.delete(`http://localhost:3002/api/address/${addressId}`, {
+//         await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${addressId}`, {
 //             headers: {
 //                 Authorization: `Bearer ${accessToken}`,
 //             },
@@ -100,7 +101,7 @@ const ManageAddress = () => {
 
 //         console.log("Updating address with data:", updatedAddress);
 
-//         await axios.put(`http://localhost:3002/api/address/${currentAddress.id}`, updatedAddress, {
+//         await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
 //             headers: {
 //                 Authorization: `Bearer ${accessToken}`,
 //             },
@@ -120,7 +121,7 @@ const ManageAddress = () => {
 //     const fetchAddresses = async () => {
 //       const accessToken = Cookies.get('accessToken');
 //       try {
-//         const response = await axios.get(`http://localhost:3002/api/address?user_id=${userId}`, {
+//         const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`, {
 //           headers: {
 //             Authorization: `Bearer ${accessToken}`,
 //           },
@@ -153,7 +154,7 @@ const handleDelete = (addressId) => {
         onClick={async () => {
           const accessToken = Cookies.get('accessToken');
           try {
-            await axios.delete(`http://localhost:3002/api/address/${addressId}`, {
+            await axios.delete(`${process.env.NEXTAUTH_URL}/address/${addressId}`, {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
@@ -235,7 +236,7 @@ const handleEdit = (address) => {
 
 //     console.log("Updating address with data:", updatedAddress);
 
-//     await axios.put(`http://localhost:3002/api/address/${currentAddress.id}`, updatedAddress, {
+//     await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
 //       headers: {
 //         Authorization: `Bearer ${accessToken}`,
 //       },
@@ -292,7 +293,9 @@ const handleUpdate = async (event) => {
 
     console.log("Updating address with data:", updatedAddress);
 
-    const response = await axios.put(`http://localhost:3002/api/address/${currentAddress.id}`, updatedAddress, {
+    console.log("ROUTE",ROUTE)
+   
+    const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -319,7 +322,7 @@ useEffect(() => {
   const fetchAddresses = async () => {
     const accessToken = Cookies.get('accessToken');
     try {
-      const response = await axios.get(`http://localhost:3002/api/address?user_id=${userId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

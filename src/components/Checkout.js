@@ -48,7 +48,7 @@ const Checkout = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3002/api/users/${userId}`,
+          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -66,7 +66,7 @@ const Checkout = () => {
     const fetchUserAddress = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3002/api/address?user_id=${userId}`,
+          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -118,7 +118,7 @@ const Checkout = () => {
     try {
       // Create user if not logged in
       if (!isUserLoggedIn) {
-        const createUserResponse = await axios.post('http://localhost:3002/api/users', {
+        const createUserResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users`, {
           first_name: userData.first_name,
           last_name: userData.last_name,
           email: userData.email,
@@ -130,7 +130,7 @@ const Checkout = () => {
           const userId = createUserResponse.data.data.id; // Adjust based on your API response structure
   
           // Create address for the new user
-          const addressResponse = await axios.post('http://localhost:3002/api/address', {
+          const addressResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, {
             user_id: userId, // Use the newly created user's ID
             address1: address1,
             country: selectedCountry,

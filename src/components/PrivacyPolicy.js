@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
     useEffect(() => {
         const fetchPrivacyData = async () => {
             try {
-                const response = await axios.get("http://localhost:3002/api/pages/1");
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/pages/1`);
                 console.log(response.data); // Log the fetched data
                 
                 if (response.data.status) {

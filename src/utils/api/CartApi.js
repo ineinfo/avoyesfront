@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const addToCart = async (token, productDetails) => {
     try {
-      const response = await axios.post('http://localhost:3002/api/cart', productDetails, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart`, productDetails, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
@@ -25,7 +25,7 @@ const addToCart = async (token, productDetails) => {
 
 const fetchCart = async (userId, accessToken) => {
   try {
-    const response = await axios.get(`http://localhost:3002/api/cart/cartuser/${userId}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart/cartuser/${userId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -45,7 +45,7 @@ const fetchCart = async (userId, accessToken) => {
 
 const updateCart = async (id, quantity, token) => {
   try {
-      const response = await axios.put(`http://localhost:3002/api/cart/${id}`, { quantity }, {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart/${id}`, { quantity }, {
           headers: {
               Authorization: `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ const updateCart = async (id, quantity, token) => {
 
 export const removeFromCart = async (cartItemId, token) => {
   try {
-    const response = await axios.delete(`http://localhost:3002/api/cart/${cartItemId}`, {
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart/${cartItemId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

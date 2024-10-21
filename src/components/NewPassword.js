@@ -31,7 +31,7 @@ const NewPassword = () => {
         const email = Cookies.get('email');
 
         try {
-            const response = await axios.post("http://localhost:3002/api/users/newpassword", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/newpassword`, {
                 new_password: newPassword,
                 confirm_password: confirmPassword,
                 email 

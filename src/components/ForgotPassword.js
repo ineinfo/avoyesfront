@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await axios.put("http://localhost:3002/api/users/forgotpassword", {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/forgotpassword`, {
         email: email,
       });
 

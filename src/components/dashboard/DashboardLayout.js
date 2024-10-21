@@ -56,7 +56,7 @@ const DashboardLayout = ({ children }) => {
       }
  
       try {
-        const response = await axios.get(`http://localhost:3002/api/users/${userId}`, {
+        const response = await axios.get(`${process.env.NEXTAUTH_URL}/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

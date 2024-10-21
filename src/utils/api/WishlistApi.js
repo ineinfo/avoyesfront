@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const WishlistApi = async (data, token) => {
   try {
-    const response = await axios.post('http://localhost:3002/api/wishlist', data, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist`, data, {
       headers: {
         Authorization: `Bearer ${token}`, 
       },

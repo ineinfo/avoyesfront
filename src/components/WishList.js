@@ -15,7 +15,7 @@ const WishList = () => {
 
     const fetchWishlist = async () => {
       try {
-        const response = await axios.get(`http://localhost:3002/api/wishlist/${userId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist/${userId}`);
         setWishlist(response.data.data); 
       } catch (error) {
         console.error("Error fetching wishlist", error);
@@ -32,7 +32,7 @@ const WishList = () => {
   
    
       await axios.post(
-        `http://localhost:3002/api/wishlist`,
+        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist`,
         {
           user_id: userId,
           product_id: productId,

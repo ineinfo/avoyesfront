@@ -59,7 +59,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-      const response = await axios.post("http://localhost:3002/api/address", addressPayload, {
+      const response = await axios.post(`${process.env.NEXTAUTH_URL}/address`, addressPayload, {
           headers: {
               Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'application/json',

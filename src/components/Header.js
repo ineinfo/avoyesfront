@@ -1,19 +1,20 @@
-"use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie"; // Import js-cookie
-import { fetchCart } from "@/utils/api/CartApi";
+import Cookies from "js-cookie";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line to import Bootstrap's JS components
+import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname(); // Get current path
+  const pathname = usePathname();
   const router = useRouter();
   const [showName, setShowName] = useState(false);
-  
+
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const userId = Cookies.get("id");
@@ -22,16 +23,16 @@ const Header = () => {
     const loadCartData = async () => {
       try {
         const cartData = await fetchCart(userId, accessToken);
-        console.log("API Response:", cartData); // Log the full response
+        console.log("API Response:", cartData);
 
-        // Check if cartData contains the cart items directly
-        if (cartData && cartData.data) { // Adjust according to your actual response structure
+
+        if (cartData && cartData.data) {
           setCartItems(cartData.data);
         } else {
           setError(cartData.message || "Failed to fetch cart");
         }
       } catch (err) {
-        console.error("Error fetching cart data:", err); // Log the actual error
+        console.error("Error fetching cart data:", err);
         setError("Error fetching cart data");
       } finally {
         setLoading(false);
@@ -41,21 +42,57 @@ const Header = () => {
     loadCartData();
   }, []);
 
-  // Function to update quantity
-  const updateQuantity = (id, action) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.product_id === id) {
-        return {
-          ...item,
-          quantity: action === "increment" ? item.quantity + 1 : Math.max(1, item.quantity - 1),
-        };
+
+  const updateQuantity = async (id, action) => {
+    const accessToken = Cookies.get("accessToken");
+
+    const itemInCart = cartItems.find(item => item.product_id === id);
+    if (!itemInCart) {
+      setError("Item is no longer in the cart");
+      return;
+    }
+
+    const newQuantity = action === "increment" ? itemInCart.quantity + 1 : Math.max(1, itemInCart.quantity - 1);
+
+    try {
+      await updateCart(itemInCart.id, newQuantity, accessToken);
+
+      setCartItems(prevItems =>
+        prevItems.map(item =>
+          item.id === itemInCart.id ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("Item has been removed from the cart");
+      } else {
+        setError("Error updating cart item");
       }
-      return item;
-    });
-    setCartItems(updatedCartItems);
+      console.error("Error updating cart item:", error);
+    }
   };
 
-  // Calculate total price
+
+
+  const handleRemoveItem = async (item) => {
+    const cartItemId = item.id; // Make sure to use the correct property for the ID
+    console.log("Removing item with ID:", cartItemId);
+
+    const accessToken = Cookies.get("accessToken");
+
+    try {
+      const response = await removeFromCart(cartItemId, accessToken);
+      if (response.status) {
+        setCartItems((prevItems) => prevItems.filter(cartItem => cartItem.id !== cartItemId)); // Use the correct ID here
+      } else {
+        setError(response.message || "Failed to remove item from cart");
+      }
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      setError("Error removing item from cart");
+    }
+  };
+
   const calculateTotal = () => {
     return cartItems.reduce((acc, item) => acc + item.quantity * item.amount, 0).toFixed(2);
   };
@@ -169,8 +206,14 @@ const Header = () => {
           <button
             type="button"
             className="text-reset right-sidebar-close"
-            data-bs-dismiss="offcanvas"
             aria-label="Close"
+            onClick={() => {
+              const offcanvasElement = document.getElementById("offcanvasRight");
+              if (offcanvasElement) {
+                const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+                offcanvas.hide();
+              }
+            }}
           >
             <i className="fa-solid fa-xmark"></i>
           </button>
@@ -181,62 +224,54 @@ const Header = () => {
           ) : error ? (
             <p>{error}</p>
           ) : (
-            cartItems.map((item) => (
-              <div key={item.product_id} className="row checkout-product-1 align-items-center mx-4 prd-border">
-                <div className="col-xl-2 col-lg-2 col-md-4 col-6">
-                  <div className="img">
-                    <img src={item.image_url} alt={item.title} style={{ width: '80px', height: '80px' }} />
+            cartItems.map((item) => {
+              console.log("Rendering item:", item); // Log item details
+              return (
+                <div key={item.product_id} className="row checkout-product-1 align-items-center mx-4 prd-border">
+                  <div className="col-xl-2 col-lg-2 col-md-4 col-6">
+                    <div className="img">
+                      <img src={item.image_url1} alt={item.product_title} style={{ width: '80px', height: '80px' }} />
+                    </div>
                   </div>
-                </div>
-                <div className="col-xl-4 col-lg-4 col-md-8 p-0 col-6">
-                  <div className="product-name-with-category ms-4">
-                    <h5 className="mb-1">{item.title}</h5>
-                    <p className="m-0">Category: {item.category_title}</p>
+                  <div className="col-xl-4 col-lg-4 col-md-8 p-0 col-6">
+                    <div className="product-name-with-category ms-4">
+                      <h5 className="mb-1">{item.product_title}</h5>
+                      <p className="mb-0 text-muted">{item.category_title}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="col-xl-2 col-lg-3 col-md-5 side-mt-md col-5">
-                  <div className="quantity">
-                    <Link href="#" onClick={() => updateQuantity(item.product_id, "decrement")} className="quantity__minus">
-                      <span>
-                        <i className="fa-solid fa-minus"></i>
-                      </span>
-                    </Link>
-                    <input
-                      name="quantity"
-                      type="text"
-                      className="quantity__input"
-                      value={item.quantity}
-                      readOnly
-                    />
-                    <Link href="#" onClick={() => updateQuantity(item.product_id, "increment")} className="quantity__plus">
-                      <span>
-                        <i className="fa-solid fa-plus"></i>
-                      </span>
-                    </Link>
+                  <div className="col-xl-3 col-lg-3 col-md-4">
+                    <div className="quantity">
+                      <button onClick={() => updateQuantity(item.product_id, "decrement")} className="btn">
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.product_id, "increment")} className="btn">
+                        +
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-xl-2 col-lg-2 col-md-5 side-mt-md col-5">
-                  <div className="sidebar-price text-center">
-                    <p className="m-0">€{(item.amount * item.quantity).toFixed(2)}</p>
+                  <div className="col-xl-2 col-lg-2 col-md-4">
+                    <div className="price">
+                      <span className="fw-bold">${(item.amount * item.quantity).toFixed(2)}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="col-xl-2 col-lg-1 col-md-2 side-mt-md col-2">
-                  <div className="remove-item text-center">
-                    <Link href="#">
+                  <div className="col-xl-1 col-lg-1 col-md-1">
+                    <button onClick={() => handleRemoveItem(item)} className="btn p-0" title="Remove">
                       <i className="fa-solid fa-xmark"></i>
-                    </Link>
+                    </button>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
-        </div>
-        <div className="offcanvas-footer mt-4 mx-4">
-          <div className="d-flex justify-content-between">
-            <p className="m-0">Total</p>
-            <h5 className="m-0">€{calculateTotal()}</h5>
+
+          <div className="offcanvas-footer mt-4 mx-4">
+            <div className="d-flex justify-content-between">
+              <p className="m-0">Total</p>
+              <h5 className="m-0">€{calculateTotal()}</h5>
+            </div>
+            <Link href="/checkout" className="text-decoration-none proceed-to-checkout">Proceed to Checkout</Link>
           </div>
-          <Link href="/checkout" className="text-decoration-none proceed-to-checkout">Proceed to Checkout</Link>
         </div>
       </div>
     </header>

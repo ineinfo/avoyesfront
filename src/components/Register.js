@@ -18,48 +18,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [terms, setTerms] = useState(false);
 
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   console.log("Form clicked");
-
-  //   // Basic Frontend Validation
-  //   if (!first_name ||!last_name || !email || !phone || !password) {
-  //     toast.error("All fields are required.");
-  //     return;
-  //   }
-
-  //   if (!terms) {
-  //     toast.error("You must agree to the terms and conditions.");
-     
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.post('http://localhost:3002/api/users', {
-  //       first_name,
-  //       last_name,
-  //       email,
-  //       phone,
-  //       password,
-  //     });
-
-  //     console.log("Response:", response.data); 
-  //     toast.success("Registration successful! ");
-  //     router.push("/login"); // Navigate to login page
-      
-  //   }catch (error) {
-  //     console.error("Error:", error.message);
-  //     if (error.response && error.response.data && error.response.data.message) {
-  //         // Display the specific message from the server
-  //         toast.error(`Error: ${error.response.data.message}`);
-  //     } else if (error.message) {
-  //         // Fallback to the error message
-  //         toast.error(`Error: ${error.message}`);
-  //     } else {
-  //         toast.error("An unexpected error occurred.");
-  //     }
-  // }
-  // };
 
 
   const handleRegister = async (e) => {
@@ -78,7 +36,7 @@ const Register = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3002/api/users', {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users`, {
             first_name,
             last_name,
             email,

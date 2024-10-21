@@ -38,7 +38,7 @@ const Login = () => {
     if (newError.email || newError.password) return;
 
     try {
-      const response = await axios.post("http://localhost:3002/api/users/frontlogin", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/frontlogin`, {
         email,
         password,
       });
