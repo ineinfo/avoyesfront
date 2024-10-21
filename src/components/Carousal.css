@@ -1,0 +1,75 @@
+/* CarouselComponent.css */
+.navbar-brand a img {
+    width: 50%;
+}
+
+/* Banner styles */
+button.carousel-control-prev,
+button.carousel-control-next {
+    border: 1px solid rgba(0, 0, 0, 0.60);
+}
+
+button.carousel-control-prev:hover,
+button.carousel-control-next:hover {
+    border: 1px solid #0000ff;
+}
+
+#myCarousel {
+    background-color: #F5F4F9;
+}
+
+.sale-title {
+    font-size: 18px;
+    font-family: "Lato", sans-serif;
+    margin-bottom: 25px;
+}
+
+.banner-head {
+    font-size: 80px;
+    font-family: "Playfair Display", serif;
+    line-height: 94px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    color: #0000ff;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.col-md-6.banner-text-padding {
+    padding-left: 80px;
+}
+
+.carousel-control-prev {
+    left: 16.5%;
+}
+
+.carousel-control-next {
+    right: 16%;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: #0000ff;
+    color: #fff !important;
+}
+
+.carousel-control-prev:hover i,
+.carousel-control-next:hover i {
+    color: #fff !important;
+}
