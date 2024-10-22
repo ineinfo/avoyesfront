@@ -8,8 +8,9 @@ import Filter from "./Filter";
 import Link from "next/link";
 import Cookies from 'js-cookie';
 import WishlistApi from "@/utils/api/WishlistApi";
-import {addToCart} from "@/utils/api/CartApi";
+import { addToCart } from "@/utils/api/CartApi";
 import defaultImg from '../../public/defaultImg.jpg';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const MarketPlace = () => {
   const [showingCount, setShowingCount] = useState(12);
@@ -23,14 +24,82 @@ const MarketPlace = () => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [mainImage, setMainImage] = useState("");
   const [wishlistStatus, setWishlistStatus] = useState({});
-  const [selectedColor, setSelectedColor] = useState(""); 
+  const [selectedColor, setSelectedColor] = useState("");
+  const [queryParams, setQueryParams] = useState("");
+
+  const searchParams = useSearchParams(); // Get the search parameters
+  const data = searchParams.get('data'); // Access the 'data' parameter
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (data) {
+      try {
+        const RealData = JSON.parse(decodeURIComponent(data));
+        console.log("RealData", RealData);
+
+
+        const params = [];
+
+        if (RealData.category && RealData.category.length > 0) {
+          params.push(`category=${RealData.category.join(',')}`);
+        }
+
+        if (RealData.ratings && RealData.ratings.length > 0) {
+          params.push(`ratings=${RealData.ratings.join(',')}`);
+        }
+
+        if (RealData.price && RealData.price.length > 0) {
+          let minValues = [];
+          let maxValues = [];
+
+          RealData.price.forEach(range => {
+            if (range === "200+") {
+              maxValues.push("200+");
+            } else {
+              const [min, max] = range.split('-').map(Number); // Split and convert to numbers
+              minValues.push(min); // Add to minValues array
+              maxValues.push(max); // Add to maxValues array
+            }
+          });
+
+          const overallMin = Math.min(...minValues);
+
+          const overallMax = maxValues.includes("200+") ? "20000000000000000000" : Math.max(...maxValues);
+
+          params.push(`price=${overallMin}-${overallMax}`);
+        }
+
+
+        if (RealData.availability && RealData.availability.length > 0) {
+          params.push(`availability=${RealData.availability.join(',')}`);
+        }
+
+        if (RealData.type && RealData.type.length > 0) {
+          params.push(`type=${RealData.type.join(',')}`);
+        }
+
+        if (RealData.bestFor && RealData.bestFor.length > 0) {
+          params.push(`best_for=${RealData.bestFor.join(',')}`);
+        }
+
+        const queryString = params.join('&');
+        console.log("======>1d", queryString);
+
+        setQueryParams(queryString);  // <--- Save the constructed queryParams in state
+
+      } catch (error) {
+        console.error("Error parsing data:", error);
+      }
+    }
+  }, [data]);
+
 
 
 
 
   const getColorIdByTitle = (colorTitle) => {
-    const colorIds = selectedProduct.color_ids || ""; 
-    const colorTitles = selectedProduct.colors || ""; 
+    const colorIds = selectedProduct.color_ids || "";
+    const colorTitles = selectedProduct.colors || "";
 
     const titlesArray = colorTitles.split(',');
     const idsArray = colorIds.split(',');
@@ -40,8 +109,8 @@ const MarketPlace = () => {
   };
 
   const getSizeIdByTitle = (sizeTitle) => {
-    const sizeIds = selectedProduct.size_ids || ""; 
-    const sizeTitles = selectedProduct.sizes || ""; 
+    const sizeIds = selectedProduct.size_ids || "";
+    const sizeTitles = selectedProduct.sizes || "";
 
     const titlesArray = sizeTitles.split(',');
     const idsArray = sizeIds.split(',');
@@ -90,19 +159,65 @@ const MarketPlace = () => {
   };
 
   const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products`);
-      if (!response.ok) {
-        throw new Error("Error fetching products");
+    setLoading(true);  // <--- Start loading when fetching products
+    console.log("======>1q", queryParams);
+
+    if (queryParams) {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?${queryParams}`);
+        if (!response.ok) {
+          console.log("Errorrrrrrrrrrr");
+          throw new Error("Error fetching products");
+
+        }
+        const result = await response.json();
+        setProducts(Array.isArray(result.data) ? result.data : []);
+        console.log("======>11", result.data);
+        return
+
+      } catch (error) {
+        setError(error.message);
+        setProducts([])
+      } finally {
+        setLoading(false);  // <--- Stop loading after fetch completes
       }
-      const result = await response.json();
-      setProducts(Array.isArray(result.data) ? result.data : []);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+    }
+
+    if (!queryParams) {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products`);
+        if (!response.ok) {
+          throw new Error("Error fetching products");
+        }
+        const result = await response.json();
+        setProducts(Array.isArray(result.data) ? result.data : []);
+
+        console.log("======>12", result.data);
+
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);  // <--- Stop loading after fetch completes
+      }
+
     }
   };
+
+  useEffect(() => {
+    if (pathname === '/marketplace') {
+      console.log("path", pathname);
+
+      fetchProducts(); // Fetch products when on marketplace page
+    }
+  }, [pathname]); // Only runs when pathname changes
+
+  useEffect(() => {
+    // Fetch products whenever queryParams change
+    if (queryParams) {
+      fetchProducts(); // Fetch products when queryParams change
+    }
+  }, [queryParams]); // Runs when queryParams changes
+
 
   const fetchProductDetails = async (id) => {
     try {
@@ -143,7 +258,7 @@ const MarketPlace = () => {
     if (storedWishlistStatus) {
       setWishlistStatus(JSON.parse(storedWishlistStatus));
     }
-    
+
     const token = Cookies.get('accessToken');
     const userId = token ? JSON.parse(atob(token.split('.')[1])).data.id : null;
 
@@ -223,12 +338,12 @@ const MarketPlace = () => {
 
 
   const handleSizeClick = (size) => {
-    const trimmedSize = size.trim(); 
-    setActiveSize(trimmedSize); 
+    const trimmedSize = size.trim();
+    setActiveSize(trimmedSize);
   };
-  
+
   useEffect(() => {
-    setActiveSize(""); 
+    setActiveSize("");
   }, [selectedProduct]);
 
   const handleColorClick = (color) => {
@@ -275,11 +390,11 @@ const MarketPlace = () => {
                         aria-selected="true"
                       >
                         <div className="grid-view ms-3">
-                          <i className="bi bi-grid-3x3-gap-fill"></i>
+                          <i className="bi bi-grid-3x3-gap-fill" style={{ color: "blue" }}></i>
                         </div>
                       </Link>
                     </li>
-                    <li className="nav-item" role="presentation">
+                    {/* <li className="nav-item" role="presentation">
                       <Link
                         className="nav-link"
                         id="list-view-tab"
@@ -293,25 +408,29 @@ const MarketPlace = () => {
                           <i className="fa-solid fa-list"></i>
                         </div>
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
-                <div className="right-side d-flex gap-5 me-3">
+                <div className="right-side d-flex me-3">
+
+
+
                   <div className="showing">
                     <div className="dropdown">
                       <button
-                        className="btn dropdown-toggle-no-style" 
+                        className="btn dropdown-toggle-no-style"
                         type="button"
                         id="dropdownMenuButton"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
+                        style={{ outline: "none" }}
                       >
                         Showing: <span id="showingOption">{showingCount}</span>
-                        <i className="fa fa-chevron-down ms-1"></i>{" "}
-                   
+
                       </button>
                       <ul
-                        className="dropdown-menu dropdown-menu-custom border-0"
+                        className="dropdown-menu dropdown-menu-custom border-none"
+
                         aria-labelledby="dropdownMenuButton"
                       >
                         {[12, 24, 36].map((value) => (
@@ -332,6 +451,9 @@ const MarketPlace = () => {
                       </ul>
                     </div>
                   </div>
+
+
+
                   <div className="sort-border-left "></div>
                   <div className="default-shorting">
                     <div className="dropdown">
@@ -344,7 +466,6 @@ const MarketPlace = () => {
                       >
                         Sort By :{" "}
                         <span id="sortingOption">{selectedOption}</span>
-                        <i className="fa fa-chevron-down ms-1"></i>
                       </button>
                       <ul
                         className="dropdown-menu dropdown-menu-custom drp-2 border-0"
@@ -428,15 +549,16 @@ const MarketPlace = () => {
                                 src={product.image_url1}
                                 alt={product.title}
                               />
-                            {product?.product_label === 1 ? (
+                              {product?.product_label === "new" ? (
                                 <div className="lable">
-                                  <p>NEW</p>
+                                  <p>{product.product_label.toUpperCase()}</p>
                                 </div>
                               ) : (
                                 <div className="lable dark-lbl">
-                                  <p>SELL</p>
+                                  <p>{product.product_label.toUpperCase()}</p>
                                 </div>
                               )}
+
                               <div className="buttons">
                                 <Link
                                   href="#"
@@ -464,28 +586,28 @@ const MarketPlace = () => {
                               <div className="heart-icon">
 
 
-                        <button
-                              type="button"
-                              className="text-decoration-none"
-                              onClick={() => toggleHeart(product.id)}
-                              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                            >
-                              {wishlistStatus[product.id] ? (
-                                <i className="fa-solid fa-heart blue-heart"></i>
-                              ) : (
-                                <i className="fa-regular fa-heart"></i>
-                              )}
-                            </button>
-                      </div>
+                                <button
+                                  type="button"
+                                  className="text-decoration-none"
+                                  onClick={() => toggleHeart(product.id)}
+                                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                                >
+                                  {wishlistStatus[product.id] ? (
+                                    <i className="fa-solid fa-heart blue-heart"></i>
+                                  ) : (
+                                    <i className="fa-regular fa-heart"></i>
+                                  )}
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div className="info d-flex justify-content-between align-items-center">
-                       
+
                             <div className="item">
-                                <Link href={`/${product.id}/productdetails`} className="text-decoration-none">
-                                  <p className="m-0">{product.title}</p>
-                                </Link>
-                              </div>
+                              <Link href={`/${product.id}/productdetails`} className="text-decoration-none">
+                                <p className="m-0">{product.title}</p>
+                              </Link>
+                            </div>
 
                             <div className="rating d-flex align-items-center">
                               <div className="rate d-flex align-items-center">
@@ -632,7 +754,7 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url1)
                             }
                             alt="Thumbnail 1"
-                            onError={(e) => e.target.src = defaultImg} 
+                            onError={(e) => e.target.src = defaultImg}
                           />
                           <img
                             src={selectedProduct?.image_url2}
@@ -641,7 +763,7 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url2)
                             }
                             alt="Thumbnail 2"
-                             onError={(e) => e.target.src = defaultImg}
+                            onError={(e) => e.target.src = defaultImg}
                           />
                           <img
                             src={selectedProduct?.image_url3}
@@ -650,7 +772,7 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url3)
                             }
                             alt="Thumbnail 3"
-                            onError={(e) => e.target.src = defaultImg} 
+                            onError={(e) => e.target.src = defaultImg}
                           />
                           <img
                             src={selectedProduct?.image_url4}
@@ -659,16 +781,16 @@ const MarketPlace = () => {
                               changeImage(selectedProduct?.image_url4)
                             }
                             alt="Thumbnail 4"
-                            onError={(e) => e.target.src = defaultImg} 
+                            onError={(e) => e.target.src = defaultImg}
                           />
                         </div>
                         <div className="col-9">
                           <img
                             id="mainImage2"
-                            src={mainImage || selectedProduct?.image_url5} 
+                            src={mainImage || selectedProduct?.image_url5}
                             className="img-fluid w-100"
                             alt="Main Product"
-                            onError={(e) => e.target.src = defaultImg} 
+                            onError={(e) => e.target.src = defaultImg}
                           />
                         </div>
                       </div>
@@ -681,17 +803,17 @@ const MarketPlace = () => {
                         <div className="product-head d-flex align-items-center justify-content-between">
                           <h1>{selectedProduct?.title}</h1>
                           <button
-                              type="button"
-                              className="text-decoration-none"
-                              onClick={() => toggleHeart(selectedProduct.id)}
-                              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                            >
-                              {wishlistStatus[selectedProduct.id] ? (
-                                <i className="fa-solid fa-heart blue-heart"></i>
-                              ) : (
-                                <i className="fa-regular fa-heart"></i>
-                              )}
-                            </button>
+                            type="button"
+                            className="text-decoration-none"
+                            onClick={() => toggleHeart(selectedProduct.id)}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                          >
+                            {wishlistStatus[selectedProduct.id] ? (
+                              <i className="fa-solid fa-heart blue-heart"></i>
+                            ) : (
+                              <i className="fa-regular fa-heart"></i>
+                            )}
+                          </button>
                         </div>
                         <div className="prd-dtl-price d-flex align-items-center">
                           <div className="price-1">
@@ -722,10 +844,10 @@ const MarketPlace = () => {
                           <div className="head">
                             <h3>Color</h3>
                           </div>
-        
+
 
                           <div className="choose-color-boxes d-flex align-items-center">
-                          {colors.map((color) => (
+                            {colors.map((color) => (
                               <Link key={color} href="#" onClick={(e) => { e.preventDefault(); handleColorClick(color); }}>
                                 <div
                                   style={{
@@ -736,13 +858,13 @@ const MarketPlace = () => {
                                     marginRight: "16px",
                                     border: activeColor === color ? "3px solid black" : "none",
                                     padding: selectedColor === color ? "5px" : "8px",
-                                    transition: "all 0.3s ease", 
+                                    transition: "all 0.3s ease",
                                     cursor: 'pointer',
                                   }}
                                 ></div>
                               </Link>
                             ))}
-                      </div>
+                          </div>
                         </div>
                         <div className="choose-size">
                           <h3>Size</h3>
@@ -751,18 +873,18 @@ const MarketPlace = () => {
                             role="group"
                             aria-label="Size selection"
                           >
-                              {sizes.map((size, index) => (
-                                <button
-                                  key={index}
-                                  type="button"
-                                  className={`btn size-btn ${activeSize === size.trim() ? "active" : ""}`} // Add active class based on activeSize
-                                  onClick={() => handleSizeClick(size)} // Change size on button click
-                                >
-                                  {size.trim()} {/* Display the trimmed size */}
-                                </button>
-                              ))}            
-    
-                        </div>
+                            {sizes.map((size, index) => (
+                              <button
+                                key={index}
+                                type="button"
+                                className={`btn size-btn ${activeSize === size.trim() ? "active" : ""}`} // Add active class based on activeSize
+                                onClick={() => handleSizeClick(size)} // Change size on button click
+                              >
+                                {size.trim()} {/* Display the trimmed size */}
+                              </button>
+                            ))}
+
+                          </div>
                         </div>
                         <div className="prd-dtl-checkout-btn">
                           <Link href="cart">

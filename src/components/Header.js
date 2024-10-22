@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line to import Bootstrap's JS components
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
 
 const Header = () => {
@@ -16,6 +16,11 @@ const Header = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log("CartItems", cartItems);
+
+  // State for managing offcanvas visibility
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
   useEffect(() => {
     const userId = Cookies.get("id");
     const accessToken = Cookies.get("accessToken");
@@ -23,8 +28,6 @@ const Header = () => {
     const loadCartData = async () => {
       try {
         const cartData = await fetchCart(userId, accessToken);
-        console.log("API Response:", cartData);
-
 
         if (cartData && cartData.data) {
           setCartItems(cartData.data);
@@ -42,11 +45,10 @@ const Header = () => {
     loadCartData();
   }, []);
 
-
   const updateQuantity = async (id, action) => {
     const accessToken = Cookies.get("accessToken");
 
-    const itemInCart = cartItems.find(item => item.product_id === id);
+    const itemInCart = cartItems.find(item => item.id === id);
     if (!itemInCart) {
       setError("Item is no longer in the cart");
       return;
@@ -56,7 +58,6 @@ const Header = () => {
 
     try {
       await updateCart(itemInCart.id, newQuantity, accessToken);
-
       setCartItems(prevItems =>
         prevItems.map(item =>
           item.id === itemInCart.id ? { ...item, quantity: newQuantity } : item
@@ -72,18 +73,14 @@ const Header = () => {
     }
   };
 
-
-
   const handleRemoveItem = async (item) => {
-    const cartItemId = item.id; // Make sure to use the correct property for the ID
-    console.log("Removing item with ID:", cartItemId);
-
+    const cartItemId = item.id;
     const accessToken = Cookies.get("accessToken");
 
     try {
       const response = await removeFromCart(cartItemId, accessToken);
       if (response.status) {
-        setCartItems((prevItems) => prevItems.filter(cartItem => cartItem.id !== cartItemId)); // Use the correct ID here
+        setCartItems((prevItems) => prevItems.filter(cartItem => cartItem.id !== cartItemId));
       } else {
         setError(response.message || "Failed to remove item from cart");
       }
@@ -98,11 +95,7 @@ const Header = () => {
   };
 
   const handleScroll = () => {
-    if (window.scrollY > 50) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
+    setScrolled(window.scrollY > 50);
   };
 
   useEffect(() => {
@@ -122,6 +115,22 @@ const Header = () => {
     }
   }, [pathname, router]);
 
+  // Close the offcanvas when clicking outside of it or navigating
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      const offcanvasElement = document.getElementById("offcanvasRight");
+      if (offcanvasElement && isOffcanvasOpen && !offcanvasElement.contains(event.target)) {
+        setIsOffcanvasOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isOffcanvasOpen]);
+
   if (pathname === "/otp" || pathname === "/forgotpassword" || pathname === "/new-password" || pathname === "/register") {
     return null; // Don't render header on these paths
   }
@@ -129,14 +138,11 @@ const Header = () => {
   return (
     <header>
       <div id="navbar" className="fixed-top">
-        <nav
-          className={`navbar navbar-expand-md py-2 fixed-top`}
-          style={{
-            backgroundColor: scrolled ? "rgba(255, 255, 255, 0.9)" : "transparent",
-            transition: "background-color 0.3s ease",
-            zIndex: 1000,
-          }}
-        >
+        <nav className={`navbar navbar-expand-md py-2 fixed-top`} style={{
+          backgroundColor: scrolled ? "rgba(255, 255, 255, 0.9)" : "transparent",
+          transition: "background-color 0.3s ease",
+          zIndex: 1000,
+        }}>
           <div className="container d-flex justify-content-between align-items-center py-2">
             <Link className="navbar-brand" href="/">
               <img src="/logo.png" alt="Logo" />
@@ -166,11 +172,9 @@ const Header = () => {
                 </li>
                 <li className="nav-item">
                   <Link
-                    href=""
+                    href="#"
                     className="text-decoration-none text-dark header-heart"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight"
+                    onClick={() => setIsOffcanvasOpen(true)} // Open offcanvas
                   >
                     <img src="/header-cart.png" alt="" className="header-cart" />
                   </Link>
@@ -189,16 +193,17 @@ const Header = () => {
       </div>
 
       <div
-        className="offcanvas offcanvas-end"
+        className={`offcanvas offcanvas-end ${isOffcanvasOpen ? 'show' : ''}`} // Add show class based on state
         tabIndex="-1"
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
+        style={{ visibility: isOffcanvasOpen ? 'visible' : 'hidden' }} // Control visibility
       >
         <div className="offcanvas-header mt-4 d-flex align-items-center justify-content-between mx-4">
           <div className="heading d-flex align-items-center">
             <h5 id="offcanvasRightLabel" className="m-0 your-cart">Your Cart</h5>
             <Link href="/cart" className="text-decoration-none ms-5">
-              <h6 className="m-0 view-cart">
+              <h6 onClick={() => (setIsOffcanvasOpen(false))} className="m-0 view-cart">
                 View Cart <i className="fa-solid fa-arrow-right-long ms-1"></i>
               </h6>
             </Link>
@@ -208,14 +213,10 @@ const Header = () => {
             className="text-reset right-sidebar-close"
             aria-label="Close"
             onClick={() => {
-              const offcanvasElement = document.getElementById("offcanvasRight");
-              if (offcanvasElement) {
-                const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-                offcanvas.hide();
-              }
+              setIsOffcanvasOpen(false); // Close offcanvas
             }}
           >
-            <i className="fa-solid fa-xmark"></i>
+            <i className="fa-solid fa-xmark"></i> {/* Close icon */}
           </button>
         </div>
         <div className="offcanvas-body">
@@ -227,10 +228,10 @@ const Header = () => {
             cartItems.map((item) => {
               console.log("Rendering item:", item); // Log item details
               return (
-                <div key={item.product_id} className="row checkout-product-1 align-items-center mx-4 prd-border">
+                <div key={item.id} className="row checkout-product-1 align-items-center mx-4 prd-border">
                   <div className="col-xl-2 col-lg-2 col-md-4 col-6">
-                    <div className="img">
-                      <img src={item.image_url1} alt={item.product_title} style={{ width: '80px', height: '80px' }} />
+                    <div className="cart-img">
+                      <img src={item.image_url1} alt={item.product_title} height={80} />
                     </div>
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-8 p-0 col-6">
@@ -241,22 +242,34 @@ const Header = () => {
                   </div>
                   <div className="col-xl-3 col-lg-3 col-md-4">
                     <div className="quantity">
-                      <button onClick={() => updateQuantity(item.product_id, "decrement")} className="btn">
+                      <button
+                        onClick={() => updateQuantity(item.id, "decrement")}
+                        className="btn"
+                      >
                         -
                       </button>
                       <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.product_id, "increment")} className="btn">
+                      <button
+                        onClick={() => updateQuantity(item.id, "increment")}
+                        className="btn"
+                      >
                         +
                       </button>
                     </div>
                   </div>
                   <div className="col-xl-2 col-lg-2 col-md-4">
                     <div className="price">
-                      <span className="fw-bold">${(item.amount * item.quantity).toFixed(2)}</span>
+                      <span className="fw-bold" style={{ marginRight: "80px" }}>
+                        €{(item.amount * item.quantity).toFixed(2)}
+                      </span>
                     </div>
                   </div>
                   <div className="col-xl-1 col-lg-1 col-md-1">
-                    <button onClick={() => handleRemoveItem(item)} className="btn p-0" title="Remove">
+                    <button
+                      onClick={() => handleRemoveItem(item)}
+                      className="btn p-0"
+                      title="Remove"
+                    >
                       <i className="fa-solid fa-xmark"></i>
                     </button>
                   </div>
@@ -264,14 +277,12 @@ const Header = () => {
               );
             })
           )}
-
-          <div className="offcanvas-footer mt-4 mx-4">
-            <div className="d-flex justify-content-between">
-              <p className="m-0">Total</p>
-              <h5 className="m-0">€{calculateTotal()}</h5>
+          {cartItems.length > 0 && (
+            <div className="mt-3 total-amount">
+              <h5>Total: € {calculateTotal()}</h5>
+              <Link href="/checkout" onClick={() => (setIsOffcanvasOpen(false))} className="text-decoration-none proceed-to-checkout">Proceed to Checkout</Link>
             </div>
-            <Link href="/checkout" className="text-decoration-none proceed-to-checkout">Proceed to Checkout</Link>
-          </div>
+          )}
         </div>
       </div>
     </header>

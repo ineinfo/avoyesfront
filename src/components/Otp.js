@@ -1,5 +1,3 @@
-
-
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -84,12 +82,12 @@ const Otp = () => {
                 setTimeout(() => {
                     router.push("/new-password");
                 }, 3000);
-                
+
                 router.push("/new-password");
             }
         } catch (err) {
-            const message = err.response && err.response.data 
-                ? err.response.data.message 
+            const message = err.response && err.response.data
+                ? err.response.data.message
                 : "An unexpected error occurred. Please try again.";
             toast.error(message);
         }

@@ -8,40 +8,40 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import Cookies from 'js-cookie';
 import WishlistApi from "@/utils/api/WishlistApi";
- import {addToCart} from "@/utils/api/CartApi";
- import { toast } from 'react-toastify';
- import 'react-toastify/dist/ReactToastify.css';
- 
+import { addToCart } from "@/utils/api/CartApi";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import defaultImg from '../../public/defaultImg.jpg';
- 
+
 
 const ProductDetails = () => {
- 
+
   const { id } = useParams();
-  console.log('pathName',id)
+  console.log('pathName', id)
 
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("")
-  const [isSolid, setIsSolid] = useState(false); 
-  
-  const [selectedColor, setSelectedColor] = useState(""); 
+  const [isSolid, setIsSolid] = useState(false);
+
+  const [selectedColor, setSelectedColor] = useState("");
   const [activeSize, setActiveSize] = useState("S");
   const [counter, setCounter] = useState(1);
 
   const [colorMap, setColorMap] = useState({});
   const [sizeMap, setSizeMap] = useState({});
 
- const colors = product?.colors ? product.colors.split(",") : [];
- const sizes = product?.sizes ? product.sizes.split(",") : [];
- const tags = product?.tags ? product.tags.split(",") : [];
+  const colors = product?.colors ? product.colors.split(",") : [];
+  const sizes = product?.sizes ? product.sizes.split(",") : [];
+  const tags = product?.tags ? product.tags.split(",") : [];
 
- const incrementCounter = () => {
-   setCounter((prev) => prev + 1);
- };
+  const incrementCounter = () => {
+    setCounter((prev) => prev + 1);
+  };
 
- const decrementCounter = () => {
-   setCounter((prev) => (prev > 1 ? prev - 1 : 1)); 
- };
+  const decrementCounter = () => {
+    setCounter((prev) => (prev > 1 ? prev - 1 : 1));
+  };
 
 
   const colorBoxes = [
@@ -52,62 +52,62 @@ const ProductDetails = () => {
     "color-box-5",
   ];
 
-const toggleHeart = async () => {
-  const token = Cookies.get('accessToken');
-  const userId = token ? JSON.parse(atob(token.split('.')[1])).data.id : null;
+  const toggleHeart = async () => {
+    const token = Cookies.get('accessToken');
+    const userId = token ? JSON.parse(atob(token.split('.')[1])).data.id : null;
 
-  if (userId) {
-    const requestData = {
-      user_id: userId,
-      product_id: id,
-    };
+    if (userId) {
+      const requestData = {
+        user_id: userId,
+        product_id: id,
+      };
 
-    try {
-      const res = await WishlistApi(requestData, token);
-      if (res.status) {
-        if (res.message.includes("added")) {
-          setIsSolid(true);
-        } else if (res.message.includes("removed")) {
-          setIsSolid(false);
+      try {
+        const res = await WishlistApi(requestData, token);
+        if (res.status) {
+          if (res.message.includes("added")) {
+            setIsSolid(true);
+          } else if (res.message.includes("removed")) {
+            setIsSolid(false);
+          }
         }
+      } catch (error) {
+        console.error("Error in toggleHeart:", error);
       }
-    } catch (error) {
-      console.error("Error in toggleHeart:", error);
     }
-  }
-};
+  };
 
   useEffect(() => {
     if (product?.image_url1) {
       setMainImage(product.image_url1);
     }
-  }, [product]); 
+  }, [product]);
 
 
   const changeImage = (imageSrc) => {
     setMainImage(imageSrc);
   };
 
- 
+
   const thumbnailImages = [
     product?.image_url1,
     product?.image_url2,
     product?.image_url3,
     product?.image_url4,
     product?.image_url5
-  ].filter(Boolean); 
-  
-  
+  ].filter(Boolean);
+
+
   useEffect(() => {
-   
+
     const fetchProductDetails = async () => {
       if (id) {
         try {
           const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products/${id}`);
           const productData = response.data.data[0];
           setProduct(productData);
-          
-   
+
+
           const colorIds = productData.color_ids.split(",").map(Number);
           const colors = productData.colors.split(",");
           const sizeIds = productData.size_ids.split(",").map(Number);
@@ -144,12 +144,6 @@ const toggleHeart = async () => {
     setActiveSize(size);
   };
 
-
-
- 
-  
-
-
   const mainImageRef = useRef(null);
   const zoomBoxRef = useRef(null);
 
@@ -163,7 +157,7 @@ const toggleHeart = async () => {
       const handleMouseMove = (event) => {
         const rect = mainImage.getBoundingClientRect();
         const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top; 
+        const y = event.clientY - rect.top;
         const backgroundPosX = (x / mainImage.offsetWidth) * 100;
         const backgroundPosY = (y / mainImage.offsetHeight) * 100;
 
@@ -179,7 +173,7 @@ const toggleHeart = async () => {
       mainImage.addEventListener("mousemove", handleMouseMove);
       mainImage.addEventListener("mouseleave", handleMouseLeave);
 
-     
+
       return () => {
         mainImage.removeEventListener("mousemove", handleMouseMove);
         mainImage.removeEventListener("mouseleave", handleMouseLeave);
@@ -189,44 +183,44 @@ const toggleHeart = async () => {
     }
   }, []);
 
-//cart
+  //cart
 
-const handleAddToCart = async () => {
-  const token = Cookies.get("accessToken");
-  const userId = token ? JSON.parse(atob(token.split(".")[1])).data.id : null;
+  const handleAddToCart = async () => {
+    const token = Cookies.get("accessToken");
+    const userId = token ? JSON.parse(atob(token.split(".")[1])).data.id : null;
 
-  if (userId) {
-    const colorId = colorMap[selectedColor];
-    const sizeId = sizeMap[activeSize];
+    if (userId) {
+      const colorId = colorMap[selectedColor];
+      const sizeId = sizeMap[activeSize];
 
-    if (!colorId || !sizeId) {
-      console.error("Color ID or Size ID not found.");
-      toast.error("Please select any Color or Size");
-      return;
+      if (!colorId || !sizeId) {
+        console.error("Color ID or Size ID not found.");
+        toast.error("Please select any Color or Size");
+        return;
+      }
+
+      const productDetails = {
+        user_id: userId,
+        product_id: product.id,
+        image_url: product.image_url1,
+        amount: product.amount,
+        discount_amount: product.discount_amount,
+        title: product.title,
+        color_id: colorId,
+        size_id: sizeId,
+        quantity: counter,
+      };
+
+      try {
+        const response = await addToCart(token, productDetails);
+        toast.success("Product Added to Cart successfully!");
+        console.log("Add to Cart Response:", response, productDetails);
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+        toast.error("Can not add product to cart. Please try again later.");
+      }
     }
-
-    const productDetails = {
-      user_id: userId,
-      product_id: product.id,
-      image_url: product.image_url1,
-      amount: product.amount,
-      discount_amount: product.discount_amount,
-      title: product.title,
-      color_id: colorId,
-      size_id: sizeId,
-      quantity: counter,
-    };
-
-    try {
-      const response = await addToCart(token, productDetails);
-      toast.success("Product Added to Cart successfully!");
-      console.log("Add to Cart Response:", response,productDetails);
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      toast.error("Can not add product to cart. Please try again later.");
-    }
-  }
-};
+  };
 
 
 
@@ -261,32 +255,32 @@ const handleAddToCart = async () => {
               <div className="col-lg-6">
                 <div className="row">
                   <div className="col-3 mt-2 text-center">
-                  {thumbnailImages.map((src, index) => (
-                  <img
-                    key={index}
-                    src={src}
-                    className="img-fluid thumbnail w-75 mb-2"
-                    onClick={() => changeImage(src)}
-                    style={{ cursor: "pointer" }}
-                    alt={`Thumbnail ${index + 1}`}
-                    onError={(e) => e.target.src = defaultImg} 
-                  />
-                ))}
+                    {thumbnailImages.map((src, index) => (
+                      <img
+                        key={index}
+                        src={src}
+                        className="img-fluid thumbnail w-75 mb-2"
+                        onClick={() => changeImage(src)}
+                        style={{ cursor: "pointer" }}
+                        alt={`Thumbnail ${index + 1}`}
+                        onError={(e) => e.target.src = defaultImg}
+                      />
+                    ))}
                   </div>
 
-               
+
                   <div
                     className="tab-pane fade show active description-content col-9"
                     style={{ position: "relative" }}
                     role="tabpanel"
                     aria-labelledby="description-tab"
                   >
-                   <img
-                  ref={mainImageRef}
-                  src={mainImage}
-                  alt="Product"
-                  style={{ width: "100%", cursor: "zoom-in" }}
-                />
+                    <img
+                      ref={mainImageRef}
+                      src={mainImage}
+                      alt="Product"
+                      style={{ width: "100%", cursor: "zoom-in" }}
+                    />
                   </div>
 
                   {/* Zoom box */}
@@ -351,7 +345,7 @@ const handleAddToCart = async () => {
 
                   <div className="para">
                     <p>
-                    {product?.short_description}
+                      {product?.short_description}
                     </p>
                   </div>
                   <div className="choose-color">
@@ -359,31 +353,31 @@ const handleAddToCart = async () => {
                       <h3>Color</h3>
                     </div>
                     <div className="choose-color-boxes d-flex align-items-center">
-                    {colors.map((color) => (
-            <Link
-              key={color} 
-              href="#"
-              onClick={(e) => {
-                e.preventDefault(); 
-                handleColorClick(color); 
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: color.toLowerCase(), 
-                  height: "22px",
-                  width: "22px",
-                  borderRadius: "2px",
-                  marginRight: "16px",
-                  border: selectedColor === color ?"3px solid #000" : "1px solid #ccc", 
-                  padding: selectedColor === color ? "2px" : "5px",
-                  transition: "all 0.3s ease", 
-                  cursor: 'pointer', 
-                }}
-              ></div>
-            </Link>
-          ))}
-                  </div>
+                      {colors.map((color) => (
+                        <Link
+                          key={color}
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleColorClick(color);
+                          }}
+                        >
+                          <div
+                            style={{
+                              backgroundColor: color.toLowerCase(),
+                              height: "22px",
+                              width: "22px",
+                              borderRadius: "2px",
+                              marginRight: "16px",
+                              border: selectedColor === color ? "3px solid #000" : "1px solid #ccc",
+                              padding: selectedColor === color ? "2px" : "5px",
+                              transition: "all 0.3s ease",
+                              cursor: 'pointer',
+                            }}
+                          ></div>
+                        </Link>
+                      ))}
+                    </div>
 
                   </div>
                 </div>
@@ -394,16 +388,16 @@ const handleAddToCart = async () => {
                     role="group"
                     aria-label="Size selection"
                   >
-     {sizes.map((size) => (
-            <button
-              key={size}
-              type="button"
-              className={`btn size-btn ${activeSize === size ? "active" : ""}`}
-              onClick={() => handleSizeClick(size)}
-            >
-              {size}
-            </button>
-          ))}
+                    {sizes.map((size) => (
+                      <button
+                        key={size}
+                        type="button"
+                        className={`btn size-btn ${activeSize === size ? "active" : ""}`}
+                        onClick={() => handleSizeClick(size)}
+                      >
+                        {size}
+                      </button>
+                    ))}
                   </div>
                 </div>
                 <div className="cart-add-counter d-flex align-items-center">
@@ -426,23 +420,18 @@ const handleAddToCart = async () => {
                   </div>
                 </div>
                 <div className="stock-available">
-                <div className="p">
-                  Available : 
-                  <span style={{ color: product?.stock_status === 1 ? 'green' : 'red' }}>
-                    {product?.stock_status === 1 ? 'In Stock' : 'Out of Stock'}
-                  </span>
-                </div>
+                  <div className="p">
+                    Available : &nbsp;
+                    <span style={{ color: product?.stock_status === "in_stock" ? 'green' : 'red' }}>
+                      {product?.stock_status === "in_stock" ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </div>
 
 
                 </div>
                 <div className="prd-dtl-checkout-btn">
                   <Link href="#" onClick={handleAddToCart}>
-                    <button
-                      className="btn-checkout border-0"
-                      data-bs-toggle="offcanvas"
-                      data-bs-target="#offcanvasRight"
-                      aria-controls="offcanvasRight"
-                    >
+                    <button>
                       ADD TO CART
                     </button>
                   </Link>
@@ -453,11 +442,11 @@ const handleAddToCart = async () => {
                   </p>
                 </div>
                 <div className="tag-prd-dtl">
-                <p className="m-0">
+                  <p className="m-0">
                     Tag: <span> {tags.map((tag, index) => (
                       <React.Fragment key={tag}>
                         {tag}
-                        {index < tags.length - 1 && ", "} 
+                        {index < tags.length - 1 && ", "}
                       </React.Fragment>
                     ))}</span>
                   </p>
@@ -486,7 +475,7 @@ const handleAddToCart = async () => {
             </div>
           </div>
 
-{/* cart */}
+          {/* cart */}
 
         </div>
       </section>
@@ -553,7 +542,7 @@ const handleAddToCart = async () => {
                 aria-labelledby="description-tab"
               >
                 <p>
-                {product?.description}
+                  {product?.description}
                 </p>
               </div>
               <div
@@ -580,7 +569,7 @@ const handleAddToCart = async () => {
                 </div>
               </div>
 
-{/*  reviews */}
+              {/*  reviews */}
 
 
             </div>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,7 +21,7 @@ const Cart = () => {
       const response = await fetchCart(userId, token);
       if (response && response.data) {
         setCartItems(response.data);
-     
+
         const initialQuantities = {};
         response.data.forEach(item => {
           initialQuantities[item.id] = item.quantity;
@@ -41,7 +41,7 @@ const Cart = () => {
       const token = Cookies.get("accessToken");
       await Promise.all(
         cartItems.map(item =>
-          updateCart(item.id, tempQuantities[item.id], token) 
+          updateCart(item.id, tempQuantities[item.id], token)
         )
       );
       setCartItems((prevItems) =>
@@ -59,11 +59,11 @@ const Cart = () => {
     setTempQuantities((prev) => ({ ...prev, [itemId]: newQuantity }));
   };
 
- 
+
   const handleRemove = async (cartItemId) => {
     const token = Cookies.get("accessToken");
     const response = await removeFromCart(cartItemId, token);
-    
+
 
     if (response && response.status === true) {
       setCartItems((prevItems) => prevItems.filter((item) => item.id !== cartItemId));
@@ -112,8 +112,8 @@ const Cart = () => {
                 cartItems.map((item) => (
                   <div key={item.id} className="row py-4 align-items-center cart-page-item-border">
                     <div className="col-lg-2 col-md-2 col-4">
-                      <div className="cart-img">
-                        <img src={item.image_url1} alt={item.product_title} />
+                      <div className="cart-img" style={{}}>
+                        <img src={item.image_url1} alt={item.product_title} height={150} />
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-3 col-8">
@@ -128,26 +128,26 @@ const Cart = () => {
                       <div className="qty-container">
                         <p className="m-0">Quantity</p>
                         <button
-                      className="qty-btn-minus btn-cornered"
-                      type="button"
-                      onClick={() => handleQuantityChange(item.id, Math.max(1, (tempQuantities[item.id] || 1) - 1))} 
-                    >
-                      <i className="fa fa-chevron-left"></i>
-                    </button>
+                          className="qty-btn-minus btn-cornered"
+                          type="button"
+                          onClick={() => handleQuantityChange(item.id, Math.max(1, (tempQuantities[item.id] || 1) - 1))}
+                        >
+                          <i className="fa fa-chevron-left"></i>
+                        </button>
                         <input
-                        type="text"
-                        name="qty"
-                        value={tempQuantities[item.id] || item.quantity} 
-                        className="input-qty input-cornered"
-                        readOnly
-                      />
-                    <button
-                    className="qty-btn-plus btn-cornered"
-                    type="button"
-                    onClick={() => handleQuantityChange(item.id, (tempQuantities[item.id] || item.quantity) + 1)} 
-                  >
-                    <i className="fa fa-chevron-right"></i>
-                  </button>
+                          type="text"
+                          name="qty"
+                          value={tempQuantities[item.id] || item.quantity}
+                          className="input-qty input-cornered"
+                          readOnly
+                        />
+                        <button
+                          className="qty-btn-plus btn-cornered"
+                          type="button"
+                          onClick={() => handleQuantityChange(item.id, (tempQuantities[item.id] || item.quantity) + 1)}
+                        >
+                          <i className="fa fa-chevron-right"></i>
+                        </button>
                       </div>
                     </div>
                     <div className="col-lg-2 col-md-2 col-10">
@@ -187,8 +187,8 @@ const Cart = () => {
                   <Link href="/">Go Back To Shop</Link>
                 </div>
                 <div className="update-cart me-2">
-           
-            <Link href="#" onClick={handleUpdateCart}>
+
+                  <Link href="#" onClick={handleUpdateCart}>
                     Update Cart
                   </Link>
                 </div>

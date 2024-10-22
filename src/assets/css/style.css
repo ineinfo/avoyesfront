@@ -2119,6 +2119,7 @@ button.slick-next.slick-arrow {
 /* cart page css */
 .cart-img {
     width: 100%;
+    height: auto;
 }
 
 .back-to a,
