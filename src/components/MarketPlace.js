@@ -350,6 +350,12 @@ const MarketPlace = () => {
     setActiveColor(color);
   };
 
+  const handleCloseModal = () => {
+    // Reset state variables or perform any cleanup here
+    setMainImage(selectedProduct?.image_url5 || '');
+    // If you have other state variables to reset, do so here
+  };
+
 
   return (
     <>
@@ -583,7 +589,7 @@ const MarketPlace = () => {
                                   <i className="bi bi-handbag ms-1 quick-icons"></i>
                                 </Link> */}
                               </div>
-                              <div className="heart-icon">
+                              <div className="heart-icon" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px" }}>
 
 
                                 <button
@@ -597,6 +603,12 @@ const MarketPlace = () => {
                                   ) : (
                                     <i className="fa-regular fa-heart"></i>
                                   )}
+                                </button>
+
+                                <button type="button"
+                                  className="text-decoration-none"
+                                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                                  <i className="bi bi-handbag ms-1 quick-icons"></i>
                                 </button>
                               </div>
                             </div>
@@ -723,6 +735,8 @@ const MarketPlace = () => {
 
       {/* Modal to show selected product details */}
       {/* Modal to show selected product details */}
+
+
       {selectedProduct && (
         <div
           className="modal fade"
@@ -730,6 +744,7 @@ const MarketPlace = () => {
           tabIndex="-1"
           aria-labelledby="productModalLabel"
           aria-hidden="true"
+          onHide={handleCloseModal}
         >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content py-2">
@@ -739,7 +754,7 @@ const MarketPlace = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                ></button>
+                ></button>  
               </div>
               <div className="modal-body pt-0">
                 <div className="container mt-3">
@@ -911,6 +926,9 @@ const MarketPlace = () => {
           </div>
         </div>
       )}
+
+
+
     </>
   );
 };

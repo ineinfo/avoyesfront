@@ -1,49 +1,111 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { fetchCart } from "@/utils/api/CartApi";
+import { fetchAddress } from "@/utils/api/AddressAPI";
+
+
+// Utility function to get address type based on a_type
+const getAddressType = (a_type) => {
+  switch (a_type) {
+    case 1:
+      return 'Home';
+    case 2:
+      return 'Work';
+    case 3:
+      return 'Type 3';
+    case 4:
+      return 'Type 4';
+    default:
+      return 'Unknown';
+  }
+};
+
+
+const countries = [
+  { id: 1, name: "United States" },
+  { id: 2, name: "Canada" },
+];
+
+const states = [
+  { id: 5, name: "New York" },
+  { id: 6, name: "California" },
+];
+
+const cities = [
+  { id: 3, name: "New York City" },
+  { id: 4, name: "Los Angeles" },
+];
 
 const Checkout = () => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const [address1, setAddress1] = useState("");
-  
-  const [password, setPassword] = useState(""); // Password state
-  const router = useRouter();
-
+  const [cartItems, setCartItems] = useState([]);
+  const [addressdata, setAddressdata] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("new");
+  const dropdownRef = useRef(null);
   // User data states
   const [userData, setUserData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     phone: "",
+    address1: "",
+    pincode: ""
   });
-  
+
+  const toggleDropdown = () => setIsOpen(true);
+
+  const handleAddressChange = (address) => {
+    setSelectedAddress(address);
+
+    const matched = addressdata.find((a) => a.id === address)
+    setUserData(matched)
+    if (address === 'new') {
+      setSelectedCountry('')
+      setSelectedState('')
+      setSelectedCity('')
+    }
+    if (matched) {
+      const country = countries.find((a) => a.id === matched?.country)
+      setSelectedCountry(country?.name)
+      const state = states.find((a) => a.id === matched?.state)
+      setSelectedState(state?.name)
+      const city = cities.find((a) => a.id === matched?.city)
+      setSelectedCity(city?.name)
+    }
+
+    setIsOpen(false); // Close the dropdown after selection
+  };
+
+  const [password, setPassword] = useState(""); // Password state
+  const router = useRouter();
+
+
+
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false); // State to check if user is logged in
 
-  const countries = [
-    { id: 1, name: "United States" },
-    { id: 2, name: "Canada" },
-  ];
-
-  const states = [
-    { id: 5, name: "New York" },
-    { id: 6, name: "California" },
-  ];
-
-  const cities = [
-    { id: 3, name: "New York City" },
-    { id: 4, name: "Los Angeles" },
-  ];
 
   useEffect(() => {
     const userId = Cookies.get("id");
     const accessToken = Cookies.get("accessToken");
+
+    if (userId && accessToken) {
+      setShow(false)
+    }
+
+
 
     const fetchUserProfile = async () => {
       try {
@@ -55,7 +117,7 @@ const Checkout = () => {
             },
           }
         );
-        setUserData(response.data.data);
+        // setUserData(response.data.data);
         setIsUserLoggedIn(true); // User is logged in
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -63,41 +125,43 @@ const Checkout = () => {
       }
     };
 
-    const fetchUserAddress = async () => {
+
+
+    const loadCartData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const cartData = await fetchCart(userId, accessToken);
 
-        const addressData = response.data.data;
-
-        const validAddress = addressData[0]; 
-
-        if (validAddress) {
-          setSelectedCountry(countries.find((c) => c.id === validAddress.country)?.name || "");
-          setSelectedState(states.find((s) => s.id === validAddress.state)?.name || "");
-          setSelectedCity(cities.find((c) => c.id === validAddress.city)?.name || "");
-          setAddress1(validAddress.address1 || "");
+        if (cartData && cartData.data) {
+          setCartItems(cartData.data);
         } else {
-          console.error("No address found for this user.");
+          setError(cartData.message || "Failed to fetch cart");
         }
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          console.error("Address not found for this user.");
-        } else {
-          console.error("Error fetching user address:", error);
-        }
+      } catch (err) {
+        console.error("Error fetching cart data:", err);
+        setError("Error fetching cart data");
+      } finally {
+        setLoading(false);
       }
     };
 
+    const allAdd = async () => {
+      try {
+        const res = await fetchAddress();
+
+        setAddressdata(res)
+      } catch (error) {
+        console.log(error);
+
+      }
+    }
+
+    loadCartData();
     fetchUserProfile();
-    fetchUserAddress();
+    // fetchUserAddress();
+    allAdd();
   }, []);
+  console.log("dataaaa", addressdata);
+
   const handlePayment = async () => {
     // Validate required fields
     if (
@@ -114,7 +178,7 @@ const Checkout = () => {
       toast.error("Please fill all fields.");
       return;
     }
-  
+
     try {
       // Create user if not logged in
       if (!isUserLoggedIn) {
@@ -125,10 +189,10 @@ const Checkout = () => {
           phone: userData.phone,
           password: password,
         });
-  
+
         if (createUserResponse.data.status) {
           const userId = createUserResponse.data.data.id; // Adjust based on your API response structure
-  
+
           // Create address for the new user
           const addressResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, {
             user_id: userId, // Use the newly created user's ID
@@ -137,7 +201,7 @@ const Checkout = () => {
             state: selectedState,
             city: selectedCity,
           });
-  
+
           if (addressResponse.data.status) {
             toast.success("User created and address added successfully. Proceeding to payment...");
             router.push("/marketplace");
@@ -163,11 +227,27 @@ const Checkout = () => {
       }
     }
   };
-  
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Attach event listener
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      // Clean up the event listener
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   return (
     <>
       <ToastContainer />
-      <div className="breadcrumb-marketplace py-5">
+      <div className="breadcrumb-marketplace py-5" >
         <div className="container">
           <div className="bread-head text-end">
             <div className="link d-flex align-items-center justify-content-end">
@@ -223,14 +303,16 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="dont-have-acc">
-            You don't have an Account?
-            <Link href="/login" className="text-decoration-none ms-1">
-              Login
-            </Link>
-          </div>
+          {show && (
+            <div className="dont-have-acc">
+              You don't have an Account?
+              <Link href="/login" className="text-decoration-none ms-1">
+                Login
+              </Link>
+            </div>
+          )}
 
-          <div className="head d-flex justify-content-between align-items-center py-5 mt-4">
+          <div className="head d-flex justify-content-between align-items-center pt-4 pb-2 mt-4">
             <div className="heading">
               <h1>
                 <span>BILLING </span> Details
@@ -238,26 +320,110 @@ const Checkout = () => {
             </div>
           </div>
 
+
           <div className="row">
             <div className="col-lg-7">
               <div className="row billing-mb">
-                <div className="col-md-6 billing">
+                <div className="col-md-12 billing">
+
+
+                  <div className="custom-dropdown" ref={dropdownRef}>
+                    {/* Toggle Button for Dropdown */}
+                    <div className="add-new-address" onClick={toggleDropdown} style={{
+                      padding: "8px 15px",
+                      backgroundColor: "blue",
+                      color: "white",
+                      fontWeight: "bold",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                      marginBottom: "0",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}>
+                      Select Address
+                      <i class="fa-solid fa-caret-down"></i>
+                    </div>
+
+                    {/* Dropdown List */}
+                    {isOpen && (
+                      <div className="dropdown-list">
+                        {/* List of Existing Addresses */}
+                        <div className="address-item">
+
+                          <label>
+                            <input
+                              type="radio"
+                              name="address"
+                              value="new"
+                              checked={selectedAddress === "new"}
+                              onChange={() => handleAddressChange("new")}
+                            /> &nbsp;
+                            <strong>Add New Address</strong>
+                          </label>
+                          {addressdata.map((address) => (
+                            <label>
+
+                              <div className="address-details">
+                                <input
+                                  type="radio"
+                                  name="address"
+                                  value={address.id}
+                                  checked={selectedAddress === address.id}
+                                  onChange={() => handleAddressChange(address.id)}
+                                /> &nbsp;
+                                <strong>{getAddressType(address.a_type)}</strong>
+                                <br />
+                                <div style={{ marginLeft: "15px" }}>
+                                  {`${address.first_name} ${address.last_name}`}
+                                  <br />
+                                  {address.address1}
+                                  <br />
+                                  Pincode: {address.pincode}
+                                </div>
+
+                              </div>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* If "Add New Address" is selected */}
+                    {selectedAddress === "new" && (
+                      <div className="new-address-form">
+                        <h3>Add a New Address</h3>
+                        {/* Add your form for adding a new address here */}
+                      </div>
+                    )}
+
+                    {/* Display selected address details */}
+                    {selectedAddress !== "new" && (
+                      <div className="selected-address-details">
+                        <h3>{getAddressType(userData?.a_type)}</h3>
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+                <div className="col-md-6 billing mt-4">
+
                   <input
                     type="text"
                     className="form-control"
                     placeholder="First Name"
-                    value={userData.first_name || ""}
+                    value={userData?.first_name || ""}
                     onChange={(e) =>
                       setUserData({ ...userData, first_name: e.target.value })
                     }
                   />
                 </div>
-                <div className="col-md-6 billing">
+                <div className="col-md-6 billing mt-4">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Last Name"
-                    value={userData.last_name || ""}
+                    value={userData?.last_name || ""}
                     onChange={(e) =>
                       setUserData({ ...userData, last_name: e.target.value })
                     }
@@ -270,7 +436,7 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     placeholder="Email Address"
-                    value={userData.email || ""}
+                    value={userData?.email || ""}
                     onChange={(e) =>
                       setUserData({ ...userData, email: e.target.value })
                     }
@@ -281,7 +447,7 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     placeholder="Mobile Number"
-                    value={userData.phone || ""}
+                    value={userData?.phone || ""}
                     onChange={(e) =>
                       setUserData({ ...userData, phone: e.target.value })
                     }
@@ -289,13 +455,22 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="row billing-mb">
-                <div className="col-md-12 billing billing-mobile">
+                <div className="col-md-6 billing ">
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Address"
-                    value={address1}
-                    onChange={(e) => setAddress1(e.target.value)}
+                    value={userData?.address1 || ""}
+                    onChange={(e) => setUserData({ ...userData, address1: e.target.value })}
+                  />
+                </div>
+                <div className="col-md-6 billing ">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Pincode"
+                    value={userData?.pincode || ""}
+                    onChange={(e) => setUserData({ ...userData, pincode: e.target.value })}
                   />
                 </div>
               </div>
@@ -358,67 +533,62 @@ const Checkout = () => {
                   </div>
                 </div>
               )}
-              
+
             </div>
-            
+
 
             <div className="col-lg-5">
               <div className="checkout-summary">
                 <div className="head text-center">
                   <h3>ORDER SUMMARY</h3>
                 </div>
-                <div className="row align-items-center mt-4">
-                  <div className="col-md-2 col-3">
-                    <img
-                      src="/sidebar-img-1.png"
-                      alt=""
-                      className="check-out-img"
-                    />
-                  </div>
-                  <div className="col-md-6 col-6">
-                    <div className="checkout-summary">
-                      <p className="m-0">Women’s Sequin Skirt</p>
+                {cartItems.map((item) => {
+                  return (
+                    <div key={item.id} className="row align-items-center mt-4">
+                      <div className="col-md-2 col-3">
+                        <img
+                          src={item.image_url1}
+                          alt={item.product_title}
+                          className="check-out-img"
+                        />
+                      </div>
+                      <div className="col-md-7 col-6">
+                        <div className="checkout-summary">
+                          <p className="m-0">{item.product_title}</p>
+                          <p className="m-0">Size - {item.size_title}&nbsp; Color - {item.color_title}</p>
+                          <p className="m-0">Quantity - {item.quantity}</p>
+
+                        </div>
+                      </div>
+                      <div className="col-md-3 text-center col-3">
+                        <p className="m-0 checkout-price">€{item.amount}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-4 text-center col-3">
-                    <p className="m-0 checkout-price">€370.00</p>
-                  </div>
-                </div>
-                <div className="row align-items-center mt-4">
-                  <div className="col-md-2 col-3">
-                    <img
-                      src="/sidebar-img-2.png"
-                      alt=""
-                      className="check-out-img"
-                    />
-                  </div>
-                  <div className="col-md-6 col-6">
-                    <div className="checkout-summary">
-                      <p className="m-0">Women’s Sequin Skirt</p>
-                    </div>
-                  </div>
-                  <div className="col-md-4 col-3 text-center">
-                    <p className="m-0 checkout-price">€370.00</p>
-                  </div>
-                </div>
+                  );
+                })}
+
                 <div className="border-checkout-summary"></div>
                 <div className="sub-total-checkout d-flex justify-content-between align-items-center">
                   <p className="m-0">Sub Total</p>
-                  <p className="m-0">€740.00</p>
+                  <p className="m-0">€{cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2)}</p>
                 </div>
                 <div className="total-price-checkout d-flex justify-content-between align-items-center">
                   <p className="m-0">Total</p>
-                  <p className="m-0">€740.00</p>
+                  <p className="m-0">€{cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2)}</p>
                 </div>
               </div>
               <div className="proceed-to-pay">
-                <Link href="#" >
-                <button type="button" onClick={handlePayment} className="btn btn-primary">
-    PROCEED TO PAY
-  </button>
-                </Link>{" "}
+                <Link href="/success" >
+                  <button type="button" onClick={handlePayment} className="btn btn-primary">
+                    PROCEED TO PAY
+                  </button>
+                </Link>
               </div>
             </div>
+
+
+
+
           </div>
         </div>
       </div>
