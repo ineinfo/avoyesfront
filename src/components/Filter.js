@@ -126,7 +126,16 @@ const Filter = () => {
 
   const handleClear = () => {
     setCheckedItems({});
-    router.push('/marketplace');
+
+    // Clear all query parameters and redirect to /marketplace
+    router.replace("/marketplace");
+
+    // Delay reload to ensure routing completes first
+    setTimeout(() => {
+      if (window.location.pathname === "/marketplace") {
+        window.location.reload();
+      }
+    }, 100); // Adjust delay if needed
   };
 
   return (

@@ -18,19 +18,25 @@ export const fetchAddress = async () => {
     }
 }
 
-export const postAddress = async (data) => {
+export const AddAddress = async (data) => {
     const userId = Cookies.get("id");
+    const accessToken = Cookies.get("accessToken");
+
     try {
         const updatedData = {
             ...data,
             user_id: userId
         };
 
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, updatedData);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, updatedData, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
         return response.data;
     } catch (err) {
         console.error('Failed to post address:', err);
         throw err;
     }
 };
-

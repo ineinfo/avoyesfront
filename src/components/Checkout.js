@@ -6,19 +6,21 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchCart } from "@/utils/api/CartApi";
-import { fetchAddress } from "@/utils/api/AddressAPI";
+import { fetchCart, removeFromCartAll } from "@/utils/api/CartApi";
+import { AddAddress, fetchAddress } from "@/utils/api/AddressAPI";
+import { fetchCities, fetchCountries, fetchStates } from "@/utils/api/CommonApi";
+import { placeOrder } from "@/utils/api/CheckoutApi";
 
 
 // Utility function to get address type based on a_type
 const getAddressType = (a_type) => {
   switch (a_type) {
     case 1:
-      return 'Home';
-    case 2:
       return 'Work';
+    case 2:
+      return 'Home';
     case 3:
-      return 'Type 3';
+      return 'Other';
     case 4:
       return 'Type 4';
     default:
@@ -27,31 +29,34 @@ const getAddressType = (a_type) => {
 };
 
 
-const countries = [
-  { id: 1, name: "United States" },
-  { id: 2, name: "Canada" },
-];
+// const countries = [
+//   { id: 1, name: "United States" },
+//   { id: 2, name: "Canada" },
+// ];
 
-const states = [
-  { id: 5, name: "New York" },
-  { id: 6, name: "California" },
-];
+// const states = [
+//   { id: 5, name: "New York" },
+//   { id: 6, name: "California" },
+// ];
 
-const cities = [
-  { id: 3, name: "New York City" },
-  { id: 4, name: "Los Angeles" },
-];
+// const cities = [
+//   { id: 3, name: "New York City" },
+//   { id: 4, name: "Los Angeles" },
+// ];
 
 const Checkout = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-  const [address1, setAddress1] = useState("");
   const [cartItems, setCartItems] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [addressdata, setAddressdata] = useState([]);
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
+  const [addId, setAddId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("new");
   const dropdownRef = useRef(null);
@@ -62,32 +67,50 @@ const Checkout = () => {
     email: "",
     phone: "",
     address1: "",
+    a_type: "3",
     pincode: ""
   });
 
-  const toggleDropdown = () => setIsOpen(true);
+  const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const handleAddressChange = (address) => {
+  const handleAddressChange = async (address) => {
     setSelectedAddress(address);
 
-    const matched = addressdata.find((a) => a.id === address)
-    setUserData(matched)
+    const matched = addressdata.find((a) => a.id === address);
+
+    setUserData(matched);
     if (address === 'new') {
-      setSelectedCountry('')
-      setSelectedState('')
-      setSelectedCity('')
+      setSelectedCountry('');
+      setSelectedState('');
+      setSelectedCity('');
     }
     if (matched) {
-      const country = countries.find((a) => a.id === matched?.country)
-      setSelectedCountry(country?.name)
-      const state = states.find((a) => a.id === matched?.state)
-      setSelectedState(state?.name)
-      const city = cities.find((a) => a.id === matched?.city)
-      setSelectedCity(city?.name)
+      console.log("Matched data", matched);
+
+      const country = countries.find((a) => a.id === matched?.country);
+      setSelectedCountry(country?.name);
+      const c_id = country?.id;
+      console.log("Matched data1", c_id);
+
+      const allStates = await fetchStates(c_id);
+      setStates(allStates);
+
+      const state = allStates.find((a) => a.id === matched?.state);
+      setSelectedState(state?.name);
+
+      const s_id = state?.id
+      const allCities = await fetchCities(s_id);
+      setCities(allCities);
+
+      const city = allCities.find((a) => a.id === matched?.city);
+      setSelectedCity(city?.name);
+
+      setAddId(matched ? matched.id : null);
     }
 
     setIsOpen(false); // Close the dropdown after selection
   };
+
 
   const [password, setPassword] = useState(""); // Password state
   const router = useRouter();
@@ -130,6 +153,9 @@ const Checkout = () => {
     const loadCartData = async () => {
       try {
         const cartData = await fetchCart(userId, accessToken);
+        const country = await fetchCountries();
+        setCountries(country ? country : [{}]);
+
 
         if (cartData && cartData.data) {
           setCartItems(cartData.data);
@@ -162,70 +188,225 @@ const Checkout = () => {
   }, []);
   console.log("dataaaa", addressdata);
 
+
+  useEffect(() => {
+    const fetchAllStates = async () => {
+      if (selectedCountry) {
+        const Countryid = countries.find((a) => a.name === selectedCountry);
+
+        if (Countryid) {
+          const id = Countryid.id;
+
+          try {
+            const statesData = await fetchStates(id);
+            setStates(statesData)
+            console.log("states", statesData);
+          } catch (error) {
+            console.error("Error fetching states:", error);
+          }
+        } else {
+
+          console.error("Country not found for selected country:", selectedCountry);
+        }
+      } else {
+        setStates([])
+        console.error("No country selected.");
+      }
+    };
+
+    fetchAllStates();
+  }, [selectedCountry, countries]); // Add countries in dependency array to ensure it updates when available.
+
+
+  useEffect(() => {
+    const fetchAllCities = async () => {
+      if (selectedState) {
+        const Stateid = states.find((a) => a.name === selectedState);
+
+        if (Stateid) {
+          const id = Stateid.id;
+
+          try {
+            const citiesData = await fetchCities(id);
+            setCities(citiesData)
+            console.log("states", citiesData);
+          } catch (error) {
+            console.error("Error fetching states:", error);
+          }
+        } else {
+
+          console.error("Country not found for selected country:", selectedState);
+        }
+      } else {
+        setCities([])
+        console.error("No country selected.");
+      }
+    };
+
+    fetchAllCities();
+  }, [selectedState, states]);
+
+  const regexPhn = /^\d{10}$/;
+  const regexMail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const handlePayment = async () => {
     // Validate required fields
-    if (
-      !userData.first_name ||
-      !userData.last_name ||
-      !userData.email ||
-      !userData.phone ||
-      !address1 ||
-      !selectedCountry ||
-      !selectedState ||
-      !selectedCity ||
-      (!isUserLoggedIn && !password)
-    ) {
-      toast.error("Please fill all fields.");
+    let missingFields = [];
+
+    // Check each field and add to missingFields array if it's invalid
+    if (!userData.first_name) {
+      missingFields.push("First name");
+    }
+    if (!userData.last_name) {
+      missingFields.push("Last name");
+    }
+    if (!userData.email) {
+      missingFields.push("Email");
+    } else if (!regexMail.test(userData.email)) {
+      missingFields.push("Email (invalid format)");
+    }
+    if (!userData.phone) {
+      missingFields.push("Phone number");
+    } else if (!regexPhn.test(userData.phone)) {
+      missingFields.push("Phone number (invalid format)");
+    }
+    if (!userData.address1) {
+      missingFields.push("Address");
+    }
+    if (!userData.a_type) {
+      missingFields.push("Type");
+    }
+    if (!userData.pincode) {
+      missingFields.push("Pincode");
+    }
+    if (!selectedCountry) {
+      missingFields.push("Country");
+    }
+    if (!selectedState) {
+      missingFields.push("State");
+    }
+    if (!selectedCity) {
+      missingFields.push("City");
+    }
+
+
+    // Display a consolidated error message if there are any missing fields
+    if (missingFields.length > 0) {
+      toast.error(`Please fill all fields: ${missingFields.join(", ")}.`);
       return;
     }
 
-    try {
-      // Create user if not logged in
-      if (!isUserLoggedIn) {
-        const createUserResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users`, {
-          first_name: userData.first_name,
-          last_name: userData.last_name,
-          email: userData.email,
-          phone: userData.phone,
-          password: password,
-        });
+    // try {
+    //   // Create user if not logged in
+    //   if (!isUserLoggedIn) {
+    //     const createUserResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users`, {
+    //       first_name: userData.first_name,
+    //       last_name: userData.last_name,
+    //       email: userData.email,
+    //       phone: userData.phone,
+    //       password: password,
+    //     });
 
-        if (createUserResponse.data.status) {
-          const userId = createUserResponse.data.data.id; // Adjust based on your API response structure
+    //     if (createUserResponse.data.status) {
+    //       const userId = createUserResponse.data.data.id; // Adjust based on your API response structure
 
-          // Create address for the new user
-          const addressResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, {
-            user_id: userId, // Use the newly created user's ID
-            address1: address1,
-            country: selectedCountry,
-            state: selectedState,
-            city: selectedCity,
-          });
+    //       // Create address for the new user
+    //       const addressResponse = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, {
+    //         user_id: userId, // Use the newly created user's ID
+    //         address1: address1,
+    //         country: selectedCountry,
+    //         state: selectedState,
+    //         city: selectedCity,
+    //       });
 
-          if (addressResponse.data.status) {
-            toast.success("User created and address added successfully. Proceeding to payment...");
-            router.push("/marketplace");
-            return;
-          } else {
-            toast.error("Failed to add address.");
-          }
-        }
-      } else {
-        console.log("User is logged in. Redirecting to marketplace...");
-        router.push("/marketplace");
-        return;
+    //       if (addressResponse.data.status) {
+    //         toast.success("User created and address added successfully. Proceeding to payment...");
+    //         router.push("/marketplace");
+    //         return;
+    //       } else {
+    //         toast.error("Failed to add address.");
+    //       }
+    //     }
+    //   } else {
+    //     console.log("User is logged in. Redirecting to marketplace...");
+    //     router.push("/marketplace");
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.error("Error creating user or adding address:", error);
+    //   if (error.response) {
+    //     console.error("Error response data:", error.response.data);
+    //     if (error.response.data.error === "Email already exists") {
+    //       toast.error("Email already exists. Please log in.");
+    //     } else {
+    //       toast.error("An error occurred while creating the address.");
+    //     }
+    //   }
+    // }
+
+    let orderData = {}
+    if (addId === null) {
+      const countryId = countries.find((a) => a.name === selectedCountry)
+      const stateId = states.find((a) => a.name === selectedState)
+      const cityId = cities.find((a) => a.name === selectedCity)
+      const addressData = {
+        ...userData,
+        country: countryId.id,
+        state: stateId.id,
+        city: cityId.id,
       }
-    } catch (error) {
-      console.error("Error creating user or adding address:", error);
-      if (error.response) {
-        console.error("Error response data:", error.response.data);
-        if (error.response.data.error === "Email already exists") {
-          toast.error("Email already exists. Please log in.");
-        } else {
-          toast.error("An error occurred while creating the address.");
-        }
+      console.log("response1", addressData);
+
+      try {
+        const res = await AddAddress(addressData)
+        orderData = {
+          addId: res?.addressId,
+          total: cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2),
+          sub_total: cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2),
+          products: cartItems.map(({ size_id, product_id, product_title, quantity, color_id, amount, image_url1 }) => ({
+            size_id,
+            product_id,
+            product_title,
+            quantity,
+            color_id,
+            rate: amount,
+            amount: (amount * quantity),
+            image_url: image_url1
+          }))
+        };
+        console.log("Got Data", orderData);
+      } catch (error) {
+        console.log("got some error", error);
       }
+    } else {
+      orderData = {
+        addId: addId,
+        total: cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2),
+        sub_total: cartItems.reduce((acc, item) => acc + (item.amount * item.quantity), 0).toFixed(2),
+        products: cartItems.map(({ size_id, product_id, product_title, quantity, color_id, amount, image_url1 }) => ({
+          size_id,
+          product_id,
+          product_title,
+          quantity,
+          color_id,
+          rate: amount,
+          amount: (amount * quantity),
+          image_url: image_url1
+        }))
+      };
+      console.log("Got Data", orderData);
     }
+
+    const res = await placeOrder(orderData)
+    if (res) {
+      const ids = cartItems.map(item => item.id);
+      await removeFromCartAll(ids)
+      router.push(`/success?id=${res.order_number}`)
+    } else {
+      console.log("Something went Wrong");
+
+    }
+
+
   };
 
   useEffect(() => {
@@ -243,6 +424,9 @@ const Checkout = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownRef]);
+
+  console.log("countries", countries);
+
 
   return (
     <>
@@ -326,22 +510,22 @@ const Checkout = () => {
               <div className="row billing-mb">
                 <div className="col-md-12 billing">
 
-
-                  <div className="custom-dropdown" ref={dropdownRef}>
+                  <div className="custom-dropdown" ref={dropdownRef} style={{ width: "100%" }}>
                     {/* Toggle Button for Dropdown */}
                     <div className="add-new-address" onClick={toggleDropdown} style={{
                       padding: "8px 15px",
-                      backgroundColor: "blue",
-                      color: "white",
+                      backgroundColor: "white",
+                      color: "blue",
                       fontWeight: "bold",
                       borderRadius: "10px",
                       cursor: "pointer",
                       marginBottom: "0",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "space-between"
+                      justifyContent: "space-between",
+                      border: "1px solid blue",
                     }}>
-                      Select Address
+                      Choose an address
                       <i class="fa-solid fa-caret-down"></i>
                     </div>
 
@@ -349,7 +533,7 @@ const Checkout = () => {
                     {isOpen && (
                       <div className="dropdown-list">
                         {/* List of Existing Addresses */}
-                        <div className="address-item">
+                        <div className="address-item" style={{ display: "flex", flexDirection: "column" }}>
 
                           <label>
                             <input
@@ -392,7 +576,7 @@ const Checkout = () => {
                     {/* If "Add New Address" is selected */}
                     {selectedAddress === "new" && (
                       <div className="new-address-form">
-                        <h3>Add a New Address</h3>
+                        <h3>Add a new address</h3>
                         {/* Add your form for adding a new address here */}
                       </div>
                     )}
@@ -406,6 +590,50 @@ const Checkout = () => {
                   </div>
 
                 </div>
+                {selectedAddress === "new" && (
+
+                  <div className="col-md-12 billing mt-4" style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", fontWeight: "bold" }}>
+
+                    <label style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="radio"
+                        name="a_type"
+                        value="1"
+                        checked={userData?.a_type === "1"}
+                        onChange={(e) =>
+                          setUserData({ ...userData, a_type: e.target.value })
+                        }
+                      /> &nbsp;
+                      Work
+                    </label>
+
+                    <label style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="radio"
+                        name="a_type"
+                        value="2"
+                        checked={userData?.a_type === "2"}
+                        onChange={(e) =>
+                          setUserData({ ...userData, a_type: e.target.value })
+                        }
+                      /> &nbsp;
+                      Home
+                    </label>
+
+                    <label style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="radio"
+                        name="a_type"
+                        value="3"
+                        checked={userData?.a_type === "3"}
+                        onChange={(e) =>
+                          setUserData({ ...userData, a_type: e.target.value })
+                        }
+                      /> &nbsp;
+                      Other
+                    </label>
+                  </div>
+                )}
                 <div className="col-md-6 billing mt-4">
 
                   <input
@@ -496,11 +724,17 @@ const Checkout = () => {
                     onChange={(e) => setSelectedState(e.target.value)}
                   >
                     <option value="">Select State</option>
-                    {states.map((state) => (
-                      <option key={state.id} value={state.name}>
-                        {state.name}
+                    {states.length > 0 ? <>
+                      {states.map((state) => (
+                        <option key={state.id} value={state.name}>
+                          {state.name}
+                        </option>
+                      ))}
+                    </> : <>
+                      <option disabled>
+                        Select Country First
                       </option>
-                    ))}
+                    </>}
                   </select>
                 </div>
                 <div className="col-md-4 billing">
@@ -510,17 +744,23 @@ const Checkout = () => {
                     onChange={(e) => setSelectedCity(e.target.value)}
                   >
                     <option value="">Select City</option>
-                    {cities.map((city) => (
-                      <option key={city.id} value={city.name}>
-                        {city.name}
+                    {cities.length > 0 ? <>
+                      {cities.map((city) => (
+                        <option key={city.id} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </> : <>
+                      <option disabled>
+                        Select State First
                       </option>
-                    ))}
+                    </>}
                   </select>
                 </div>
               </div>
 
               {/* Password input only appears when user is not logged in */}
-              {!isUserLoggedIn && (
+              {/* {!isUserLoggedIn && (
                 <div className="row billing-mb">
                   <div className="col-md-12 billing billing-mobile">
                     <input
@@ -532,7 +772,7 @@ const Checkout = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
 
             </div>
 
@@ -578,17 +818,11 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="proceed-to-pay">
-                <Link href="/success" >
-                  <button type="button" onClick={handlePayment} className="btn btn-primary">
-                    PROCEED TO PAY
-                  </button>
-                </Link>
+                <button type="button" onClick={handlePayment} className="btn btn-primary">
+                  PROCEED TO PAY
+                </button>
               </div>
             </div>
-
-
-
-
           </div>
         </div>
       </div>

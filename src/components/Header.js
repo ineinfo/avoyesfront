@@ -33,16 +33,17 @@ const Header = () => {
 
     const loadCartData = async () => {
       try {
-        const cartData = await fetchCart(userId, accessToken);
+        const cartData = await fetchCart(userId ? userId : '', accessToken);
 
         if (cartData && cartData.data) {
+          setError(null)
           setCartItems(cartData.data);
         } else {
           setError(cartData.message || "Failed to fetch cart");
         }
       } catch (err) {
-        console.error("Error fetching cart data:", err);
-        setError("Error fetching cart data");
+        console.error("Error fetching cart data:", err.response);
+        setError("No cart data");
       } finally {
         setLoading(false);
       }
@@ -102,6 +103,9 @@ const Header = () => {
   };
 
   const calculateTotal = () => {
+    if (cartItems.length == 0) {
+      return
+    }
     return cartItems
       .reduce((acc, item) => acc + item.quantity * item.amount, 0)
       .toFixed(2);
@@ -258,7 +262,7 @@ const Header = () => {
                         color: "white",
                         fontWeight: "bold",
                         borderRadius: "10px",
-                        cursor: "ponter",
+                        cursor: "pointer",
                         textDecoration: "none",
                         display: "flex",
                         alignItems: "center",

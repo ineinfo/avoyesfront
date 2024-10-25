@@ -621,15 +621,17 @@ const MarketPlace = () => {
                               </Link>
                             </div>
 
-                            <div className="rating d-flex align-items-center">
-                              <div className="rate d-flex align-items-center">
-                                <p className="m-0"></p>
-                                <i className="fa-solid fa-star"></i>
+                            {product.ratings && (
+                              <div className="rating d-flex align-items-center">
+                                <div className="rate d-flex align-items-center">
+                                  <p className="m-0"></p>
+                                  <i className="fa-solid fa-star"></i>
+                                </div>
+                                <div className="people">
+                                  <p className="m-0">{product.ratings}</p>
+                                </div>
                               </div>
-                              <div className="people">
-                                <p className="m-0">{product.ratings}</p>
-                              </div>
-                            </div>
+                            )}
                           </div>
                           <div className="pricing d-flex align-items-center">
                             <div className="price">
@@ -754,7 +756,7 @@ const MarketPlace = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                ></button>  
+                ></button>
               </div>
               <div className="modal-body pt-0">
                 <div className="container mt-3">
@@ -853,7 +855,7 @@ const MarketPlace = () => {
                           </div>
                         </div>
                         <div className="para">
-                          <p>{selectedProduct?.description}</p>
+                          <p dangerouslySetInnerHTML={{ __html: selectedProduct?.description || "" }}></p>
                         </div>
                         <div className="choose-color">
                           <div className="head">
@@ -903,7 +905,7 @@ const MarketPlace = () => {
                         </div>
                         <div className="prd-dtl-checkout-btn">
                           <Link href="cart">
-                            <button className="btn-checkout border-0" onClick={handleAddToCart}>
+                            <button className="btn-checkout border-0" onClick={handleAddToCart} data-bs-dismiss="modal">
                               ADD TO CART
                             </button>
                           </Link>

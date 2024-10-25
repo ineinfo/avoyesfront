@@ -3,6 +3,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const addToCart = async (token, productDetails) => {
   try {
@@ -38,11 +39,6 @@ const fetchCart = async (userId, accessToken) => {
   }
 };
 
-
-
-
-
-
 const updateCart = async (id, quantity, token) => {
   try {
     const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart/${id}`, { quantity }, {
@@ -71,6 +67,28 @@ export const removeFromCart = async (cartItemId, token) => {
     return { status: false, message: "Failed to remove item from cart" };
   }
 };
+
+export const removeFromCartAll = async (cartItemIds) => {
+  console.log("CartItem Ids:", cartItemIds);
+
+  // Convert the array to a comma-separated string
+  const cartItemIdsString = cartItemIds.join(',');
+
+  const accessToken = Cookies.get("accessToken");
+  try {
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/cart/${cartItemIdsString}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("Remove from Cart API Response:", response.data);
+    return response.data; // Assuming the response includes status
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    return { status: false, message: "Failed to remove item from cart" };
+  }
+};
+
 
 
 export { addToCart, fetchCart, updateCart };

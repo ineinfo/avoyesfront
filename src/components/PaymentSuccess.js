@@ -1,7 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -12,15 +10,12 @@ const PaymentSuccess = () => {
     const [orderId, setOrderId] = useState('');
 
     useEffect(() => {
-        const uniqueOrderId = generateUniqueOrderId();
-        setOrderId(uniqueOrderId);
+        const { searchParams } = new URL(window.location.href);
+        const idFromUrl = searchParams.get('id');
+        if (idFromUrl) {
+            setOrderId(idFromUrl);  // URL se id ko orderId me set karte hain
+        }
     }, []);
-
-    function generateUniqueOrderId() {
-        const timestamp = Date.now();
-        const randomNum = Math.floor(Math.random() * 1000);
-        return `#${timestamp}${randomNum}`;
-    }
 
     useEffect(() => {
         const countdown = setInterval(() => {
@@ -61,7 +56,7 @@ const PaymentSuccess = () => {
                 <h2 className="mb-3">Payment Successful</h2>
 
                 <p className="mb-0">Thank you! Your order is confirmed.</p>
-                <p>A confirmation email has been sent. For any questions, contact support and provide your Order ID:
+                <p>A confirmation email has been sent. For any questions, contact support and provide your Order ID: &nbsp;
                     <span className="order-id">{orderId}</span>.
                 </p>
 
