@@ -350,6 +350,12 @@ const MarketPlace = () => {
     setActiveColor(color);
   };
 
+  const handleCloseModal = () => {
+    // Reset state variables or perform any cleanup here
+    setMainImage(selectedProduct?.image_url5 || '');
+    // If you have other state variables to reset, do so here
+  };
+
 
   return (
     <>
@@ -583,7 +589,7 @@ const MarketPlace = () => {
                                   <i className="bi bi-handbag ms-1 quick-icons"></i>
                                 </Link> */}
                               </div>
-                              <div className="heart-icon">
+                              <div className="heart-icon" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "20px" }}>
 
 
                                 <button
@@ -598,6 +604,12 @@ const MarketPlace = () => {
                                     <i className="fa-regular fa-heart"></i>
                                   )}
                                 </button>
+
+                                <button type="button"
+                                  className="text-decoration-none"
+                                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                                  <i className="bi bi-handbag ms-1 quick-icons"></i>
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -609,15 +621,17 @@ const MarketPlace = () => {
                               </Link>
                             </div>
 
-                            <div className="rating d-flex align-items-center">
-                              <div className="rate d-flex align-items-center">
-                                <p className="m-0"></p>
-                                <i className="fa-solid fa-star"></i>
+                            {product.ratings && (
+                              <div className="rating d-flex align-items-center">
+                                <div className="rate d-flex align-items-center">
+                                  <p className="m-0"></p>
+                                  <i className="fa-solid fa-star"></i>
+                                </div>
+                                <div className="people">
+                                  <p className="m-0">{product.ratings}</p>
+                                </div>
                               </div>
-                              <div className="people">
-                                <p className="m-0">{product.ratings}</p>
-                              </div>
-                            </div>
+                            )}
                           </div>
                           <div className="pricing d-flex align-items-center">
                             <div className="price">
@@ -723,6 +737,8 @@ const MarketPlace = () => {
 
       {/* Modal to show selected product details */}
       {/* Modal to show selected product details */}
+
+
       {selectedProduct && (
         <div
           className="modal fade"
@@ -730,6 +746,7 @@ const MarketPlace = () => {
           tabIndex="-1"
           aria-labelledby="productModalLabel"
           aria-hidden="true"
+          onHide={handleCloseModal}
         >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content py-2">
@@ -838,7 +855,7 @@ const MarketPlace = () => {
                           </div>
                         </div>
                         <div className="para">
-                          <p>{selectedProduct?.description}</p>
+                          <p dangerouslySetInnerHTML={{ __html: selectedProduct?.description || "" }}></p>
                         </div>
                         <div className="choose-color">
                           <div className="head">
@@ -888,7 +905,7 @@ const MarketPlace = () => {
                         </div>
                         <div className="prd-dtl-checkout-btn">
                           <Link href="cart">
-                            <button className="btn-checkout border-0" onClick={handleAddToCart}>
+                            <button className="btn-checkout border-0" onClick={handleAddToCart} data-bs-dismiss="modal">
                               ADD TO CART
                             </button>
                           </Link>
@@ -911,6 +928,9 @@ const MarketPlace = () => {
           </div>
         </div>
       )}
+
+
+
     </>
   );
 };

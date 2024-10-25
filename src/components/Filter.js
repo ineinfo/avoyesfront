@@ -97,7 +97,7 @@ const Filter = () => {
         } else if (key.startsWith("price")) {
           value = key.slice(5); // Remove 'price' (5 characters)
         } else if (key.startsWith("bestFor")) {
-          value = key.slice(8); // Remove 'bestFor' (8 characters)
+          value = key.slice(7); // Remove 'bestFor' (7 characters)
         } else if (key.startsWith("type")) {
           value = key.slice(4); // Remove 'type' (4 characters)
         }
@@ -126,7 +126,16 @@ const Filter = () => {
 
   const handleClear = () => {
     setCheckedItems({});
-    router.push('/marketplace');
+
+    // Clear all query parameters and redirect to /marketplace
+    router.replace("/marketplace");
+
+    // Delay reload to ensure routing completes first
+    setTimeout(() => {
+      if (window.location.pathname === "/marketplace") {
+        window.location.reload();
+      }
+    }, 100); // Adjust delay if needed
   };
 
   return (
@@ -153,6 +162,8 @@ const Filter = () => {
         tabIndex="-1"
         id="offcanvasWithBothOptions"
         aria-labelledby="offcanvasWithBothOptionsLabel"
+        data-bs-backdrop="true"
+        data-bs-keyboard="true"
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasWithBothOptionsLabel">

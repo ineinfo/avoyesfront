@@ -25,7 +25,7 @@ const ProductDetails = () => {
   const [isSolid, setIsSolid] = useState(false);
 
   const [selectedColor, setSelectedColor] = useState("");
-  const [activeSize, setActiveSize] = useState("S");
+  const [activeSize, setActiveSize] = useState("");
   const [counter, setCounter] = useState(1);
 
   const [colorMap, setColorMap] = useState({});
@@ -112,7 +112,8 @@ const ProductDetails = () => {
           const colors = productData.colors.split(",");
           const sizeIds = productData.size_ids.split(",").map(Number);
           const sizes = productData.sizes.split(",");
-
+          setActiveSize(sizes[0])
+          setSelectedColor(colors[0])
           const colorMapping = {};
           colors.forEach((color, index) => {
             colorMapping[color.trim()] = colorIds[index];
@@ -135,6 +136,9 @@ const ProductDetails = () => {
     };
     fetchProductDetails();
   }, [id]);
+
+  console.log("Product", colors);
+
 
   const handleColorClick = (color) => {
     setSelectedColor(color);

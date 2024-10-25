@@ -3,14 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import LoadingSpinner from "../Loading"; 
+import LoadingSpinner from "../Loading";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useProfile } from "@/utils/ProfileContext";
+import { fetchUserDetails } from "@/utils/api/CommonApi";
 
 const DashboardLayout = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [user, setUser] = useState();
   const { profileData, updateProfile } = useProfile();
   const [heading, setHeading] = useState('Dashboard');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +56,7 @@ const DashboardLayout = ({ children }) => {
         router.push('/login');
         return;
       }
- 
+
       try {
         const response = await axios.get(`${process.env.NEXTAUTH_URL}/users/${userId}`, {
           headers: {
@@ -62,7 +64,7 @@ const DashboardLayout = ({ children }) => {
           },
         });
         if (response.data && response.data.data) {
-          const { first_name, last_name, avatar, created_at  } = response.data.data;
+          const { first_name, last_name, avatar, created_at } = response.data.data;
           updateProfile({
             firstName: first_name,
             lastName: last_name,
@@ -74,6 +76,17 @@ const DashboardLayout = ({ children }) => {
         console.error("Error fetching profile data:", error);
       }
     };
+
+    const fetchuser = async () => {
+      try {
+        const loggedUser = await fetchUserDetails();
+        setUser(loggedUser);
+      } catch (error) {
+        console.log("error", error)
+      }
+    };
+
+    fetchuser()
 
     fetchProfileData();
   }, []); // Only run on mount
@@ -89,10 +102,15 @@ const DashboardLayout = ({ children }) => {
     }, 3000);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  console.log("logggggg", user);
 
   return (
     <>
-      {isLoading && <LoadingSpinner />} 
+      {isLoading && <LoadingSpinner />}
       <div className="breadcrumb-marketplace py-5">
         <div className="img">
           <img src="" alt="" />
@@ -116,11 +134,20 @@ const DashboardLayout = ({ children }) => {
                 <div className="my-profile-tabs">
                   <div className="my-profile-pic text-center">
                     <div className="img">
-                    <img src={profileData.profileImage} alt="Profile" />
+                      <img src={user ? user.avatar : ''} alt="Profile" />
                     </div>
                     <div className="name">
-                    <h3>{`${profileData.firstName} ${profileData.lastName}`}</h3>
-                    <p>Joined {joinedDate}</p>
+                      <h3> {user
+                        ? `${capitalizeFirstLetter(
+                          user.first_name
+                        )} ${capitalizeFirstLetter(user.last_name)}`
+                        : ""}</h3>
+                      <p>Joined {user ? new Date(user.created_at).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      }) : ''}</p>
+
                     </div>
                   </div>
                   <ul
@@ -195,7 +222,7 @@ const DashboardLayout = ({ children }) => {
                         <i className="fa-solid fa-chevron-right"></i>
                       </button>
                     </li>
-                  </ul> 
+                  </ul>
                 </div>
               </div>
               <div className="col-lg-9 col-md-8 col-sm-12 col-xs-12">

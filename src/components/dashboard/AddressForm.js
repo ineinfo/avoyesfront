@@ -5,7 +5,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 const AddressForm = ({ change }) => {
@@ -34,21 +34,18 @@ const AddressForm = ({ change }) => {
   };
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const userId = Cookies.get('id');
+    const accessToken = Cookies.get('accessToken');
 
-  
-  
-  const userId = Cookies.get('id');
-  const accessToken = Cookies.get('accessToken');
-
-  const addressPayload = {
+    const addressPayload = {
       user_id: Number(userId),
       first_name: formData.firstName,
       last_name: formData.lastName,
       phone: formData.mobileNumber,
-      email: formData.email, 
+      email: formData.email,
       address1: formData.addressLine1,
       country: Number(formData.country),
       state: Number(formData.state),
@@ -56,30 +53,30 @@ const handleSubmit = async (e) => {
       pincode: Number(formData.postalCode),
       is_default: formData.defaultAddress ? 1 : 0,
       a_type: formData.addressType === "work" ? 2 : (formData.addressType === "home" ? 1 : 3),
-  };
+    };
 
-  try {
-      const response = await axios.post(`${process.env.NEXTAUTH_URL}/address`, addressPayload, {
-          headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-          },
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, addressPayload, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
       });
       console.log("Address saved successfully:", response.data);
       toast.success("Address saved successfully!");// Success toast
       setTimeout(() => {
         router.push("/dashboard/address");
       }, 4000);
-  } catch (error) {
-    toast.error("All fields are required", error);
-    console.error("Error saving address:", error);
-    const message = error.response && error.response.data 
-      ? error.response.data.message 
-      : "Error saving address. Please try again.";
-    toast.error(message); // Error toast
-    console.error("Error details:", error.response?.data); // Log the response data
-  }
-};
+    } catch (error) {
+      toast.error("All fields are required", error);
+      console.error("Error saving address:", error);
+      const message = error.response && error.response.data
+        ? error.response.data.message
+        : "Error saving address. Please try again.";
+      toast.error(message); // Error toast
+      console.error("Error details:", error.response?.data); // Log the response data
+    }
+  };
 
 
   const handleBack = () => {
@@ -181,7 +178,7 @@ const handleSubmit = async (e) => {
               />
             </div>
           </div>
-          
+
 
           {/* Country, City, and State */}
           <div className="row">
@@ -194,7 +191,7 @@ const handleSubmit = async (e) => {
               >
                 <option value="">Select Country</option>
                 <option value="1">United States</option>
-                <option value="2">Canada</option> 
+                <option value="2">Canada</option>
               </select>
             </div>
             <div className="col-md-6">
@@ -206,7 +203,7 @@ const handleSubmit = async (e) => {
               >
                 <option value="">Select City</option>
                 <option value="3">New York</option>
-                <option value="4">Los Angeles</option> 
+                <option value="4">Los Angeles</option>
               </select>
             </div>
           </div>
@@ -221,7 +218,7 @@ const handleSubmit = async (e) => {
               >
                 <option value="">Select State</option>
                 <option value="5">New York</option>
-                <option value="6">California</option> 
+                <option value="6">California</option>
               </select>
             </div>
             <div className="col-md-6">
