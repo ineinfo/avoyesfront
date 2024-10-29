@@ -11,10 +11,11 @@ import WishlistApi from "@/utils/api/WishlistApi";
 import { addToCart } from "@/utils/api/CartApi";
 import defaultImg from '../../public/defaultImg.jpg';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { fetchProduct } from "@/utils/api/CommonApi";
 
 const MarketPlace = () => {
   const [showingCount, setShowingCount] = useState(12);
-  const [selectedOption, setSelectedOption] = useState("Popularity");
+  const [selectedOption, setSelectedOption] = useState("Latest");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -140,7 +141,6 @@ const MarketPlace = () => {
       };
 
       addToCart(token, productDetails);
-      console.log("Adding to cart:", productDetails);
     } else {
       console.log("No user ID found.");
     }
@@ -154,25 +154,32 @@ const MarketPlace = () => {
     setSelectedOption(e.target.innerText);
   };
 
-  const handleCountClick = (value) => {
+  const handleCountClick = async (value) => {
+
     setShowingCount(value);
   };
 
-  const fetchProducts = async () => {
-    setLoading(true);  // <--- Start loading when fetching products
-    console.log("======>1q", queryParams);
+  const fetchProducts = async (id, name) => {
+    setLoading(true);
+    console.log("Name", name);
+    let sortName = ''
+    if (name === 'Price: High To Low') {
+      sortName = 'h2l'
+    } else if (name === 'Price: Low To High') {
+      sortName = 'l2h'
+    } else {
+      sortName = 'latest'
+    }
 
     if (queryParams) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?${queryParams}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?limit=${id}&sort=${sortName}&${queryParams}`);
         if (!response.ok) {
-          console.log("Errorrrrrrrrrrr");
           throw new Error("Error fetching products");
 
         }
         const result = await response.json();
         setProducts(Array.isArray(result.data) ? result.data : []);
-        console.log("======>11", result.data);
         return
 
       } catch (error) {
@@ -185,14 +192,13 @@ const MarketPlace = () => {
 
     if (!queryParams) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?limit=${id}&sort=${sortName}`);
         if (!response.ok) {
           throw new Error("Error fetching products");
         }
         const result = await response.json();
         setProducts(Array.isArray(result.data) ? result.data : []);
 
-        console.log("======>12", result.data);
 
       } catch (error) {
         setError(error.message);
@@ -207,16 +213,16 @@ const MarketPlace = () => {
     if (pathname === '/marketplace') {
       console.log("path", pathname);
 
-      fetchProducts(); // Fetch products when on marketplace page
+      fetchProducts(showingCount, selectedOption); // Fetch products when on marketplace page
     }
-  }, [pathname]); // Only runs when pathname changes
+  }, [pathname, showingCount, selectedOption]); // Only runs when pathname changes
 
   useEffect(() => {
     // Fetch products whenever queryParams change
     if (queryParams) {
-      fetchProducts(); // Fetch products when queryParams change
+      fetchProducts(showingCount, selectedOption); // Fetch products when queryParams change
     }
-  }, [queryParams]); // Runs when queryParams changes
+  }, [queryParams, showingCount, selectedOption]); // Runs when queryParams changes
 
 
   const fetchProductDetails = async (id) => {
@@ -249,7 +255,7 @@ const MarketPlace = () => {
   }, [selectedProduct]);
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(showingCount, selectedOption);
   }, []);
 
   //wishlist
@@ -350,11 +356,13 @@ const MarketPlace = () => {
     setActiveColor(color);
   };
 
-  const handleCloseModal = () => {
-    // Reset state variables or perform any cleanup here
-    setMainImage(selectedProduct?.image_url5 || '');
-    // If you have other state variables to reset, do so here
-  };
+  function handleCloseModal() {
+    const modalElement = document.getElementById('productModal');
+    if (modalElement) {
+      const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+      bootstrapModal?.hide();
+    }
+  }
 
 
   return (
@@ -431,7 +439,7 @@ const MarketPlace = () => {
                         aria-expanded="false"
                         style={{ outline: "none" }}
                       >
-                        Showing: <span id="showingOption">{showingCount}</span>
+                        Showing: <span id="showingOption">{showingCount === 1000000000000000 ? 'All' : showingCount}</span>
 
                       </button>
                       <ul
@@ -439,7 +447,7 @@ const MarketPlace = () => {
 
                         aria-labelledby="dropdownMenuButton"
                       >
-                        {[12, 24, 36].map((value) => (
+                        {[12, 24, 36, 1000000000000000].map((value) => (
                           <li key={value}>
                             <button
                               className="dropdown-item drp-showing-option drp-showing"
@@ -450,7 +458,7 @@ const MarketPlace = () => {
                               role="option"
                               aria-selected={showingCount === value}
                             >
-                              {value}
+                              {value === 1000000000000000 ? 'All' : value}
                             </button>
                           </li>
                         ))}
@@ -477,26 +485,6 @@ const MarketPlace = () => {
                         className="dropdown-menu dropdown-menu-custom drp-2 border-0"
                         aria-labelledby="dropdownMenuButton-2"
                       >
-                        <li>
-                          <Link
-                            className="dropdown-item drp-sorting-option drp-showing"
-                            href="#"
-                            data-value="1"
-                            onClick={handleOptionClick}
-                          >
-                            Popularity
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            className="dropdown-item drp-sorting-option drp-showing"
-                            href="#"
-                            data-value="2"
-                            onClick={handleOptionClick}
-                          >
-                            Top Rating
-                          </Link>
-                        </li>
                         <li>
                           <Link
                             className="dropdown-item drp-sorting-option drp-showing"
@@ -566,18 +554,18 @@ const MarketPlace = () => {
                               )}
 
                               <div className="buttons">
-                                <Link
-                                  href="#"
-                                  className="text-decoration-none"
+                                <div
+                                  className="text-decoration-none p-2"
                                   data-bs-toggle="modal"
                                   data-bs-target="#productModal"
                                   onClick={() =>
                                     fetchProductDetails(product.id)
                                   } // Fetch product details
+                                  style={{ cursor: "pointer" }}
                                 >
                                   QUICK VIEW
                                   <i className="bi bi-eye ms-1 quick-icons"></i>
-                                </Link>
+                                </div>
 
                                 {/* direct cart */}
                                 {/* <div className="border-line"></div>

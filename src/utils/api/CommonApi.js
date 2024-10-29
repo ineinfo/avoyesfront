@@ -96,3 +96,17 @@ export const fetchUserDetails = async () => {
         throw err;
     }
 }
+
+
+// export const fetchProduct = async (id) => {
+
+//     try {
+//         const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?limit=${id}`);
+//         return response.data.data;
+//     } catch (err) {
+//         console.error('Failed to fetch prices:', err);
+//         throw err;
+//     }
+// }
+
+

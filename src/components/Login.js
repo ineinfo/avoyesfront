@@ -1,6 +1,6 @@
 
-"use client"; 
-import React, { useState,useEffect } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -14,6 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter(); // Initialize useRouter
 
 
@@ -48,10 +49,10 @@ const Login = () => {
         Cookies.set('id', user.id, { path: '/' });
         Cookies.set('accessToken', accessToken, { path: '/' });
         toast.success("Login successful!"); // Success toast
-       
+
         setTimeout(() => {
-            router.push("/dashboard");
-        }, 2000); 
+          router.push("/dashboard");
+        }, 2000);
         // router.push("/dashboard");
       } else {
         const errorMsg = "Invalid credentials.";
@@ -64,7 +65,7 @@ const Login = () => {
     } finally {
       setEmail("");
       setPassword("");
-    } 
+    }
   };
 
   // Handle input changes
@@ -81,6 +82,10 @@ const Login = () => {
         setError((prev) => ({ ...prev, password: "" }));
       }
     }
+  };
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -117,15 +122,19 @@ const Login = () => {
                     </p>
                   )}
                 </div>
-                <div className="input-group newpwd-field-2">
+                <div className="input-group newpwd-field-2" style={{ position: 'relative' }}>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     className="form-control login register-input"
                     placeholder="Password"
                     value={password}
                     onChange={handleInputChange}
+                    style={{ paddingRight: "40px" }}
                   />
+                  <span onClick={togglePasswordVisibility} style={{ cursor: "pointer", marginLeft: "10px", position: "absolute", right: 10, top: 9, zIndex: 100 }}>
+                    {showPassword ? <i class="fa-solid fa-eye-slash"></i> : <i class="fa-solid fa-eye"></i>}
+                  </span>
                   {error.password && (
                     <p className="error-message" style={{ color: "red", marginTop: "5px" }}>
                       {error.password}

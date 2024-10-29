@@ -34,12 +34,16 @@ const Header = () => {
     const loadCartData = async () => {
       try {
         const cartData = await fetchCart(userId ? userId : '', accessToken);
+        console.log("dadadad", cartData);
 
         if (cartData && cartData.data) {
           setError(null)
           setCartItems(cartData.data);
+        } else if (userId && accessToken) {
+          setError("No cart data")
         } else {
-          setError(cartData.message || "Failed to fetch cart");
+          setError("LogIn")
+
         }
       } catch (err) {
         console.error("Error fetching cart data:", err.response);
@@ -136,6 +140,8 @@ const Header = () => {
 
     if (userId && accessToken) {
       setShowName(true);
+    } else {
+      setShowName(false);
     }
   }, [pathname, router, isOffcanvasOpen]);
 
@@ -307,7 +313,7 @@ const Header = () => {
               justifyContent: "space-between",
               minHeight: "100%",
               overflowX: "hidden",
-              minWidth: "30vh",
+              minWidth: "50vh",
             }}
           >
             <div className="offcanvas-header mt-4 d-flex align-items-center justify-content-between mx-4">
@@ -340,7 +346,7 @@ const Header = () => {
               {loading ? (
                 <p>Loading cart items...</p>
               ) : error ? (
-                <p>{error}</p>
+                <>{error === 'LogIn' ? <p onClick={() => { setIsOffcanvasOpen(false) }}><Link href={'/login'}>Log in</Link> First to add products in cart</p> : error}</>
               ) : (
                 cartItems.map((item) => (
                   <div
