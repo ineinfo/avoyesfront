@@ -109,7 +109,7 @@ const Dashboard = () => {
         </div>
         <div style={cardStyle}>
           <h2 style={cardTitleStyle}>Pending Orders</h2>
-          <h3 style={cardValueStyle}>2</h3>
+          <h3 style={cardValueStyle}>{orders.filter(order => order.order_status !== 3).length}</h3>
         </div>
         <div style={cardStyle}>
           <h2 style={cardTitleStyle}>Wishlist</h2>

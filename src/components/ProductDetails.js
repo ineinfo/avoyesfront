@@ -546,7 +546,7 @@ const ProductDetails = () => {
                 aria-labelledby="description-tab"
               >
                 <p>
-                  {product?.description}
+                  <p dangerouslySetInnerHTML={{ __html: product?.description || "" }}></p>
                 </p>
               </div>
               <div

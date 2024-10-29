@@ -93,13 +93,16 @@ const MyOrder = () => {
                     <i className="bi bi-box-seam"></i>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                    <div className="descr ms-3">
-                      <h5 className="m-0">{order.order_status === 1 || order.order_status === 2 ? 'In Progress' : 'Delivered'}</h5>
-                      <p className="m-0">{new Date(order.created_at).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}</p>
+                    <div style={{ display: "flex", gap: "100px", alignItems: "center" }}>
+                      <div className="descr ms-3">
+                        <h5 className="m-0">{order.order_status === 1 || order.order_status === 2 ? 'In Progress' : 'Delivered'}</h5>
+                        <p className="m-0">{new Date(order.created_at).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}</p>
+                      </div>
+                      <p className="m-0"><strong>Order ID:</strong> <span style={{ fontWeight: 500 }}>{order.order_number}</span></p>
                     </div>
                     <div
                       onClick={() => (handleDetail(order.id))}
