@@ -3,19 +3,71 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios"; 
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
+import { fetchCities, fetchCountries, fetchStates } from "@/utils/api/CommonApi";
 
 const ManageAddress = () => {
   const router = useRouter();
-  const [addresses, setAddresses] = useState([]); 
+  const [addresses, setAddresses] = useState([]);
   const [currentAddress, setCurrentAddress] = useState(null);
-  
-  const userId = Cookies.get('id'); // Get user_id from cookies
-  const ROUTE = "http://localhost:3002/api"
 
+  const userId = Cookies.get('id'); // Get user_id from cookies
+  const ROUTE = process.env.NEXT_PUBLIC_NEXTAUTH_URL
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setSelectedState] = useState();
+
+  // Fetch countries on component mount
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get("/api/countries"); // Replace with actual API
+        setCountries(response.data);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  // Fetch states when selectedCountry changes
+  useEffect(() => {
+    if (selectedCountry) {
+      const fetchallStates = async () => {
+        try {
+          const response = await fetchStates(selectedCountry)
+          console.log('state', response);
+
+          setStates(response);
+          setCities([]); // Clear cities when country changes
+        } catch (error) {
+          console.error("Error fetching states:", error);
+        }
+      };
+      fetchallStates();
+    }
+  }, [selectedCountry]);
+
+  // Fetch cities when selectedState changes
+  useEffect(() => {
+    if (selectedState) {
+      const fetchallCities = async () => {
+        try {
+          const response = await fetchCities(selectedState)
+          setCities(response);
+        } catch (error) {
+          console.error("Error fetching cities:", error);
+        }
+      };
+      fetchallCities();
+    }
+  }, [selectedState]);
 
   const countryMap = {
     1: "United States",
@@ -36,313 +88,167 @@ const ManageAddress = () => {
     router.push("/dashboard/address/add");
   };
 
-//   const handleDelete = async (addressId) => {
-//     const accessToken = Cookies.get('accessToken');
-//     try {
-//         await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${addressId}`, {
-//             headers: {
-//                 Authorization: `Bearer ${accessToken}`,
-//             },
-//         });
-//         setAddresses(prevAddresses => prevAddresses.filter(address => address.id !== addressId));
-//         toast.success("Address deleted successfully!"); // Success toast
-//     } catch (error) {
-//         toast.error("Error deleting address"); // Error toast
-//         console.error("Error deleting address:", error);
-//     }
-// };
+  // const getCountryName = (id) => {
+  //   const res = countries.find
+  // }
+  // getStateName
+  // getCityName
 
+  const handleDelete = (addressId) => {
 
-//   const handleEdit = (address) => {
-//     setCurrentAddress(address);
-//   };
+    console.log("The Route", addressId);
 
-//   const handleUpdate = async (event) => {
-//     event.preventDefault();
+    // Show a toast for confirmation
+    toast.info(
+      <div>
+        <span>Are you sure you want to delete this address?</span>
+        <i
+          className="fas fa-check" // Use an icon for confirmation
+          onClick={async () => {
+            const accessToken = Cookies.get('accessToken');
+            try {
+              await axios.delete(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${addressId}`, {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              });
+              setAddresses((prevAddresses) =>
+                prevAddresses.filter((address) => address.id !== addressId)
+              );
+              // Use a function to show the success toast
 
-//     const accessToken = Cookies.get('accessToken');
-//     const updatedAddress = {};
-
-//     try {
-//         const { firstName, lastName, mobileNumber, email, addressLine1, country, city, state, postalCode, addressType, defaultAddress } = event.target;
-
-//         if (firstName && firstName.value.trim()) {
-//             updatedAddress.first_name = firstName.value.trim();
-//         }
-//         if (lastName && lastName.value.trim()) {
-//             updatedAddress.last_name = lastName.value.trim();
-//         }
-//         if (mobileNumber && mobileNumber.value.trim()) {
-//             updatedAddress.phone = mobileNumber.value.trim();
-//         }
-//         if (email && email.value.trim()) {
-//             updatedAddress.email = email.value.trim();
-//         }
-//         if (addressLine1 && addressLine1.value.trim()) {
-//             updatedAddress.address1 = addressLine1.value.trim();
-//         }
-      
-//         if (country && country.value) {
-//             updatedAddress.country = country.value;
-//         }
-//         if (city && city.value) {
-//             updatedAddress.city = city.value;
-//         }
-//         if (state && state.value) {
-//             updatedAddress.state = state.value;
-//         }
-//         if (postalCode && postalCode.value.trim()) {
-//             updatedAddress.pincode = postalCode.value.trim();
-//         }
-//         if (addressType && addressType.value) {
-//             updatedAddress.a_type = Number(addressType.value);
-//         }
-//         updatedAddress.is_default = defaultAddress ? defaultAddress.checked : false;
-
-//         console.log("Updating address with data:", updatedAddress);
-
-//         await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
-//             headers: {
-//                 Authorization: `Bearer ${accessToken}`,
-//             },
-//         });
-
-        
-//         toast.success("Address updated successfully")
-//         console.log("Address updated successfully");
-//         setCurrentAddress(null); // Clear form after successful update
-//     } catch (error) {
-//       toast.error("Error updating address")
-//         console.error("Error updating address:", error.response?.data || error.message);
-//     }
-// };
-
-//   useEffect(() => {
-//     const fetchAddresses = async () => {
-//       const accessToken = Cookies.get('accessToken');
-//       try {
-//         const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`, {
-//           headers: {
-//             Authorization: `Bearer ${accessToken}`,
-//           },
-//         });
-//         if (Array.isArray(response.data.data)) {
-//           setAddresses(response.data.data);
-//         } else {
-//           toast.error("Error updating address")
-//           console.error("Unexpected response data format:", response.data);
-//           setAddresses([]);
-//         }
-//       } catch (error) {
-//         toast.error("Error fetching address")
-//         console.error("Error fetching addresses:", error);
-//         setAddresses([]);
-//       }
-//     };
-    
-//     fetchAddresses();
-//   }, [userId]);
-
-
-const handleDelete = (addressId) => {
-  // Show a toast for confirmation
-  toast.info(
-    <div>
-      <span>Are you sure you want to delete this address?</span>
-      <i 
-        className="fas fa-check" // Use an icon for confirmation
-        onClick={async () => {
-          const accessToken = Cookies.get('accessToken');
-          try {
-            await axios.delete(`${process.env.NEXTAUTH_URL}/address/${addressId}`, {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            });
-            setAddresses((prevAddresses) => 
-              prevAddresses.filter((address) => address.id !== addressId)
-            );
-            // Use a function to show the success toast
-    
-          } catch (error) {
-            toast.error("Error deleting address"); // Error toast
-            console.error("Error deleting address:", error);
-          }
-          toast.dismiss(); // Close the confirmation toast
-        }}
-        style={{ cursor: 'pointer', marginLeft: '10px' }} // Style for the icon
-      />
-      <span 
-        onClick={toast.dismiss} 
-        style={{ cursor: 'pointer', marginLeft: '10px' }} // Close icon for cancelling
-      >
-        <i className="fas fa-times" />
-      </span>
-    </div>,
-    {
-      autoClose: false,
-      closeOnClick: false,
-      draggable: false,
-      position: "top-center",
-    }
-  );
-};
-
-
-
-const handleEdit = (address) => {
-  setCurrentAddress(address);
-};
-
-// const handleUpdate = async (event) => {
-//   event.preventDefault();
-//   const accessToken = Cookies.get('accessToken');
-//   const updatedAddress = {};
-
-//   try {
-//     const { firstName, lastName, mobileNumber, email, addressLine1, country, city, state, postalCode, addressType, defaultAddress } = event.target;
-
-//     if (firstName && firstName.value.trim()) {
-//       updatedAddress.first_name = firstName.value.trim();
-//     }
-//     if (lastName && lastName.value.trim()) {
-//       updatedAddress.last_name = lastName.value.trim();
-//     }
-//     if (mobileNumber && mobileNumber.value.trim()) {
-//       updatedAddress.phone = mobileNumber.value.trim();
-//     }
-//     if (email && email.value.trim()) {
-//       updatedAddress.email = email.value.trim();
-//     }
-//     if (addressLine1 && addressLine1.value.trim()) {
-//       updatedAddress.address1 = addressLine1.value.trim();
-//     }
-//     if (country && country.value) {
-//       updatedAddress.country = country.value;
-//     }
-//     if (city && city.value) {
-//       updatedAddress.city = city.value;
-//     }
-//     if (state && state.value) {
-//       updatedAddress.state = state.value;
-//     }
-//     if (postalCode && postalCode.value.trim()) {
-//       updatedAddress.pincode = postalCode.value.trim();
-//     }
-//     if (addressType && addressType.value) {
-//       updatedAddress.a_type = Number(addressType.value);
-//     }
-//     updatedAddress.is_default = defaultAddress ? defaultAddress.checked : false;
-
-//     console.log("Updating address with data:", updatedAddress);
-
-//     await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//     });
-    
-//     toast.success("Address updated successfully"); // Success toast
-//     console.log("Address updated successfully");
-//     setCurrentAddress(null); // Clear form after successful update
-//   } catch (error) {
-//     toast.error("Error updating address"); // Error toast
-//     console.error("Error updating address:", error.response?.data || error.message);
-//   }
-// };
-
-const handleUpdate = async (event) => {
-  event.preventDefault();
-  const accessToken = Cookies.get('accessToken');
-  const updatedAddress = {};
-
-  try {
-    const { firstName, lastName, mobileNumber, email, addressLine1, country, city, state, postalCode, addressType, defaultAddress } = event.target;
-
-    if (firstName && firstName.value.trim()) {
-      updatedAddress.first_name = firstName.value.trim();
-    }
-    if (lastName && lastName.value.trim()) {
-      updatedAddress.last_name = lastName.value.trim();
-    }
-    if (mobileNumber && mobileNumber.value.trim()) {
-      updatedAddress.phone = mobileNumber.value.trim();
-    }
-    if (email && email.value.trim()) {
-      updatedAddress.email = email.value.trim();
-    }
-    if (addressLine1 && addressLine1.value.trim()) {
-      updatedAddress.address1 = addressLine1.value.trim();
-    }
-    if (country && country.value) {
-      updatedAddress.country = country.value;
-    }
-    if (city && city.value) {
-      updatedAddress.city = city.value;
-    }
-    if (state && state.value) {
-      updatedAddress.state = state.value;
-    }
-    if (postalCode && postalCode.value.trim()) {
-      updatedAddress.pincode = postalCode.value.trim();
-    }
-    if (addressType && addressType.value) {
-      updatedAddress.a_type = Number(addressType.value);
-    }
-    updatedAddress.is_default = defaultAddress ? defaultAddress.checked : false;
-
-    console.log("Updating address with data:", updatedAddress);
-
-    console.log("ROUTE",ROUTE)
-   
-    const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    
-    // Update the local state with the new data
-    setAddresses((prevAddresses) => 
-      prevAddresses.map((address) => 
-        address.id === currentAddress.id ? { ...address, ...updatedAddress } : address
-      )
+            } catch (error) {
+              toast.error("Error deleting address"); // Error toast
+              console.error("Error deleting address:", error);
+            }
+            toast.dismiss(); // Close the confirmation toast
+          }}
+          style={{ cursor: 'pointer', marginLeft: '10px' }} // Style for the icon
+        />
+        <span
+          onClick={toast.dismiss}
+          style={{ cursor: 'pointer', marginLeft: '10px' }} // Close icon for cancelling
+        >
+          <i className="fas fa-times" />
+        </span>
+      </div>,
+      {
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+        position: "top-center",
+      }
     );
-
-    toast.success("Address updated successfully"); // Success toast
-    console.log("Address updated successfully");
-    setCurrentAddress(null); // Clear form after successful update
-  } catch (error) {
-    toast.error("Error updating address"); // Error toast
-    console.error("Error updating address:", error.response?.data || error.message);
-  }
-};
+  };
 
 
-useEffect(() => {
-  const fetchAddresses = async () => {
+
+  const handleEdit = (address) => {
+    console.log("Adress", address);
+    setSelectedCountry(address?.country)
+    setSelectedState(address?.state)
+    setCurrentAddress(address);
+  };
+
+
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
     const accessToken = Cookies.get('accessToken');
+    const updatedAddress = {};
+
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`, {
+      const { firstName, lastName, mobileNumber, email, addressLine1, country, city, state, postalCode, addressType, defaultAddress } = event.target;
+
+      if (firstName && firstName.value.trim()) {
+        updatedAddress.first_name = firstName.value.trim();
+      }
+      if (lastName && lastName.value.trim()) {
+        updatedAddress.last_name = lastName.value.trim();
+      }
+      if (mobileNumber && mobileNumber.value.trim()) {
+        updatedAddress.phone = mobileNumber.value.trim();
+      }
+      if (email && email.value.trim()) {
+        updatedAddress.email = email.value.trim();
+      }
+      if (addressLine1 && addressLine1.value.trim()) {
+        updatedAddress.address1 = addressLine1.value.trim();
+      }
+      if (country && country.value) {
+        updatedAddress.country = country.value;
+      }
+      if (city && city.value) {
+        updatedAddress.city = city.value;
+      }
+      if (state && state.value) {
+        updatedAddress.state = state.value;
+      }
+      if (postalCode && postalCode.value.trim()) {
+        updatedAddress.pincode = postalCode.value.trim();
+      }
+      if (addressType && addressType.value) {
+        updatedAddress.a_type = Number(addressType.value);
+      }
+      updatedAddress.is_default = defaultAddress ? defaultAddress.checked : false;
+
+      console.log("Updating address with data:", updatedAddress);
+
+      console.log("ROUTE", ROUTE)
+
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address/${currentAddress.id}`, updatedAddress, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      if (Array.isArray(response.data.data)) {
-        setAddresses(response.data.data);
-      } else {
-        toast.error("Error updating address");
-        console.error("Unexpected response data format:", response.data);
-        setAddresses([]);
-      }
+
+      // Update the local state with the new data
+      setAddresses((prevAddresses) =>
+        prevAddresses.map((address) =>
+          address.id === currentAddress.id ? { ...address, ...updatedAddress } : address
+        )
+      );
+
+      toast.success("Address updated successfully"); // Success toast
+      console.log("Address updated successfully");
+      setCurrentAddress(null); // Clear form after successful update
     } catch (error) {
-      toast.error("Error fetching address");
-      console.error("Error fetching addresses:", error);
-      setAddresses([]);
+      toast.error("Error updating address"); // Error toast
+      console.error("Error updating address:", error.response?.data || error.message);
     }
   };
-  
-  fetchAddresses();
-}, [userId]);
+
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+
+      const country = await fetchCountries();
+      setCountries(country ? country : [{}]);
+      const accessToken = Cookies.get('accessToken');
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address?user_id=${userId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (Array.isArray(response.data.data)) {
+          setAddresses(response.data.data);
+        } else {
+          toast.error("Error updating address");
+          console.error("Unexpected response data format:", response.data);
+          setAddresses([]);
+        }
+      } catch (error) {
+        toast.error("Error fetching address");
+        console.error("Error fetching addresses:", error);
+        setAddresses([]);
+      }
+    };
+
+    fetchAddresses();
+  }, [userId]);
+
+  console.log("connn", selectedCountry);
 
 
   return (
@@ -370,20 +276,20 @@ useEffect(() => {
                 <p>{address.address1}</p>
                 <p>{address.email}</p>
                 <p>{address.phone}</p>
-                <p>{`${cityMap[address.city]}, ${stateMap[address.state]}, ${countryMap[address.country]} - ${address.pincode}`}</p>
+                {/* <p>{`${getCityName(address.state)}, ${getStateName(address.country)}, ${getCountryName(address.country)} - ${address.pincode}`}</p> */}
               </div>
             </div>
             <div className="d-flex align-items-center">
-              <button 
-                onClick={() => handleEdit(address)} 
+              <button
+                onClick={() => handleEdit(address)}
                 className="text-decoration-none me-2 btn btn-link"
                 aria-label="Edit address"
               >
                 <i className="fas fa-edit"></i>
               </button>
               <span className="mx-2">|</span>
-              <button 
-                onClick={() => handleDelete(address.id)} 
+              <button
+                onClick={() => handleDelete(address.id)}
                 className="text-decoration-none btn btn-link"
                 aria-label="Delete address"
               >
@@ -407,8 +313,8 @@ useEffect(() => {
                   type="radio"
                   name="addressType"
                   id="work"
-                  value="2"
-                  defaultChecked={currentAddress && currentAddress.a_type === 2}
+                  value={2}
+                  checked={currentAddress?.a_type === 2}
                 />
                 <label className="form-check-label" htmlFor="work">Work</label>
               </div>
@@ -418,8 +324,8 @@ useEffect(() => {
                   type="radio"
                   name="addressType"
                   id="home"
-                  value="1"
-                  defaultChecked={currentAddress && currentAddress.a_type === 1}
+                  value={1}
+                  checked={currentAddress?.a_type === 1}
                 />
                 <label className="form-check-label" htmlFor="home">Home</label>
               </div>
@@ -429,8 +335,8 @@ useEffect(() => {
                   type="radio"
                   name="addressType"
                   id="other"
-                  value="3"
-                  defaultChecked={currentAddress && currentAddress.a_type === 3}
+                  value={3}
+                  checked={currentAddress?.a_type === 3}
                 />
                 <label className="form-check-label" htmlFor="other">Other</label>
               </div>
@@ -492,27 +398,57 @@ useEffect(() => {
           </div>
 
           <div className="row">
+            {/* Country Select */}
             <div className="col-md-4 pe-2">
-              <select className="form-select" name="country" defaultValue={currentAddress ? currentAddress.country : ""}>
+              <select
+                className="form-select"
+                name="country"
+                value={selectedCountry}
+                onChange={(e) => {
+                  setSelectedCountry(e.target.value);
+                  setSelectedState(""); // Reset state when country changes
+                }}
+              >
                 <option value="">Select Country</option>
-                {Object.entries(countryMap).map(([key, value]) => (
-                  <option key={key} value={key}>{value}</option>
+                {countries?.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
                 ))}
               </select>
             </div>
+
+            {/* State Select */}
             <div className="col-md-4 pe-2">
-              <select className="form-select" name="state" defaultValue={currentAddress ? currentAddress.state : ""}>
+              <select
+                className="form-select"
+                name="state"
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+                disabled={!selectedCountry}
+              >
                 <option value="">Select State</option>
-                {Object.entries(stateMap).map(([key, value]) => (
-                  <option key={key} value={key}>{value}</option>
+                {states?.map((state) => (
+                  <option key={state.id} value={state.id}>
+                    {state.name}
+                  </option>
                 ))}
               </select>
             </div>
+
+            {/* City Select */}
             <div className="col-md-4">
-              <select className="form-select" name="city" defaultValue={currentAddress ? currentAddress.city : ""}>
+              <select
+                className="form-select"
+                name="city"
+                value={currentAddress ? currentAddress.city : ""}
+                disabled={!selectedState}
+              >
                 <option value="">Select City</option>
-                {Object.entries(cityMap).map(([key, value]) => (
-                  <option key={key} value={key}>{value}</option>
+                {cities?.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
                 ))}
               </select>
             </div>
