@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick"; // Importing the Slider component from React Slick
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,11 +7,44 @@ import "../assets/css/responsive.css";
 import "../assets/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import "bootstrap/dist/js/bootstrap.bundle.JS";
-import "./Carousal.css"; // Assuming your CSS is in Carousel.css
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import "./Carousal.css";
 import Link from "next/link";
 
+import defaultBImg from "../../public/blogdefault-img.png";
+import {fetchBlogs} from "@/utils/api/BlogApi";
+ import {fetchTopBanner} from "@/utils/api/BannerApi";
+
 const CustomCarousel = () => {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const getBlogs = async () => {
+      const result = await fetchBlogs();
+      if (result.status) {
+        setBlogs(result.data);
+        console.error(result.message);
+      }
+    };
+    
+    getBlogs();
+  }, []);
+ 
+
+
+
+
+  const blogsettings = {
+    dots: false, 
+    arrows:false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1, 
+    slidesToScroll: 1, 
+    autoplay: true,
+    autoplaySpeed: 2000, 
+  };
+
   return (
     <div
       id="myCarousel "
@@ -19,221 +52,117 @@ const CustomCarousel = () => {
       data-bs-ride="carousel"
       data-bs-interval="2000"
     >
-      <div className="carousel-inner">
-        <div className="carousel-item active">
-          <div className="container">
-            <div className="row align-items-center py-5">
-              <div className="col-md-5 d-flex align-items-center justify-content-center">
-                <img
-                  src="/blog-img.png"
-                  className="d-block custom-carousel-img"
-                  alt="Banner Image"
-                />
-              </div>
-              <div className="col-md-7">
-                <div className="admin">
-                  <p>By Admin</p>
-                </div>
-                <div className="banner-2-head">
-                  <h1>
-                    ELASTICIZED DRASTRING WAIDTBAND. SIDE POCKET WITH ZIP.
-                  </h1>
-                </div>
-                <div className="banner-2-para">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry...
-                  </p>
-                </div>
-                <div className="shop-now-banner-btn">
-                  <Link href="blog-details">
-                    <button className="btn btn-primary custom-btn">
-                      READ MORE
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Slider {...blogsettings}>
+        {blogs.map((blog) => (
+          <div className="carousel-item" key={blog.id}>
+            <div className="container">
+              <div className="row align-items-center py-5">
+                <div className="col-md-5 d-flex align-items-center justify-content-center">
+                  <img
+                      // src={blog.image_url || defaultBImg.src}
+                      src={blog.image_url ? blog.image_url : defaultBImg.src}
 
-        <div className="carousel-item">
-          <div className="container">
-            <div className="row align-items-center py-5">
-              <div className="col-md-5 d-flex align-items-center justify-content-center">
-                <img
-                  src="/blog-img.png"
-                  className="d-block custom-carousel-img"
-                  alt="Banner Image"
-                />
-              </div>
-              <div className="col-md-7">
-                <div className="admin">
-                  <p>By Admin</p>
+                    className="d-block custom-carousel-img"
+                    alt="Banner Image"
+                    style={{ width: '80%', height: '670px',objectFit:'cover' }}
+                  />
+                   
                 </div>
-                <div className="banner-2-head">
-                  <h1>
-                    ELASTICIZED DRASTRING WAIDTBAND. SIDE POCKET WITH ZIP.
-                  </h1>
-                </div>
-                <div className="banner-2-para">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry...
-                  </p>
-                </div>
-                <div className="shop-now-banner-btn">
-                  <Link href="blog-details">
-                    <button className="btn btn-primary custom-btn">
-                      READ MORE
-                    </button>
-                  </Link>
+                <div className="col-md-7">
+                  <div className="admin">
+                    <p>{blog.author}</p> 
+                  </div>
+                  <div className="banner-2-head">
+                    <h1>{blog.title}</h1>
+                  </div>
+                  <div className="banner-2-para">
+                    <p>{blog.short_description}</p>
+                  </div>
+                  <div className="shop-now-banner-btn">
+                    <Link href={`/${blog.id}/blog-details`}>
+                      <button className="btn btn-primary custom-btn">
+                        READ MORE
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="carousel-item">
-          <div className="container">
-            <div className="row align-items-center py-5">
-              <div className="col-md-5 d-flex align-items-center justify-content-center">
-                <img
-                  src="/blog-img.png"
-                  className="d-block custom-carousel-img"
-                  alt="Banner Image"
-                />
-              </div>
-              <div className="col-md-7">
-                <div className="admin">
-                  <p>By Admin</p>
-                </div>
-                <div className="banner-2-head">
-                  <h1>
-                    ELASTICIZED DRASTRING WAIDTBAND. SIDE POCKET WITH ZIP.
-                  </h1>
-                </div>
-                <div className="banner-2-para">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry...
-                  </p>
-                </div>
-                <div className="shop-now-banner-btn">
-                  <Link href="blog-details">
-                    <button className="btn btn-primary custom-btn">
-                      READ MORE
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        ))}
+      </Slider>
     </div>
   );
 };
 
+
+
 const MyCarousel = () => {
+  const [bannerData, setBannerData] = useState([]);
+
+
+  useEffect(() => {
+    const getBannerData = async () => {
+      const result = await fetchTopBanner();
+      if (result.status) {
+        setBannerData(result.data);
+      } else {
+        console.error(result.message);
+      }
+    };
+    getBannerData();
+  }, []);
+
   return (
     <section>
       <div
         id="myCarousel"
         className="carousel slide"
         data-bs-ride="carousel"
-        data-bs-interval="2000"
+        data-bs-interval="3000"
+        style={{
+          width: "100%",
+          height: "700px",
+          overflow: "hidden",
+          margin: "0 auto",
+        }}
       >
-        <div className="carousel-inner">
-          {/* First carousel item */}
-          <div className="carousel-item active">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>{" "}
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 1"
-                  />
-                </div>
+      <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
+  {bannerData.length > 0 ? (
+    bannerData.map((banner, index) => (
+      <div
+        key={banner.id}
+        className={`carousel-item ${index === 0 ? "active" : ""}`}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-6 col-6 banner-text-padding">
+              <h6 className="sale-title">{banner.sub_title}</h6>
+              <h1 className="banner-head">{banner.title}</h1>
+              <div className="shop-now-banner-btn">
+                <Link href="/marketplace">
+                  <button className="btn btn-primary custom-btn">SHOP NOW</button>
+                </Link>
               </div>
             </div>
-          </div>
-          {/* Repeat similar structure for other carousel items */}
-          <div className="carousel-item">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>{" "}
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 2"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      {/* <button style={{
-                                                background: 'linear-gradient(to right, blue 50%, black 50%)',
-                                                backgroundSize: '200% 100%',
-                                                backgroundPosition: 'right bottom',
-                                                color: 'white',
-                                                padding: '10px 20px',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                transition: 'background-position 0.5s ease',
-                                                fontSize: '16px',
-                                                borderRadius: '5px',
-                                            }}
-                                                onMouseEnter={(e) => (e.target.style.backgroundPosition = 'left bottom')}
-                                                onMouseLeave={(e) => (e.target.style.backgroundPosition = 'right bottom')}>SHOP NOW</button> */}
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 3"
-                  />
-                </div>
-              </div>
+            <div className="col-md-6 col-6">
+              <img
+                src={banner.image_url}
+                className="d-block w-100 banner-img"
+                alt="Banner Image"
+                style={{ width: "100%", height: "750px", marginTop:"0px ", objectFit:"cover" }}
+              />
             </div>
           </div>
         </div>
+      </div>
+    ))
+  ) : (
+    <div>Loading...</div>
+  )}
+</div>
+
         <button
           className="carousel-control-prev"
           type="button"

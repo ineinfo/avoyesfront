@@ -1,10 +1,58 @@
-import Link from 'next/link'
-import React from 'react'
-import "../assets/css/style.css"
-import "../assets/css/responsive.css"
+"use client";
 
+import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
+import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments } from "@/utils/api/BlogApi"; 
+import "../assets/css/style.css";
+import "../assets/css/responsive.css";
+import defaultImg from "../../public/blog-img-1.png";
 
 const Blog = () => {
+    const [blogs, setBlogs] = useState([]);
+    const [blogCategories, setBlogCategories] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [blogsResponse, categoriesResponse, tagsResponse, commentsResponse] = await Promise.all([
+                    fetchBlogs(),
+                    fetchBlogCategory(),
+                    fetchBlogTags(),
+                    fetchBlogComments()
+                ]);
+
+                setBlogs(Array.isArray(blogsResponse.data) ? blogsResponse.data : []);
+                setBlogCategories(Array.isArray(categoriesResponse.data) ? categoriesResponse.data : []);
+                setTags(Array.isArray(tagsResponse.data) ? tagsResponse.data : []);
+                setComments(Array.isArray(commentsResponse.data) ? commentsResponse.data : []);
+            } catch (error) {
+                console.error("Error fetching blog data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // // Filter blogs by selected category or tag
+    // const filteredBlogs = blogs.filter(blog => {
+    //     const categoryMatch = selectedCategory ? blog.category_id === selectedCategory : true;
+    //     const tagMatch = selectedTag ? blog.tags && blog.tags.includes(selectedTag) : true;
+    //     return categoryMatch && tagMatch;
+    // });
+
+    const filteredBlogs = blogs.filter(blog => {
+        const categoryMatch = selectedCategory ? blog.category_id === selectedCategory : true;
+        const tagMatch = selectedTag ? blog.tags && blog.tags.includes(selectedTag) : true;
+        const searchMatch = blog.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            blog.short_description.toLowerCase().includes(searchQuery.toLowerCase());
+        return categoryMatch && tagMatch && searchMatch;
+    });
+
     return (
         <>
             <div className="breadcrumb-marketplace py-5">
@@ -19,7 +67,6 @@ const Blog = () => {
                             <h1>Blog</h1>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -29,13 +76,21 @@ const Blog = () => {
                         <div className="row">
                             <div className="col-xl-3 col-lg-4">
                                 <div className="blog-search-top">
-                                    <div className="input-group  blog-search-bar">
-                                        <input type="text" className="form-control" placeholder="Search..." />
+                                    <div className="input-group blog-search-bar">
+                                        {/* <input type="text" className="form-control" placeholder="Search..." /> */}
+                                        <input 
+                                            type="text" 
+                                            className="form-control" 
+                                            placeholder="Search..." 
+                                            value={searchQuery} // Bind value to searchQuery state
+                                            onChange={(e) => setSearchQuery(e.target.value)} // Step 3: Update state on change
+                                        />
                                         <span className="input-group-text search-icon">
                                             <i className="bi bi-search"></i>
                                         </span>
                                     </div>
                                 </div>
+
                                 <div className="blog-categories">
                                     <div className="head">
                                         <h3>CATEGORIES</h3>
@@ -44,21 +99,23 @@ const Blog = () => {
                                         <div className="moving-line"></div>
                                     </div>
                                     <div className="cat-listing">
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Fashion</Link></div>
-                                        <div className="cat-border"></div>
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Life Style</Link></div>
-                                        <div className="cat-border"></div>
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Foodie</Link></div>
-                                        <div className="cat-border"></div>
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Events</Link></div>
-                                        <div className="cat-border"></div>
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Out Door</Link></div>
-                                        <div className="cat-border"></div>
-                                        <div className="cat-li-1"><Link href="#" className="text-decoration-none">Street Style</Link>
-                                        </div>
-                                        <div className="cat-border"></div>
+                                        {blogCategories.map((category) => (
+                                            <React.Fragment key={category.id}>
+                                                <div className="cat-li-1">
+                                                    <Link 
+                                                        href="#" 
+                                                        onClick={() => setSelectedCategory(category.id)}
+                                                        className={`text-decoration-none ${selectedCategory === category.id ? 'active' : ''}`}
+                                                    >
+                                                        {category.title}
+                                                    </Link>
+                                                </div>
+                                                <div className="cat-border"></div>
+                                            </React.Fragment>
+                                        ))}
                                     </div>
                                 </div>
+
                                 <div className="recent-post">
                                     <div className="head">
                                         <h3>RECENT POSTS</h3>
@@ -66,101 +123,38 @@ const Blog = () => {
                                     <div className="bg-line">
                                         <div className="moving-line"></div>
                                     </div>
-                                    <div className="posts post-mt">
-                                        <div className="row align-items-center">
-                                            <div className="col-md-4 col-3">
-                                                <div className="post-img">
-                                                    <img src="/recent-post-1.png" alt="" />
+                                    {blogs.slice(0, 5).map((blog) => (
+                                        <div key={blog.id} className="posts post-mt">
+                                            <div className="row align-items-center">
+                                                <div className="col-md-4 col-3">
+                                                    <div className="post-img">
+                                                        {/* <img src={blog.image_url} alt="" />  */}
+                                                        {/* src={blog.image_url ? blog.image_url : defaultBImg.src} */}
+                                                        <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`}/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-8 col-9">
+                                                    <div className="post-head-line">
+                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
+                                                            <h3>{blog.title}</h3>
+                                                        </Link>
+                                                    </div>
+                                                    <div className="post-date">
+                                                        <p>
+                                                            {new Date(blog.blog_date).toLocaleDateString('en-US', {
+                                                                year: 'numeric',
+                                                                month: 'short',
+                                                                day: 'numeric'
+                                                            })}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-md-8 col-9">
-
-                                                <div className="post-head-line">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none"> <h3>Fashion News Missed This Week </h3></Link>
-                                                </div>
-                                                <div className="post-date">
-                                                    <p>Sep 24, 2024</p>
-                                                </div>
-                                            </div>
+                                            <div className="post-border"></div>
                                         </div>
-                                    </div>
-                                    <div className="post-border"></div>
-                                    <div className="posts">
-                                        <div className="row align-items-center">
-                                            <div className="col-md-4 col-3">
-                                                <div className="post-img">
-                                                    <img src="/recent-post-2.png" alt="" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-8 col-9">
-
-                                                <div className="post-head-line">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none"> <h3>Fashion News Missed This Week </h3></Link>
-                                                </div>
-                                                <div className="post-date">
-                                                    <p>Sep 24, 2024</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="post-border"></div>
-                                    <div className="posts">
-                                        <div className="row align-items-center">
-                                            <div className="col-md-4 col-3">
-                                                <div className="post-img">
-                                                    <img src="/recent-post-3.png" alt="" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-8 col-9">
-
-                                                <div className="post-head-line">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none"> <h3>Fashion News Missed This Week </h3></Link>
-                                                </div>
-                                                <div className="post-date">
-                                                    <p>Sep 24, 2024</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="post-border"></div>
-                                    <div className="posts">
-                                        <div className="row align-items-center">
-                                            <div className="col-md-4 col-3">
-                                                <div className="post-img">
-                                                    <img src="/recent-post-2.png" alt="" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-8 col-9">
-
-                                                <div className="post-head-line">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none"> <h3>Fashion News Missed This Week </h3></Link>
-                                                </div>
-                                                <div className="post-date">
-                                                    <p>Sep 24, 2024</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="post-border"></div>
-                                    <div className="posts">
-                                        <div className="row align-items-center">
-                                            <div className="col-md-4 col-3">
-                                                <div className="post-img">
-                                                    <img src="/recent-post-3.png" alt="" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-8 col-9">
-
-                                                <div className="post-head-line">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none"> <h3>Fashion News Missed This Week </h3></Link>
-                                                </div>
-                                                <div className="post-date">
-                                                    <p>Sep 24, 2024</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
+                                
                                 <div className="blog-tags">
                                     <div className="head">
                                         <h3>TAGS</h3>
@@ -169,309 +163,82 @@ const Blog = () => {
                                         <div className="moving-line"></div>
                                     </div>
                                     <div className="tags">
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Clothing</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Fashion</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Foodie</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Products</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Store</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Events</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Activity</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Clothing</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Fashion</div>
-                                        </Link>
-                                        <Link href="#" className="text-decoration-none text-dark">
-                                            <div className="tag">Foodie</div>
-                                        </Link>
+                                        {tags.map(tag => (
+                                            <span 
+                                                key={tag.id} 
+                                                className={`tag ${selectedTag === tag.title ? 'active' : ''}`}
+                                                onClick={() => setSelectedTag(tag.title)}
+                                            >
+                                                {tag.title}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className="left-blog-img">
-                                    <img src="/left-blog-img.png" alt="" />
+                                    {/* <img src="/left-blog-img.png" alt="" /> */}
                                 </div>
                             </div>
+
                             <div className="col-xl-9 col-lg-8">
-
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-1.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
+                                {filteredBlogs.map(blog => (
+                                    <div key={blog.id} className="blog-listing">
+                                        <div className="row align-items-center">
+                                            <div className="col-xl-5">
+                                                <div className="blg-img-list">
+                                                    <Link href={`/${blog.id}/blog-details`}>
+                                                        <img src={blog.image_url} alt={blog.title} 
+                                                        style={{  borderRadius: "15px"}} />
+                                                    </Link>
                                                 </div>
                                             </div>
+                                            <div className="col-xl-7">
+                                                <div className="blog-list-head">
+                                                    <div className="head">
+                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
+                                                            <h1>{blog.title}</h1>
+                                                        </Link>
+                                                    </div>
+                                                    <div className="blg-by-and-comments d-flex align-items-center">
+                                                        <div className="blog-by">
+                                                            <p className="m-0">
+                                                                By <span>{blog.author || 'Admin'}</span> On {new Date(blog.blog_date).toLocaleDateString('en-US', {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: '2-digit'
+                                                                })}
+                                                            </p>
+                                                        </div>
+                                                        <div className="border-left-blog"></div>
+                                                        {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
+                                                        <div className="comment-blog-listing d-flex align-items-center">
+                                                            <i className="fa-regular fa-comment"></i>
+                                                            <p className="m-0 ps-2">
+                                                                {comments.filter(comment => comment.blog_id === blog.id).length} Comments
+                                                            </p>
+                                                        </div>
+                                                    )}
 
-
+                                                    </div>
+                                                    <div className="blog-para">
+                                                        <p>{blog.short_description}</p>
+                                                    </div>
+                                                    <div className="blog-read-more">
+                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none custom-underline">
+                                                            READ MORE<i className="fa-solid fa-arrow-right-long ms-1"></i>
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-2.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-3.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-4.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-5.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="blog-listing">
-                                    <div className="row align-items-center">
-                                        <div className="col-xl-5">
-                                            <div className="blg-img-list">
-                                                <Link href="/blog/1/blog-details">
-                                                    <img src="/blog-img-6.png" alt="" />
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="col-xl-7">
-                                            <div className="blog-list-head">
-                                                <div className="head">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none">
-                                                        <h1>Elasticized Drawstring Waistband. Side Pockets With Zip.</h1></Link>
-                                                </div>
-                                                <div className="blg-by-and-comments d-flex align-items-center">
-                                                    <div className="blog-by">
-                                                        <p className="m-0">By <span>Diego Lopez </span> On January 08, 2019
-                                                        </p>
-                                                    </div>
-                                                    <div className="border-left-blog"></div>
-                                                    <div className="comment-blog-listing d-flex align-items-center">
-                                                        <i className="fa-regular fa-comment"></i>
-                                                        <p className="m-0 ps-2">0 Comments</p>
-                                                    </div>
-                                                </div>
-                                                <div className="blog-para">
-                                                    <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                        ipsum dolor sit amet conse ctetur adipisicing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                </div>
-                                                <div className="blog-read-more">
-                                                    <Link href="/blog/1/blog-details" className="text-decoration-none custom-underline">READ MORE
-                                                        <i className="fa-solid fa-arrow-right-long ms-1"></i></Link>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         </>
-    )
-}
+    );
+};
 
-export default Blog
+export default Blog;

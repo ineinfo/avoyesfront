@@ -1,16 +1,15 @@
-import Event from '@/components/Event'
+import EventList from '@/components/EventList'
 import React from 'react'
 
-
 export const metadata = {
-    title: "Event - Avoyes",
-    description: "Event page",
+    title: "Event List - Avoyes",
+    description: "Event List Page"
   };
 
 const page = () => {
     return (
         <div>
-            <Event />
+            <EventList />
         </div>
     )
 }
