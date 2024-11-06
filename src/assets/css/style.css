@@ -53,6 +53,13 @@ header {
     max-height: 50px;
 }
 
+.centered-message {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+
 .search-popup {
     display: none;
     position: fixed;
@@ -458,8 +465,8 @@ button.carousel-control-prev i {
 
 .date-box {
     position: absolute;
-    top: 54%;
-    right: 69%;
+    top: 56%;
+    right: 73%;
     z-index: 11;
     pointer-events: none;
 }
@@ -5699,15 +5706,15 @@ button#speakerDropdown.active {
   
 
 }
-.description-limit {
+/* .description-limit {
     display: -webkit-box;
-    -webkit-line-clamp: 1; 
+    -webkit-line-clamp: 2; 
     -webkit-box-orient: vertical;  
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap; 
     
-}
+} */
 
 
 .event-image {
