@@ -44,17 +44,17 @@ const BlogDetails = () => {
         }
    
         try {
-            // Submit the comment and get the newly added comment
+           
             const newComment = await submitBlogComment(id, commentText);
    
-            // Update both the local comments array and blogDetails.comments
+
             setComments((prevComments) => [...prevComments, newComment]);
             setBlogDetails((prevDetails) => ({
                 ...prevDetails,
                 comments: [...prevDetails.comments, newComment],
             }));
    
-            // Clear the comment input field
+          
             setCommentText('');
         } catch (error) {
             console.error("Error submitting comment:", error);
