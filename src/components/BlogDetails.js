@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import parse from 'html-react-parser';
+import { toast } from 'react-toastify';
+import defaultImg from "../../public/event-breadcrumb.png";
 
-
-
-import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments ,fetchBlogById ,submitBlogComment } from "@/utils/api/BlogApi"; 
+import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments ,fetchBlogById ,addBlogComment } from "@/utils/api/BlogApi"; 
 
 const BlogDetails = () => {
     const { id } = useParams(); 
@@ -25,6 +25,8 @@ const BlogDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRelatedVisible, setIsRelatedVisible] = useState(false); 
     const [searchQuery, setSearchQuery] = useState('');
+    const [commentsUpdatedAt, setCommentsUpdatedAt] = useState(Date.now());
+
  
 
 
@@ -36,65 +38,36 @@ const BlogDetails = () => {
         setIsModalOpen(false);
     };
 
-
-    const handleCommentSubmit = async () => {
-        if (!commentText.trim()) {
-            alert("Comment can't be empty");
-            return;
-        }
-   
-        try {
-           
-            const newComment = await submitBlogComment(id, commentText);
-   
-
-            setComments((prevComments) => [...prevComments, newComment]);
-            setBlogDetails((prevDetails) => ({
-                ...prevDetails,
-                comments: [...prevDetails.comments, newComment],
-            }));
-   
-          
-            setCommentText('');
-        } catch (error) {
-            console.error("Error submitting comment:", error);
-            alert("Failed to submit comment. Please try again.");
-        }
-   
-        closeModal();
-    };
-   
+ 
     
-    useEffect(() => {
-        const loadComments = async () => {
-            const fetchedComments = await fetchBlogComments();
-            if (fetchedComments.status !== false) {
-                setComments(Array.isArray(fetchedComments) ? fetchedComments : []);
-            }
-        };
-   
-        loadComments();
-    }, []);
-   
+
+
+const handleCommentSubmit = async () => {
+    if (!commentText.trim()) {
+        
+        toast.warning(`Comment can't be empty`); 
+    }
+
+    try {
+        await addBlogComment(id, commentText);
+
+      
+        const response = await fetchBlogById(id);
+        setBlogDetails(response.data.data);
+        setComments(response.data.comments); 
+        setCommentText(''); 
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+        toast.error("You Can't Add Comments!Please try again.");
+    }
+
+    closeModal();
+};
+
+
+
     
-    // const handleCommentSubmit = async () => {
-    //     if (!commentText.trim()) {
-    //         alert("Comment can't be empty");
-    //         return;
-    //     }
-
-    //     try {
-    //         const newComment = await submitBlogComment(id, commentText);
-            
-    //         setComments((prevComments) => [...prevComments, newComment]);
-    //         setCommentText(''); 
-    //     } catch (error) {
-    //         console.error("Error submitting comment:", error);
-    //         alert("Failed to submit comment. Please try again.");
-    //     }
-
-    //     closeModal();
-    // };
+ 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -103,7 +76,7 @@ const BlogDetails = () => {
                     fetchBlogs(),
                     fetchBlogCategory(),
                     fetchBlogTags(),
-                    // fetchBlogComments()
+                     fetchBlogComments()
                 ]);
 
                 setBlogs(Array.isArray(blogsResponse.data) ? blogsResponse.data : []);
@@ -118,6 +91,9 @@ const BlogDetails = () => {
         fetchData();
     }, []);
 
+  
+    
+
     // Filter blogs by selected category or tag
     const filteredBlogs = blogs.filter(blog => {
         const categoryMatch = selectedCategory ? blog.category_id === selectedCategory : true;
@@ -126,17 +102,16 @@ const BlogDetails = () => {
         return categoryMatch && tagMatch && searchMatch;
     });
 
- 
-  
-
-
     useEffect(() => {
         const loadBlogDetails = async () => {
             if (id) {
                 try {
                     const response = await fetchBlogById(id);
                     setBlogDetails(response.data.data); 
-                    setComments(response.data.data.comments || []); 
+                    const { comments } = response.data; 
+
+            
+                    setComments(comments);
                 } catch (error) {
                     console.error("Error fetching blog details:", error);
                 } finally {
@@ -147,6 +122,7 @@ const BlogDetails = () => {
         
         loadBlogDetails();
     }, [id]); 
+ 
 
 
       useEffect(() => {
@@ -330,7 +306,16 @@ const BlogDetails = () => {
                                 <div className="col-xl-5">
                                     <div className="blg-img-list">
                                         <Link href={`/${blog.id}/blog-details`}>
-                                            <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} />
+                                            {/* <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} /> */}
+                                            <img 
+                                                src={
+                                                    blog?.image_url && blog.image_url.trim() !== "" && !blog.image_url.includes('localhost')
+                                                    ? blog.image_url
+                                                    : "http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png"
+                                                }
+                                                alt="Blog Image"
+                                                style={{ borderRadius: "15px" }} 
+                                                />
                                         </Link>
                                     </div>
                                 </div>
@@ -483,7 +468,7 @@ const BlogDetails = () => {
     >
                                 <div className="modal-header">
                                     <h5 className="modal-title w-100 text-center write-review-head">
-                                    <div class="border-left-head"></div>
+                                    <div className="border-left-head"></div>
                                         Write a Comment</h5>
                                     <button type="button" className="btn-close" onClick={closeModal}></button>
                                 </div>
@@ -516,35 +501,36 @@ const BlogDetails = () => {
                 )}
 
                 {/* Comments Section */}
-                {blogDetails.comments && blogDetails.comments.length > 0 && blogDetails.comments.map((comment, index) => (
-    comment ? (
-        <div key={comment.id || index} className="blg-dtl-comment-1"> {/* Use index as fallback key */}
-            <div className="row align-items-center blog-review-margin">
-                <div className="col-lg-2">
-                    <div className="cmt-img-blg">
-                        <img 
-                            src={comment?.user_avatar || '/default-avatar.jpg'} // Use optional chaining
-                            alt={`${comment?.user_first_name || 'Anonymous'} ${comment?.user_last_name || ''}`} 
-                        />
+                {blogDetails.comments.map((comment) => (
+    <div key={comment.id} className="blg-dtl-comment-1">
+        <div className="row align-items-center blog-review-margin">
+            <div className="col-lg-2">
+                <div className="cmt-img-blg">
+                    {/* Check if user_avatar exists, if not use a default image */}
+                    <img
+                        src={comment.user_avatar || '/default-avatar.png'}  // Default image if no avatar
+                        alt={`${comment.user_first_name || ''} ${comment.user_last_name || ''}`}
+                    />
+                </div>
+            </div>
+            <div className="col-lg-10">
+                <div className="mobile-rating">
+                    <div className="date">
+                        <p>{new Date(comment.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     </div>
                 </div>
-                <div className="col-lg-10">
-                    <div className="mobile-rating">
-                        <div className="date">
-                            <p>{new Date(comment?.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        </div>
-                    </div>
-                    <div className="name">
-                        <h3>{comment?.user_first_name || 'Anonymous'} {comment?.user_last_name || ''}</h3>
-                    </div>
-                    <div className="para">
-                        <p>{comment?.comment || 'No comment available.'}</p>
-                    </div>
+                <div className="name">
+                    <h3>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
+                </div>
+                <div className="para">
+                    <p>{comment.comment}</p>
                 </div>
             </div>
         </div>
-    ) : null
+    </div>
 ))}
+
+
 
 
             </div>

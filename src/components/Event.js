@@ -46,6 +46,30 @@ const Event = () => {
   const toggleCategoryDropdown = () => setIsCategoryOpen(!isCategoryOpen);
   const toggleSpeakerDropdown = () => setIsSpeakerOpen(!isSpeakerOpen);
 
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Open lightbox
+  const openLightbox = (index) => {
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  // Close lightbox
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+  };
+
+  // Go to the previous image
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1));
+  };
+
+  // Go to the next image
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1));
+  };
+
   useEffect(() => {
     let interval;
 
@@ -879,20 +903,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
@@ -906,20 +927,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Photo Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
@@ -963,20 +981,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
@@ -984,6 +999,24 @@ const Event = () => {
                 </div>
               </div>
             </div>
+
+            {isLightboxOpen && (
+        <div id="lightbox-modal" className="lightbox-modal" onClick={closeLightbox}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="arrow-button prev" onClick={prevImage}>&#10094;</button>
+            <img
+              id="lightbox-image"
+              src={galleryImages[currentImageIndex]}
+              alt="Lightbox"
+              className="gal-large-img"
+            />
+            <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
+          </div>
+        </div>
+      )}
+
+
+
           </section>
 
           {/* newsfrom section */}
