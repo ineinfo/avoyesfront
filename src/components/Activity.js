@@ -26,6 +26,19 @@ const Activity = () => {
   const [categories, setCategories] = useState([]);
 
 
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
+
+  // Function to handle search input change
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value); // This should set the selected country correctly
+  };
+  
+
   const formatDateRange = (startDate, endDate) => {
     const start = new Intl.DateTimeFormat("en-US", {
       month: "short",
@@ -47,20 +60,20 @@ const Activity = () => {
     }).format(new Date(time));
   };
 
-  const filterActivities = (activities, filter) => {
+  const filterActivities = (activities, filter, selectedCountry) => {
     const now = new Date();
     const startOfWeek = new Date();
     const endOfWeek = new Date();
     const startOfNextWeek = new Date();
     const endOfNextWeek = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
+  
     startOfWeek.setDate(now.getDate() - now.getDay()); // Start of this week
     endOfWeek.setDate(now.getDate() + (6 - now.getDay())); // End of this week
     startOfNextWeek.setDate(startOfWeek.getDate() + 7); // Start of next week
     endOfNextWeek.setDate(endOfWeek.getDate() + 7); // End of next week
-
-    return activities.filter((activity) => {
+  
+    let filtered = activities.filter((activity) => {
       const activityDate = new Date(activity.start_datetime);
       switch (filter) {
         case "today":
@@ -74,32 +87,28 @@ const Activity = () => {
         case "this-weekend":
           return activityDate.getDay() === 6 || activityDate.getDay() === 0; // Saturday or Sunday
         case "next-week":
-          return (
-            activityDate >= startOfNextWeek && activityDate <= endOfNextWeek
-          );
+          return activityDate >= startOfNextWeek && activityDate <= endOfNextWeek;
         case "next-weekend":
           const nextSaturday = new Date(startOfNextWeek);
-          nextSaturday.setDate(
-            startOfNextWeek.getDate() + (6 - startOfNextWeek.getDay())
-          );
+          nextSaturday.setDate(startOfNextWeek.getDate() + (6 - startOfNextWeek.getDay()));
           const nextSunday = new Date(nextSaturday);
           nextSunday.setDate(nextSaturday.getDate() + 1);
           return activityDate >= nextSaturday && activityDate <= nextSunday;
         case "this-month":
-          return (
-            activityDate >= startOfMonth &&
-            activityDate <
-              new Date(
-                startOfMonth.getFullYear(),
-                startOfMonth.getMonth() + 1,
-                1
-              )
-          );
+          return activityDate >= startOfMonth && activityDate < new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 1);
         default:
-          return true; 
+          return true; // No filter applied
       }
     });
+  
+    // Apply country filter if selectedCountry is set
+    if (selectedCountry) {
+      filtered = filtered.filter((activity) => activity.country_id.toString() === selectedCountry.toString());
+    }
+  
+    return filtered;
   };
+
 
   useEffect(() => {
     const getActivities = async () => {
@@ -157,13 +166,32 @@ const Activity = () => {
     return <div>{error}</div>;
   }
 
-  const filteredActivities = filterActivities(activities, filter);
+//  const filteredActivities = filterActivities(activities, filter).filter((activity) =>
+//   // Check if the searchQuery exists anywhere in the activity fields (case-insensitive)
+//   Object.values(activity).some((value) =>
+//     value &&
+//     typeof value === 'string' &&
+//     value.toLowerCase().includes(searchQuery.toLowerCase())
+//   )
+// );
+
+
+const filteredActivities = filterActivities(activities, filter, selectedCountry).filter((activity) =>
+  Object.values(activity).some((value) =>
+    value &&
+    typeof value === 'string' &&
+    value.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+);
+
+
   const categorySliderSettings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
+    arrows:false,
     
     autoplaySpeed: 2000,
     responsive: [
@@ -211,12 +239,17 @@ const Activity = () => {
                       type="text"
                       className="form-control width-more"
                       placeholder="Search activities, categories, locations..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
                     />
                     <span className="input-group-text">
                       <i className="fa-solid fa-location-dot"></i>
                     </span>
 
-                    <select className="form-select dropdown-select">
+                    <select className="form-select dropdown-select"
+                     value={selectedCountry} // Ensure the selected country is correctly reflected in the dropdown
+                     onChange={handleCountryChange}
+                    >
                       <option value="" selected>
                         Choose Country
                       </option>
@@ -235,14 +268,16 @@ const Activity = () => {
         </div>
         {/* slider */}
 
-        <div className="activity-categories">
+
+        <div className="activity-categories" style={{ marginTop: '60px' , marginBottom: '100px'  }}>
     <Slider {...categorySliderSettings}>
       {categories.map((category) => (
-        <div className="item" key={category.id}>
-          <a href="#">
+        <div className=" item" key={category.id}>
+          <a href="">
             <img
               src={category.image_url || defaultImg.src}
               alt={category.title}
+              style={{marginBottom: '30px'  }}
             />
             <div className="item-content">
               <p>{category.title}</p>
@@ -393,7 +428,8 @@ const Activity = () => {
       }}
     >
       {filteredActivities.map((activity) => (
-        <div className="item mx-2" key={activity.id}> 
+        <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 item mx-2" 
+         key={activity.id}> 
           <div className="upcoming-content-box">
             <div className="img-zoom">
               <img

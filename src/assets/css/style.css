@@ -7950,22 +7950,28 @@ input#timePicker {
 }
 
 /* activity categories slider */
-.activity-categories {
+/* .activity-categories {
     padding: 50px 0;
     position: relative;
-}
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+} */
 
 .activities-cat-slider .item {
+
+
     text-align: center;
-    padding: 10px;
+    padding: 50px 0;
     background-color: #f9f9f9;
     border-radius: 10px;
 }
 
-.activities-cat-slider img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+.activity-categories .item img {
+  width: 90%; /* Fixed width of the image */
+  height: 500px; /* Fixed height for the image */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  border-radius: 10px; /* Border radius for the image */
 }
 
  .custom-nav {
@@ -8000,31 +8006,45 @@ input#timePicker {
     border-top: 1px solid #ECECEC;
     padding: 30px;
     text-align: center;
-}
+    width: 100%; /* Adjust width as needed */
+    height: 250px; /* Set a fixed height for the item content */
+    border-radius: 10px; /* Add border radius */
+    overflow: hidden; /* Optional: to ensure content fits within the border-radius */
+  }
 
-  
-
-.activities-cat-slider .item-content p {
+.item-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this to set height */
     text-transform: capitalize;
     margin: 0;
     color: #1c1c1c;
     font-size: 17px;
     font-family: "lato";
     font-weight: 600;
-}
+  }
+
+/* .activities-cat-slider .item-content p {
+    text-transform: capitalize;
+    margin: 0;
+    color: #1c1c1c;
+    font-size: 17px;
+    font-family: "lato";
+    font-weight: 600;
+} */
 .activity-tab-content{
     margin:50px 0;
 }
 .activity-tab-content .content-box{
     position: relative;
     border: 1px solid #ECECEC;
-  border-radius: 5px;
+    border-radius: 10px; /* Border radius for the box */
     background: #fff;
     transition: .4s linear;
-    width: 450px; 
-    height: 450px; 
-  
-    display: flex; 
+    width: 450px; /* Width for the content box */
+    height: 450px; /* Height for the content box */
+    display: flex;
     flex-direction: column;
 }
 
