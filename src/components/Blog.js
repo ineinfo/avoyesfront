@@ -48,10 +48,17 @@ const Blog = () => {
     const filteredBlogs = blogs.filter(blog => {
         const categoryMatch = selectedCategory ? blog.category_id === selectedCategory : true;
         const tagMatch = selectedTag ? blog.tags && blog.tags.includes(selectedTag) : true;
-        const searchMatch = blog.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            blog.short_description.toLowerCase().includes(searchQuery.toLowerCase());
+        const searchMatch = 
+            (blog.title.toLowerCase().includes(searchQuery.toLowerCase())) || 
+            (blog.short_description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false); 
+    
         return categoryMatch && tagMatch && searchMatch;
     });
+
+    // if (filteredBlogs.length === 0) {
+    //     return <div>No blog found</div>;
+    // }
+    
 
     return (
         <>
@@ -101,20 +108,19 @@ const Blog = () => {
                                     <div className="cat-listing">
                                         {blogCategories.map((category) => (
                                             <React.Fragment key={category.id}>
-                                                <div className="cat-li-1">
-                                                    <Link 
-                                                        href="#" 
-                                                        onClick={() => setSelectedCategory(category.id)}
-                                                        className={`text-decoration-none ${selectedCategory === category.id ? 'active' : ''}`}
-                                                    >
-                                                        {category.title}
-                                                    </Link>
+                                                <div 
+                                                    className="cat-li-1" 
+                                                    onClick={() => setSelectedCategory(category.id)}
+                                                    style={{cursor: 'pointer'}} 
+                                                >
+                                                    {category.title}
                                                 </div>
                                                 <div className="cat-border"></div>
                                             </React.Fragment>
                                         ))}
                                     </div>
                                 </div>
+
 
                                 <div className="recent-post">
                                     <div className="head">
@@ -130,8 +136,11 @@ const Blog = () => {
                                                     <div className="post-img">
                                                         {/* <img src={blog.image_url} alt="" />  */}
                                                         {/* src={blog.image_url ? blog.image_url : defaultBImg.src} */}
+                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
                                                         <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`}/>
-                                                    </div>
+                                                  
+                                                        </Link>
+                                                          </div>
                                                 </div>
                                                 <div className="col-md-8 col-9">
                                                     <div className="post-head-line">
@@ -180,7 +189,8 @@ const Blog = () => {
                             </div>
 
                             <div className="col-xl-9 col-lg-8">
-                                {filteredBlogs.map(blog => (
+                            {filteredBlogs.length > 0 ? (
+                                filteredBlogs.map(blog => (
                                     <div key={blog.id} className="blog-listing">
                                         <div className="row align-items-center">
                                             <div className="col-xl-5">
@@ -231,7 +241,14 @@ const Blog = () => {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                            
+                            ) : (
+                                <div className="centered-message">
+                                No Blog Found Of This Search.
+                              </div>
+                              
+                              )}
                             </div>
                         </div>
                     </div>

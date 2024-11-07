@@ -28,11 +28,11 @@ const Activity = () => {
 
   const formatDateRange = (startDate, endDate) => {
     const start = new Intl.DateTimeFormat("en-US", {
-      month: "long",
+      month: "short",
       day: "numeric",
     }).format(new Date(startDate));
     const end = new Intl.DateTimeFormat("en-US", {
-      month: "long",
+      month: "short",
       day: "numeric",
       year: "numeric",
     }).format(new Date(endDate));
@@ -323,8 +323,8 @@ const Activity = () => {
                         )}
                       </div>
                       <div className="separator">|</div>
-                      <div className="time">
-                        <i className="fas fa-clock"></i>
+                      <div className="time" >
+                        <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
                         <span>
                           {formatTime(activity.start_datetime)} -
                           {formatTime(activity.end_datetime)}

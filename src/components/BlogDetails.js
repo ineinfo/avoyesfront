@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import parse from 'html-react-parser';
+import { toast } from 'react-toastify';
+import defaultImg from "../../public/event-breadcrumb.png";
 
-
-
-import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments ,fetchBlogById ,submitBlogComment } from "@/utils/api/BlogApi"; 
+import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments ,fetchBlogById ,addBlogComment } from "@/utils/api/BlogApi"; 
 
 const BlogDetails = () => {
     const { id } = useParams(); 
@@ -25,7 +25,10 @@ const BlogDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRelatedVisible, setIsRelatedVisible] = useState(false); 
     const [searchQuery, setSearchQuery] = useState('');
-   
+    const [commentsUpdatedAt, setCommentsUpdatedAt] = useState(Date.now());
+
+ 
+
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -34,54 +37,37 @@ const BlogDetails = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    // const handleCommentSubmit = async () => {
-    //     const user_id = Cookies.get('id');
-    //     const blog_id = id;
-    //     const accessToken = Cookies.get('accessToken'); 
-    
-    //     if (!commentText.trim()) {
-    //         alert("Comment can't be empty");
-    //         return;
-    //     }
-    
-    //     try {
-    //         const response = await axios.post('http://38.108.127.253:3000/api/blog-comments', {
-    //             blog_id,
-    //             user_id,
-    //             comment: commentText,
-    //         }, {
-    //             headers: {
-    //                 Authorization: `Bearer ${accessToken}` 
-    //             }
-    //         });
-    //         setComments([...comments, response.data.data]);
-    //         setCommentText(''); 
-    //     } catch (error) {
-    //         console.error("Error submitting comment:", error);
-    //         alert("Failed to submit comment. Please try again.");
-    //     }
-    
-    //     closeModal();
-    // };
-  
 
-    const handleCommentSubmit = async () => {
-        if (!commentText.trim()) {
-            alert("Comment can't be empty");
-            return;
-        }
+ 
+    
 
-        try {
-            const newComment = await submitBlogComment(id, commentText);
-            setComments([...comments, newComment]);
-            setCommentText(''); 
-        } catch (error) {
-            console.error("Error submitting comment:", error);
-            alert("Failed to submit comment. Please try again.");
-        }
 
-        closeModal();
-    };
+const handleCommentSubmit = async () => {
+    if (!commentText.trim()) {
+        
+        toast.warning(`Comment can't be empty`); 
+    }
+
+    try {
+        await addBlogComment(id, commentText);
+
+      
+        const response = await fetchBlogById(id);
+        setBlogDetails(response.data.data);
+        setComments(response.data.comments); 
+        setCommentText(''); 
+    } catch (error) {
+        console.error("Error submitting comment:", error);
+        toast.error("You Can't Add Comments!Please try again.");
+    }
+
+    closeModal();
+};
+
+
+
+    
+ 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,7 +76,7 @@ const BlogDetails = () => {
                     fetchBlogs(),
                     fetchBlogCategory(),
                     fetchBlogTags(),
-                    fetchBlogComments()
+                     fetchBlogComments()
                 ]);
 
                 setBlogs(Array.isArray(blogsResponse.data) ? blogsResponse.data : []);
@@ -105,6 +91,9 @@ const BlogDetails = () => {
         fetchData();
     }, []);
 
+  
+    
+
     // Filter blogs by selected category or tag
     const filteredBlogs = blogs.filter(blog => {
         const categoryMatch = selectedCategory ? blog.category_id === selectedCategory : true;
@@ -113,16 +102,16 @@ const BlogDetails = () => {
         return categoryMatch && tagMatch && searchMatch;
     });
 
- 
-  
-
-
     useEffect(() => {
         const loadBlogDetails = async () => {
             if (id) {
                 try {
                     const response = await fetchBlogById(id);
                     setBlogDetails(response.data.data); 
+                    const { comments } = response.data; 
+
+            
+                    setComments(comments);
                 } catch (error) {
                     console.error("Error fetching blog details:", error);
                 } finally {
@@ -133,6 +122,7 @@ const BlogDetails = () => {
         
         loadBlogDetails();
     }, [id]); 
+ 
 
 
       useEffect(() => {
@@ -219,25 +209,21 @@ const BlogDetails = () => {
                                         <div className="moving-line"></div>
                                     </div>
                                     <div className="cat-listing">
-                                    {blogCategories.map((category) => (
+                                        {blogCategories.map((category) => (
                                             <React.Fragment key={category.id}>
-                                                <div className="cat-li-1">
-                                                    <Link 
-                                                        href="#" 
-                                                        onClick={() => {
-                                                            setSelectedCategory(category.id);
-                                                            setSelectedTag(null); // Reset tag selection
-                                                        }}
-                                                        className={`text-decoration-none ${selectedCategory === category.id ? 'active' : ''}`}
-                                                    >
-                                                        {category.title}
-                                                    </Link>
+                                                <div 
+                                                    className="cat-li-1" 
+                                                    onClick={() => setSelectedCategory(category.id)}
+                                                    style={{cursor: 'pointer'}} 
+                                                >
+                                                    {category.title}
                                                 </div>
                                                 <div className="cat-border"></div>
                                             </React.Fragment>
                                         ))}
                                     </div>
                                 </div>
+
 
                                 <div className="recent-post">
                                     <div className="head">
@@ -251,7 +237,9 @@ const BlogDetails = () => {
                                             <div className="row align-items-center">
                                                 <div className="col-md-4 col-3">
                                                     <div className="post-img">
+                                                    <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
                                                         <img src={blog.image_url && !blog?.image_url?.includes('localhost') ? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`} />
+                                                        </Link>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-8 col-9">
@@ -318,7 +306,16 @@ const BlogDetails = () => {
                                 <div className="col-xl-5">
                                     <div className="blg-img-list">
                                         <Link href={`/${blog.id}/blog-details`}>
-                                            <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} />
+                                            {/* <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} /> */}
+                                            <img 
+                                                src={
+                                                    blog?.image_url && blog.image_url.trim() !== "" && !blog.image_url.includes('localhost')
+                                                    ? blog.image_url
+                                                    : "http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png"
+                                                }
+                                                alt="Blog Image"
+                                                style={{ borderRadius: "15px" }} 
+                                                />
                                         </Link>
                                     </div>
                                 </div>
@@ -364,56 +361,70 @@ const BlogDetails = () => {
                     </div>
                 ))
             ) : (
-                <p>No blogs to display.</p>
+                <div className="centered-message">
+                No Blogs Found Of This Search.
+              </div>
             )}
         </div>
     ) : (
         <>
             <div className="blog-details-main">
-                <div className="blog-dtl-img">
-                    <img src={blogDetails.image_url} alt="Blog Detail" />
-                </div>
-            </div>
-            <div className="blog-dtl-comments d-flex align-items-center">
-                <div className="blog-by">
-                    <p className="m-0">By <span>{blogDetails.author || 'Admin'}</span> On {new Date(blogDetails.blog_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })}</p>
+                    <div className="blog-dtl-img">
+                        <img src={blogDetails.image_url} alt="Blog Detail" />
+                    </div>
                 </div>
 
-                {commentsCount > 0 && (
-                    <div className="comment-blog-listing d-flex align-items-center">
-                        <i className="fa-regular fa-comment"></i>
-                        <p className="m-0 ps-2">{commentsCount} Comments</p>
+                <div className="blog-dtl-comments d-flex align-items-center">
+                    <div className="blog-by">
+                        <p className="m-0">By <span>{blogDetails.author || 'Admin'}</span> On {new Date(blogDetails.blog_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })}</p>
                     </div>
-                )}
-            </div>
-            <div className="blog-dtl-head">
-                <h1>{blogDetails.title}</h1>
-            </div>
-            <div className="blog-dtl-para">
-                <div>{parse(descriptionWithoutQuote)}</div>
-                <div className="slogan-box">
-                    <div className="icon">
-                        <i className="fa-solid fa-quote-right"></i>
-                    </div>
-                    {quote && (
-                        <div>
-                            <div className="italic-quote">
-                                <p>{quote}</p>
-                            </div>
-                            <div className="slogan-by ms-4">
-                                <p> - {blogDetails.author}</p>
-                            </div>
+
+                    {commentsCount > 0 && (
+                        <div className="comment-blog-listing d-flex align-items-center">
+                            <i className="fa-regular fa-comment"></i>
+                            <p className="m-0 ps-2">{commentsCount} Comments</p>
                         </div>
                     )}
                 </div>
-                {followingParagraphs && (
-                    <div dangerouslySetInnerHTML={{ __html: followingParagraphs }} />
-                )}
-                <p>Tags: {Array.isArray(blogDetails.tags) ? blogDetails.tags.join(', ') : 'No tags available'}</p>
-            </div>
+
+                <div className="blog-dtl-head">
+                    <h1>{blogDetails.title}</h1>
+                </div>
+
+                <div className="blog-dtl-para">
+                    <div>{parse(descriptionWithoutQuote)}</div>
+
+                    {/* Conditionally render the quote section */}
+                    {quote && (
+                        <div className="slogan-box">
+                            <div className="icon">
+                                <i className="fa-solid fa-quote-right"></i>
+                            </div>
+                            <div>
+                                <div className="italic-quote">
+                                    <p>{quote}</p>
+                                </div>
+                                <div className="slogan-by ms-4">
+                                    <p> - {blogDetails.author}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Conditionally render following paragraphs */}
+                    {followingParagraphs && (
+                        <div dangerouslySetInnerHTML={{ __html: followingParagraphs }} />
+                    )}
+
+                    <p>Tags: {Array.isArray(blogDetails.tags) ? blogDetails.tags.join(', ') : 'No tags available'}</p>
+                </div>
+
             <div className="blog-end-dtl d-flex justify-content-between align-items-center">
                 <div className="text">
-                    <a>{blogDetails.blog_category_title}</a>
+                <a style={{ textTransform: 'uppercase' }}>
+                    {blogDetails.blog_category_title}
+                </a>
+
                 </div>
                 <div className="blg-social d-flex align-items-center">
                     <p className="m-0">SHARE:</p>
@@ -453,14 +464,11 @@ const BlogDetails = () => {
                                 height: '400px',                           
                                 boxShadow: '0 5px 15px rgba(0,0,0,0.3)', 
                                 overflow: 'auto', 
-                              }}
-    
+                              }}    
     >
-
-
                                 <div className="modal-header">
                                     <h5 className="modal-title w-100 text-center write-review-head">
-                                    <div class="border-left-head"></div>
+                                    <div className="border-left-head"></div>
                                         Write a Comment</h5>
                                     <button type="button" className="btn-close" onClick={closeModal}></button>
                                 </div>
@@ -494,29 +502,37 @@ const BlogDetails = () => {
 
                 {/* Comments Section */}
                 {blogDetails.comments.map((comment) => (
-                    <div key={comment.id} className="blg-dtl-comment-1">
-                        <div className="row align-items-center blog-review-margin">
-                            <div className="col-lg-2">
-                                <div className="cmt-img-blg">
-                                    <img src={comment.user_avatar} alt={`${comment.user_first_name} ${comment.user_last_name}`} />
-                                </div>
-                            </div>
-                            <div className="col-lg-10">
-                                <div className="mobile-rating">
-                                    <div className="date">
-                                        <p>{new Date(comment.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                    </div>
-                                </div>
-                                <div className="name">
-                                    <h3>{comment.user_first_name} {comment.user_last_name}</h3>
-                                </div>
-                                <div className="para">
-                                    <p>{comment.comment}</p>
-                                </div>
-                            </div>
-                        </div>
+    <div key={comment.id} className="blg-dtl-comment-1">
+        <div className="row align-items-center blog-review-margin">
+            <div className="col-lg-2">
+                <div className="cmt-img-blg">
+                    {/* Check if user_avatar exists, if not use a default image */}
+                    <img
+                        src={comment.user_avatar || '/default-avatar.png'}  // Default image if no avatar
+                        alt={`${comment.user_first_name || ''} ${comment.user_last_name || ''}`}
+                    />
+                </div>
+            </div>
+            <div className="col-lg-10">
+                <div className="mobile-rating">
+                    <div className="date">
+                        <p>{new Date(comment.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     </div>
-                ))}
+                </div>
+                <div className="name">
+                    <h3>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
+                </div>
+                <div className="para">
+                    <p>{comment.comment}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+))}
+
+
+
+
             </div>
         </>
     )}

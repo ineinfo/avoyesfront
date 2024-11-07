@@ -31,15 +31,7 @@ const fetchBlogTags = async () => {
   }
 };
 
-const fetchBlogComments = async () => {
-  try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/blog-comments`);
-    return response.data; 
-  } catch (error) {
-    console.error("Error fetching events", error);
-    return { status: false, message: "Error fetching blog comments data" };
-  }
-};
+
 
 const fetchBlogById = async (id) => {
   try {
@@ -52,7 +44,19 @@ const fetchBlogById = async (id) => {
 };
 
 
- const submitBlogComment = async (blog_id, comment) => {
+const fetchBlogComments = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/blog-comments`);
+    return response.data; 
+    
+  } catch (error) {
+    console.error("Error fetching events", error);
+    return { status: false, message: "Error fetching blog comments data" };
+  }
+
+};
+
+ const addBlogComment = async (blog_id, comment) => {
   const user_id = Cookies.get('id');
   const accessToken = Cookies.get('accessToken');
 
@@ -74,4 +78,6 @@ const fetchBlogById = async (id) => {
 };
 
 
-export { fetchBlogs,fetchBlogCategory,fetchBlogTags,fetchBlogComments,fetchBlogById ,submitBlogComment};
+
+
+export { fetchBlogs,fetchBlogCategory,fetchBlogTags,fetchBlogComments,fetchBlogById ,addBlogComment};

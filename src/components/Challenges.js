@@ -64,7 +64,8 @@ const Challenges = () => {
             <div className="challanges-sec-main pb-5 pt-3">
                 <div className="container">
                     <div className="row">
-                    {filteredChallenges.map((challenge) => (
+                    {filteredChallenges.length > 0 ? (
+                    filteredChallenges.map((challenge) => (
     <div className="col-xl-3 col-lg-6 col-md-6" key={challenge.id}>
         <div className="challange-1">
             <div className="img fixed-size">
@@ -101,7 +102,13 @@ const Challenges = () => {
             </div>
         </div>
     </div>
-))}
+))
+
+) : (
+    <div className="centered-message" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '24px' }}>
+        No Challenges Found Of This Search.
+    </div>
+)}
 
                     </div>
                 </div>

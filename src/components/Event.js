@@ -46,6 +46,30 @@ const Event = () => {
   const toggleCategoryDropdown = () => setIsCategoryOpen(!isCategoryOpen);
   const toggleSpeakerDropdown = () => setIsSpeakerOpen(!isSpeakerOpen);
 
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Open lightbox
+  const openLightbox = (index) => {
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  // Close lightbox
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+  };
+
+  // Go to the previous image
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1));
+  };
+
+  // Go to the next image
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1));
+  };
+
   useEffect(() => {
     let interval;
 
@@ -165,7 +189,7 @@ const Event = () => {
   
     fetchData();
   }, []);
-  
+
 
   if (loading) {
     return <p>Loading events...</p>;
@@ -201,6 +225,10 @@ const Event = () => {
   };
 
 
+  const truncateCharacters = (text, charLimit) => {
+    if (!text) return "";
+    return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
+  };
 
 
   const settings = {
@@ -314,7 +342,7 @@ const Event = () => {
                               }}
                               style={{ color: '#000', backgroundColor: 'transparent' }}
                           >
-                            Reset
+                            All Speakers
                           </a>
                         </li>
                         {speakers.map((speaker) => (
@@ -365,7 +393,7 @@ const Event = () => {
                               }}
                               style={{ color: '#000', backgroundColor: 'transparent' }}
                             >
-                              Reset
+                              All Category
                             </a>
                           </li>
                           {categories.map((category) => (
@@ -508,7 +536,7 @@ const Event = () => {
                                 <h3>{new Date(event.start_date).getDate()}</h3>
                               </div>
                               <div className="year">
-                                <p>{new Date(event.start_date).toLocaleString("default", { month: "long" })} {new Date(event.start_date).getFullYear()}</p>
+                                <p>{new Date(event.start_date).toLocaleString("default", { month: "short" }) .toUpperCase() } {new Date(event.start_date).getFullYear()}</p>
                               </div>
                             </div>
                             <div className="trand-head">
@@ -517,9 +545,22 @@ const Event = () => {
                               </Link>
                             </div>
                             <div className="trand-para d-flex justify-content-between align-items-center">
-                              <div className="para">
-                                <p className="m-0">{event.short_description}</p>
+                            <div className="para">
+                                <p
+                                  className="m-0"
+                                  style={{
+                                    fontSize: '0.9rem',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
+                                  }}
+                                >
+                                  {event.short_description}
+                                </p>
                               </div>
+
                               <div className="icon">
                                 <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
                                   <i className="fa-solid fa-arrow-right trand-arrow"></i>
@@ -531,7 +572,10 @@ const Event = () => {
                       </div>
                     ))
                   ) : (
-                    <p>No events match your search.</p>
+                    <div className="centered-message">
+                    No Events Found Of This Search.
+                  </div>
+                  
                   )}
                 </div>
               </div>
@@ -583,12 +627,12 @@ const Event = () => {
                     />
                     {/* <p style={{ margin: 0 }}>{event.start_date}</p>  */}
                     <p style={{ margin: 0 }}>
-    {new Date(event.start_date).toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    })}
-  </p>
+                    {new Date(event.start_date).toLocaleDateString('en-US', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </p>
                   </div>
                   <div className="trand-head" style={{ marginTop: '20px' }}>
                     <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
@@ -596,9 +640,25 @@ const Event = () => {
                     </Link>
                   </div>
                   <div className="trand-para d-flex justify-content-between align-items-center">
+                    {/* <div className="para">
+                      <p className="m-0" style={{ fontSize: '0.9rem' }}>{event.short_description}</p> 
+                    </div> */}
                     <div className="para">
-                      <p className="m-0" style={{ fontSize: '0.9rem' }}>{event.short_description}</p> {/* Short description */}
+                      <p
+                        className="m-0"
+                        style={{
+                          fontSize: '0.9rem',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
+                        {event.short_description}
+                      </p>
                     </div>
+
                     <div className="icon">
                       <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
                         <i className="fa-solid fa-arrow-right trand-arrow"></i>
@@ -737,11 +797,14 @@ const Event = () => {
 
                                   </div>
                                   <div className="trand-para d-flex justify-content-between align-items-center">
-                                    <div className="para">
-                                      {/* <p className="m-0">{event.description}</p> */}
-                                      <div className="description-limit m-0" dangerouslySetInnerHTML={{ __html: event.description }} />
+                                   
+                                  <div className="para">
+                                    <div
+                                      className="description-limit m-0"
+                                      dangerouslySetInnerHTML={{ __html: truncateCharacters(event.description, 60) }} 
+                                    />
+                                  </div>
 
-                                    </div>
                                   </div>
                                   <div className="read-more-event-btn">
                                     <Link href={`/${event.id}/eventdetails`}>
@@ -840,20 +903,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
@@ -867,52 +927,50 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Photo Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div
-                    className="tab-pane fade"
-                    id="videos"
-                    role="tabpanel"
-                    aria-labelledby="videos-tab"
-                  >
-                    <div className="gallery-container">
-                      <div className="tz-gallery">
-                        <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Video Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                      className="tab-pane fade"
+                      id="videos"
+                      role="tabpanel"
+                      aria-labelledby="videos-tab"
+                    >
+                      <div className="gallery-container">
+                        <div className="tz-gallery">
+                          <div>
+                            <a className="lightbox" href={videoData.video_url}>
+                              <iframe
+                                id="video"
+                                width="100%"
+                                height="900"
+                                src={videoData.video_url.replace("watch?v=", "embed/")}
+                                title={videoData.video_title}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                onPlay={handleVideoPlay}
+                                onPause={handleVideoPause}
+                              ></iframe>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+
 
                   <div
                     className="tab-pane fade"
@@ -923,20 +981,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                          {galleryImages.map((imageUrl, index) => (
-                            <div
-                              className="col-sm-12 col-md-4 col-4"
-                              key={index}
-                            >
-                              <a className="lightbox" href={imageUrl}>
-                                <img
-                                  src={imageUrl}
-                                  alt={`Gallery Image ${index + 1}`}
-                                  className="gal-img-height"
-                                />
-                              </a>
-                            </div>
-                          ))}
+                        {galleryImages.map((imageUrl, index) => (
+                  <div className="col-sm-12 col-md-4 col-4" key={index}>
+                    <a className="lightbox" onClick={() => openLightbox(index)}>
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        className="gal-img-height"
+                      />
+                    </a>
+                  </div>
+                ))}
                         </div>
                       </div>
                     </div>
@@ -944,6 +999,24 @@ const Event = () => {
                 </div>
               </div>
             </div>
+
+            {isLightboxOpen && (
+        <div id="lightbox-modal" className="lightbox-modal" onClick={closeLightbox}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="arrow-button prev" onClick={prevImage}>&#10094;</button>
+            <img
+              id="lightbox-image"
+              src={galleryImages[currentImageIndex]}
+              alt="Lightbox"
+              className="gal-large-img"
+            />
+            <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
+          </div>
+        </div>
+      )}
+
+
+
           </section>
 
           {/* newsfrom section */}
