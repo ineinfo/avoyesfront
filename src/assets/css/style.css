@@ -1823,7 +1823,16 @@ button#reviews-tab.active {
 
 .modal-body .img img {
     width: 100%;
+    
 }
+
+.rounded-image {
+    width: 200px;               /* Adjust width as needed */
+    height: 300px;              /* Adjust height as needed */
+    border-radius: 5%;         /* Makes the image circular */
+    object-fit: cover;          /* Ensures the image covers the area evenly */
+}
+
 
 .women-modal-text .head h5 {
     font-family: "Playfair Display", serif;
@@ -3279,6 +3288,15 @@ button.carousel-control-next.modal-btn-next span.fas.fa-chevron-right {
     font-family: "Lato", sans-serif;
     font-weight: 400;
 }
+
+.circular-image {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Ensures the image remains a square */
+    border-radius: 80%; /* Makes the image circular */
+   
+    object-fit: cover; /* Ensures the image fits well within the circular shape */
+}
+
 
 .map-modal-content .stars span {
     color: #008000;
@@ -8043,9 +8061,10 @@ input#timePicker {
     background: #fff;
     transition: .4s linear;
     width: 450px; /* Width for the content box */
-    height: 450px; /* Height for the content box */
+    height: 430px; /* Height for the content box */
     display: flex;
     flex-direction: column;
+    padding: 10px;
 }
 
 .upcoming-content-box {
@@ -8060,7 +8079,7 @@ input#timePicker {
   }
 
   .upcoming-content {
-    padding: 15px; /* Padding for content */
+    padding: 10px; /* Padding for content */
     flex-grow: 1; /* Allow content to take available space */
    
     display: flex; /* Use flexbox for content alignment */
@@ -8282,6 +8301,11 @@ background: #0000FF;
     margin-bottom: 10px;
     cursor: pointer;
     transition: transform 0.1s ease;
+    border-radius: 5%;
+    width: 53%; /* Adjusts to container width */
+    height: 120px; 
+  
+   
 }
 
 .activity-detail-page .activity-detail-content .custom-thumbnail:hover {
@@ -8293,6 +8317,9 @@ background: #0000FF;
 }
 
 .activity-detail-page .activity-detail-content .main-custom-img {
+    width: 100%; 
+    height: 650px; 
+    border-radius: 15px;
     object-fit: cover;
 }
 
@@ -8329,6 +8356,18 @@ background: #0000FF;
     font-weight: bold;
     cursor: pointer;
 }
+
+.activity-detail-page .activity-detail-content a {
+    text-decoration: none;
+    color: inherit; 
+    cursor: pointer;
+}
+
+.activity-detail-page .activity-detail-content a:hover {
+    text-decoration: none; 
+    cursor: pointer;
+}
+
 
 .activity-detail-page .activity-detail-content .rating-score {
     font-weight: bold;

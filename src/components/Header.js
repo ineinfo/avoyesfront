@@ -7,8 +7,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
 import { bottom } from "@popperjs/core";
 import { useAuth } from "@/utils/Guard";
+import "../assets/css/style.css";
+import "../assets/css/responsive.css";
 
 const Header = () => {
+  const [showSearchPopup, setShowSearchPopup] = useState(false);
+
+
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -26,6 +31,11 @@ const Header = () => {
 
   // State for managing offcanvas visibility
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
+
+  const toggleSearchPopup = (e) => {
+    e.preventDefault(); 
+    setShowSearchPopup(!showSearchPopup);
+};
 
   useEffect(() => {
     const userId = Cookies.get("id");
@@ -208,15 +218,38 @@ const Header = () => {
               style={{ paddingBottom: "15px" }}
             >
               <ul className="navbar-nav ms-auto align-items-center">
-                <li className="nav-item">
+              <li className="nav-item">
+                  {/* Search Icon */}
                   <Link
                     href="#"
                     id="search-icon"
                     className="text-decoration-none text-dark"
+                    onClick={toggleSearchPopup} // Trigger the popup toggle on click
                   >
                     <i className="fa-solid fa-magnifying-glass"></i>
                   </Link>
+
+                  {/* Search Popup */}
+                  <div
+  id="searchPopup"
+  style={{ display: showSearchPopup ? "block" : "none" }}
+  className="search-popup"
+>
+  <div className="search-content">
+    <button
+      className="close-btn"
+      aria-label="Close"
+      onClick={toggleSearchPopup}
+    >
+      <i className="fa fa-times"></i>
+    </button>
+    <input type="text" placeholder="Search..." />
+  </div>
+</div>
+
                 </li>
+
+
                 <li className="nav-item">
                   <Link
                     href="/wishlist"

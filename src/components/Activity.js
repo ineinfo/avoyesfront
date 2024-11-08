@@ -27,15 +27,15 @@ const Activity = () => {
 
 
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
+  const [searchQuery, setSearchQuery] = useState(""); 
 
-  // Function to handle search input change
+  
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
   const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value); // This should set the selected country correctly
+    setSelectedCountry(event.target.value); 
   };
   
 
@@ -101,7 +101,7 @@ const Activity = () => {
       }
     });
   
-    // Apply country filter if selectedCountry is set
+    
     if (selectedCountry) {
       filtered = filtered.filter((activity) => activity.country_id.toString() === selectedCountry.toString());
     }
@@ -166,14 +166,7 @@ const Activity = () => {
     return <div>{error}</div>;
   }
 
-//  const filteredActivities = filterActivities(activities, filter).filter((activity) =>
-//   // Check if the searchQuery exists anywhere in the activity fields (case-insensitive)
-//   Object.values(activity).some((value) =>
-//     value &&
-//     typeof value === 'string' &&
-//     value.toLowerCase().includes(searchQuery.toLowerCase())
-//   )
-// );
+
 
 
 const filteredActivities = filterActivities(activities, filter, selectedCountry).filter((activity) =>
@@ -319,7 +312,7 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
             ))}
           </ul>
           <div className="row mt-5">
-            {filteredActivities.map((activity) => (
+          {filteredActivities.map((activity) => (
               <div
                 className="col-lg-4 col-md-6 col-sm-6 mb-3"
                 key={activity.id}
@@ -329,16 +322,18 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                     <img
                       src={
                         activity.image_url ? activity.image_url : defaultImg.src
+                     
                       }
                       alt={activity.title}
                       className="img-fluid mb-2"
-                      style={{ width: "100%", height: "90%" }}
+                     
+                      style={{ width: "500px", height: "250px", objectFit: "cover" }}
                     />
                   </div>
                   <div className="box">
                     <div className="d-flex justify-content-between align-items-center">
                       <h5>
-                        <a href={`/activity/${activity.id}`}>
+                        <a href={`/activitydetail/${activity.id}`}>
                           {activity.title}
                         </a>
                       </h5>
@@ -351,11 +346,11 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                     <h6>hosted by {activity.hosted_by}</h6>
                     <div className="date-time-section d-flex justify-content-between align-items-center">
                       <div className="date">
-                        <i className="fas fa-calendar-alt"></i>
-                        {formatDateRange(
+                        <i className="fas fa-calendar-alt"></i>       {formatDateRange(
                           activity.start_datetime,
                           activity.end_datetime
                         )}
+                       
                       </div>
                       <div className="separator">|</div>
                       <div className="time" >
@@ -383,9 +378,11 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
             ))}
           </div>
           <div className="text-center my-4">
+          <a href="/activitylist">
             <button className="btn-all-activities">
               All activities <i className="fas fa-arrow-right"></i>
             </button>
+            </a>
           </div>
         </div>
       </div>
@@ -427,7 +424,7 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
         ],
       }}
     >
-      {filteredActivities.map((activity) => (
+      {activities.map((activity) => (
         <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 item mx-2" 
          key={activity.id}> 
           <div className="upcoming-content-box">
@@ -436,48 +433,54 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                 src={activity.image_url ? activity.image_url : defaultImg.src}
                 alt={activity.title}
                 className="img-fluid"
+                // style={{ width: "200px", height: "200px", objectFit: "cover" }}
               />
             </div>
             <div className="upcoming-content">
               <div className="d-flex justify-content-between align-items-center">
-                <h5>
-                  <a href={`/activity-detail/${activity.id}`}>{activity.title}</a>
+                <h5  style={{ marginBottom: '-38px'  }}>
+                  <a style={{ color: "black" }} href={`/activitydetail/${activity.id}`}>
+                  {activity.title} 
+                  </a>
                 </h5>
                 <div className="rate">
                   <p className="m-0">
                     {activity.rating}
-                    <i className="fa-solid fa-star"></i>
+                    {/* <i className="fa-solid fa-star"></i> */}
                   </p>
                 </div>
               </div>
-              <h6>hosted by {activity.hosted_by}</h6>
+              <h6 style={{  marginBottom: '-40px' }}>hosted by {activity.hosted_by}</h6>
               <div className="date-time-section d-flex justify-content-between align-items-center">
                 <div className="date">
                   <i className="fas fa-calendar-alt"></i>
-                  <span>{formatDateRange(activity.start_datetime, activity.end_datetime)}</span>
+                  <span>       {formatDateRange(activity.start_datetime, activity.end_datetime)}</span>
                 </div>
                 <div className="separator">|</div>
                 <div className="time">
-                  <i className="fas fa-clock"></i>
-                  <span>
+                  <i className="fas fa-clock"></i>         <span>
                     {formatTime(activity.start_datetime)} - {formatTime(activity.end_datetime)}
                   </span>
+                 
                 </div>
               </div>
-              <div className="location-section">
+              <div className="location-section"style={{ marginTop: '-20px'}}>
                 <div className="location d-flex align-items-center">
                   <i className="fas fa-map-marker-alt"></i>
-                  <span className="location-name">{activity.location}</span>
+                  <span className="location-name">    
+                      {activity.location}
+                      </span>    
+                  
+                  
+                 
                 </div>
-                <div className="location-address">
-                  <span>{activity.address}</span>
-                </div>
+          
               </div>
-              <div className="heart-icon">
+              {/* <div className="heart-icon">
                 <a href="#">
                   <i className="far fa-heart"></i>
                 </a>
-              </div>
+              </div> */}
               {/* <a href="#" className="btn">Join Now</a> */}
             </div>
           </div>

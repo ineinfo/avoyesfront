@@ -12,6 +12,18 @@ export const fetchActivities = async () => {
   }
 };
 
+export const fetchActivityDetails = async (id) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/activities/${id}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching activity details:", error);
+    throw error;
+  }
+};
+
 // Fetch countries
 export const fetchCountries = async () => {
   try {
