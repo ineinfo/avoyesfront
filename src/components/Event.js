@@ -1009,6 +1009,12 @@ const Event = () => {
               src={galleryImages[currentImageIndex]}
               alt="Lightbox"
               className="gal-large-img"
+              style={{
+                width: '900px', 
+                height: '400px', 
+                objectFit: 'cover',
+                objectPosition: 'center', 
+              }}
             />
             <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
           </div>
