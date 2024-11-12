@@ -12,8 +12,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "jquery";
 
-import dynamic from 'next/dynamic'; 
+import dynamic from 'next/dynamic';
 import defaultImg from "../../public/event-breadcrumb.png";
+import LoadingSpinner from "./Loading";
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
   ssr: false,
 });
@@ -27,17 +28,17 @@ const Activity = () => {
 
 
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
 
-  
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
   const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value); 
+    setSelectedCountry(event.target.value);
   };
-  
+
 
   const formatDateRange = (startDate, endDate) => {
     const start = new Intl.DateTimeFormat("en-US", {
@@ -67,12 +68,12 @@ const Activity = () => {
     const startOfNextWeek = new Date();
     const endOfNextWeek = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  
+
     startOfWeek.setDate(now.getDate() - now.getDay()); // Start of this week
     endOfWeek.setDate(now.getDate() + (6 - now.getDay())); // End of this week
     startOfNextWeek.setDate(startOfWeek.getDate() + 7); // Start of next week
     endOfNextWeek.setDate(endOfWeek.getDate() + 7); // End of next week
-  
+
     let filtered = activities.filter((activity) => {
       const activityDate = new Date(activity.start_datetime);
       switch (filter) {
@@ -100,12 +101,12 @@ const Activity = () => {
           return true; // No filter applied
       }
     });
-  
-    
+
+
     if (selectedCountry) {
       filtered = filtered.filter((activity) => activity.country_id.toString() === selectedCountry.toString());
     }
-  
+
     return filtered;
   };
 
@@ -128,9 +129,9 @@ const Activity = () => {
 
     const getCountries = async () => {
       try {
-        const data = await fetchCountries(); 
-        console.log(data); 
-        setCountries(data.data); 
+        const data = await fetchCountries();
+        console.log(data);
+        setCountries(data.data);
       } catch (err) {
         console.error("Error fetching countries:", err);
         setError("Error fetching countries, please log in and try again.");
@@ -139,9 +140,9 @@ const Activity = () => {
 
     const getActivityCategories = async () => {
       try {
-        const data = await fetchActivityCategories(); 
+        const data = await fetchActivityCategories();
         if (data.status === true) {
-          setCategories(data.data); 
+          setCategories(data.data);
         } else {
           setError("Failed to fetch activity categories");
         }
@@ -159,7 +160,7 @@ const Activity = () => {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -169,13 +170,13 @@ const Activity = () => {
 
 
 
-const filteredActivities = filterActivities(activities, filter, selectedCountry).filter((activity) =>
-  Object.values(activity).some((value) =>
-    value &&
-    typeof value === 'string' &&
-    value.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-);
+  const filteredActivities = filterActivities(activities, filter, selectedCountry).filter((activity) =>
+    Object.values(activity).some((value) =>
+      value &&
+      typeof value === 'string' &&
+      value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
 
 
   const categorySliderSettings = {
@@ -184,8 +185,8 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    arrows:false,
-    
+    arrows: false,
+
     autoplaySpeed: 2000,
     responsive: [
       {
@@ -208,8 +209,8 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
       },
     ],
   };
-  
-  
+
+
 
   return (
     <>
@@ -240,8 +241,8 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                     </span>
 
                     <select className="form-select dropdown-select"
-                     value={selectedCountry} // Ensure the selected country is correctly reflected in the dropdown
-                     onChange={handleCountryChange}
+                      value={selectedCountry} // Ensure the selected country is correctly reflected in the dropdown
+                      onChange={handleCountryChange}
                     >
                       <option value="" selected>
                         Choose Country
@@ -262,24 +263,24 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
         {/* slider */}
 
 
-        <div className="activity-categories" style={{ marginTop: '60px' , marginBottom: '100px'  }}>
-    <Slider {...categorySliderSettings}>
-      {categories.map((category) => (
-        <div className=" item" key={category.id}>
-          <a href="">
-            <img
-              src={category.image_url || defaultImg.src}
-              alt={category.title}
-              style={{marginBottom: '30px'  }}
-            />
-            <div className="item-content">
-              <p>{category.title}</p>
-            </div>
-          </a>
+        <div className="activity-categories" style={{ marginTop: '60px', marginBottom: '100px' }}>
+          <Slider {...categorySliderSettings}>
+            {categories.map((category) => (
+              <div className=" item" key={category.id}>
+                <a href="">
+                  <img
+                    src={category.image_url || defaultImg.src}
+                    alt={category.title}
+                    style={{ marginBottom: '30px' }}
+                  />
+                  <div className="item-content">
+                    <p>{category.title}</p>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-  </div>
 
       </div>
 
@@ -312,7 +313,7 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
             ))}
           </ul>
           <div className="row mt-5">
-          {filteredActivities.map((activity) => (
+            {filteredActivities.map((activity) => (
               <div
                 className="col-lg-4 col-md-6 col-sm-6 mb-3"
                 key={activity.id}
@@ -322,11 +323,11 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                     <img
                       src={
                         activity.image_url ? activity.image_url : defaultImg.src
-                     
+
                       }
                       alt={activity.title}
                       className="img-fluid mb-2"
-                     
+
                       style={{ width: "500px", height: "250px", objectFit: "cover" }}
                     />
                   </div>
@@ -350,7 +351,7 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
                           activity.start_datetime,
                           activity.end_datetime
                         )}
-                       
+
                       </div>
                       <div className="separator">|</div>
                       <div className="time" >
@@ -378,117 +379,117 @@ const filteredActivities = filterActivities(activities, filter, selectedCountry)
             ))}
           </div>
           <div className="text-center my-4">
-          <a href="/activitylist">
-            <button className="btn-all-activities">
-              All activities <i className="fas fa-arrow-right"></i>
-            </button>
+            <a href="/activitylist">
+              <button className="btn-all-activities">
+                All activities <i className="fas fa-arrow-right"></i>
+              </button>
             </a>
           </div>
         </div>
       </div>
 
       <div className="upcoming-activities mt-5">
-  <div className="heading-area text-center">
-    <h2>Upcoming Activities</h2>
-  </div>
-  <div className="container mt-5">
-    <Slider
-      {...{
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        arrows: false, 
-        autoplay: true, 
-        autoplaySpeed: 2000, 
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
+        <div className="heading-area text-center">
+          <h2>Upcoming Activities</h2>
+        </div>
+        <div className="container mt-5">
+          <Slider
+            {...{
               infinite: true,
-              autoplay: true,
-              autoplaySpeed: 3000,
-            },
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 1,
+              speed: 500,
+              slidesToShow: 3,
               slidesToScroll: 1,
-              autoplay: true, 
-              autoplaySpeed: 3000,
-            },
-          },
-        ],
-      }}
-    >
-      {activities.map((activity) => (
-        <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 item mx-2" 
-         key={activity.id}> 
-          <div className="upcoming-content-box">
-            <div className="img-zoom">
-              <img
-                src={activity.image_url ? activity.image_url : defaultImg.src}
-                alt={activity.title}
-                className="img-fluid"
-                // style={{ width: "200px", height: "200px", objectFit: "cover" }}
-              />
-            </div>
-            <div className="upcoming-content">
-              <div className="d-flex justify-content-between align-items-center">
-                <h5  style={{ marginBottom: '-38px'  }}>
-                  <a style={{ color: "black" }} href={`/activitydetail/${activity.id}`}>
-                  {activity.title} 
-                  </a>
-                </h5>
-                <div className="rate">
-                  <p className="m-0">
-                    {activity.rating}
-                    {/* <i className="fa-solid fa-star"></i> */}
-                  </p>
-                </div>
-              </div>
-              <h6 style={{  marginBottom: '-40px' }}>hosted by {activity.hosted_by}</h6>
-              <div className="date-time-section d-flex justify-content-between align-items-center">
-                <div className="date">
-                  <i className="fas fa-calendar-alt"></i>
-                  <span>       {formatDateRange(activity.start_datetime, activity.end_datetime)}</span>
-                </div>
-                <div className="separator">|</div>
-                <div className="time">
-                  <i className="fas fa-clock"></i>         <span>
-                    {formatTime(activity.start_datetime)} - {formatTime(activity.end_datetime)}
-                  </span>
-                 
-                </div>
-              </div>
-              <div className="location-section"style={{ marginTop: '-20px'}}>
-                <div className="location d-flex align-items-center">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <span className="location-name">    
-                      {activity.location}
-                      </span>    
-                  
-                  
-                 
-                </div>
-          
-              </div>
-              {/* <div className="heart-icon">
+              arrows: false,
+              autoplay: true,
+              autoplaySpeed: 2000,
+              responsive: [
+                {
+                  breakpoint: 1024,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                  },
+                },
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                  },
+                },
+              ],
+            }}
+          >
+            {activities.map((activity) => (
+              <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 item mx-2"
+                key={activity.id}>
+                <div className="upcoming-content-box">
+                  <div className="img-zoom">
+                    <img
+                      src={activity.image_url ? activity.image_url : defaultImg.src}
+                      alt={activity.title}
+                      className="img-fluid"
+                    // style={{ width: "200px", height: "200px", objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className="upcoming-content">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <h5 style={{ marginBottom: '-38px' }}>
+                        <a style={{ color: "black" }} href={`/activitydetail/${activity.id}`}>
+                          {activity.title}
+                        </a>
+                      </h5>
+                      <div className="rate">
+                        <p className="m-0">
+                          {activity.rating}
+                          {/* <i className="fa-solid fa-star"></i> */}
+                        </p>
+                      </div>
+                    </div>
+                    <h6 style={{ marginBottom: '-40px' }}>hosted by {activity.hosted_by}</h6>
+                    <div className="date-time-section d-flex justify-content-between align-items-center">
+                      <div className="date">
+                        <i className="fas fa-calendar-alt"></i>
+                        <span>       {formatDateRange(activity.start_datetime, activity.end_datetime)}</span>
+                      </div>
+                      <div className="separator">|</div>
+                      <div className="time">
+                        <i className="fas fa-clock"></i>         <span>
+                          {formatTime(activity.start_datetime)} - {formatTime(activity.end_datetime)}
+                        </span>
+
+                      </div>
+                    </div>
+                    <div className="location-section" style={{ marginTop: '-20px' }}>
+                      <div className="location d-flex align-items-center">
+                        <i className="fas fa-map-marker-alt"></i>
+                        <span className="location-name">
+                          {activity.location}
+                        </span>
+
+
+
+                      </div>
+
+                    </div>
+                    {/* <div className="heart-icon">
                 <a href="#">
                   <i className="far fa-heart"></i>
                 </a>
               </div> */}
-              {/* <a href="#" className="btn">Join Now</a> */}
-            </div>
-          </div>
+                    {/* <a href="#" className="btn">Join Now</a> */}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-  </div>
-</div>
+      </div>
 
 
       {/* <!-- activity service --> */}

@@ -1,8 +1,9 @@
-"use client"; 
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import LoadingSpinner from './Loading';
 
 const PrivacyPolicy = () => {
     const [privacyData, setPrivacyData] = useState(null);
@@ -13,7 +14,7 @@ const PrivacyPolicy = () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/pages/1`);
                 console.log(response.data); // Log the fetched data
-                
+
                 if (response.data.status) {
                     setPrivacyData(response.data.data);
                 } else {
@@ -30,7 +31,7 @@ const PrivacyPolicy = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // Optional loading state
+        return <LoadingSpinner />; // Optional loading state
     }
 
     if (!privacyData) {

@@ -113,7 +113,7 @@ const Cart = () => {
                   <div key={item.id} className="row py-4 align-items-center cart-page-item-border">
                     <div className="col-lg-2 col-md-2 col-4">
                       <div className="cart-img" style={{}}>
-                        <img src={item.image_url1} alt={item.product_title} height={150} />
+                        <img src={item.image_url1} alt={item.product_title} height={150} width={'110px'} style={{ objectFit: "cover" }} />
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-3 col-8">

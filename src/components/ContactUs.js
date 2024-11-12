@@ -4,19 +4,20 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios"; // Import axios
+import LoadingSpinner from "./Loading";
 
 const ContactUs = () => {
   const [contactInfo, setContactInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" }); // State for form data
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/contactus`);
         console.log("d");
-        
+
         if (response.data.status) {
           setContactInfo(response.data.data);
         } else {
@@ -38,9 +39,9 @@ const ContactUs = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    setError(""); 
-  
+    e.preventDefault();
+    setError("");
+
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/contact-inquiry`, formData);
       if (response.data.status) {
@@ -54,14 +55,14 @@ const ContactUs = () => {
       setError("An error occurred while submitting your inquiry: " + (error.response?.data.message || "Unknown error"));
     }
   };
-  
+
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <LoadingSpinner />;
   }
 
   if (!contactInfo) {
-    return <div>No contact information available.</div>; 
+    return <div>No contact information available.</div>;
   }
 
   return (
@@ -125,7 +126,7 @@ const ContactUs = () => {
                     <p>
                       Please fill out the form below and we will get back to you as soon as possible
                     </p>
-                    {error && <div className="alert alert-danger">{error}</div>} 
+                    {error && <div className="alert alert-danger">{error}</div>}
                   </div>
                   <form onSubmit={handleSubmit}> {/* Form submission  */}
                     <div className="row contact-form">

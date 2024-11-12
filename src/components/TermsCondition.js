@@ -4,7 +4,8 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
+import LoadingSpinner from './Loading';
 
 const TermsCondition = () => {
     const [termsData, setTermsData] = useState(null);
@@ -14,7 +15,7 @@ const TermsCondition = () => {
         const fetchTermsData = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/pages/2`); // Use axios for the API call
-                console.log(response.data); 
+                console.log(response.data);
 
                 if (response.data.status) {
                     setTermsData(response.data.data);
@@ -32,7 +33,7 @@ const TermsCondition = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // Optional loading state
+        return <LoadingSpinner />; // Optional loading state
     }
 
     if (!termsData) {
@@ -50,7 +51,7 @@ const TermsCondition = () => {
                                 <Link href="/" className="text-decoration-none me-1">HOME</Link>
                                 <Link href="/terms-and-conditions" className="text-decoration-none me-1">/ TERMS & CONDITIONS</Link>
                             </div>
-                            <h1>{termsData.title}</h1> {/* Fetch title from the API */}
+                            <h1 dangerouslySetInnerHTML={{ __html: termsData.title }}></h1> {/* Fetch title from the API */}
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,7 @@ const TermsCondition = () => {
             <div className="tc-page-main py-5">
                 <div className="container">
                     <div className="tandcpara">
-                        <p>{termsData.description}</p> {/* Fetch description from the API */}
+                        <p dangerouslySetInnerHTML={{ __html: termsData.description }}></p> {/* Fetch description from the API */}
                     </div>
                 </div>
             </div>

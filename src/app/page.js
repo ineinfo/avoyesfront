@@ -1,5 +1,5 @@
 "use client";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import $ from "jquery";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import defaultImg from "../../public/home-decor.png";
 import defaultPImg from "../../public/defaultImg.jpg";
 import fetchProducts from "@/utils/api/ProductApi";
-import {fetchBanner} from "@/utils/api/BannerApi";
+import { fetchBanner } from "@/utils/api/BannerApi";
 
 
 
@@ -27,7 +27,7 @@ export default function CustomComponent() {
 
   const [events, setEvents] = useState([]);
   const [products, setProducts] = useState([]);
-  const [bannerData, setBannerData] = useState(null); 
+  const [bannerData, setBannerData] = useState(null);
 
 
 
@@ -47,11 +47,11 @@ export default function CustomComponent() {
             )}`;
           }
         }
-        
+
       });
     }
 
-    
+
 
 
 
@@ -188,7 +188,7 @@ export default function CustomComponent() {
       }
     };
     fetchProductData();
-  },[]);
+  }, []);
 
   const communities = [
     {
@@ -296,7 +296,7 @@ export default function CustomComponent() {
     arrows: false,
     autoplaySpeed: 2000,
 
-  
+
     responsive: [
       {
         breakpoint: 1024,
@@ -466,7 +466,7 @@ export default function CustomComponent() {
                             alt={event.title}
                             className="img-fluid"
                           /> */}
-                            <img src={event.image_url || defaultImg.src} alt={event.title} />
+                          <img src={event.image_url || defaultImg.src} alt={event.title} height={'300px'} />
                           <div className="icon">
                             <Link href="#">
                               {/* <i className="fa-regular fa-heart"></i> */}
@@ -498,7 +498,7 @@ export default function CustomComponent() {
                               <h6>{event.title}</h6>
                             </Link>
                           </div>
-                          <div className="trand-para d-flex justify-content-between align-items-center">
+                          <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
                             <div className="para">
                               <p className="m-0">
                                 {event.short_description}
@@ -580,163 +580,163 @@ export default function CustomComponent() {
 
 
 
-<section>
-      <div className="market-main py-5">
-        <div className="container">
-          <div className="head d-flex justify-content-between align-items-center">
-            <div className="heading">
-              <h1>
-                <span>MARKET </span> Place
-              </h1>
+      <section>
+        <div className="market-main py-5">
+          <div className="container">
+            <div className="head d-flex justify-content-between align-items-center">
+              <div className="heading">
+                <h1>
+                  <span>MARKET </span> Place
+                </h1>
+              </div>
+              <div className="view-more-head">
+                <Link href="/marketplace" className="text-decoration-none">
+                  View All <i className="fa-solid fa-arrow-right view-more-arrow"></i>
+                </Link>
+              </div>
             </div>
-            <div className="view-more-head">
-              <Link href="/marketplace" className="text-decoration-none">
-                View All <i className="fa-solid fa-arrow-right view-more-arrow"></i>
-              </Link>
-            </div>
-          </div>
-          <Slider {...productsettings} style={{ padding: '0 25px' }} className="product-slider pt-4">
+            <Slider {...productsettings} style={{ padding: '0 25px' }} className="product-slider pt-4">
 
-            {products.map((product) => (
-              <div
-                className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 market-place-product"
-                key={product.id}
-                style={{
-                  margin: '0 2px', 
-                  height: "500px",
-                  display: "flex",
-                  flexDirection: "column",
-                  width: 'calc(15% - 100px)', 
-                 
-                }}
-              >
-                <div className="img-wrapper" style={{ flex: 1 }}>
-                  <div className="img">
-                    <img
-                      // src={product.image_url || defaultPImg.src}
-                      src={product.image_url || product.image_url1} alt={product.title} 
-                      style={{ width: "100%", height: "auto", objectFit: "cover" }}
-                    />
-                    {product.label && (
-                      <div
-                        className="label"
-                        style={{
-                          position: "absolute",
-                          top: "25px",
-                          left: "30px",
-                          backgroundColor: "blue",
-                          color: "white",
-                          padding: "5px 15px",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        <p style={{ margin: 0 }}>{product.product_label}</p>
+              {products.map((product) => (
+                <div
+                  className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 market-place-product"
+                  key={product.id}
+                  style={{
+                    margin: '0 2px',
+                    height: "500px",
+                    display: "flex",
+                    flexDirection: "column",
+                    width: 'calc(15% - 100px)',
+
+                  }}
+                >
+                  <div className="img-wrapper" style={{ flex: 1 }}>
+                    <div className="img">
+                      <img
+                        // src={product.image_url || defaultPImg.src}
+                        src={product.image_url || product.image_url1} alt={product.title}
+                        style={{ width: "100%", height: "350px", objectFit: "cover" }}
+                      />
+                      {product.label && (
+                        <div
+                          className="label"
+                          style={{
+                            position: "absolute",
+                            top: "25px",
+                            left: "30px",
+                            backgroundColor: "blue",
+                            color: "white",
+                            padding: "5px 15px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <p style={{ margin: 0 }}>{product.product_label}</p>
+                        </div>
+                      )}
+                      <div className="heart-icon">
+                        <a href="/wishlist" className="text-decoration-none text-dark" style={{ marginBottom: '20px' }}>
+                          <i className="fa-regular fa-heart"></i>
+                        </a>
+                        <a href="/cart" className="text-decoration-none text-dark">
+                          <i className="bi bi-handbag ms-1 quick-icons"></i>
+                        </a>
                       </div>
-                    )}
-                    <div className="heart-icon">
-                      <a href="/wishlist" className="text-decoration-none text-dark" style={{ marginBottom: '20px' }}>
-                        <i className="fa-regular fa-heart"></i>
-                      </a>
-                      <a href="/cart" className="text-decoration-none text-dark">
-                        <i className="bi bi-handbag ms-1 quick-icons"></i>
-                      </a>
+                    </div>
+                  </div>
+                  <div className="info d-flex justify-content-between align-items-center">
+                    <div className="item">
+                      <Link href={`${product.id}/productdetails`} className="text-decoration-none">
+                        <p className="m-0">{product.title}</p>
+                      </Link>
+                    </div>
+                    <div className="rating d-flex align-items-center">
+                      <div className="rate d-flex align-items-center">
+                        <p className="m-0">{product.ratings}</p>
+                        <i className="fa-solid fa-star"></i>
+                      </div>
+                      <div className="people">
+                        <p className="m-0">{product.reviews}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pricing d-flex align-items-center">
+                    <div className="price">
+                      <p className="m-0">€{product.discount_amount}</p>
+                    </div>
+                    <div className="checked-price px-3">
+                      <span className="price-old">€{product.amount}</span>
+                    </div>
+                    <div className="offer-price">
+                      <p className="m-0">{product.discount_amount}</p>
                     </div>
                   </div>
                 </div>
-                <div className="info d-flex justify-content-between align-items-center">
-                  <div className="item">
-                    <Link href={`${product.id}/productdetails`} className="text-decoration-none">
-                      <p className="m-0">{product.title}</p>
-                    </Link>
-                  </div>
-                  <div className="rating d-flex align-items-center">
-                    <div className="rate d-flex align-items-center">
-                      <p className="m-0">{product.ratings}</p>
-                      <i className="fa-solid fa-star"></i>
-                    </div>
-                    <div className="people">
-                      <p className="m-0">{product.reviews}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="pricing d-flex align-items-center">
-                  <div className="price">
-                    <p className="m-0">€{product.discount_amount}</p>
-                  </div>
-                  <div className="checked-price px-3">
-                    <span className="price-old">€{product.amount}</span>
-                  </div>
-                  <div className="offer-price">
-                    <p className="m-0">{product.discount_amount}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Slider>
+              ))}
+            </Slider>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <div className="products-banner py-5">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-3 col-md-3 p-0">
-              <div className="product-bg-img-1">
-                <img
-                  src={bannerData?.banner_left_image || "/shirt.png"}
-                  alt="Left Banner"
-                />
-                <div className="text">
-                  <h3>{bannerData?.banner_left_text || "Default Left Text"}</h3>
-                  <div className="view-more-btn">
-                    <Link href={bannerData?.banner_left_url || "/marketplace"} className="text-decoration-none">
-                      VIEW MORE
-                    </Link>
+      <section>
+        <div className="products-banner py-5">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-3 col-md-3 p-0">
+                <div className="product-bg-img-1">
+                  <img
+                    src={bannerData?.banner_left_image || "/shirt.png"}
+                    alt="Left Banner"
+                  />
+                  <div className="text">
+                    <h3>{bannerData?.banner_left_text || "Default Left Text"}</h3>
+                    <div className="view-more-btn">
+                      <Link href={bannerData?.banner_left_url || "/marketplace"} className="text-decoration-none">
+                        VIEW MORE
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-xl-6 col-md-6 p-0">
-              <div className="product-bg-img-2">
-                <img
-                  src={bannerData?.banner_center_image ||"/bagpack.png"}
-                  alt="Center Banner"
-                />
-                <div className="text">
-                  <h3>{bannerData?.banner_center_text || "Default Center Text"}</h3>
-                  <div className="view-more-btn">
-                    <Link href={bannerData?.banner_center_url || "/marketplace"} className="text-decoration-none">
-                      VIEW MORE
-                    </Link>
+              <div className="col-xl-6 col-md-6 p-0">
+                <div className="product-bg-img-2">
+                  <img
+                    src={bannerData?.banner_center_image || "/bagpack.png"}
+                    alt="Center Banner"
+                  />
+                  <div className="text">
+                    <h3>{bannerData?.banner_center_text || "Default Center Text"}</h3>
+                    <div className="view-more-btn">
+                      <Link href={bannerData?.banner_center_url || "/marketplace"} className="text-decoration-none">
+                        VIEW MORE
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-xl-3 col-md-3 p-0">
-              <div className="product-bg-img-3">
-                <img
-                  src={bannerData?.banner_right_image || "/gogals.png"}
-                  alt="Right Banner"
-                />
-                <div className="text">
-                  <h3>{bannerData?.banner_right_text || "Default Right Text"}</h3>
-                  <div className="view-more-btn">
-                    {/* <Link href={bannerData?.banner_right_url || "/default-url"} className="text-decoration-none">
+              <div className="col-xl-3 col-md-3 p-0">
+                <div className="product-bg-img-3">
+                  <img
+                    src={bannerData?.banner_right_image || "/gogals.png"}
+                    alt="Right Banner"
+                  />
+                  <div className="text">
+                    <h3>{bannerData?.banner_right_text || "Default Right Text"}</h3>
+                    <div className="view-more-btn">
+                      {/* <Link href={bannerData?.banner_right_url || "/default-url"} className="text-decoration-none">
                       VIEW MORE
                     </Link> */}
-                    <Link href="/marketplace" className="text-decoration-none">
-                      VIEW MORE
-                    </Link>
+                      <Link href="/marketplace" className="text-decoration-none">
+                        VIEW MORE
+                      </Link>
 
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
 
 

@@ -7,16 +7,17 @@ import Link from 'next/link';
 import axios from 'axios'; // Import axios
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
+import LoadingSpinner from './Loading';
 
 const CustomerSupport = () => {
-    const [faqs, setFaqs] = useState([]); 
+    const [faqs, setFaqs] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchFAQs = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/faqs/`); 
-                
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/faqs/`);
+
                 if (Array.isArray(response.data.data)) {
                     setFaqs(response.data.data);
                 } else {
@@ -33,7 +34,7 @@ const CustomerSupport = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; 
+        return <LoadingSpinner />;
     }
 
     return (

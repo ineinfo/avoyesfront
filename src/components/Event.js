@@ -19,6 +19,7 @@ import {
   fetchSpeakers,
   fetchCategories
 } from "@/utils/api/EventApi";
+import LoadingSpinner from "./Loading";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -29,13 +30,13 @@ const Event = () => {
   const [activeTab, setActiveTab] = useState("upcoming");
   const [galleryImages, setGalleryImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [categories, setCategories] = useState([]); 
-  const [speakers, setSpeakers] = useState([]); 
-  const [selectedCategory, setSelectedCategory] = useState(""); 
-  const [selectedSpeaker, setSelectedSpeaker] = useState(""); 
+  const [categories, setCategories] = useState([]);
+  const [speakers, setSpeakers] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSpeaker, setSelectedSpeaker] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSpeakerId, setSelectedSpeakerId] = useState(null);
- 
+
   const [timer, setTimer] = useState({ hours: 24, minutes: 59, seconds: 59 });
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -73,26 +74,26 @@ const Event = () => {
   useEffect(() => {
     let interval;
 
-   
+
     interval = setInterval(() => {
       setTimer((prevTimer) => {
         let newSeconds = prevTimer.seconds - 1;
         let newMinutes = prevTimer.minutes;
         let newHours = prevTimer.hours;
 
-      
+
         if (newSeconds < 0) {
           newSeconds = 59;
           newMinutes -= 1;
         }
 
-     
+
         if (newMinutes < 0) {
           newMinutes = 59;
           newHours -= 1;
         }
 
-     
+
         if (newHours < 0) {
           newHours = 0;
         }
@@ -105,7 +106,7 @@ const Event = () => {
       });
     }, 1000);
 
-   
+
     return () => {
       clearInterval(interval);
     };
@@ -134,7 +135,7 @@ const Event = () => {
         setError(data.message);
       }
     };
-  
+
     const getFeaturedEvents = async () => {
       const data = await fetchEventsFeatured();
       console.log("featured eventdata", data);
@@ -144,7 +145,7 @@ const Event = () => {
         setError(data.message);
       }
     };
-  
+
     const fetchVideoData = async () => {
       const data = await fetchEventsVideo();
       console.log("Fetched video data:", data);
@@ -156,7 +157,7 @@ const Event = () => {
     };
 
 
-  
+
     const fetchAdditionalData = async () => {
       try {
         const categoriesData = await fetchCategories();
@@ -166,7 +167,7 @@ const Event = () => {
         } else {
           setError(categoriesData.message);
         }
-  
+
         const speakersData = await fetchSpeakers();
         if (speakersData.status) {
           setSpeakers(speakersData.data);
@@ -177,7 +178,7 @@ const Event = () => {
         console.error("Error fetching additional data:", error);
       }
     };
-  
+
     // Call all functions and set loading state
     const fetchData = async () => {
       await getEvents();
@@ -186,13 +187,13 @@ const Event = () => {
       await fetchAdditionalData();
       setLoading(false);
     };
-  
+
     fetchData();
   }, []);
 
 
   if (loading) {
-    return <p>Loading events...</p>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -202,8 +203,8 @@ const Event = () => {
   const filteredEvents =
     activeTab === "latest"
       ? [...events]
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 5)
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5)
       : events;
 
 
@@ -220,8 +221,8 @@ const Event = () => {
   });
 
   const handleTabClick = (event, categoryId) => {
-    event.preventDefault(); 
-    setSelectedCategoryId(categoryId); 
+    event.preventDefault();
+    setSelectedCategoryId(categoryId);
   };
 
 
@@ -233,10 +234,10 @@ const Event = () => {
 
   const settings = {
     dots: false,
-    arrows: true, 
+    arrows: true,
     infinite: true,
     speed: 3000,
-    slidesToShow: 3, 
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -256,7 +257,7 @@ const Event = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 1, 
+          slidesToShow: 1,
           slidesToScroll: 1,
           dots: false,
           arrows: true,
@@ -314,51 +315,51 @@ const Event = () => {
                       <div className="drp-mob-sec d-flex align-items-center">
                         {/* Speaker Dropdown */}
                         <div className="dropdown speaker-dropdwn  me-3">
-                        <button
-                          className="btn dropdown-toggle select-city speaker-drp d-flex justify-content-between align-items-center"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                          id="speakerDropdown"
-                          style={{
-                            border: '1px solid #ccc', 
-                            backgroundColor: 'white', 
-                            color: '#000', 
-                            transition: 'none', 
-                          }}
-                        >
-                      {selectedSpeaker || "Speaker"}
-                      {/* <i className="fa fa-chevron-down ms-2"></i> */}
-                    </button>
+                          <button
+                            className="btn dropdown-toggle select-city speaker-drp d-flex justify-content-between align-items-center"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            id="speakerDropdown"
+                            style={{
+                              border: '1px solid #ccc',
+                              backgroundColor: 'white',
+                              color: '#000',
+                              transition: 'none',
+                            }}
+                          >
+                            {selectedSpeaker || "Speaker"}
+                            {/* <i className="fa fa-chevron-down ms-2"></i> */}
+                          </button>
 
                           <ul className="dropdown-menu city-menu">
-                          <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                          onClick={() => {
-                                setSelectedSpeaker("");
-                                setSelectedSpeakerId(null);
-                              }}
-                              style={{ color: '#000', backgroundColor: 'transparent' }}
-                          >
-                            All Speakers
-                          </a>
-                        </li>
-                        {speakers.map((speaker) => (
-                            <li key={speaker.id}>
+                            <li>
                               <a
                                 className="dropdown-item"
                                 href="#"
                                 onClick={() => {
-                                  setSelectedSpeaker(speaker.title);
-                                  setSelectedSpeakerId(speaker.id);
+                                  setSelectedSpeaker("");
+                                  setSelectedSpeakerId(null);
                                 }}
+                                style={{ color: '#000', backgroundColor: 'transparent' }}
                               >
-                                {speaker.title}
+                                All Speakers
                               </a>
                             </li>
-                          ))}
+                            {speakers.map((speaker) => (
+                              <li key={speaker.id}>
+                                <a
+                                  className="dropdown-item"
+                                  href="#"
+                                  onClick={() => {
+                                    setSelectedSpeaker(speaker.title);
+                                    setSelectedSpeakerId(speaker.id);
+                                  }}
+                                >
+                                  {speaker.title}
+                                </a>
+                              </li>
+                            ))}
                           </ul>
                         </div>
 
@@ -372,44 +373,44 @@ const Event = () => {
                             id="categoryDropdown"
                             style={{
                               border: '1px solid #ccc',
-                              backgroundColor: 'white', 
-                              color: '#000', 
-                              transition: 'none', 
+                              backgroundColor: 'white',
+                              color: '#000',
+                              transition: 'none',
                             }}
                           >
 
-                            
-                             {selectedCategory || "Category"}
+
+                            {selectedCategory || "Category"}
                             {/* <i className="fa fa-chevron-down ms-2"></i> */}
                           </button>
                           <ul className="dropdown-menu city-menu">
-                          <li>
-                            <a
-                              className="dropdown-item"
-                              href="#"
-                              onClick={() => {
-                                setSelectedCategory("");
-                                setSelectedCategoryId(null);
-                              }}
-                              style={{ color: '#000', backgroundColor: 'transparent' }}
-                            >
-                              All Category
-                            </a>
-                          </li>
-                          {categories.map((category) => (
-                            <li key={category.id}>
+                            <li>
                               <a
                                 className="dropdown-item"
                                 href="#"
                                 onClick={() => {
-                                  setSelectedCategory(category.title);
-                                  setSelectedCategoryId(category.id);
+                                  setSelectedCategory("");
+                                  setSelectedCategoryId(null);
                                 }}
+                                style={{ color: '#000', backgroundColor: 'transparent' }}
                               >
-                                {category.title}
+                                All Category
                               </a>
                             </li>
-                          ))}
+                            {categories.map((category) => (
+                              <li key={category.id}>
+                                <a
+                                  className="dropdown-item"
+                                  href="#"
+                                  onClick={() => {
+                                    setSelectedCategory(category.title);
+                                    setSelectedCategoryId(category.id);
+                                  }}
+                                >
+                                  {category.title}
+                                </a>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -422,130 +423,228 @@ const Event = () => {
 
           {/* video section */}
           <section className="video-section">
-      <div className="upcoming-events-main">
-        <div className="container">
-          <div className="head">
-            <h1>Upcoming Events</h1>
-            <p>{videoData ? videoData.top_sub_heading : "Loading..."}</p>
-          </div>
-          <div className="video-box">
-            <div className="video-container">
-              {videoData ? (
-                <>
-                  <iframe
-                    id="video"
-                    width="100%"
-                    height="900"
-                    src={videoData.video_url.replace("watch?v=", "embed/")}
-                    title={videoData.video_title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    onPlay={handleVideoPlay}
-                    onPause={handleVideoPause}
-                  ></iframe>
-                  <div className="overlay"></div>
-                  <div className="img" id="playButton">
-                    {/* <img src="/play-button.png" alt="Play" /> */}
+            <div className="upcoming-events-main">
+              <div className="container">
+                <div className="head">
+                  <h1>Upcoming Events</h1>
+                  <p>{videoData ? videoData.top_sub_heading : "Loading..."}</p>
+                </div>
+                <div className="video-box">
+                  <div className="video-container">
+                    {videoData ? (
+                      <>
+                        <iframe
+                          id="video"
+                          width="100%"
+                          height="900"
+                          src={videoData.video_url.replace("watch?v=", "embed/")}
+                          title={videoData.video_title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          onPlay={handleVideoPlay}
+                          onPause={handleVideoPause}
+                        ></iframe>
+                        <div className="overlay"></div>
+                        <div className="img" id="playButton">
+                          {/* <img src="/play-button.png" alt="Play" /> */}
+                        </div>
+                        <div className="timer-counter d-flex">
+                          <div className="hrs">
+                            <h3>{String(timer.hours).padStart(2, "0")}</h3>
+                            <p>Hours</p>
+                          </div>
+                          <div className="min">
+                            <h3>{String(timer.minutes).padStart(2, "0")}</h3>
+                            <p>Min</p>
+                          </div>
+                          <div className="sec">
+                            <h3>{String(timer.seconds).padStart(2, "0")}</h3>
+                            <p>Sec</p>
+                          </div>
+                        </div>
+                        <div className="event-video-title">
+                          <h1>{videoData.video_title}</h1>
+                          <p>{videoData.video_sub_heading}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <p>Loading video...</p>
+                    )}
                   </div>
-                  <div className="timer-counter d-flex">
-                    <div className="hrs">
-                      <h3>{String(timer.hours).padStart(2, "0")}</h3>
-                      <p>Hours</p>
-                    </div>
-                    <div className="min">
-                      <h3>{String(timer.minutes).padStart(2, "0")}</h3>
-                      <p>Min</p>
-                    </div>
-                    <div className="sec">
-                      <h3>{String(timer.seconds).padStart(2, "0")}</h3>
-                      <p>Sec</p>
-                    </div>
-                  </div>
-                  <div className="event-video-title">
-                    <h1>{videoData.video_title}</h1>
-                    <p>{videoData.video_sub_heading}</p>
-                  </div>
-                </>
-              ) : (
-                <p>Loading video...</p>
-              )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+          </section>
 
           {/* all event text */}
           <section>
-      <div className="event-cat-main">
-        <div className="container">
-          <div className="tab-container">
-            <div className="tab-head-event d-flex justify-content-between align-items-center">
-              {/* <ul className="nav nav-tabs event-tab" id="myTab" role="tablist"> */}
-              <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'auto' }}>
-                <li className="nav-item" role="presentation">
-                  <button
-                    className={`nav-link ${selectedCategoryId === null ? 'active' : ''}`} 
-                    id="profile-tab-event"
-                    type="button"
-                    onClick={(event) => handleTabClick(event, null)} 
-                  >
-                    <img src="/event-tab.png" alt="" />
-                  </button>
-                </li>
-                <div className="tab-brdr d-flex">
-                  {categories.map((category) => (
-                    <li className="nav-item" role="presentation" key={category.id}>
-                      <a
-                        className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
-                        onClick={(event) => handleTabClick(event, category.id)} 
-                        href="#"
-                      >
-                        {category.title}
-                      </a>
-                    </li>
-                  ))}
-                </div>
-              </ul>
-              <div className="evt-head-btn">
-                <Link href="/eventlist">
-                  <button type="button">SEE ALL EVENTS</button>
-                </Link>
-              </div>
-            </div>
+            <div className="event-cat-main">
+              <div className="container">
+                <div className="tab-container">
+                  <div className="tab-head-event d-flex justify-content-between align-items-center">
+                    {/* <ul className="nav nav-tabs event-tab" id="myTab" role="tablist"> */}
+                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'auto' }}>
+                      <li className="nav-item" role="presentation">
+                        <button
+                          className={`nav-link ${selectedCategoryId === null ? 'active' : ''}`}
+                          id="profile-tab-event"
+                          type="button"
+                          onClick={(event) => handleTabClick(event, null)}
+                        >
+                          <img src="/event-tab.png" alt="" />
+                        </button>
+                      </li>
+                      <div className="tab-brdr d-flex">
+                        {categories.map((category) => (
+                          <li className="nav-item" role="presentation" key={category.id}>
+                            <a
+                              className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
+                              onClick={(event) => handleTabClick(event, category.id)}
+                              href="#"
+                            >
+                              {category.title}
+                            </a>
+                          </li>
+                        ))}
+                      </div>
+                    </ul>
+                    <div className="evt-head-btn">
+                      <Link href="/eventlist">
+                        <button type="button">SEE ALL EVENTS</button>
+                      </Link>
+                    </div>
+                  </div>
 
-            <div className="tab-content evt-tab-content" id="myTabContent">
-              <div className="tab-pane fade show active" role="tabpanel">
-                <div className="row">
-                  {filteredSearchEvents.length > 0 ? (
-                    filteredSearchEvents.map((event) => (
-                      <div className="col-xl-4 col-lg-4" key={event.id}>
-                        <div className="trend-1 pt-4">
-                          <div className="img">
-                            <img src={event.image_url || defaultImg.src} alt={event.title} />
-                            <div className="icon">
-                              <a href="#">
-                                {/* heart-icon */}
-                              </a>
-                            </div> 
-                          </div>
-                          <div className="trand-text-box">
-                            <div className="date-box">
-                              <div className="date">
-                                <h3>{new Date(event.start_date).getDate()}</h3>
-                              </div>
-                              <div className="year">
-                                <p>{new Date(event.start_date).toLocaleString("default", { month: "short" }) .toUpperCase() } {new Date(event.start_date).getFullYear()}</p>
+                  <div className="tab-content evt-tab-content" id="myTabContent">
+                    <div className="tab-pane fade show active" role="tabpanel">
+                      <div className="row">
+                        {filteredSearchEvents.length > 0 ? (
+                          filteredSearchEvents.map((event) => (
+                            <div className="col-xl-4 col-lg-4" key={event.id}>
+                              <div className="trend-1 pt-4">
+                                <div className="img">
+                                  <img src={event.image_url || defaultImg.src} alt={event.title} />
+                                  <div className="icon">
+                                    <a href="#">
+                                      {/* heart-icon */}
+                                    </a>
+                                  </div>
+                                </div>
+                                <div className="trand-text-box">
+                                  <div className="date-box">
+                                    <div className="date">
+                                      <h3>{new Date(event.start_date).getDate()}</h3>
+                                    </div>
+                                    <div className="year">
+                                      <p>{new Date(event.start_date).toLocaleString("default", { month: "short" }).toUpperCase()} {new Date(event.start_date).getFullYear()}</p>
+                                    </div>
+                                  </div>
+                                  <div className="trand-head">
+                                    <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
+                                      <h6>{event.title}</h6>
+                                    </Link>
+                                  </div>
+                                  <div className="trand-para d-flex justify-content-between align-items-center">
+                                    <div className="para">
+                                      <p
+                                        className="m-0"
+                                        style={{
+                                          fontSize: '0.9rem',
+                                          display: '-webkit-box',
+                                          WebkitLineClamp: 2,
+                                          WebkitBoxOrient: 'vertical',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis'
+                                        }}
+                                      >
+                                        {event.short_description}
+                                      </p>
+                                    </div>
+
+                                    <div className="icon">
+                                      <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
+                                        <i className="fa-solid fa-arrow-right trand-arrow"></i>
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                            <div className="trand-head">
+                          ))
+                        ) : (
+                          <div className="centered-message">
+                            No Events Found Of This Search.
+                          </div>
+
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+
+
+          {/* Featured Events Section */}
+          <section>
+            <div className="featured-events-main">
+              <div className="container">
+                <div className="head">
+                  <h1>Featured Events</h1>
+                  <p>
+                    Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences!
+                  </p>
+                </div>
+                <div className="event-page-slide">
+                  <Slider {...settings}>
+                    {featuredEvents.map((event) => (
+                      <div
+                        className="col-xl-4 col-lg-4 event-1-box"
+                        key={event.id}
+                        style={{ margin: '30px', height: '400px' }}  // Fixed height for consistency
+                      >
+                        <div className="trend-1 pt-4" style={{ margin: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                          <div className="img" style={{ flexGrow: 1 }}>
+                            <img
+                              className="event-image"
+                              src={event.image_url ? event.image_url : defaultImg.src}
+                              alt={event.title}
+                              style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }}  // Image styling
+                            />
+                            <div className="icon">
+                              {/* <a href="#"><i className="fa-regular fa-heart"></i></a> */}
+                            </div>
+                          </div>
+                          <div className="trand-text-box" style={{ padding: '20px' }}>
+                            <div className="cal-date d-flex align-items-center" style={{ fontSize: '0.9rem' }}> {/* Adjust font size */}
+                              <img
+                                src="/cal-evnt.png"
+                                alt="Calendar"
+                                style={{ width: '20px', height: '20px', marginRight: '5px' }} // Smaller calendar image
+                              />
+                              {/* <p style={{ margin: 0 }}>{event.start_date}</p>  */}
+                              <p style={{ margin: 0 }}>
+                                {new Date(event.start_date).toLocaleDateString('en-US', {
+                                  day: 'numeric',
+                                  month: 'long',
+                                  year: 'numeric',
+                                })}
+                              </p>
+                            </div>
+                            <div className="trand-head" style={{ marginTop: '20px' }}>
                               <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                                <h6>{event.title}</h6>
+                                <h6 style={{ fontSize: '1rem' }}>{event.title}</h6> {/* Adjust title size if needed */}
                               </Link>
                             </div>
                             <div className="trand-para d-flex justify-content-between align-items-center">
-                            <div className="para">
+                              {/* <div className="para">
+                      <p className="m-0" style={{ fontSize: '0.9rem' }}>{event.short_description}</p> 
+                    </div> */}
+                              <div className="para">
                                 <p
                                   className="m-0"
                                   style={{
@@ -570,110 +669,12 @@ const Event = () => {
                           </div>
                         </div>
                       </div>
-                    ))
-                  ) : (
-                    <div className="centered-message">
-                    No Events Found Of This Search.
-                  </div>
-                  
-                  )}
+                    ))}
+                  </Slider>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-       </section>
-
-    
-
-
-{/* Featured Events Section */}
-<section>
-  <div className="featured-events-main">
-    <div className="container">
-      <div className="head">
-        <h1>Featured Events</h1>
-        <p>
-          Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences!
-        </p>
-      </div>
-      <div className="event-page-slide">
-        <Slider {...settings}>
-          {featuredEvents.map((event) => (
-            <div 
-              className="col-xl-4 col-lg-4 event-1-box" 
-              key={event.id} 
-              style={{ margin: '30px', height: '400px'}}  // Fixed height for consistency
-            >
-              <div className="trend-1 pt-4" style={{ margin: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="img" style={{ flexGrow: 1 }}>
-                  <img 
-                    className="event-image"
-                    src={event.image_url ? event.image_url : defaultImg.src}
-                    alt={event.title}
-                    style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }}  // Image styling
-                  />
-                  <div className="icon">
-                    {/* <a href="#"><i className="fa-regular fa-heart"></i></a> */}
-                  </div>
-                </div>
-                <div className="trand-text-box" style={{ padding: '20px' }}>
-                  <div className="cal-date d-flex align-items-center" style={{ fontSize: '0.9rem' }}> {/* Adjust font size */}
-                    <img 
-                      src="/cal-evnt.png" 
-                      alt="Calendar" 
-                      style={{ width: '20px', height: '20px', marginRight: '5px' }} // Smaller calendar image
-                    />
-                    {/* <p style={{ margin: 0 }}>{event.start_date}</p>  */}
-                    <p style={{ margin: 0 }}>
-                    {new Date(event.start_date).toLocaleDateString('en-US', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </p>
-                  </div>
-                  <div className="trand-head" style={{ marginTop: '20px' }}>
-                    <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                      <h6 style={{ fontSize: '1rem' }}>{event.title}</h6> {/* Adjust title size if needed */}
-                    </Link>
-                  </div>
-                  <div className="trand-para d-flex justify-content-between align-items-center">
-                    {/* <div className="para">
-                      <p className="m-0" style={{ fontSize: '0.9rem' }}>{event.short_description}</p> 
-                    </div> */}
-                    <div className="para">
-                      <p
-                        className="m-0"
-                        style={{
-                          fontSize: '0.9rem',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        {event.short_description}
-                      </p>
-                    </div>
-
-                    <div className="icon">
-                      <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                        <i className="fa-solid fa-arrow-right trand-arrow"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      </div>
-    </div>
-  </div>
-</section>
+          </section>
 
 
 
@@ -699,9 +700,8 @@ const Event = () => {
                   <div className="latest-tabs-border d-flex align-items-center">
                     <li className="nav-item" role="presentation">
                       <a
-                        className={`nav-link ${
-                          activeTab === "upcoming" ? "active" : ""
-                        }`}
+                        className={`nav-link ${activeTab === "upcoming" ? "active" : ""
+                          }`}
                         id="upcoming-tab"
                         onClick={() => setActiveTab("upcoming")}
                         role="tab"
@@ -713,9 +713,8 @@ const Event = () => {
                     </li>
                     <li className="nav-item" role="presentation">
                       <a
-                        className={`nav-link ${
-                          activeTab === "latest" ? "active" : ""
-                        }`}
+                        className={`nav-link ${activeTab === "latest" ? "active" : ""
+                          }`}
                         id="latest-tab"
                         onClick={() => setActiveTab("latest")}
                         role="tab"
@@ -756,9 +755,9 @@ const Event = () => {
                             <div className="row">
                               <div className="col-xl-4 col-lg-5">
                                 {/* <img src={event.image_url || "/defaultImg.png"} alt={event.title} /> */}
-                                <img 
-                                 className="event-image"
-                                
+                                <img
+                                  className="event-image"
+
                                   src={
                                     event.image_url
                                       ? event.image_url
@@ -785,25 +784,25 @@ const Event = () => {
                                       ).toLocaleDateString()}
                                     </p> */}
 
-                                          <p>
-                                              {(() => {
-                                                  const date = new Date(event.start_date);
-                                                  const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                                                  const formattedDate = date.toLocaleDateString('en-GB', options).split(' ');
-                                                  return `${formattedDate[0]} ${formattedDate[1]}, ${formattedDate[2]}`;
-                                              })()}
-                                          </p>
+                                    <p>
+                                      {(() => {
+                                        const date = new Date(event.start_date);
+                                        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                                        const formattedDate = date.toLocaleDateString('en-GB', options).split(' ');
+                                        return `${formattedDate[0]} ${formattedDate[1]}, ${formattedDate[2]}`;
+                                      })()}
+                                    </p>
 
 
                                   </div>
                                   <div className="trand-para d-flex justify-content-between align-items-center">
-                                   
-                                  <div className="para">
-                                    <div
-                                      className="description-limit m-0"
-                                      dangerouslySetInnerHTML={{ __html: truncateCharacters(event.description, 60) }} 
-                                    />
-                                  </div>
+
+                                    <div className="para">
+                                      <div
+                                        className="description-limit m-0"
+                                        dangerouslySetInnerHTML={{ __html: truncateCharacters(event.description, 60) }}
+                                      />
+                                    </div>
 
                                   </div>
                                   <div className="read-more-event-btn">
@@ -903,17 +902,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                        {galleryImages.map((imageUrl, index) => (
-                  <div className="col-sm-12 col-md-4 col-4" key={index}>
-                    <a className="lightbox" onClick={() => openLightbox(index)}>
-                      <img
-                        src={imageUrl}
-                        alt={`Gallery Image ${index + 1}`}
-                        className="gal-img-height"
-                      />
-                    </a>
-                  </div>
-                ))}
+                          {galleryImages.map((imageUrl, index) => (
+                            <div className="col-sm-12 col-md-4 col-4" key={index}>
+                              <a className="lightbox" onClick={() => openLightbox(index)}>
+                                <img
+                                  src={imageUrl}
+                                  alt={`Gallery Image ${index + 1}`}
+                                  className="gal-img-height"
+                                />
+                              </a>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -927,49 +926,49 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                        {galleryImages.map((imageUrl, index) => (
-                  <div className="col-sm-12 col-md-4 col-4" key={index}>
-                    <a className="lightbox" onClick={() => openLightbox(index)}>
-                      <img
-                        src={imageUrl}
-                        alt={`Gallery Image ${index + 1}`}
-                        className="gal-img-height"
-                      />
-                    </a>
-                  </div>
-                ))}
+                          {galleryImages.map((imageUrl, index) => (
+                            <div className="col-sm-12 col-md-4 col-4" key={index}>
+                              <a className="lightbox" onClick={() => openLightbox(index)}>
+                                <img
+                                  src={imageUrl}
+                                  alt={`Gallery Image ${index + 1}`}
+                                  className="gal-img-height"
+                                />
+                              </a>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div
-                      className="tab-pane fade"
-                      id="videos"
-                      role="tabpanel"
-                      aria-labelledby="videos-tab"
-                    >
-                      <div className="gallery-container">
-                        <div className="tz-gallery">
-                          <div>
-                            <a className="lightbox" href={videoData.video_url}>
-                              <iframe
-                                id="video"
-                                width="100%"
-                                height="900"
-                                src={videoData.video_url.replace("watch?v=", "embed/")}
-                                title={videoData.video_title}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                onPlay={handleVideoPlay}
-                                onPause={handleVideoPause}
-                              ></iframe>
-                            </a>
-                          </div>
+                    className="tab-pane fade"
+                    id="videos"
+                    role="tabpanel"
+                    aria-labelledby="videos-tab"
+                  >
+                    <div className="gallery-container">
+                      <div className="tz-gallery">
+                        <div>
+                          <a className="lightbox" href={videoData.video_url}>
+                            <iframe
+                              id="video"
+                              width="100%"
+                              height="900"
+                              src={videoData.video_url.replace("watch?v=", "embed/")}
+                              title={videoData.video_title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              onPlay={handleVideoPlay}
+                              onPause={handleVideoPause}
+                            ></iframe>
+                          </a>
                         </div>
                       </div>
                     </div>
+                  </div>
 
 
                   <div
@@ -981,17 +980,17 @@ const Event = () => {
                     <div className="gallery-container">
                       <div className="tz-gallery">
                         <div className="row">
-                        {galleryImages.map((imageUrl, index) => (
-                  <div className="col-sm-12 col-md-4 col-4" key={index}>
-                    <a className="lightbox" onClick={() => openLightbox(index)}>
-                      <img
-                        src={imageUrl}
-                        alt={`Gallery Image ${index + 1}`}
-                        className="gal-img-height"
-                      />
-                    </a>
-                  </div>
-                ))}
+                          {galleryImages.map((imageUrl, index) => (
+                            <div className="col-sm-12 col-md-4 col-4" key={index}>
+                              <a className="lightbox" onClick={() => openLightbox(index)}>
+                                <img
+                                  src={imageUrl}
+                                  alt={`Gallery Image ${index + 1}`}
+                                  className="gal-img-height"
+                                />
+                              </a>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -1001,25 +1000,25 @@ const Event = () => {
             </div>
 
             {isLightboxOpen && (
-        <div id="lightbox-modal" className="lightbox-modal" onClick={closeLightbox}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="arrow-button prev" onClick={prevImage}>&#10094;</button>
-            <img
-              id="lightbox-image"
-              src={galleryImages[currentImageIndex]}
-              alt="Lightbox"
-              className="gal-large-img"
-              style={{
-                width: '900px', 
-                height: '400px', 
-                objectFit: 'cover',
-                objectPosition: 'center', 
-              }}
-            />
-            <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
-          </div>
-        </div>
-      )}
+              <div id="lightbox-modal" className="lightbox-modal" onClick={closeLightbox}>
+                <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+                  <button className="arrow-button prev" onClick={prevImage}>&#10094;</button>
+                  <img
+                    id="lightbox-image"
+                    src={galleryImages[currentImageIndex]}
+                    alt="Lightbox"
+                    className="gal-large-img"
+                    style={{
+                      width: '900px',
+                      height: '400px',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                    }}
+                  />
+                  <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
+                </div>
+              </div>
+            )}
 
 
 

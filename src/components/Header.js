@@ -33,9 +33,9 @@ const Header = () => {
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
   const toggleSearchPopup = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setShowSearchPopup(!showSearchPopup);
-};
+  };
 
   useEffect(() => {
     const userId = Cookies.get("id");
@@ -218,7 +218,7 @@ const Header = () => {
               style={{ paddingBottom: "15px" }}
             >
               <ul className="navbar-nav ms-auto align-items-center">
-              <li className="nav-item">
+                <li className="nav-item">
                   {/* Search Icon */}
                   <Link
                     href="#"
@@ -231,21 +231,21 @@ const Header = () => {
 
                   {/* Search Popup */}
                   <div
-  id="searchPopup"
-  style={{ display: showSearchPopup ? "block" : "none" }}
-  className="search-popup"
->
-  <div className="search-content">
-    <button
-      className="close-btn"
-      aria-label="Close"
-      onClick={toggleSearchPopup}
-    >
-      <i className="fa fa-times"></i>
-    </button>
-    <input type="text" placeholder="Search..." />
-  </div>
-</div>
+                    id="searchPopup"
+                    style={{ display: showSearchPopup ? "block" : "none" }}
+                    className="search-popup"
+                  >
+                    <div className="search-content">
+                      <button
+                        className="close-btn"
+                        aria-label="Close"
+                        onClick={toggleSearchPopup}
+                      >
+                        <i className="fa fa-times"></i>
+                      </button>
+                      <input type="text" placeholder="Search..." />
+                    </div>
+                  </div>
 
                 </li>
 
@@ -393,6 +393,7 @@ const Header = () => {
                           src={item.image_url1}
                           alt={item.product_title}
                           height={80}
+                          width={65}
                         />
                       </div>
                     </div>
@@ -470,6 +471,8 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+
     </header>
   );
 };

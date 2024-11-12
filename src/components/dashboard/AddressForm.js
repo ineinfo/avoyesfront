@@ -3,13 +3,20 @@
 
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { fetchCities, fetchCountries, fetchStates } from "@/utils/api/CommonApi";
 
 const AddressForm = ({ change }) => {
   const router = useRouter();
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+
   const [formData, setFormData] = useState({
     addressType: "work",
     firstName: "",
@@ -18,8 +25,8 @@ const AddressForm = ({ change }) => {
     mobileNumber: "",
     addressLine1: "",
     country: "",
-    city: "",
     state: "",
+    city: "",
     postalCode: "",
     defaultAddress: false,
   });
@@ -31,7 +38,82 @@ const AddressForm = ({ change }) => {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    console.log("formdata", formData);
+
   };
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const country = await fetchCountries();
+        setCountries(country ? country : [{}]);
+      } catch (error) {
+        console.log(error);
+
+      }
+    }
+
+    loadData()
+  }, [])
+
+  useEffect(() => {
+    console.log("selectedCountry", selectedCountry);
+
+    const fetchAllStates = async () => {
+      if (selectedCountry) {
+        const Countryid = countries.find((a) => a.id == selectedCountry);
+
+        if (Countryid) {
+          const id = Countryid.id;
+
+          try {
+            const statesData = await fetchStates(id);
+            setStates(statesData)
+            console.log("states", statesData);
+          } catch (error) {
+            console.error("Error fetching states:", error);
+          }
+        } else {
+
+          console.error("Country not found for selected country:", selectedCountry);
+        }
+      } else {
+        setStates([])
+        console.error("No country selected.");
+      }
+    };
+
+    fetchAllStates();
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    const fetchAllCities = async () => {
+      if (selectedState) {
+        const Stateid = states.find((a) => a.id == selectedState);
+
+        if (Stateid) {
+          const id = Stateid.id;
+
+          try {
+            const citiesData = await fetchCities(id);
+            setCities(citiesData)
+            console.log("states", citiesData);
+          } catch (error) {
+            console.error("Error fetching states:", error);
+          }
+        } else {
+
+          console.error("Country not found for selected country:", selectedState);
+        }
+      } else {
+        setCities([])
+        console.error("No country selected.");
+      }
+    };
+
+    fetchAllCities();
+  }, [selectedState, states]);
 
 
   const handleSubmit = async (e) => {
@@ -54,6 +136,8 @@ const AddressForm = ({ change }) => {
       is_default: formData.defaultAddress ? 1 : 0,
       a_type: formData.addressType === "work" ? 2 : (formData.addressType === "home" ? 1 : 3),
     };
+    console.log("Pay Load", addressPayload);
+
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/address`, addressPayload, {
@@ -187,23 +271,41 @@ const AddressForm = ({ change }) => {
                 className="form-select"
                 name="country"
                 value={formData.country}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e)
+                  setSelectedCountry(e.target.value)
+                }}
               >
                 <option value="">Select Country</option>
-                <option value="1">United States</option>
-                <option value="2">Canada</option>
+                {countries.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="col-md-6">
               <select
                 className="form-select"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
+                name="state"
+                value={formData.state}
+                onChange={(e) => {
+                  handleChange(e)
+                  setSelectedState(e.target.value)
+                }}
               >
-                <option value="">Select City</option>
-                <option value="3">New York</option>
-                <option value="4">Los Angeles</option>
+                <option value="">Select State</option>
+                {states.length > 0 ? <>
+                  {states.map((state) => (
+                    <option key={state.id} value={state.id}>
+                      {state.name}
+                    </option>
+                  ))}
+                </> : <>
+                  <option disabled>
+                    Select Country First
+                  </option>
+                </>}
               </select>
             </div>
           </div>
@@ -212,13 +314,22 @@ const AddressForm = ({ change }) => {
             <div className="col-md-6">
               <select
                 className="form-select"
-                name="state"
-                value={formData.state}
+                name="city"
+                value={formData.city}
                 onChange={handleChange}
               >
-                <option value="">Select State</option>
-                <option value="5">New York</option>
-                <option value="6">California</option>
+                <option value="">Select City</option>
+                {cities.length > 0 ? <>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.id}>
+                      {city.name}
+                    </option>
+                  ))}
+                </> : <>
+                  <option disabled>
+                    Select State First
+                  </option>
+                </>}
               </select>
             </div>
             <div className="col-md-6">

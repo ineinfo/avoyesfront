@@ -1685,6 +1685,18 @@ ul.dropdown-menu.dropdown-menu-custom.drp-2.border-0.show {
     font-family: "Lato", sans-serif;
 }
 
+.prd-dtl-checkout-btn-disabled button {
+    background-color: #cccccc; /* Lighter color for disabled */
+    color: #666666;
+    cursor: not-allowed;
+    padding: 12px 100px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: "Lato", sans-serif;
+    opacity: 0.7; /* Slightly transparent to show disabled */
+}
+
 .cat-prd-dtl p {
     color: #969696;
     font-size: 14px;
@@ -5153,16 +5165,16 @@ button.accordion-button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Gray semi-transparent */
-    z-index: 1040; /* Ensure it covers content */
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1040; /* Ensure it's behind the sidebar */
+    transition: opacity 0.3s ease; /* Smooth transition */
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Prevent clicks when hidden */
   }
   
   .offcanvas-overlay.active {
-    visibility: visible;
-    opacity: 1;
+    opacity: 1; /* Show overlay when active */
+    pointer-events: auto; /* Allow clicks to close the sidebar */
   }
   
   /* Offcanvas styles */

@@ -7,10 +7,11 @@ import parse from 'html-react-parser';
 import { toast } from 'react-toastify';
 import defaultImg from "../../public/event-breadcrumb.png";
 
-import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments ,fetchBlogById ,addBlogComment } from "@/utils/api/BlogApi"; 
+import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments, fetchBlogById, addBlogComment } from "@/utils/api/BlogApi";
+import LoadingSpinner from './Loading';
 
 const BlogDetails = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
     const [blogPost, setBlogPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -23,11 +24,11 @@ const BlogDetails = () => {
     const [selectedTag, setSelectedTag] = useState(null);
     const [blogDetails, setBlogDetails] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRelatedVisible, setIsRelatedVisible] = useState(false); 
+    const [isRelatedVisible, setIsRelatedVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [commentsUpdatedAt, setCommentsUpdatedAt] = useState(Date.now());
 
- 
+
 
 
     const openModal = () => {
@@ -38,36 +39,36 @@ const BlogDetails = () => {
         setIsModalOpen(false);
     };
 
- 
-    
-
-
-const handleCommentSubmit = async () => {
-    if (!commentText.trim()) {
-        
-        toast.warning(`Comment can't be empty`); 
-    }
-
-    try {
-        await addBlogComment(id, commentText);
-
-      
-        const response = await fetchBlogById(id);
-        setBlogDetails(response.data.data);
-        setComments(response.data.comments); 
-        setCommentText(''); 
-    } catch (error) {
-        console.error("Error submitting comment:", error);
-        toast.error("You Can't Add Comments!Please try again.");
-    }
-
-    closeModal();
-};
 
 
 
-    
- 
+
+    const handleCommentSubmit = async () => {
+        if (!commentText.trim()) {
+
+            toast.warning(`Comment can't be empty`);
+        }
+
+        try {
+            await addBlogComment(id, commentText);
+
+
+            const response = await fetchBlogById(id);
+            setBlogDetails(response.data.data);
+            setComments(response.data.comments);
+            setCommentText('');
+        } catch (error) {
+            console.error("Error submitting comment:", error);
+            toast.error("You Can't Add Comments!Please try again.");
+        }
+
+        closeModal();
+    };
+
+
+
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,7 +77,7 @@ const handleCommentSubmit = async () => {
                     fetchBlogs(),
                     fetchBlogCategory(),
                     fetchBlogTags(),
-                     fetchBlogComments()
+                    fetchBlogComments()
                 ]);
 
                 setBlogs(Array.isArray(blogsResponse.data) ? blogsResponse.data : []);
@@ -91,8 +92,8 @@ const handleCommentSubmit = async () => {
         fetchData();
     }, []);
 
-  
-    
+
+
 
     // Filter blogs by selected category or tag
     const filteredBlogs = blogs.filter(blog => {
@@ -107,10 +108,10 @@ const handleCommentSubmit = async () => {
             if (id) {
                 try {
                     const response = await fetchBlogById(id);
-                    setBlogDetails(response.data.data); 
-                    const { comments } = response.data; 
+                    setBlogDetails(response.data.data);
+                    const { comments } = response.data;
 
-            
+
                     setComments(comments);
                 } catch (error) {
                     console.error("Error fetching blog details:", error);
@@ -119,43 +120,43 @@ const handleCommentSubmit = async () => {
                 }
             }
         };
-        
+
         loadBlogDetails();
-    }, [id]); 
- 
+    }, [id]);
 
 
-      useEffect(() => {
+
+    useEffect(() => {
         setIsRelatedVisible(selectedCategory !== null || selectedTag !== null || searchQuery !== '')
-    }, [selectedCategory, selectedTag , searchQuery]);
+    }, [selectedCategory, selectedTag, searchQuery]);
 
     if (loading) {
-        return <p>Loading...</p>; 
+        return <LoadingSpinner />;
     }
 
     if (!blogDetails) {
-        return <p>Blog not found.</p>; 
+        return <p>Blog not found.</p>;
     }
     const extractQuote = (htmlString) => {
         const quoteRegex = /<blockquote>(.*?)<\/blockquote>/;
         const match = htmlString.match(quoteRegex);
         return match ? match[1] : '';
     };
-    
-  
+
+
     const getDescriptionAndParagraphsAfterQuote = (htmlString) => {
 
         const quoteRegex = /<blockquote>.*?<\/blockquote>/;
         const paragraphsAfterQuote = htmlString.split(quoteRegex);
-    
-    
+
+
         const descriptionWithoutQuote = paragraphsAfterQuote[0].trim();
 
         const followingParagraphs = paragraphsAfterQuote.slice(1).join('');
-    
+
         return { descriptionWithoutQuote, followingParagraphs };
     };
-    
+
     // Use the functions
     const { descriptionWithoutQuote, followingParagraphs } = getDescriptionAndParagraphsAfterQuote(blogDetails.description);
     const quote = extractQuote(blogDetails.description);
@@ -163,11 +164,11 @@ const handleCommentSubmit = async () => {
 
     const commentsCount = blogDetails.comments ? blogDetails.comments.length : 0;
 
-    
+
 
     return (
         <>
-        
+
             <div className="breadcrumb-marketplace py-5">
                 <div className="img">
 
@@ -192,15 +193,15 @@ const handleCommentSubmit = async () => {
                                 <div className="blog-search-top">
                                     <div className="input-group blog-search-bar">
                                         <input type="text" className="form-control" placeholder="Search..."
-                                        value={searchQuery}
-                                         onChange={(e) => setSearchQuery(e.target.value)}
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
                                         />
                                         <span className="input-group-text search-icon">
                                             <i className="bi bi-search"></i>
                                         </span>
                                     </div>
                                 </div>
-                                
+
                                 <div className="blog-categories">
                                     <div className="head">
                                         <h3>CATEGORIES</h3>
@@ -211,10 +212,10 @@ const handleCommentSubmit = async () => {
                                     <div className="cat-listing">
                                         {blogCategories.map((category) => (
                                             <React.Fragment key={category.id}>
-                                                <div 
-                                                    className="cat-li-1" 
+                                                <div
+                                                    className="cat-li-1"
                                                     onClick={() => setSelectedCategory(category.id)}
-                                                    style={{cursor: 'pointer'}} 
+                                                    style={{ cursor: 'pointer' }}
                                                 >
                                                     {category.title}
                                                 </div>
@@ -237,8 +238,8 @@ const handleCommentSubmit = async () => {
                                             <div className="row align-items-center">
                                                 <div className="col-md-4 col-3">
                                                     <div className="post-img">
-                                                    <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
-                                                        <img src={blog.image_url && !blog?.image_url?.includes('localhost') ? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`} />
+                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
+                                                            <img src={blog.image_url && !blog?.image_url?.includes('localhost') ? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`} />
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -272,9 +273,9 @@ const handleCommentSubmit = async () => {
                                         <div className="moving-line"></div>
                                     </div>
                                     <div className="tags">
-                                    {tags.map(tag => (
-                                            <span 
-                                                key={tag.id} 
+                                        {tags.map(tag => (
+                                            <span
+                                                key={tag.id}
                                                 className={`tag ${selectedTag === tag.title ? 'active' : ''}`}
                                                 onClick={() => {
                                                     setSelectedTag(tag.title);
@@ -291,254 +292,254 @@ const handleCommentSubmit = async () => {
                                 </div>
                             </div>
 
-                            
-                            
+
+
                             {/* right data */}
                             <div className="col-xl-9 col-lg-8">
-    {isRelatedVisible ? (
-        <div className="related-blogs">
-            <h3> </h3>
-            {filteredBlogs.length > 0 ? (
-                filteredBlogs.map(blog => (
-                    <div key={blog.id} className="related-blog">
-                        <div className="blog-listing">
-                            <div className="row align-items-center">
-                                <div className="col-xl-5">
-                                    <div className="blg-img-list">
-                                        <Link href={`/${blog.id}/blog-details`}>
-                                            {/* <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} /> */}
-                                            <img 
-                                                src={
-                                                    blog?.image_url && blog.image_url.trim() !== "" && !blog.image_url.includes('localhost')
-                                                    ? blog.image_url
-                                                    : "http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png"
-                                                }
-                                                alt="Blog Image"
-                                                style={{ borderRadius: "15px" }} 
-                                                />
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-xl-7">
-                                    <div className="blog-list-head">
-                                        <div className="head">
-                                            <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
-                                                <h1>{blog.title}</h1>
-                                            </Link>
-                                        </div>
-                                        <div className="blg-by-and-comments d-flex align-items-center">
-                                            <div className="blog-by">
-                                                <p className="m-0">
-                                                    By <span>{blog.author || 'Admin'}</span> On {new Date(blog.blog_date).toLocaleDateString('en-US', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: '2-digit'
-                                                    })}
-                                                </p>
+                                {isRelatedVisible ? (
+                                    <div className="related-blogs">
+                                        <h3> </h3>
+                                        {filteredBlogs.length > 0 ? (
+                                            filteredBlogs.map(blog => (
+                                                <div key={blog.id} className="related-blog">
+                                                    <div className="blog-listing">
+                                                        <div className="row align-items-center">
+                                                            <div className="col-xl-5">
+                                                                <div className="blg-img-list">
+                                                                    <Link href={`/${blog.id}/blog-details`}>
+                                                                        {/* <img src={blog.image_url} alt={blog.title} style={{ borderRadius: "15px" }} /> */}
+                                                                        <img
+                                                                            src={
+                                                                                blog?.image_url && blog.image_url.trim() !== "" && !blog.image_url.includes('localhost')
+                                                                                    ? blog.image_url
+                                                                                    : "http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png"
+                                                                            }
+                                                                            alt="Blog Image"
+                                                                            style={{ borderRadius: "15px" }}
+                                                                        />
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-xl-7">
+                                                                <div className="blog-list-head">
+                                                                    <div className="head">
+                                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
+                                                                            <h1>{blog.title}</h1>
+                                                                        </Link>
+                                                                    </div>
+                                                                    <div className="blg-by-and-comments d-flex align-items-center">
+                                                                        <div className="blog-by">
+                                                                            <p className="m-0">
+                                                                                By <span>{blog.author || 'Admin'}</span> On {new Date(blog.blog_date).toLocaleDateString('en-US', {
+                                                                                    year: 'numeric',
+                                                                                    month: 'long',
+                                                                                    day: '2-digit'
+                                                                                })}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className="border-left-blog"></div>
+                                                                        {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
+                                                                            <div className="comment-blog-listing d-flex align-items-center">
+                                                                                <i className="fa-regular fa-comment"></i>
+                                                                                <p className="m-0 ps-2">
+                                                                                    {comments.filter(comment => comment.blog_id === blog.id).length} Comments
+                                                                                </p>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="blog-para">
+                                                                        <p>{blog.short_description}</p>
+                                                                    </div>
+                                                                    <div className="blog-read-more">
+                                                                        <Link href={`/${blog.id}/blog-details`} className="text-decoration-none custom-underline">
+                                                                            READ MORE<i className="fa-solid fa-arrow-right-long ms-1"></i>
+                                                                        </Link>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="centered-message">
+                                                No Blogs Found Of This Search.
                                             </div>
-                                            <div className="border-left-blog"></div>
-                                            {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
+                                        )}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="blog-details-main">
+                                            <div className="blog-dtl-img">
+                                                <img src={blogDetails.image_url} alt="Blog Detail" />
+                                            </div>
+                                        </div>
+
+                                        <div className="blog-dtl-comments d-flex align-items-center">
+                                            <div className="blog-by">
+                                                <p className="m-0">By <span>{blogDetails.author || 'Admin'}</span> On {new Date(blogDetails.blog_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })}</p>
+                                            </div>
+
+                                            {commentsCount > 0 && (
                                                 <div className="comment-blog-listing d-flex align-items-center">
                                                     <i className="fa-regular fa-comment"></i>
-                                                    <p className="m-0 ps-2">
-                                                        {comments.filter(comment => comment.blog_id === blog.id).length} Comments
-                                                    </p>
+                                                    <p className="m-0 ps-2">{commentsCount} Comments</p>
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="blog-para">
-                                            <p>{blog.short_description}</p>
+
+                                        <div className="blog-dtl-head">
+                                            <h1>{blogDetails.title}</h1>
                                         </div>
-                                        <div className="blog-read-more">
-                                            <Link href={`/${blog.id}/blog-details`} className="text-decoration-none custom-underline">
-                                                READ MORE<i className="fa-solid fa-arrow-right-long ms-1"></i>
-                                            </Link>
+
+                                        <div className="blog-dtl-para">
+                                            <div>{parse(descriptionWithoutQuote)}</div>
+
+                                            {/* Conditionally render the quote section */}
+                                            {quote && (
+                                                <div className="slogan-box">
+                                                    <div className="icon">
+                                                        <i className="fa-solid fa-quote-right"></i>
+                                                    </div>
+                                                    <div>
+                                                        <div className="italic-quote">
+                                                            <p>{quote}</p>
+                                                        </div>
+                                                        <div className="slogan-by ms-4">
+                                                            <p> - {blogDetails.author}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Conditionally render following paragraphs */}
+                                            {followingParagraphs && (
+                                                <div dangerouslySetInnerHTML={{ __html: followingParagraphs }} />
+                                            )}
+
+                                            <p>Tags: {Array.isArray(blogDetails.tags) ? blogDetails.tags.join(', ') : 'No tags available'}</p>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            ) : (
-                <div className="centered-message">
-                No Blogs Found Of This Search.
-              </div>
-            )}
-        </div>
-    ) : (
-        <>
-            <div className="blog-details-main">
-                    <div className="blog-dtl-img">
-                        <img src={blogDetails.image_url} alt="Blog Detail" />
-                    </div>
-                </div>
 
-                <div className="blog-dtl-comments d-flex align-items-center">
-                    <div className="blog-by">
-                        <p className="m-0">By <span>{blogDetails.author || 'Admin'}</span> On {new Date(blogDetails.blog_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })}</p>
-                    </div>
+                                        <div className="blog-end-dtl d-flex justify-content-between align-items-center">
+                                            <div className="text">
+                                                <a style={{ textTransform: 'uppercase' }}>
+                                                    {blogDetails.blog_category_title}
+                                                </a>
 
-                    {commentsCount > 0 && (
-                        <div className="comment-blog-listing d-flex align-items-center">
-                            <i className="fa-regular fa-comment"></i>
-                            <p className="m-0 ps-2">{commentsCount} Comments</p>
-                        </div>
-                    )}
-                </div>
-
-                <div className="blog-dtl-head">
-                    <h1>{blogDetails.title}</h1>
-                </div>
-
-                <div className="blog-dtl-para">
-                    <div>{parse(descriptionWithoutQuote)}</div>
-
-                    {/* Conditionally render the quote section */}
-                    {quote && (
-                        <div className="slogan-box">
-                            <div className="icon">
-                                <i className="fa-solid fa-quote-right"></i>
-                            </div>
-                            <div>
-                                <div className="italic-quote">
-                                    <p>{quote}</p>
-                                </div>
-                                <div className="slogan-by ms-4">
-                                    <p> - {blogDetails.author}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Conditionally render following paragraphs */}
-                    {followingParagraphs && (
-                        <div dangerouslySetInnerHTML={{ __html: followingParagraphs }} />
-                    )}
-
-                    <p>Tags: {Array.isArray(blogDetails.tags) ? blogDetails.tags.join(', ') : 'No tags available'}</p>
-                </div>
-
-            <div className="blog-end-dtl d-flex justify-content-between align-items-center">
-                <div className="text">
-                <a style={{ textTransform: 'uppercase' }}>
-                    {blogDetails.blog_category_title}
-                </a>
-
-                </div>
-                <div className="blg-social d-flex align-items-center">
-                    <p className="m-0">SHARE:</p>
-                    <a href="https://www.facebook.com/"><i className="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/"><i className="fa-brands fa-instagram mx-3"></i></a>
-                    <a href="https://www.tiktok.com/foryou?lang=en"><i className="fa-brands fa-tiktok"></i></a>
-                </div>
-            </div>
-
-            <div className="blg-dtl-comment-main">
-                <div className="blg-dtl-all-comments d-flex align-items-center justify-content-between">
-                    {commentsCount > 0 && (
-                        <div className="head">
-                            <h3 className="m-0">{`(${commentsCount}) Comments `} For This Post</h3>
-                        </div>
-                    )}
-
-                    <div className="text-decoration-none text-dark" onClick={openModal} style={{ cursor: 'pointer' }}>
-                        <div className="write-recomment d-flex align-items-center">
-                            <i className="fa-solid fa-pen me-2"></i>
-                         
-                            <p className="m-0">Write Your Comment!</p>
-                        </div>
-                    </div>
-                </div>
-
-                {isModalOpen && (
-                    <div className="modal fade show" style={{ display: 'block'  }} onClick={closeModal}>
-                        <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-content" 
-                              style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: '550px',
-                                height: '400px',                           
-                                boxShadow: '0 5px 15px rgba(0,0,0,0.3)', 
-                                overflow: 'auto', 
-                              }}    
-    >
-                                <div className="modal-header">
-                                    <h5 className="modal-title w-100 text-center write-review-head">
-                                    <div className="border-left-head"></div>
-                                        Write a Comment</h5>
-                                    <button type="button" className="btn-close" onClick={closeModal}></button>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="main-review-popup-section">
-                                        <div className="mb-3 review-input">
-                                            <label htmlFor="reviewText" className="form-label">Comment</label>
-                                            <textarea
-                                                className="form-control"
-                                                rows="5"
-                                                id="reviewText"
-                                                value={commentText}
-                                                onChange={(e) => setCommentText(e.target.value)}
-                                               
-                                            />
+                                            </div>
+                                            <div className="blg-social d-flex align-items-center">
+                                                <p className="m-0">SHARE:</p>
+                                                <a href="https://www.facebook.com/"><i className="fa-brands fa-facebook-f"></i></a>
+                                                <a href="https://www.instagram.com/"><i className="fa-brands fa-instagram mx-3"></i></a>
+                                                <a href="https://www.tiktok.com/foryou?lang=en"><i className="fa-brands fa-tiktok"></i></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="border-0 close-btn" onClick={closeModal}>
-                                        Close
-                                    </button>
-                                    <button type="button" className="border-0 submit-btn" onClick={handleCommentSubmit}>
-                                        Submit
-                                    </button>
-                                </div>
+
+                                        <div className="blg-dtl-comment-main">
+                                            <div className="blg-dtl-all-comments d-flex align-items-center justify-content-between">
+                                                {commentsCount > 0 && (
+                                                    <div className="head">
+                                                        <h3 className="m-0">{`(${commentsCount}) Comments `} For This Post</h3>
+                                                    </div>
+                                                )}
+
+                                                <div className="text-decoration-none text-dark" onClick={openModal} style={{ cursor: 'pointer' }}>
+                                                    <div className="write-recomment d-flex align-items-center">
+                                                        <i className="fa-solid fa-pen me-2"></i>
+
+                                                        <p className="m-0">Write Your Comment!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {isModalOpen && (
+                                                <div className="modal fade show" style={{ display: 'block' }} onClick={closeModal}>
+                                                    <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+                                                        <div className="modal-content"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: '50%',
+                                                                left: '50%',
+                                                                transform: 'translate(-50%, -50%)',
+                                                                width: '550px',
+                                                                height: '400px',
+                                                                boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+                                                                overflow: 'auto',
+                                                            }}
+                                                        >
+                                                            <div className="modal-header">
+                                                                <h5 className="modal-title w-100 text-center write-review-head">
+                                                                    <div className="border-left-head"></div>
+                                                                    Write a Comment</h5>
+                                                                <button type="button" className="btn-close" onClick={closeModal}></button>
+                                                            </div>
+                                                            <div className="modal-body">
+                                                                <div className="main-review-popup-section">
+                                                                    <div className="mb-3 review-input">
+                                                                        <label htmlFor="reviewText" className="form-label">Comment</label>
+                                                                        <textarea
+                                                                            className="form-control"
+                                                                            rows="5"
+                                                                            id="reviewText"
+                                                                            value={commentText}
+                                                                            onChange={(e) => setCommentText(e.target.value)}
+
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="modal-footer">
+                                                                <button type="button" className="border-0 close-btn" onClick={closeModal}>
+                                                                    Close
+                                                                </button>
+                                                                <button type="button" className="border-0 submit-btn" onClick={handleCommentSubmit}>
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Comments Section */}
+                                            {blogDetails.comments.map((comment) => (
+                                                <div key={comment.id} className="blg-dtl-comment-1">
+                                                    <div className="row align-items-center blog-review-margin">
+                                                        <div className="col-lg-2">
+                                                            <div className="cmt-img-blg">
+                                                                {/* Check if user_avatar exists, if not use a default image */}
+                                                                <img
+                                                                    src={comment.user_avatar || '/default-avatar.png'}  // Default image if no avatar
+                                                                    alt={`${comment.user_first_name || ''} ${comment.user_last_name || ''}`}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-lg-10">
+                                                            <div className="mobile-rating">
+                                                                <div className="date">
+                                                                    <p>{new Date(comment.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="name">
+                                                                <h3>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
+                                                            </div>
+                                                            <div className="para">
+                                                                <p>{comment.comment}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+
+
+
+
+                                        </div>
+                                    </>
+                                )}
                             </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Comments Section */}
-                {blogDetails.comments.map((comment) => (
-    <div key={comment.id} className="blg-dtl-comment-1">
-        <div className="row align-items-center blog-review-margin">
-            <div className="col-lg-2">
-                <div className="cmt-img-blg">
-                    {/* Check if user_avatar exists, if not use a default image */}
-                    <img
-                        src={comment.user_avatar || '/default-avatar.png'}  // Default image if no avatar
-                        alt={`${comment.user_first_name || ''} ${comment.user_last_name || ''}`}
-                    />
-                </div>
-            </div>
-            <div className="col-lg-10">
-                <div className="mobile-rating">
-                    <div className="date">
-                        <p>{new Date(comment.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                    </div>
-                </div>
-                <div className="name">
-                    <h3>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
-                </div>
-                <div className="para">
-                    <p>{comment.comment}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-))}
 
 
-
-
-            </div>
-        </>
-    )}
-</div>
-
-                           
                         </div>
                     </div>
                 </div>

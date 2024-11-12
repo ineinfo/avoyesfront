@@ -540,6 +540,7 @@ const MarketPlace = () => {
                           <div className="img-wrapper">
                             <div className="img">
                               <img
+                                style={{ objectFit: "cover", height: "350px" }}
                                 src={product.image_url1}
                                 alt={product.title}
                               />

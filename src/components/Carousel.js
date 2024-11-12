@@ -12,8 +12,9 @@ import "./Carousal.css";
 import Link from "next/link";
 
 import defaultBImg from "../../public/blogdefault-img.png";
-import {fetchBlogs} from "@/utils/api/BlogApi";
- import {fetchTopBanner} from "@/utils/api/BannerApi";
+import { fetchBlogs } from "@/utils/api/BlogApi";
+import { fetchTopBanner } from "@/utils/api/BannerApi";
+import LoadingSpinner from "./Loading";
 
 const CustomCarousel = () => {
   const [blogs, setBlogs] = useState([]);
@@ -26,23 +27,23 @@ const CustomCarousel = () => {
         console.error(result.message);
       }
     };
-    
+
     getBlogs();
   }, []);
- 
+
 
 
 
 
   const blogsettings = {
-    dots: false, 
-    arrows:false,
+    dots: false,
+    arrows: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 1, 
-    slidesToScroll: 1, 
+    slidesToShow: 1,
+    slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000, 
+    autoplaySpeed: 2000,
   };
 
   return (
@@ -52,25 +53,25 @@ const CustomCarousel = () => {
       data-bs-ride="carousel"
       data-bs-interval="2000"
     >
-    <Slider {...blogsettings}>
+      <Slider {...blogsettings}>
         {blogs.map((blog) => (
           <div className="carousel-item" key={blog.id}>
             <div className="container">
               <div className="row align-items-center py-5">
                 <div className="col-md-5 d-flex align-items-center justify-content-center">
                   <img
-                      // src={blog.image_url || defaultBImg.src}
-                      src={blog.image_url ? blog.image_url : defaultBImg.src}
+                    // src={blog.image_url || defaultBImg.src}
+                    src={blog.image_url ? blog.image_url : defaultBImg.src}
 
                     className="d-block custom-carousel-img"
                     alt="Banner Image"
-                    style={{ width: '80%', height: '670px',objectFit:'cover' }}
+                    style={{ width: '80%', height: '670px', objectFit: 'cover' }}
                   />
-                   
+
                 </div>
                 <div className="col-md-7">
                   <div className="admin">
-                    <p>{blog.author}</p> 
+                    <p>{blog.author}</p>
                   </div>
                   <div className="banner-2-head">
                     <h1>{blog.title}</h1>
@@ -127,41 +128,41 @@ const MyCarousel = () => {
           margin: "0 auto",
         }}
       >
-      <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
-  {bannerData.length > 0 ? (
-    bannerData.map((banner, index) => (
-      <div
-        key={banner.id}
-        className={`carousel-item ${index === 0 ? "active" : ""}`}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6 col-6 banner-text-padding">
-              <h6 className="sale-title">{banner.sub_title}</h6>
-              <h1 className="banner-head">{banner.title}</h1>
-              <div className="shop-now-banner-btn">
-                <Link href="/marketplace">
-                  <button className="btn btn-primary custom-btn">SHOP NOW</button>
-                </Link>
+        <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
+          {bannerData.length > 0 ? (
+            bannerData.map((banner, index) => (
+              <div
+                key={banner.id}
+                className={`carousel-item ${index === 0 ? "active" : ""}`}
+                style={{ width: "100%", height: "100%" }}
+              >
+                <div className="container">
+                  <div className="row align-items-center">
+                    <div className="col-md-6 col-6 banner-text-padding">
+                      <h6 className="sale-title">{banner.sub_title}</h6>
+                      <h1 className="banner-head">{banner.title}</h1>
+                      <div className="shop-now-banner-btn">
+                        <Link href="/marketplace">
+                          <button className="btn btn-primary custom-btn">SHOP NOW</button>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-6">
+                      <img
+                        src={banner.image_url}
+                        className="d-block w-100 banner-img"
+                        alt="Banner Image"
+                        style={{ width: "100%", height: "750px", marginTop: "0px ", objectFit: "cover" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="col-md-6 col-6">
-              <img
-                src={banner.image_url}
-                className="d-block w-100 banner-img"
-                alt="Banner Image"
-                style={{ width: "100%", height: "750px", marginTop:"0px ", objectFit:"cover" }}
-              />
-            </div>
-          </div>
+            ))
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
-      </div>
-    ))
-  ) : (
-    <div>Loading...</div>
-  )}
-</div>
 
         <button
           className="carousel-control-prev"

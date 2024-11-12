@@ -9,11 +9,17 @@ import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import { fetchCities, fetchCountries, fetchStates } from "@/utils/api/CommonApi";
 
+
+
+
 const ManageAddress = () => {
   const router = useRouter();
   const [addresses, setAddresses] = useState([]);
   const [currentAddress, setCurrentAddress] = useState(null);
-
+  const [cityName, setCityName] = useState('')
+  const [stateName, setStateName] = useState('')
+  const [countryName, setCountryName] = useState('')
+  const [addressDetails, setAddressDetails] = useState({});
   const userId = Cookies.get('id'); // Get user_id from cookies
   const ROUTE = process.env.NEXT_PUBLIC_NEXTAUTH_URL
   const [countries, setCountries] = useState([]);
@@ -248,8 +254,83 @@ const ManageAddress = () => {
     fetchAddresses();
   }, [userId]);
 
-  console.log("connn", selectedCountry);
+  useEffect(() => {
+    // Function to fetch city, state, and country names for each address
+    const fetchAddressDetails = async () => {
+      const details = {};
 
+      for (const address of addresses) {
+        if (address.state && address.city) {
+          const cityName = await getCityName(address.state, address.city);
+          const stateName = await getStateName(address.country, address.state);
+          const countryName = await getCountryName(address.country);
+
+          // Store the result in the details object with address id as key
+          details[address.id] = {
+            cityName,
+            stateName,
+            countryName,
+          };
+        }
+      }
+
+      // Update state with all the fetched details
+      setAddressDetails(details);
+    };
+
+    if (addresses.length > 0) {
+      fetchAddressDetails();
+    }
+  }, [addresses]);
+
+  const getCityName = async (s_id, c_id) => {
+    try {
+      const Allcities = await fetchCities(s_id);
+      if (!Allcities || !Array.isArray(Allcities)) {
+        throw new Error("Cities data is not an array or is undefined");
+      }
+
+      const matchedCity = Allcities.find((c) => c.id === c_id);
+      const name = matchedCity ? matchedCity.name : "Unknown City";
+      // Safely return the city name if found, otherwise return a default
+      return name
+    } catch (error) {
+      console.error("Error fetching city name:", error);
+      return "Unknown city"; // Default value in case of error
+    }
+  };
+
+  const getStateName = async (c_id, s_id) => {
+    try {
+      const Allstates = await fetchStates(c_id);
+      if (!Allstates || !Array.isArray(Allstates)) {
+        throw new Error("Cities data is not an array or is undefined");
+      }
+
+      const matchedState = Allstates.find((c) => c.id === s_id);
+      const name = matchedState ? matchedState.name : "Unknown State";
+      // Safely return the city name if found, otherwise return a default
+      return name
+    } catch (error) {
+      console.error("Error fetching city name:", error);
+      return "Unknown city"; // Default value in case of error
+    }
+  };
+
+  const getCountryName = async (c_id) => {
+    try {
+      const AllCountries = await fetchCountries();
+
+
+      const matchedCountry = AllCountries.find((c) => c.id === c_id);
+      const name = matchedCountry ? matchedCountry.name : "Unknown Country";
+      // Safely return the city name if found, otherwise return a default
+      return name
+    } catch (error) {
+      console.error("Error fetching city name:", error);
+      return "Unknown city"; // Default value in case of error
+    }
+  };
 
   return (
     <>
@@ -276,7 +357,10 @@ const ManageAddress = () => {
                 <p>{address.address1}</p>
                 <p>{address.email}</p>
                 <p>{address.phone}</p>
-                {/* <p>{`${getCityName(address.state)}, ${getStateName(address.country)}, ${getCountryName(address.country)} - ${address.pincode}`}</p> */}
+                <p>
+                  {addressDetails[address.id]
+                    ? `${addressDetails[address.id].cityName}, ${addressDetails[address.id].stateName}, ${addressDetails[address.id].countryName} - ${address.pincode}`
+                    : "Loading..."}</p>
               </div>
             </div>
             <div className="d-flex align-items-center">

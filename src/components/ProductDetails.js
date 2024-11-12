@@ -433,12 +433,12 @@ const ProductDetails = () => {
 
 
                 </div>
-                <div className="prd-dtl-checkout-btn">
-                  <Link href="#" onClick={handleAddToCart}>
-                    <button>
+                <div className={product?.stock_status === "in_stock" ? "prd-dtl-checkout-btn" : 'prd-dtl-checkout-btn-disabled'}>
+                  <button>
+                    <div onClick={handleAddToCart}>
                       ADD TO CART
-                    </button>
-                  </Link>
+                    </div>
+                  </button>
                 </div>
                 <div className="cat-prd-dtl">
                   <p className="m-0">
