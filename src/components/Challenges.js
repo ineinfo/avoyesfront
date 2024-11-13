@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { fetchChallenges } from "@/utils/api/ChallengesApi"; 
+import { fetchChallenges } from "@/utils/api/ChallengesApi";
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
@@ -10,15 +10,15 @@ const Challenges = () => {
     useEffect(() => {
         const getChallenges = async () => {
             const data = await fetchChallenges();
-            console.log('Fetched Challenges Data:', data); 
+            console.log('Fetched Challenges Data:', data);
             setChallenges(data);
         };
 
         getChallenges();
     }, []);
-    
 
-    const filteredChallenges = challenges.filter(challenge => 
+
+    const filteredChallenges = challenges.filter(challenge =>
         challenge.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (challenge.sub_title && challenge.sub_title.toLowerCase().includes(searchTerm.toLowerCase()))
     );
@@ -51,9 +51,9 @@ const Challenges = () => {
                 <div className="container">
                     <div className="input-container-3">
                         <i className="fa fa-search"></i>
-                        <input 
-                            type="text" 
-                            placeholder="Find a Challenge That Inspires You..." 
+                        <input
+                            type="text"
+                            placeholder="Find a Challenge That Inspires You..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -64,51 +64,51 @@ const Challenges = () => {
             <div className="challanges-sec-main pb-5 pt-3">
                 <div className="container">
                     <div className="row">
-                    {filteredChallenges.length > 0 ? (
-                    filteredChallenges.map((challenge) => (
-    <div className="col-xl-3 col-lg-6 col-md-6" key={challenge.id}>
-        <div className="challange-1">
-            <div className="img fixed-size">
-                <img src={challenge.image_url} alt={challenge.title} />
-            </div>
-            <div className="share-icon">
-                <Link href="#" className="text-decoration-none"><i className="bi bi-share"></i></Link>
-            </div>
-            <div className="challange-box">
-                <div className="head">
-                    <h3 className="mb-0">{challenge.title}</h3>
-                </div>
-                <div className="info d-flex">
-                    <i className="fa-solid fa-layer-group"></i>
-                    <p className="m-0">{challenge.sub_title}</p>
-                </div>
-                <div className="challanges-date d-flex align-items-center">
-                    <i className="bi bi-calendar-week"></i>
-                    <p className="m-0">{formatDate(challenge.start_date)} To {formatDate(challenge.end_date)}</p>
-                </div>
-                <div className="participents d-flex align-items-center">
-                    <div className="imgs d-flex">
-                        <img src="/participent-1.png" alt="" className="chlng-img-1" />
-                        <img src="/participent-2.png" alt="" className="chlng-img-2" />
-                        <img src="/participent-3.png" alt="" className="chlng-img-3" />
-                    </div>
-                    <div className="total-participents">
-                        <p className="mb-0">{challenge.total_participants} Participants</p>
-                    </div>
-                </div>
-            </div>
-            <div className="join-challange-btn">
-                <Link href="#"><button type="button">JOIN CHALLANGE</button></Link>
-            </div>
-        </div>
-    </div>
-))
+                        {filteredChallenges.length > 0 ? (
+                            filteredChallenges.map((challenge) => (
+                                <div className="col-xl-3 col-lg-6 col-md-6" key={challenge.id}>
+                                    <div className="challange-1">
+                                        <div className="img fixed-size">
+                                            <img src={challenge.image_url} alt={challenge.title} />
+                                        </div>
+                                        <div className="share-icon">
+                                            <Link href="#" className="text-decoration-none"><i className="bi bi-share"></i></Link>
+                                        </div>
+                                        <div className="challange-box">
+                                            <div className="head">
+                                                <h3 className="mb-0">{challenge.title}</h3>
+                                            </div>
+                                            <div className="info d-flex">
+                                                <i className="fa-solid fa-layer-group"></i>
+                                                <p className="m-0">{challenge.sub_title}</p>
+                                            </div>
+                                            <div className="challanges-date d-flex align-items-center">
+                                                <i className="bi bi-calendar-week"></i>
+                                                <p className="m-0">{formatDate(challenge.start_date)} To {formatDate(challenge.end_date)}</p>
+                                            </div>
+                                            <div className="participents d-flex align-items-center">
+                                                <div className="imgs d-flex">
+                                                    <img src="/participent-1.png" alt="" className="chlng-img-1" />
+                                                    <img src="/participent-2.png" alt="" className="chlng-img-2" />
+                                                    <img src="/participent-3.png" alt="" className="chlng-img-3" />
+                                                </div>
+                                                <div className="total-participents">
+                                                    <p className="mb-0">{challenge.total_participants} Participants</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="join-challange-btn">
+                                            <Link href="#"><button type="button">JOIN CHALLANGE</button></Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
 
-) : (
-    <div className="centered-message" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '24px' }}>
-        No Challenges Found Of This Search.
-    </div>
-)}
+                        ) : (
+                            <div className="centered-message" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '24px' }}>
+                                No Challenges Found Of This Search.
+                            </div>
+                        )}
 
                     </div>
                 </div>

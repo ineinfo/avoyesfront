@@ -483,7 +483,7 @@ export default function CustomComponent() {
                                 <div className="year">
                                   <p>
                                     {startDate.toLocaleString("default", {
-                                      month: "long",
+                                      month: "short",
                                     })}{" "}
                                     {startDate.getFullYear()}
                                   </p>

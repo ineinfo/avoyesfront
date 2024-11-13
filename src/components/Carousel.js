@@ -149,7 +149,7 @@ const MyCarousel = () => {
                     </div>
                     <div className="col-md-6 col-6">
                       <img
-                        src={banner.image_url}
+                        src={banner.image_url ? banner.image_url : '/banner-img.png'}
                         className="d-block w-100 banner-img"
                         alt="Banner Image"
                         style={{ width: "100%", height: "750px", marginTop: "0px ", objectFit: "cover" }}

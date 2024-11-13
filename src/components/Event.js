@@ -19,7 +19,6 @@ import {
   fetchSpeakers,
   fetchCategories
 } from "@/utils/api/EventApi";
-import LoadingSpinner from "./Loading";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -193,7 +192,7 @@ const Event = () => {
 
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <p>Loading events...</p>;
   }
 
   if (error) {
@@ -234,7 +233,7 @@ const Event = () => {
 
   const settings = {
     dots: false,
-    arrows: true,
+    arrows: false,
     infinite: true,
     speed: 3000,
     slidesToShow: 3,
@@ -524,7 +523,7 @@ const Event = () => {
                             <div className="col-xl-4 col-lg-4" key={event.id}>
                               <div className="trend-1 pt-4">
                                 <div className="img">
-                                  <img src={event.image_url || defaultImg.src} alt={event.title} />
+                                  <img src={event.image_url || defaultImg.src} alt={event.title} style={{ objectFit: "cover" }} />
                                   <div className="icon">
                                     <a href="#">
                                       {/* heart-icon */}
@@ -545,7 +544,7 @@ const Event = () => {
                                       <h6>{event.title}</h6>
                                     </Link>
                                   </div>
-                                  <div className="trand-para d-flex justify-content-between align-items-center">
+                                  <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
                                     <div className="para">
                                       <p
                                         className="m-0"
@@ -653,7 +652,8 @@ const Event = () => {
                                     WebkitLineClamp: 2,
                                     WebkitBoxOrient: 'vertical',
                                     overflow: 'hidden',
-                                    textOverflow: 'ellipsis'
+                                    textOverflow: 'ellipsis',
+                                    minHeight: '60px'
                                   }}
                                 >
                                   {event.short_description}
@@ -764,13 +764,14 @@ const Event = () => {
                                       : defaultImg.src
                                   }
                                   alt={event.title}
+                                  style={{ objectFit: "cover" }}
                                 />
                               </div>
                               <div className="col-xl-8 col-lg-7">
                                 <div className="trand-text-box-3">
                                   <div className="trand-head">
                                     <Link
-                                      href={`/event/${event.id}`}
+                                      href={`/${event.id}/eventdetails`}
                                       className="text-decoration-none"
                                     >
                                       <h6>{event.title}</h6>
@@ -795,7 +796,7 @@ const Event = () => {
 
 
                                   </div>
-                                  <div className="trand-para d-flex justify-content-between align-items-center">
+                                  <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
 
                                     <div className="para">
                                       <div
@@ -1009,7 +1010,7 @@ const Event = () => {
                     alt="Lightbox"
                     className="gal-large-img"
                     style={{
-                      width: '900px',
+                      width: '850px',
                       height: '400px',
                       objectFit: 'cover',
                       objectPosition: 'center',

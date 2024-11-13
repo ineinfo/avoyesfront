@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useState, useEffect } from "react";
 import Slider from "react-slick"; // Importing the Slider component from React Slick
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "./Carousal.css"; // Assuming your CSS is in Carousel.css
 import Link from "next/link";
+import { fetchFoodTypes } from "@/utils/api/FoodieApi";
 
 const CustomCarousel = () => {
   return (
@@ -430,4 +431,87 @@ const CustomCarouselFour = () => {
   );
 };
 
-export { CustomCarousel, MyCarousel, CustomCarouselFour };
+const CustomCarouselSix = () => {
+
+  const [foodItems, setFoodItems] = useState([]);
+
+  useEffect(() => {
+    const getFoodTypes = async () => {
+      const data = await fetchFoodTypes();
+      setFoodItems(data);
+    };
+    getFoodTypes();
+  }, []);
+
+
+  const settings = {
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    prevArrow: <button className="slick-prev ">Prev</button>,
+    nextArrow: <button className="slick-next">Next</button>,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  return (
+    <section>
+      <div className="related-main py-5">
+        <div className="container">
+          <div className="head d-flex justify-content-between align-items-center"></div>
+          <Slider
+            {...settings}
+            className="pt-4 related-product"
+            style={{ minWidth: "98vw", marginLeft: "-290px" }}
+          >
+            {foodItems.map((item) => (
+              <div key={item.id} className="col-xl-3 market-slide item">
+                <div className="market-place-product">
+                  <div className="img-wrapper">
+                    <div className="img position-relative">
+                      <img
+                        src={
+                          item.image_url ||
+                          "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
+                        }
+                        alt={item.title}
+                        style={{ width: "450px", height: "400px", objectFit: "cover" }}
+                      />
+
+                      <div className="hover-effect">
+                        <h3
+                          className={`hover-effect-${Math.floor(Math.random() * 7) + 1
+                            }`}
+                        >
+                          {item.title}
+                        </h3>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export { CustomCarousel, MyCarousel, CustomCarouselFour, CustomCarouselSix };

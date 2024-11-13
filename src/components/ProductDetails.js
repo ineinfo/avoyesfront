@@ -2,28 +2,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
-import axios from 'axios'; // Import axios
+import axios from "axios"; // Import axios
 import { CustomCarouselFour } from "./Carousel";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import Cookies from 'js-cookie';
+import { useParams, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import WishlistApi from "@/utils/api/WishlistApi";
 import { addToCart } from "@/utils/api/CartApi";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import defaultImg from '../../public/defaultImg.jpg';
-
+import defaultImg from "../../public/defaultImg.jpg";
 
 const ProductDetails = () => {
-
   const { id } = useParams();
-  console.log('pathName', id)
+  console.log("pathName", id);
 
+  const router = useRouter();
   const [product, setProduct] = useState(null);
-  const [mainImage, setMainImage] = useState("")
+  const [mainImage, setMainImage] = useState("");
   const [isSolid, setIsSolid] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
   const [activeSize, setActiveSize] = useState("");
   const [counter, setCounter] = useState(1);
@@ -39,10 +38,13 @@ const ProductDetails = () => {
     setCounter((prev) => prev + 1);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   const decrementCounter = () => {
     setCounter((prev) => (prev > 1 ? prev - 1 : 1));
   };
-
 
   const colorBoxes = [
     "color-box-1",
@@ -53,8 +55,8 @@ const ProductDetails = () => {
   ];
 
   const toggleHeart = async () => {
-    const token = Cookies.get('accessToken');
-    const userId = token ? JSON.parse(atob(token.split('.')[1])).data.id : null;
+    const token = Cookies.get("accessToken");
+    const userId = token ? JSON.parse(atob(token.split(".")[1])).data.id : null;
 
     if (userId) {
       const requestData = {
@@ -83,37 +85,34 @@ const ProductDetails = () => {
     }
   }, [product]);
 
-
   const changeImage = (imageSrc) => {
     setMainImage(imageSrc);
   };
-
 
   const thumbnailImages = [
     product?.image_url1,
     product?.image_url2,
     product?.image_url3,
     product?.image_url4,
-    product?.image_url5
+    product?.image_url5,
   ].filter(Boolean);
 
-
   useEffect(() => {
-
     const fetchProductDetails = async () => {
       if (id) {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products/${id}`);
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products/${id}`
+          );
           const productData = response.data.data[0];
           setProduct(productData);
-
 
           const colorIds = productData.color_ids.split(",").map(Number);
           const colors = productData.colors.split(",");
           const sizeIds = productData.size_ids.split(",").map(Number);
           const sizes = productData.sizes.split(",");
-          setActiveSize(sizes[0])
-          setSelectedColor(colors[0])
+          setActiveSize(sizes[0]);
+          setSelectedColor(colors[0]);
           const colorMapping = {};
           colors.forEach((color, index) => {
             colorMapping[color.trim()] = colorIds[index];
@@ -139,7 +138,6 @@ const ProductDetails = () => {
 
   console.log("Product", colors);
 
-
   const handleColorClick = (color) => {
     setSelectedColor(color);
   };
@@ -155,8 +153,8 @@ const ProductDetails = () => {
     const mainImage = mainImageRef.current;
     const zoomBox = zoomBoxRef.current;
 
-    if (mainImage) {
-      const zoomLevel = 2.5;
+    if (mainImage && zoomBox) {
+      const zoomLevel = 3.5; // Adjust this to increase or decrease the zoom level
 
       const handleMouseMove = (event) => {
         const rect = mainImage.getBoundingClientRect();
@@ -167,6 +165,7 @@ const ProductDetails = () => {
 
         zoomBox.style.backgroundImage = `url(${mainImage.src})`;
         zoomBox.style.backgroundPosition = `${backgroundPosX}% ${backgroundPosY}%`;
+        zoomBox.style.backgroundSize = `${zoomLevel * 100}%`; // Apply zoom level to background size
         zoomBox.style.display = "block";
       };
 
@@ -176,7 +175,6 @@ const ProductDetails = () => {
 
       mainImage.addEventListener("mousemove", handleMouseMove);
       mainImage.addEventListener("mouseleave", handleMouseLeave);
-
 
       return () => {
         mainImage.removeEventListener("mousemove", handleMouseMove);
@@ -192,7 +190,10 @@ const ProductDetails = () => {
   const handleAddToCart = async () => {
     const token = Cookies.get("accessToken");
     const userId = token ? JSON.parse(atob(token.split(".")[1])).data.id : null;
-
+    if (!token && !userId) {
+      setShowModal(true)
+      return
+    }
     if (userId) {
       const colorId = colorMap[selectedColor];
       const sizeId = sizeMap[activeSize];
@@ -226,9 +227,6 @@ const ProductDetails = () => {
     }
   };
 
-
-
-
   return (
     <>
 
@@ -241,7 +239,10 @@ const ProductDetails = () => {
                 <Link href="/" className="text-decoration-none me-1">
                   HOME
                 </Link>
-                <Link href="Market-Place" className="text-decoration-none me-1">
+                <Link
+                  href="Market-Place"
+                  className="text-decoration-none me-1"
+                >
                   / MARKET PLACE
                 </Link>
                 <p className="m-0">/ WOMEN'S SEQUIN SKIRT</p>
@@ -267,11 +268,10 @@ const ProductDetails = () => {
                         onClick={() => changeImage(src)}
                         style={{ cursor: "pointer" }}
                         alt={`Thumbnail ${index + 1}`}
-                        onError={(e) => e.target.src = defaultImg}
+                        onError={(e) => (e.target.src = defaultImg)}
                       />
                     ))}
                   </div>
-
 
                   <div
                     className="tab-pane fade show active description-content col-9"
@@ -306,7 +306,9 @@ const ProductDetails = () => {
               </div>
               <div className="col-lg-6">
                 <div className="product-info">
-                  <p className="sequin-skirt mb-2">{product?.sub_category_title}</p>
+                  <p className="sequin-skirt mb-2">
+                    {product?.sub_category_title}
+                  </p>
                   <div className="product-head d-flex align-items-center justify-content-between">
                     <h1>{product?.title}</h1>
                     <button
@@ -316,7 +318,11 @@ const ProductDetails = () => {
                         e.preventDefault();
                         toggleHeart();
                       }}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
                     >
                       {isSolid ? (
                         <i className="fa-solid fa-heart blue-heart"></i>
@@ -324,7 +330,6 @@ const ProductDetails = () => {
                         <i className="fa-regular fa-heart"></i>
                       )}
                     </button>
-
                   </div>
                   <div className="prd-dtl-price d-flex align-items-center">
                     <div className="price-1">
@@ -348,9 +353,7 @@ const ProductDetails = () => {
                   </div>
 
                   <div className="para">
-                    <p>
-                      {product?.short_description}
-                    </p>
+                    <p>{product?.short_description}</p>
                   </div>
                   <div className="choose-color">
                     <div className="head">
@@ -373,16 +376,19 @@ const ProductDetails = () => {
                               width: "22px",
                               borderRadius: "2px",
                               marginRight: "16px",
-                              border: selectedColor === color ? "3px solid #000" : "1px solid #ccc",
-                              padding: selectedColor === color ? "2px" : "5px",
+                              border:
+                                selectedColor === color
+                                  ? "3px solid #000"
+                                  : "1px solid #ccc",
+                              padding:
+                                selectedColor === color ? "2px" : "5px",
                               transition: "all 0.3s ease",
-                              cursor: 'pointer',
+                              cursor: "pointer",
                             }}
                           ></div>
                         </Link>
                       ))}
                     </div>
-
                   </div>
                 </div>
                 <div className="choose-size">
@@ -396,7 +402,8 @@ const ProductDetails = () => {
                       <button
                         key={size}
                         type="button"
-                        className={`btn size-btn ${activeSize === size ? "active" : ""}`}
+                        className={`btn size-btn ${activeSize === size ? "active" : ""
+                          }`}
                         onClick={() => handleSizeClick(size)}
                       >
                         {size}
@@ -406,18 +413,27 @@ const ProductDetails = () => {
                 </div>
                 <div className="cart-add-counter d-flex align-items-center">
                   <div className="counter-btn-main d-flex align-items-center">
-                    <button className="btn border-0" onClick={decrementCounter}>
+                    <button
+                      className="btn border-0"
+                      onClick={decrementCounter}
+                    >
                       <i className="fa-solid fa-minus"></i>
                     </button>
                     <div className="counter-display" id="counter">
                       {counter}
                     </div>
-                    <button className="btn border-0" onClick={incrementCounter}>
+                    <button
+                      className="btn border-0"
+                      onClick={incrementCounter}
+                    >
                       <i className="fa-solid fa-plus"></i>
                     </button>
                   </div>
-                  <div className="add-to-cart-btn">
-                    <Link href="/cart" className="text-decoration-none" onClick={handleAddToCart}>
+                  <div
+                    className="add-to-cart-btn"
+                    onClick={handleAddToCart}
+                  >
+                    <Link href="/cart" className="text-decoration-none">
                       ADD TO CART{" "}
                       <i className="fa-solid fa-arrow-right-long"></i>
                     </Link>
@@ -426,18 +442,29 @@ const ProductDetails = () => {
                 <div className="stock-available">
                   <div className="p">
                     Available : &nbsp;
-                    <span style={{ color: product?.stock_status === "in_stock" ? 'green' : 'red' }}>
-                      {product?.stock_status === "in_stock" ? 'In Stock' : 'Out of Stock'}
+                    <span
+                      style={{
+                        color:
+                          product?.stock_status === "in_stock"
+                            ? "green"
+                            : "red",
+                      }}
+                    >
+                      {product?.stock_status === "in_stock"
+                        ? "In Stock"
+                        : "Out of Stock"}
                     </span>
                   </div>
-
-
                 </div>
-                <div className={product?.stock_status === "in_stock" ? "prd-dtl-checkout-btn" : 'prd-dtl-checkout-btn-disabled'}>
+                <div
+                  className={
+                    product?.stock_status === "in_stock"
+                      ? "prd-dtl-checkout-btn"
+                      : "prd-dtl-checkout-btn-disabled"
+                  }
+                >
                   <button>
-                    <div onClick={handleAddToCart}>
-                      ADD TO CART
-                    </div>
+                    <div onClick={handleAddToCart}>ADD TO CART</div>
                   </button>
                 </div>
                 <div className="cat-prd-dtl">
@@ -447,29 +474,45 @@ const ProductDetails = () => {
                 </div>
                 <div className="tag-prd-dtl">
                   <p className="m-0">
-                    Tag: <span> {tags.map((tag, index) => (
-                      <React.Fragment key={tag}>
-                        {tag}
-                        {index < tags.length - 1 && ", "}
-                      </React.Fragment>
-                    ))}</span>
+                    Tag:{" "}
+                    <span>
+                      {" "}
+                      {tags.map((tag, index) => (
+                        <React.Fragment key={tag}>
+                          {tag}
+                          {index < tags.length - 1 && ", "}
+                        </React.Fragment>
+                      ))}
+                    </span>
                   </p>
                 </div>
                 <div className="share-prd-dtl">
                   <p className="m-0">
                     Share :{" "}
                     <span>
-                      <Link href="#" className="text-decoration-none text-dark">
+                      <Link
+                        href="#"
+                        className="text-decoration-none text-dark"
+                      >
                         {" "}
                         <i className="fa-brands fa-facebook-f ms-2 me-2"></i>
                       </Link>
-                      <Link href="#" className="text-decoration-none text-dark">
+                      <Link
+                        href="#"
+                        className="text-decoration-none text-dark"
+                      >
                         <i className="fa-brands fa-instagram me-2"></i>
                       </Link>
-                      <Link href="#" className="text-decoration-none text-dark">
+                      <Link
+                        href="#"
+                        className="text-decoration-none text-dark"
+                      >
                         <i className="fa-brands fa-x-twitter me-2"></i>
                       </Link>
-                      <Link href="#" className="text-decoration-none text-dark">
+                      <Link
+                        href="#"
+                        className="text-decoration-none text-dark"
+                      >
                         <i className="fa-brands fa-tiktok me-2"></i>
                       </Link>
                     </span>
@@ -480,7 +523,6 @@ const ProductDetails = () => {
           </div>
 
           {/* cart */}
-
         </div>
       </section>
 
@@ -546,7 +588,11 @@ const ProductDetails = () => {
                 aria-labelledby="description-tab"
               >
                 <p>
-                  <p dangerouslySetInnerHTML={{ __html: product?.description || "" }}></p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: product?.description || "",
+                    }}
+                  ></p>
                 </p>
               </div>
               <div
@@ -574,8 +620,6 @@ const ProductDetails = () => {
               </div>
 
               {/*  reviews */}
-
-
             </div>
             <div
               className="modal fade"
@@ -708,7 +752,80 @@ const ProductDetails = () => {
 
       <CustomCarouselFour />
 
+
+      {showModal && (
+        <div
+          onClick={closeModal} // Closes the modal when clicking outside the content box
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the content box
+            style={{
+              position: 'relative',
+              textAlign: 'center',
+              padding: '2rem',
+              backgroundColor: '#0000ff',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              color: '#fff',
+              width: '90%',
+              maxWidth: '400px',
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5rem',
+                color: '#fff',
+                cursor: 'pointer',
+              }}
+            >
+              &times;
+            </button>
+
+            <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Please Log In</h1>
+            <p style={{ fontSize: '1.1rem' }}>Please log in to add this product to your cart!</p>
+            <button
+              onClick={() => {
+                closeModal();
+                router.push('/login');
+              }}
+              style={{
+                marginTop: '1.5rem',
+                padding: '0.8rem 1.5rem',
+                fontSize: '1rem',
+                backgroundColor: '#fff',
+                color: '#0000ff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+              }}
+            >
+              Log In
+            </button>
+          </div>
+        </div>
+      )}
     </>
+
   );
 };
 

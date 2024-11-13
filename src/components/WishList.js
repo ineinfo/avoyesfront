@@ -5,11 +5,40 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
-import defaut_product_image from "../../public/default_product.jpg"
+import { useRouter } from "next/navigation";
 
 const WishList = () => {
 
   const [wishlist, setWishlist] = useState([]);
+  const router = useRouter();
+
+  const Id = Cookies.get('id');
+  const Token = Cookies.get('accessToken');
+
+  if (!Id && !Token) {
+    return (<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '55vh', backgroundColor: '#f0f8ff' }}>
+      <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#0000ff', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', color: '#ffff', }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Please Log In</h1>
+        <p style={{ fontSize: '1.1rem' }}>Log in to see your wishlist and manage your saved items.</p>
+        <button
+          onClick={() => { router.push('/login') }}
+          style={{
+            marginTop: '1.5rem',
+            padding: '0.8rem 1.5rem',
+            fontSize: '1rem',
+            backgroundColor: '#ffff',
+            color: '#0000ff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          Log In
+        </button>
+      </div>
+    </div>)
+  }
 
   useEffect(() => {
     const userId = Cookies.get('id');

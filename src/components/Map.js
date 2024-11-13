@@ -220,7 +220,7 @@ const Map = () => {
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >
-                    <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-dialog modal-dialog-centered" style={{ minHeight: "60vh" }}>
                       <div className="modal-content modal-border-radius">
                         <div className="modal-header">
                           <h5 className="modal-title" id="exampleModalLabel">
