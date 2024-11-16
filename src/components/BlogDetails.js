@@ -338,7 +338,7 @@ const BlogDetails = () => {
                                                                             </p>
                                                                         </div>
                                                                         <div className="border-left-blog"></div>
-                                                                        {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
+                                                                        {comments?.filter(comment => comment.blog_id === blog.id).length > 0 && (
                                                                             <div className="comment-blog-listing d-flex align-items-center">
                                                                                 <i className="fa-regular fa-comment"></i>
                                                                                 <p className="m-0 ps-2">

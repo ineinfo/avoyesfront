@@ -33,7 +33,11 @@ const ProductDetails = () => {
   const colors = product?.colors ? product.colors.split(",") : [];
   const sizes = product?.sizes ? product.sizes.split(",") : [];
   const tags = product?.tags ? product.tags.split(",") : [];
+  const [rating, setRating] = useState(1);
 
+  const handleStarClick = (value) => {
+    setRating(value);
+  };
   const incrementCounter = () => {
     setCounter((prev) => prev + 1);
   };
@@ -463,8 +467,15 @@ const ProductDetails = () => {
                       : "prd-dtl-checkout-btn-disabled"
                   }
                 >
-                  <button>
-                    <div onClick={handleAddToCart}>ADD TO CART</div>
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={product?.stock_status !== "in_stock"}
+                    style={{
+                      cursor: product?.stock_status === "in_stock" ? "pointer" : "not-allowed",
+                      opacity: product?.stock_status === "in_stock" ? 1 : 0.5,
+                    }}
+                  >
+                    ADD TO CART
                   </button>
                 </div>
                 <div className="cat-prd-dtl">
@@ -587,13 +598,11 @@ const ProductDetails = () => {
                 role="tabpanel"
                 aria-labelledby="description-tab"
               >
-                <p>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: product?.description || "",
-                    }}
-                  ></p>
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: product?.description || "",
+                  }}
+                ></p>
               </div>
               <div
                 className="tab-pane fade additional-info-content w-75 m-auto"
@@ -620,7 +629,104 @@ const ProductDetails = () => {
               </div>
 
               {/*  reviews */}
+
+              <div class="tab-pane fade reviews-content" id="reviews" role="tabpanel"
+                aria-labelledby="reviews-tab">
+                <div class="reviews-heading d-flex justify-content-between align-items-center">
+                  <div class="head">
+                    <h1>(2) Reviews For Sequin Shirt</h1>
+                  </div>
+                  <div class="write-review">
+                    <a href="#" class="text-decoration-none" data-bs-toggle="modal"
+                      data-bs-target="#reviewModal">
+                      <i class="fa-solid fa-pen me-2"></i>Write Your Review!
+                    </a>
+                  </div>
+                </div>
+
+                <div id="reviewsContainer">
+                  <div class="reviews-people w-75 m-auto mt-4">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-3">
+                        <div class="img">
+                          <img src="/review-2.png" alt="" />
+                        </div>
+                      </div>
+                      <div class="col-lg-10 col-md-9">
+                        <div
+                          class="mobile-rating d-flex justify-content-between align-items-center">
+                          <div class="stars">
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-regular fa-star-half-stroke blue-heart"></i>
+                          </div>
+
+
+                        </div>
+                        <div class="date">
+                          <p>June 4 2024</p>
+                        </div>
+                        <div class="name">
+                          <h3>IMANI MILL</h3>
+                        </div>
+                        <div class="para">
+                          <p id="review1Text">Condimentum lacinia quis vel eros. Auctor neque
+                            vitae
+                            tempus quam
+                            pellentesque. Et pharetra pharetra massa massa. Dignissim sodales ut
+                            eu
+                            sem integer.
+                            Condimentum lacinia quis vel eros. Auctor neque vitae</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="reviews-people w-75 m-auto mt-4">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-3">
+                        <div class="img">
+                          <img src="/review-1.png" alt="" />
+                        </div>
+                      </div>
+                      <div class="col-lg-10 col-md-9">
+                        <div
+                          class="mobile-rating d-flex justify-content-between align-items-center">
+                          <div class="stars">
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-solid fa-star blue-heart"></i>
+                            <i class="fa-regular fa-star-half-stroke blue-heart"></i>
+                          </div>
+
+
+                        </div>
+                        <div class="date">
+                          <p>June 4 2024</p>
+                        </div>
+                        <div class="name">
+                          <h3>IMANI MILL</h3>
+                        </div>
+                        <div class="para">
+                          <p id="review2Text">Condimentum lacinia quis vel eros. Auctor neque
+                            vitae
+                            tempus quam
+                            pellentesque. Et pharetra pharetra massa massa. Dignissim sodales ut
+                            eu
+                            sem integer.
+                            Condimentum lacinia quis vel eros. Auctor neque vitae</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+
+
             <div
               className="modal fade"
               id="reviewModal"
@@ -648,17 +754,18 @@ const ProductDetails = () => {
                     <div className="row">
                       <div className="col-lg-5">
                         <div className="img">
-                          <img src="/main-thumb.png" alt="" />
+                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
                         </div>
                         <div className="women-modal-text">
                           <div className="head">
-                            <h5>Women's Sequin Skirt</h5>
+                            <h5>{product?.title}</h5>
                           </div>
                           <div className="para">
-                            <p>
-                              Ut enim ad minima veniam, quis nostrum
-                              exercitationem ullam corporis suscipit{" "}
-                            </p>
+                            <p
+                              dangerouslySetInnerHTML={{
+                                __html: product?.description || "",
+                              }}
+                            ></p>
                           </div>
                         </div>
                       </div>
@@ -669,36 +776,29 @@ const ProductDetails = () => {
                               <h6 className="m-0">Quality</h6>
                             </div>
                             <div className="star-rating ms-2">
-                              <span
-                                className="fa fa-star-o str-clr"
-                                data-rating="1"
-                              ></span>
-                              <span
-                                className="fa fa-star-o str-clr"
-                                data-rating="2"
-                              ></span>
-                              <span
-                                className="fa fa-star-o str-clr"
-                                data-rating="3"
-                              ></span>
-                              <span
-                                className="fa fa-star-o str-clr"
-                                data-rating="4"
-                              ></span>
-                              <span
-                                className="fa fa-star-o str-clr"
-                                data-rating="5"
-                              ></span>
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <i
+                                  key={star}
+                                  className={`fa ${star <= rating ? "fa-star" : "fa-star"}`}
+                                  onClick={() => handleStarClick(star)}
+                                  style={{
+                                    fontSize: "32px",
+                                    color: star <= rating ? "#0000ff" : "grey", // Gold for selected, white for unselected
+                                    cursor: "pointer",
+
+                                  }}
+                                ></i>
+                              ))}
                               <input
                                 type="hidden"
-                                name="whatever1"
+                                name="ratingValue"
                                 className="rating-value"
-                                value="2.56"
+                                value={rating}
                               />
                             </div>
                           </div>
                           <div className="mb-3 review-input">
-                            <label for="reviewName" className="form-label">
+                            <label htmlFor="reviewName" className="form-label">
                               Name
                             </label>
                             <input
@@ -708,7 +808,7 @@ const ProductDetails = () => {
                             />
                           </div>
                           <div className="mb-3 review-input">
-                            <label for="reviewTitle" className="form-label">
+                            <label htmlFor="reviewTitle" className="form-label">
                               Title
                             </label>
                             <input
@@ -718,7 +818,7 @@ const ProductDetails = () => {
                             />
                           </div>
                           <div className="mb-3 review-input">
-                            <label for="reviewText" className="form-label">
+                            <label htmlFor="reviewText" className="form-label">
                               Message
                             </label>
                             <textarea
@@ -746,6 +846,10 @@ const ProductDetails = () => {
                 </div>
               </div>
             </div>
+
+
+
+
           </div>
         </div>
       </section>

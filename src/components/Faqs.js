@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
+import LoadingSpinner from "./Loading";
 
 
 const Faqs = () => {
@@ -17,9 +18,9 @@ const Faqs = () => {
         const data = await response.json();
         console.log(data);
         if (Array.isArray(data.data)) {
-          setFaqs(data.data); 
+          setFaqs(data.data);
         } else {
-          setFaqs([]); 
+          setFaqs([]);
         }
       } catch (error) {
         console.error("Error fetching FAQs:", error);
@@ -57,7 +58,7 @@ const Faqs = () => {
           <div className="row">
             <div className="col-md-7">
               {loading ? (
-                <p>Loading FAQs...</p>
+                <><LoadingSpinner /></>
               ) : (
                 <div className="accordion" id="faqaccordion">
                   {Array.isArray(faqs) && faqs.length > 0 ? (
@@ -82,7 +83,8 @@ const Faqs = () => {
                           data-bs-parent="#faqaccordion"
                         >
                           <div className="accordion-body acrdn-bdy-2">
-                            {faq.description}
+                            <span dangerouslySetInnerHTML={{ __html: faq.description }}></span>
+                            {/* {faq.description} */}
                           </div>
                         </div>
                       </div>
@@ -95,7 +97,7 @@ const Faqs = () => {
             </div>
             <div className="col-md-5">
               <div className="faq-img">
-                <img src="/faq-img.png" alt="" />
+                {/* <img src="/faq-img.png" alt="" /> */}
               </div>
               <div className="any-que">
                 <h3>Any Question?</h3>

@@ -1,15 +1,64 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('');
   const pathname = usePathname(); // Get current path
   if (pathname === "/login" || pathname === "/otp" || pathname === "/forgotpassword" || pathname === "/new-password" || pathname === "/register") {
     return null;
   }
+
+  const token = Cookies.get("accessToken");
+
+  const handleInputChange = (event) => {
+    setEmail(event.target.value);
+    setError(false); // Input change hone par error reset karte hain
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setError(true);
+      setResponseMessage('')
+    } else {
+      setError(false);
+
+      try {
+        // Axios POST request
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/subscribers`, // Replace with your API URL
+          { email }, // Email data as payload
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Replace with your actual token
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        // Set response message from API
+        setResponseMessage(response.data.message ? 'Subscribed SuccessFully!' : '');
+        setEmail(''); // Input box reset karte hain
+
+      } catch (err) {
+        console.error('API Error:', err);
+        setResponseMessage('You Have Already Subscribed!');
+      }
+    }
+  };
+
+
   return (
     <>
       <footer className="footer">
@@ -136,22 +185,35 @@ const Footer = () => {
             <div className="col-md-3">
               <h5 className="ftr-join-head">Join Our Community</h5>
               <div className="ftr-head-btm-border"></div>
-              <form role="search" method="get" action="">
+              <form role="search" method="get" onSubmit={handleSubmit}>
                 <div className="input-container">
                   <input
-                    type="search"
+                    type="email"
                     className="search-input"
-                    name="s"
-                    placeholder="Search"
+                    name="subscribe"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={handleInputChange}
                   />
                   <button type="submit" className="search-submit" name="submit">
-
-                    <i
-                      className="bi bi-arrow-right d-flex align-items-center"
-                    ></i>
+                    <i className="bi bi-arrow-right d-flex align-items-center"></i>
                   </button>
                 </div>
               </form>
+
+              {/* Error pop-up */}
+              {error && (
+                <div style={{ color: 'red', marginTop: '10px' }}>
+                  Invalid email you have entered!
+                </div>
+              )}
+
+              {/* API Response message */}
+              {responseMessage && (
+                <div style={{ color: 'blue', marginTop: '10px' }}>
+                  {responseMessage}
+                </div>
+              )}
             </div>
           </div>
           <div className="border-bottom-footer"></div>

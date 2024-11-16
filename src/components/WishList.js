@@ -125,7 +125,7 @@ const WishList = () => {
                         <p>NEW</p>
                       </div>
                       <div className="buttons">
-                        <Link href="cart" className="text-decoration-none">
+                        <Link href={`/${item.product_id}/productdetails`} className="text-decoration-none">
                           MOVE TO BAG
                           <i className="bi bi-handbag ms-2 quick-icons"></i>
                         </Link>
@@ -143,7 +143,7 @@ const WishList = () => {
                   <div className="info d-flex justify-content-between align-items-center">
                     <div className="item">
                       <Link
-                        href="Product-details"
+                        href={`/${item.product_id}/productdetails`}
                         className="text-decoration-none"
                       >
                         <p className="m-0">{item.title}</p>

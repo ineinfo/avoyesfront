@@ -20,6 +20,7 @@ import { fetchEventsFeatured } from "@/utils/api/EventApi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CustomCarousel, MyCarousel } from "@/components/Carousel";
 import Link from "next/link";
+import axios from "axios";
 
 
 
@@ -246,16 +247,23 @@ export default function CustomComponent() {
 
   useEffect(() => {
     const getBanner = async () => {
-      const result = await fetchBanner();
-      if (result.status) {
-        setBannerData(result.data); // Set the fetched banner data
-      } else {
-        console.error(result.message);
+      try {
+        const result = await fetchBanner()
+        console.log('RESULT', result);
+
+        if (result) {
+          setBannerData(result); // Set the fetched banner data
+        } else {
+          console.error("No data found");
+        }
+      } catch (error) {
+        console.error("Error fetching banner data:", error.message);
       }
     };
 
     getBanner();
   }, []);
+
 
   // Optional: Show a loading state or fallback UI if bannerData is null
   // if (!bannerData) {
@@ -677,20 +685,20 @@ export default function CustomComponent() {
         </div>
       </section>
 
-      <section>
+      {bannerData && <section>
         <div className="products-banner py-5">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-3 col-md-3 p-0">
                 <div className="product-bg-img-1">
                   <img
-                    src={bannerData?.banner_left_image || "/shirt.png"}
+                    src={bannerData[2]?.image_url || "/shirt.png"}
                     alt="Left Banner"
                   />
                   <div className="text">
-                    <h3>{bannerData?.banner_left_text || "Default Left Text"}</h3>
+                    <h3>{bannerData[2]?.title || "Default Left Text"}</h3>
                     <div className="view-more-btn">
-                      <Link href={bannerData?.banner_left_url || "/marketplace"} className="text-decoration-none">
+                      <Link href={bannerData[2]?.view_url || "/marketplace"} className="text-decoration-none">
                         VIEW MORE
                       </Link>
                     </div>
@@ -700,13 +708,13 @@ export default function CustomComponent() {
               <div className="col-xl-6 col-md-6 p-0">
                 <div className="product-bg-img-2">
                   <img
-                    src={bannerData?.banner_center_image || "/bagpack.png"}
+                    src={bannerData[1]?.image_url || "/bagpack.png"}
                     alt="Center Banner"
                   />
                   <div className="text">
-                    <h3>{bannerData?.banner_center_text || "Default Center Text"}</h3>
+                    <h3>{bannerData[1]?.title || "Default Center Text"}</h3>
                     <div className="view-more-btn">
-                      <Link href={bannerData?.banner_center_url || "/marketplace"} className="text-decoration-none">
+                      <Link href={bannerData[1]?.view_url || "/marketplace"} className="text-decoration-none">
                         VIEW MORE
                       </Link>
                     </div>
@@ -716,18 +724,18 @@ export default function CustomComponent() {
               <div className="col-xl-3 col-md-3 p-0">
                 <div className="product-bg-img-3">
                   <img
-                    src={bannerData?.banner_right_image || "/gogals.png"}
+                    src={bannerData[0]?.image_url || "/gogals.png"}
                     alt="Right Banner"
                   />
                   <div className="text">
-                    <h3>{bannerData?.banner_right_text || "Default Right Text"}</h3>
+                    <h3>{bannerData[0]?.title || "Default Right Text"}</h3>
                     <div className="view-more-btn">
-                      {/* <Link href={bannerData?.banner_right_url || "/default-url"} className="text-decoration-none">
-                      VIEW MORE
-                    </Link> */}
-                      <Link href="/marketplace" className="text-decoration-none">
+                      <Link href={bannerData[0]?.view_url || "/default-url"} className="text-decoration-none">
                         VIEW MORE
                       </Link>
+                      {/* <Link href="/marketplace" className="text-decoration-none">
+                        VIEW MORE
+                      </Link> */}
 
                     </div>
                   </div>
@@ -736,7 +744,7 @@ export default function CustomComponent() {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
 
 

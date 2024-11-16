@@ -88,3 +88,30 @@ export const fetchTimes = async () => {
     return []; // In case of an error, return an empty array
   }
 };
+
+export const makeReservation = async ({ time_id, food_place_id, people, date }) => {
+  const token = Cookies.get('accessToken');
+
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/reservation`,
+      {
+        time_id,
+        food_place_id,
+        people,
+        date
+      },
+      {
+        headers: {
+          Authorization: `${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    console.log("===", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to make reservation", error);
+    throw error;
+  }
+};

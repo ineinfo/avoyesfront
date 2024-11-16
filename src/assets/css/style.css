@@ -3290,7 +3290,7 @@ button.carousel-control-next.modal-btn-next span.fas.fa-chevron-right {
 }
 
 .modal-content {
-    max-height: 50vh; /* Limit the height to 50% of the viewport height */
+    max-height: 80vh; /* Limit the height to 50% of the viewport height */
     overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
 }
 
@@ -5114,7 +5114,9 @@ button.accordion-button {
 
 .customer-support .accordion-button:not(.collapsed) {
     color: #fff;
-    background: #0000ff;
+    background: #A9A9A9;
+    /* background: #808080; */
+
     font-family: "lato";
     font-weight: 600;
     font-size: 17px;
@@ -6700,6 +6702,42 @@ button#speakerDropdown.active {
 .pop-dish-slider {
     margin-top: 25px;
 }
+
+.pop-dish-slider {
+    display: flex;
+    overflow-x: hidden;
+    /* scroll-snap-type: x mandatory;  */
+    margin-top: 25px;
+    scroll-behavior: smooth;
+    transition: scroll-left 1s ease-in-out;
+  }
+  .pop-dish-slider .map-slide {
+    flex-shrink: 0;
+    width: 250px;
+    margin-right: 12px;
+    scroll-snap-align: start;
+    position: relative;
+    transition: transform 1s ease;
+  }
+  .pop-dish-slider img {
+    width: 210px;
+    height: 300px;
+  }
+  .pop-dish-slider .text p {
+    background-color: #8FD345;
+    padding: 9px 19px;
+    border-radius: 50px;
+    position: absolute;
+    color: #fff;
+    font-family: Lato;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 15.2px;
+    text-align: left;
+    bottom: 2%;
+    left: 25%;
+    text-transform: uppercase;
+  }
 
 .pop-map-head h1 {
     font-family: "Lato", sans-serif;

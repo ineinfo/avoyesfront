@@ -19,6 +19,7 @@ import {
   fetchSpeakers,
   fetchCategories
 } from "@/utils/api/EventApi";
+import LoadingSpinner from "./Loading";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -192,7 +193,7 @@ const Event = () => {
 
 
   if (loading) {
-    return <p>Loading events...</p>;
+    return <><LoadingSpinner /></>;
   }
 
   if (error) {

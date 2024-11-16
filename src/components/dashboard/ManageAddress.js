@@ -28,6 +28,7 @@ const ManageAddress = () => {
 
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setSelectedState] = useState();
+  const [selectedCity, setSelectedCity] = useState();
 
   // Fetch countries on component mount
   useEffect(() => {
@@ -153,6 +154,7 @@ const ManageAddress = () => {
     console.log("Adress", address);
     setSelectedCountry(address?.country)
     setSelectedState(address?.state)
+    setSelectedCity(address?.city)
     setCurrentAddress(address);
   };
 
@@ -313,7 +315,7 @@ const ManageAddress = () => {
       return name
     } catch (error) {
       console.error("Error fetching city name:", error);
-      return "Unknown city"; // Default value in case of error
+      return "Unknown State"; // Default value in case of error
     }
   };
 
@@ -328,7 +330,7 @@ const ManageAddress = () => {
       return name
     } catch (error) {
       console.error("Error fetching city name:", error);
-      return "Unknown city"; // Default value in case of error
+      return "Unknown Country"; // Default value in case of error
     }
   };
 
@@ -525,7 +527,8 @@ const ManageAddress = () => {
               <select
                 className="form-select"
                 name="city"
-                value={currentAddress ? currentAddress.city : ""}
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
                 disabled={!selectedState}
               >
                 <option value="">Select City</option>

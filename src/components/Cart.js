@@ -5,12 +5,50 @@ import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingSpinner from "./Loading";
+import { useRouter } from "next/navigation";
+
+
+const styles = {
+  emptyCart: {
+    textAlign: "center",
+    padding: "40px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+  },
+  emptyMessage: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    color: "#0000ff",
+    marginBottom: "16px",
+  },
+  emptySubtext: {
+    fontSize: "14px",
+    color: "#555",
+    marginBottom: "24px",
+  },
+  button: {
+    padding: "10px 20px",
+    backgroundColor: "#0000ff",
+    color: "#fff",
+    fontSize: "16px",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+  buttonHover: {
+    backgroundColor: "#2525f8",
+  },
+}
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [tempQuantities, setTempQuantities] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
     const token = Cookies.get("accessToken");
@@ -74,6 +112,10 @@ const Cart = () => {
     }
   };
 
+  const handleMarketplace = () => {
+    router.push('/marketplace')
+  }
+
 
   return (
     <>
@@ -105,9 +147,9 @@ const Cart = () => {
           </div>
 
           <div className="row pt-2">
-            <div className="col-lg-8">
+            {cartItems.length > 0 ? <div className="col-lg-8">
               {loading ? (
-                <p>Loading cart items...</p>
+                <p><LoadingSpinner /></p>
               ) : (
                 cartItems.map((item) => (
                   <div key={item.id} className="row py-4 align-items-center cart-page-item-border">
@@ -193,7 +235,28 @@ const Cart = () => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> : <>
+              <div className="col-lg-8" style={{ paddingTop: "50px" }}>
+                <div style={styles.emptyCart}>
+                  <h2 style={styles.emptyMessage}>Your Cart is Empty</h2>
+                  <p style={styles.emptySubtext}>
+                    Looks like you haven’t added anything to your cart yet.
+                  </p>
+                  <button
+                    style={styles.button}
+                    onClick={handleMarketplace}
+                    onMouseOver={(e) =>
+                      (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)
+                    }
+                    onMouseOut={(e) =>
+                      (e.target.style.backgroundColor = styles.button.backgroundColor)
+                    }
+                  >
+                    Go to Marketplace
+                  </button>
+                </div>
+              </div>
+            </>}
 
             <div className="col-lg-4 pt-5">
               <div className="order-summary-box">
@@ -222,11 +285,24 @@ const Cart = () => {
                 </div>
                 <div className="summary-checkout">
                   <Link href="/checkout">
-                    <button type="button" className="summary-btn">
+                    <button
+                      type="button"
+                      style={{
+                        backgroundColor: cartItems.length === 0 ? "#ccc" : "#0000ff",
+                        color: cartItems.length === 0 ? "#666" : "#fff",
+                        cursor: cartItems.length === 0 ? "not-allowed" : "pointer",
+                        opacity: cartItems.length === 0 ? 0.6 : 1,
+                        padding: "10px 20px",
+                        border: "none",
+                        borderRadius: "5px",
+                      }}
+                      disabled={cartItems.length === 0}
+                    >
                       CHECKOUT NOW
                     </button>
                   </Link>
                 </div>
+
               </div>
             </div>
           </div>

@@ -17,6 +17,17 @@ export const placeOrder = async (data) => {
     }
 };
 
+export const getWishlist = async () => {
+    const userId = Cookies.get('id');
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist/${userId}`)
+        return response.data.data;
+    } catch (err) {
+        console.error('Failed to fetch address:', err);
+        throw err;
+    }
+}
+
 export const getOrder = async () => {
     const accessToken = Cookies.get("accessToken");
 

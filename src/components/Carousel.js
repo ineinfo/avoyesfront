@@ -15,6 +15,7 @@ import defaultBImg from "../../public/blogdefault-img.png";
 import { fetchBlogs } from "@/utils/api/BlogApi";
 import { fetchTopBanner } from "@/utils/api/BannerApi";
 import LoadingSpinner from "./Loading";
+import fetchProducts from "@/utils/api/ProductApi";
 
 const CustomCarousel = () => {
   const [blogs, setBlogs] = useState([]);
@@ -244,111 +245,150 @@ const products = [
 ];
 
 const CustomCarouselFour = () => {
-  const settings = {
+
+
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProductData = async () => {
+      const result = await fetchProducts();
+      if (result.status) {
+        setProducts(result.data); // Ensure the response structure fits here
+      } else {
+        console.error(result.message);
+      }
+    };
+    fetchProductData();
+  }, []);
+  const productsettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    arrows: true,
-    dots: false,
     autoplay: true,
-    autoplaySpeed: 1000,
+    arrows: true,
+    autoplaySpeed: 2000,
     prevArrow: <button className="slick-prev ">Prev</button>,
     nextArrow: <button className="slick-next">Next</button>,
+
     responsive: [
       {
-        breakpoint: 992,
+        breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 576,
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
     ],
   };
 
+
+
   return (
     <section>
-      <div className="related-main py-5">
+      <div className="market-main py-5">
         <div className="container">
           <div className="head d-flex justify-content-between align-items-center">
             <div className="heading">
               <h1>
-                <span>RELATED </span> Product
+                <span>RELATED  </span> Product
               </h1>
             </div>
+            {/* <div className="view-more-head">
+            <Link href="/marketplace" className="text-decoration-none">
+              View All <i className="fa-solid fa-arrow-right view-more-arrow"></i>
+            </Link>
+          </div> */}
           </div>
-          <Slider {...settings} className="pt-4 related-product">
+          <Slider {...productsettings} style={{ padding: '0 25px' }} className="pt-4">
+
             {products.map((product) => (
-              <div key={product.id} className="col-xl-3 market-slide">
-                <div className="market-place-product">
-                  <div className="img-wrapper">
-                    <div className="img position-relative">
-                      <img src={product.image} alt={product.name} />
-                      {product.label && (
-                        <div className="label position-absolute top-0 start-0 m-2 bg-white ">
-                          <p
-                            style={{
-                              backgroundColor:
-                                product.label == "NEW" ? "blue" : "black",
-                              color: "white",
-                              borderRadius: "5px",
-                            }}
-                            className="m-0 px-2 py-1"
-                          >
-                            {product.label}
-                          </p>
-                        </div>
-                      )}
-                      <div className="buttons">
-                        <Link href="#" className="text-decoration-none">
-                          QUICK VIEW{" "}
-                          <i className="bi bi-eye ms-1 quick-icons"></i>
-                        </Link>
-                        <div className="border-line"></div>
-                        <Link href="/cart" className="text-decoration-none">
-                          QUICK SHOP
-                          <i className="bi bi-handbag ms-1 quick-icons"></i>
-                        </Link>
+              <div
+                className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 market-place-product"
+                key={product.id}
+                style={{
+                  margin: '0 2px',
+                  height: "500px",
+                  display: "flex",
+                  flexDirection: "column",
+                  width: 'calc(15% - 100px)',
+
+                }}
+              >
+                <div className="img-wrapper" style={{ flex: 1 }}>
+                  <div className="img">
+                    <img
+                      // src={product.image_url || defaultPImg.src}
+                      src={product.image_url || product.image_url1} alt={product.title}
+                      style={{ width: "100%", height: "350px", objectFit: "cover" }}
+                    />
+                    {product.label && (
+                      <div
+                        className="label"
+                        style={{
+                          position: "absolute",
+                          top: "25px",
+                          left: "30px",
+                          backgroundColor: "blue",
+                          color: "white",
+                          padding: "5px 15px",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        <p style={{ margin: 0 }}>{product.product_label}</p>
                       </div>
-                      <div className="heart-icon">
-                        <Link
-                          href="/wishlist"
-                          className="text-decoration-none text-dark"
-                        >
-                          <i className="fa-regular fa-heart"></i>
-                        </Link>
-                      </div>
+                    )}
+                    <div className="heart-icon">
+                      <a href="/wishlist" className="text-decoration-none text-dark" style={{ marginBottom: '20px' }}>
+                        <i className="fa-regular fa-heart"></i>
+                      </a>
+                      <a href="/cart" className="text-decoration-none text-dark">
+                        <i className="bi bi-handbag ms-1 quick-icons"></i>
+                      </a>
                     </div>
                   </div>
-                  <div className="info d-flex justify-content-between align-items-center">
-                    <div className="item">
-                      <Link href="#" className="text-decoration-none">
-                        <p className="m-0">{product.name}</p>
-                      </Link>
+                </div>
+                <div className="info d-flex justify-content-between align-items-center">
+                  <div className="item">
+                    <Link href={`/${product.id}/productdetails`} className="text-decoration-none">
+
+
+                      <p className="m-0">{product.title}</p>
+                    </Link>
+                  </div>
+                  <div className="rating d-flex align-items-center">
+                    <div className="rate d-flex align-items-center">
+                      <p className="m-0">{product.ratings}</p>
+                      <i className="fa-solid fa-star"></i>
                     </div>
-                    <div className="rating d-flex align-items-center">
-                      <div className="rate d-flex align-items-center">
-                        <p className="m-0">{product.rating}</p>
-                        <i className="fa-solid fa-star"></i>
-                      </div>
-                      <div className="people">
-                        <p className="m-0">{product.reviews}</p>
-                      </div>
+                    <div className="people">
+                      <p className="m-0">{product.reviews}</p>
                     </div>
                   </div>
-                  <div className="pricing d-flex align-items-center">
-                    <div className="price">
-                      <p className="m-0">{product.price}</p>
-                    </div>
-                    <div className="checked-price px-3">
-                      <span className="price-old">{product.oldPrice}</span>
-                    </div>
-                    <div className="offer-price">
-                      <p className="m-0">{product.discount}</p>
-                    </div>
+                </div>
+                <div className="pricing d-flex align-items-center">
+                  <div className="price">
+                    <p className="m-0">€{product.discount_amount}</p>
+                  </div>
+                  <div className="checked-price px-3">
+                    <span className="price-old">€{product.amount}</span>
+                  </div>
+                  <div className="offer-price">
+                    <p className="m-0">{product.discount_amount}</p>
                   </div>
                 </div>
               </div>

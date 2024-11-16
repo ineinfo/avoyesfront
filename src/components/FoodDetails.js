@@ -1,9 +1,14 @@
 "use client";
 import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 import { useParams } from "next/navigation";
-import { fetchPlaceDetails, fetchPopularDish, getUserData, fetchTimes, fetchFoodTypes } from '@/utils/api/FoodieApi';
+import { useRouter } from 'next/navigation';
+
+
+import { fetchPlaceDetails, fetchPopularDish, getUserData, fetchTimes, fetchFoodTypes, makeReservation } from '@/utils/api/FoodieApi';
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
+import Cookies from 'js-cookie';
 
 const FoodDetails = () => {
   const { id } = useParams();
@@ -12,13 +17,19 @@ const FoodDetails = () => {
   const sliderRef = useRef(null);
   const [userData, setUserData] = useState({});
   const [times, setTimes] = useState([]);
-  const defaultUrl = `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`;
+  const defaultUrl = '/foodie-banner.png';
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [foodTypes, setFoodTypes] = useState([]);
+  const router = useRouter();
+  const [selectedPeople, setSelectedPeople] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [errormsg, setErrormsg] = useState();
+  const [selectedTimeId, setSelectedTimeId] = useState(null);
+
 
   const imageUrls = [
-    placeData?.image_url || defaultUrl,
+    placeData?.image_url,
     placeData?.image_url2 || defaultUrl,
     placeData?.image_url3 || defaultUrl,
     placeData?.image_url4 || defaultUrl,
@@ -82,6 +93,47 @@ const FoodDetails = () => {
       getPlaceDetails();
     }
   }, [id]);
+
+  const handleReservationClick = async () => {
+    const token = Cookies.get('accessToken');
+
+    if (token) {
+
+      if (!selectedTimeId || !selectedPeople || !selectedDate) {
+        console.log("Please select all field (date, people, and time)");
+        setErrormsg("Please select all field (people, date, and time)")
+        return;
+      }
+
+      try {
+        // Create the reservation and get the response with the reservation id
+        const reservationResponse = await makeReservation({
+          time_id: selectedTimeId,
+          food_place_id: id, // Assuming you have a food place id in your state or props
+          people: selectedPeople,
+          date: selectedDate,
+        });
+        setErrormsg('')
+        // Get the reservation id from the response
+        const reservationId = reservationResponse.data[0].id;
+        console.log("ID", reservationResponse.data[0].id);
+
+        if (reservationId) {
+          // Navigate to the reservation page with the dynamic id
+          router.push(`/reservation/${reservationId}`);
+        } else {
+          console.log("Failed to create reservation. No ID returned.");
+        }
+
+      } catch (error) {
+        console.log("Failed to make reservation. Please try again.");
+      }
+    } else {
+      setErrormsg("Log In First For Making a Reservation ")
+    }
+  };
+
+
 
   useEffect(() => {
     // Fetch food types
@@ -248,7 +300,7 @@ const FoodDetails = () => {
                         href="#"
                       >
                         <img
-                          src={imageUrls && !imageUrls[0].includes('localhost') ? imageUrls[0] : 'http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png'}
+                          src={imageUrls[0]}
                           alt="Food Image 1"
                           className="map-dtl-1"
                         />
@@ -263,7 +315,7 @@ const FoodDetails = () => {
                           href="#"
                         >
                           <img
-                            src={imageUrls ? imageUrls[1] : 'http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png'}
+                            src={imageUrls[1]}
                             alt="Food Image 2"
                             className="map-dtl-2"
                           />
@@ -276,7 +328,7 @@ const FoodDetails = () => {
                           href="#"
                         >
                           <img
-                            src={imageUrls ? imageUrls[2] : 'http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png'}
+                            src={imageUrls[2]}
                             alt="Food Image 3"
                             className="map-dtl-3"
                           />
@@ -292,7 +344,7 @@ const FoodDetails = () => {
                           href="#"
                         >
                           <img
-                            src={imageUrls ? imageUrls[3] : 'http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png'}
+                            src={imageUrls[3]}
                             alt="Food Image 4"
                             className="map-dtl-4"
                           />
@@ -305,7 +357,7 @@ const FoodDetails = () => {
                           href="#"
                         >
                           <img
-                            src={imageUrls ? imageUrls[4] : 'http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png'}
+                            src={imageUrls[4]}
                             alt="Food Image 5"
                             className="map-dtl-5"
                           />
@@ -339,11 +391,11 @@ const FoodDetails = () => {
                   &#10094;
                 </button>
                 <img
-                  src={imageUrls[currentImageIndex] && !imageUrls[currentImageIndex].includes('localhost') ? imageUrls[currentImageIndex] : "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"}
+                  src={imageUrls[currentImageIndex]}
                   alt="Lightbox"
                   className="gal-large-img"
                   style={{
-                    width: "850px",
+                    width: "800px",
                     height: "500px",
                     objectFit: "cover",
                     objectPosition: "center",
@@ -732,6 +784,10 @@ const FoodDetails = () => {
                       <select
                         className="form-select"
                         aria-label="Default select example"
+                        value={selectedPeople}
+                        onChange={(e) =>
+                          setSelectedPeople(parseInt(e.target.value))
+                        }
                       >
                         <option selected>Select People</option>
                         <option value="1">One</option>
@@ -747,7 +803,8 @@ const FoodDetails = () => {
                           type="date"
                           className="form-control"
                           id="datePicker"
-                          value="2024-09-26"
+                          value={selectedDate}
+                          onChange={(e) => setSelectedDate(e.target.value)}
                         />
                       </div>
                     </div>
@@ -759,23 +816,46 @@ const FoodDetails = () => {
                       <div className="time-btns">
                         <div className="row">
                           {Array.isArray(times) && times.length > 0 ? (
-                            times.map((time, index) => (
-                              <div className="col-lg-3 col-md-3" key={index}>
+                            times.map((time) => (
+                              <div
+                                className="col-lg-3 col-md-3"
+                                key={time.id}
+                              >
                                 <div className="time-btn-1">
-                                  <a href="/reservation">
-                                    <button type="button">{time.time}</button>
-                                  </a>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedTimeId(time.id);
+                                      handleReservationClick();
+                                    }}
+                                    className={selectedTimeId === time.id ? "active" : ""}
+                                  >
+                                    {time.time}
+                                  </button>
+
                                 </div>
                               </div>
                             ))
                           ) : (
-                            <p>No available times For This Place.</p>
+                            <p>No available times for this place.</p>
                           )}
+                          {/* <div className="time-btn-1" >
+                              <button
+                                type="button"
+                                onClick={handleReservationClick}
+                              >
+                                Reserve Now
+                              </button>
+                            </div> */}
                         </div>
                       </div>
                     </div>
                   </div>
+                  {errormsg ? <span style={{ color: 'red' }}>{errormsg}</span> : ""}
                 </div>
+
+
+
               </div>
             </div>
           </div>

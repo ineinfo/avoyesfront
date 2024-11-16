@@ -11,7 +11,8 @@ import WishlistApi from "@/utils/api/WishlistApi";
 import { addToCart } from "@/utils/api/CartApi";
 import defaultImg from '../../public/defaultImg.jpg';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { fetchProduct } from "@/utils/api/CommonApi";
+import { fetchBestFor, fetchCategories, fetchRatings, fetchTypes } from "@/utils/api/FilterApi";
+
 
 const MarketPlace = () => {
   const [showingCount, setShowingCount] = useState(12);
@@ -30,13 +31,14 @@ const MarketPlace = () => {
 
   const searchParams = useSearchParams(); // Get the search parameters
   const data = searchParams.get('data'); // Access the 'data' parameter
+  const search = searchParams.get('search'); // Access the 'data' parameter
   const pathname = usePathname();
 
   useEffect(() => {
     if (data) {
       try {
         const RealData = JSON.parse(decodeURIComponent(data));
-        console.log("RealData", RealData);
+        console.log("RealData", RealData, data);
 
 
         const params = [];
@@ -55,6 +57,7 @@ const MarketPlace = () => {
 
           RealData.price.forEach(range => {
             if (range === "200+") {
+              minValues.push('0');
               maxValues.push("200+");
             } else {
               const [min, max] = range.split('-').map(Number); // Split and convert to numbers
@@ -172,6 +175,8 @@ const MarketPlace = () => {
     }
 
     if (queryParams) {
+      console.log("params", queryParams);
+
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/products?limit=${id}&sort=${sortName}&${queryParams}`);
         if (!response.ok) {
@@ -256,7 +261,123 @@ const MarketPlace = () => {
 
   useEffect(() => {
     fetchProducts(showingCount, selectedOption);
+    // const fetchsearch = async () => {
+    //   const category = await fetchCategories()
+    //   setAllcategory(category)
+    //   const bestFor = await fetchBestFor()
+    //   setAllbestFor(bestFor)
+    //   const types = await fetchTypes()
+    //   setAlltypes(types)
+    // }
+    // fetchsearch()
   }, []);
+
+  //Search 
+  useEffect(() => {
+    if (search) {
+      // Define an async function inside the useEffect
+      const extractIdsAndPrices = async (text) => {
+        // Initialize result object with empty arrays
+        const category = await fetchCategories();
+        const bestFor = await fetchBestFor();
+        const types = await fetchTypes();
+        const result = { category: [], bestfor: [], type: [], price: [] };
+
+        // Function to find and push matching titles' ids to the specified key
+        function findMatchingIds(arr, key) {
+          arr.forEach(item => {
+            // Convert both text and item.title to lowercase for case-insensitive matching
+            if (text.toLowerCase().includes(item.title.toLowerCase())) {
+              result[key].push(item.id);
+            }
+          });
+        }
+
+        // Find matching ids for each array
+        findMatchingIds(category, 'category');
+        findMatchingIds(bestFor, 'bestFor');
+        findMatchingIds(types, 'type');
+
+        // Extract numbers from text and push them to price array
+        const priceMatches = text.match(/\d+/g);
+        if (priceMatches) {
+          priceMatches.forEach(price => {
+            result.price.push(0);  // Push 0 before each price
+            result.price.push(Number(price));
+          });
+        }
+
+        return result;
+      };
+
+      // Call the async function inside useEffect and handle the result
+      const fetchData = async () => {
+        const searchedValue = await extractIdsAndPrices(search);
+        console.log('searchedValue1', searchedValue);
+
+        try {
+          const RealData = searchedValue
+          console.log("RealData", RealData, data);
+
+
+          const params = [];
+
+          if (RealData.category && RealData.category.length > 0) {
+            params.push(`category=${RealData.category.join(',')}`);
+          }
+
+          if (RealData.ratings && RealData.ratings.length > 0) {
+            params.push(`ratings=${RealData.ratings.join(',')}`);
+          }
+
+          if (RealData.price && RealData.price.length > 0) {
+            let minValues = [];
+            let maxValues = [];
+
+            RealData.price.forEach(range => {
+              if (range === "200+") {
+                minValues.push('0');
+                maxValues.push("200+");
+              } else {
+                const [min, max] = range.split('-').map(Number); // Split and convert to numbers
+                minValues.push(min); // Add to minValues array
+                maxValues.push(max); // Add to maxValues array
+              }
+            });
+
+            const overallMin = Math.min(...minValues);
+
+            const overallMax = maxValues.includes("200+") ? "20000000000000000000" : Math.max(...maxValues);
+
+            params.push(`price=${overallMin}-${overallMax}`);
+          }
+
+
+          if (RealData.availability && RealData.availability.length > 0) {
+            params.push(`availability=${RealData.availability.join(',')}`);
+          }
+
+          if (RealData.type && RealData.type.length > 0) {
+            params.push(`type=${RealData.type.join(',')}`);
+          }
+
+          if (RealData.bestFor && RealData.bestFor.length > 0) {
+            params.push(`best_for=${RealData.bestFor.join(',')}`);
+          }
+
+          const queryString = params.join('&');
+          console.log("======>1d", queryString);
+
+          setQueryParams(queryString);  // <--- Save the constructed queryParams in state
+
+        } catch (error) {
+          console.error("Error parsing data:", error);
+        }
+      };
+
+      fetchData(); // Execute the async function
+    }
+  }, [search]);
 
   //wishlist
   useEffect(() => {
@@ -555,7 +676,7 @@ const MarketPlace = () => {
                               )}
 
                               <div className="buttons">
-                                <div
+                                {/* <div
                                   className="text-decoration-none p-2"
                                   data-bs-toggle="modal"
                                   data-bs-target="#productModal"
@@ -566,7 +687,7 @@ const MarketPlace = () => {
                                 >
                                   QUICK VIEW
                                   <i className="bi bi-eye ms-1 quick-icons"></i>
-                                </div>
+                                </div> */}
 
                                 {/* direct cart */}
                                 {/* <div className="border-line"></div>
@@ -660,13 +781,13 @@ const MarketPlace = () => {
                                     <p>NEW</p>
                                   </div>
                                   <div className="buttons mobile-btn">
-                                    <Link
+                                    {/* <Link
                                       href="#"
                                       className="text-decoration-none"
                                     >
                                       QUICK VIEW
                                       <i className="bi bi-eye ms-1 quick-icons"></i>
-                                    </Link>
+                                    </Link> */}
                                     <div className="border-line"></div>
                                     <Link
                                       href="#"

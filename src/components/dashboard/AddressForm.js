@@ -126,7 +126,7 @@ const AddressForm = ({ change }) => {
       user_id: Number(userId),
       first_name: formData.firstName,
       last_name: formData.lastName,
-      phone: formData.mobileNumber,
+      phone: Number(formData.mobileNumber),
       email: formData.email,
       address1: formData.addressLine1,
       country: Number(formData.country),

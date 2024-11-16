@@ -3,11 +3,12 @@
 import { fetchUserDetails } from "@/utils/api/CommonApi";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../Loading";
-import { getOrder } from "@/utils/api/CheckoutApi";
+import { getOrder, getWishlist } from "@/utils/api/CheckoutApi";
 
 const Dashboard = () => {
   const [user, setUser] = useState();
   const [orders, setOrders] = useState([])
+  const [wishlist, setWishlist] = useState([])
   const [showAll, setShowAll] = useState(false);
   useEffect(() => {
     const fetchuser = async () => {
@@ -28,8 +29,18 @@ const Dashboard = () => {
       }
     }
 
+    const fetchwishlist = async () => {
+      try {
+        const res = await getWishlist()
+        setWishlist(res)
+      } catch (error) {
+        console.log("error", error)
+      }
+    }
+
     fetchorder()
     fetchuser();
+    fetchwishlist()
   }, []);
   if (!user) {
     return <LoadingSpinner />;
@@ -113,7 +124,7 @@ const Dashboard = () => {
         </div>
         <div style={cardStyle}>
           <h2 style={cardTitleStyle}>Wishlist</h2>
-          <h3 style={cardValueStyle}>5</h3>
+          <h3 style={cardValueStyle}>{wishlist.length}</h3>
         </div>
       </div>
 
@@ -138,15 +149,15 @@ const Dashboard = () => {
           <h2 style={{ fontSize: "20px" }}>
             Your Recent Orders
           </h2>{" "}
-          <button onClick={handleSeeAll} style={{
+          {orders.length > 3 && <button onClick={handleSeeAll} style={{
             padding: "5px 15px",
             backgroundColor: "white",
             color: "black",
             borderRadius: "10px",
             border: "solid 1px #0000ff",
-          }}> {showAll ? 'See Less' : 'See All'}</button>
+          }}> {showAll ? 'See Less' : 'See All'}</button>}
         </div>
-        <table style={tableStyle}>
+        {displayedOrders.length > 0 ? <table style={tableStyle}>
           <thead>
             <tr>
               <th style={tableHeaderStyle}>Order ID</th>
@@ -172,7 +183,7 @@ const Dashboard = () => {
 
 
           </tbody>
-        </table>
+        </table> : <p style={{ textAlign: 'center', fontSize: "18px", marginBottom: "50px" }}>You Haven't Ordered Anything Yet</p>}
       </div>
 
       {/* Favorite Products */}
@@ -188,13 +199,13 @@ const Dashboard = () => {
           <h2 style={{ fontSize: "20px" }}>
             Your Wishlist Products
           </h2>{" "}
-          <button style={{
+          {wishlist.length > 3 && <button style={{
             padding: "5px 15px",
             backgroundColor: "white",
             color: "black",
             borderRadius: "10px",
             border: "solid 1px #0000ff",
-          }}>see all</button>
+          }}>see all</button>}
         </div>
         <table style={tableStyle}>
           <thead>

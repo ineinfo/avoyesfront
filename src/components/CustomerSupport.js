@@ -82,7 +82,8 @@ const CustomerSupport = () => {
                                     data-bs-parent="#accordionExample"
                                 >
                                     <div className="accordion-body">
-                                        {faq.description}
+                                        <span dangerouslySetInnerHTML={{ __html: faq.description }}></span>
+                                        {/* {faq.description} */}
                                     </div>
                                 </div>
                             </div>

@@ -1,10 +1,50 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import "../assets/css/style.css";
+import "../assets/css/responsive.css";
 import Link from "next/link";
+import cafe from "../../public/cafe.png";
+import { fetchFoodTypes, fetchFoodPlaces } from "@/utils/api/FoodieApi";
 
 const Map = () => {
+  const [foodPlaces, setFoodPlaces] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const defaultUrl = `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`;
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [foodTypes, setFoodTypes] = useState([]);
+
+  useEffect(() => {
+    const getFoodPlaces = async () => {
+      const places = await fetchFoodPlaces();
+      setFoodPlaces(places);
+      setFilteredPlaces(places);
+    };
+
+    getFoodPlaces();
+  }, []);
+
+  const handlePlaceClick = (place) => {
+    setSelectedPlace(place);
+  };
+
+  useEffect(() => {
+    const results = foodPlaces.filter((place) =>
+      place.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPlaces(results);
+  }, [searchTerm, foodPlaces]);
+
+  useEffect(() => {
+    const loadFoodTypes = async () => {
+      const data = await fetchFoodTypes();
+      setFoodTypes(data);
+    };
+    loadFoodTypes();
+  }, []);
+
   return (
     <>
-
       <div className="map-page-main py-4">
         <div className="container-fluid pb-5 pt-2">
           <div className="row">
@@ -19,200 +59,80 @@ const Map = () => {
                     </div>
                     <div className="input-container-2">
                       <i className="fa fa-search"></i>
-                      <input type="text" placeholder="Search..." />
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
                     </div>
                   </div>
-                  <div className="row align-items-center row-pad-map">
-                    <div className="col-xl-5 col-lg-12">
-                      <img src="/map-1.png" alt="" />
-                    </div>
-                    <div className="col-xl-7 col-lg-12">
-                      <div className="map-list-dtl">
-                        <div
-                          className="map-head"
-                          data-bs-toggle="modal"
-                          data-bs-target="#mapmodal"
-                        >
-                          <Link href="#" className="text-decoration-none">
-                            <h3>The Cookhouse</h3>
-                          </Link>
-                        </div>
-                        <div className="stars d-flex align-items-center">
-                          <div className="strs-map">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star-half-stroke"></i>
-                          </div>
-                          <p className="m-0 ps-2">
-                            (124 Reviews) <span>. Open</span>
-                          </p>
-                        </div>
-                        <div className="map-location d-flex ">
-                          <i className="bi bi-geo-alt"></i>
-                          <p>
-                            Suite 629 695 Gutmann Lights, West Emeryside, CO
-                            40675
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border-btm-map-li"></div>
-                  <div className="row align-items-center row-pad-map">
-                    <div className="col-xl-5 col-lg-12">
-                      <img src="/map-2.png" alt="" />
-                    </div>
-                    <div className="col-xl-7 col-lg-12">
-                      <div className="map-list-dtl">
-                        <div
-                          className="map-head"
-                          data-bs-toggle="modal"
-                          data-bs-target="#mapmodal"
-                        >
-                          <Link href="#" className="text-decoration-none">
-                            <h3>The Globule Kitchen</h3>
-                          </Link>
-                        </div>
-                        <div className="stars d-flex align-items-center">
-                          <div className="strs-map">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star-half-stroke"></i>
-                          </div>
-                          <p className="m-0 ps-2">
-                            (124 Reviews) <span>. Open</span>
-                          </p>
-                        </div>
 
-                        <div className="map-location d-flex ">
-                          <i className="bi bi-geo-alt"></i>
-                          <p>
-                            Suite 629 695 Gutmann Lights, West Emeryside, CO
-                            40675
-                          </p>
+                  {filteredPlaces.length > 0 ? (
+                    filteredPlaces.map((place, index) => (
+                      <div
+                        key={index}
+                        className="row align-items-center row-pad-map"
+                        onClick={() => handlePlaceClick(place)}
+                      >
+                        <div className="col-xl-5 col-lg-12">
+                          <img
+                            src={
+                              place.image_url &&
+                                !place.image_url.includes("localhost")
+                                ? place.image_url
+                                : defaultUrl
+                            }
+                            alt={place.title || "Food Place"}
+                            style={{
+                              width: "100%",
+                              height: "170px",
+                              objectFit: "cover",
+                            }}
+                          />
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border-btm-map-li"></div>
-                  <div className="row align-items-center row-pad-map">
-                    <div className="col-xl-5 col-lg-12">
-                      <img src="/map-3.png" alt="" />
-                    </div>
-                    <div className="col-xl-7 col-lg-12">
-                      <div className="map-list-dtl">
-                        <div
-                          className="map-head"
-                          data-bs-toggle="modal"
-                          data-bs-target="#mapmodal"
-                        >
-                          <Link href="#" className="text-decoration-none">
-                            <h3>Tinnelo</h3>
-                          </Link>
-                        </div>
-                        <div className="stars d-flex align-items-center">
-                          <div className="strs-map">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star-half-stroke"></i>
+                        <div className="col-xl-7 col-lg-12">
+                          <div className="map-list-dtl">
+                            <div
+                              className="map-head"
+                              data-bs-toggle="modal"
+                              data-bs-target="#mapmodal"
+                            >
+                              <Link href="#" className="text-decoration-none">
+                                <h3>{place.title}</h3>
+                              </Link>
+                            </div>
+                            <div className="stars d-flex align-items-center">
+                              <div className="strs-map">
+                                {[...Array(place.rating)].map((_, i) => (
+                                  <i key={i} className="fa-solid fa-star"></i>
+                                ))}
+                                {[...Array(5 - place.rating)].map((_, i) => (
+                                  <i
+                                    key={i}
+                                    className="fa-regular fa-star-half-stroke"
+                                  ></i>
+                                ))}
+                              </div>
+                              <p className="m-0 ps-2">
+                                ({place.reviews} Reviews) <span>. Open</span>
+                              </p>
+                            </div>
+                            <div className="map-location d-flex">
+                              <i className="bi bi-geo-alt"></i>
+                              <p>{place.location}</p>
+                            </div>
                           </div>
-                          <p className="m-0 ps-2">
-                            (124 Reviews) <span>. Open</span>
-                          </p>
                         </div>
-                        <div className="map-location d-flex ">
-                          <i className="bi bi-geo-alt"></i>
-                          <p>
-                            Suite 629 695 Gutmann Lights, West Emeryside, CO
-                            40675
-                          </p>
-                        </div>
+                        <div className="border-btm-map-li"></div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="centered-message  mt-4">
+                      No places available for this Search.
                     </div>
-                  </div>
-                  <div className="border-btm-map-li"></div>
-                  <div className="row align-items-center row-pad-map">
-                    <div className="col-xl-5 col-lg-12">
-                      <img src="/map-4.png" alt="" />
-                    </div>
-                    <div className="col-xl-7 col-lg-12">
-                      <div className="map-list-dtl">
-                        <div
-                          className="map-head"
-                          data-bs-toggle="modal"
-                          data-bs-target="#mapmodal"
-                        >
-                          <Link href="#" className="text-decoration-none">
-                            <h3>Gardenia</h3>
-                          </Link>
-                        </div>
-                        <div className="stars d-flex align-items-center">
-                          <div className="strs-map">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star-half-stroke"></i>
-                          </div>
-                          <p className="m-0 ps-2">
-                            (124 Reviews) <span>. Open</span>
-                          </p>
-                        </div>
-                        <div className="map-location d-flex ">
-                          <i className="bi bi-geo-alt"></i>
-                          <p>
-                            Suite 629 695 Gutmann Lights, West Emeryside, CO
-                            40675
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border-btm-map-li"></div>
-                  <div className="row align-items-center row-pad-map">
-                    <div className="col-xl-5 col-lg-12">
-                      <img src="/map-5.png" alt="" />
-                    </div>
-                    <div className="col-xl-7 colo-lg-12">
-                      <div className="map-list-dtl">
-                        <div
-                          className="map-head"
-                          data-bs-toggle="modal"
-                          data-bs-target="#mapmodal"
-                        >
-                          <Link href="#" className="text-decoration-none">
-                            <h3>The Cookhouse</h3>
-                          </Link>
-                        </div>
-                        <div className="stars d-flex align-items-center">
-                          <div className="strs-map">
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-solid fa-star"></i>
-                            <i className="fa-regular fa-star-half-stroke"></i>
-                          </div>
-                          <p className="m-0 ps-2">
-                            (124 Reviews) <span>. Open</span>
-                          </p>
-                        </div>
-                        <div className="map-location d-flex ">
-                          <i className="bi bi-geo-alt"></i>
-                          <p>
-                            Suite 629 695 Gutmann Lights, West Emeryside, CO
-                            40675
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border-btm-map-li"></div>
+                  )}
+
                   <div
                     className="modal fade"
                     id="mapmodal"
@@ -220,11 +140,18 @@ const Map = () => {
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >
-                    <div className="modal-dialog modal-dialog-centered" style={{ minHeight: "60vh" }}>
+                    <div
+                      className="modal-dialog modal-dialog-centered"
+                      style={{
+                        maxWidth: "600px",
+                        width: "100%",
+                        height: "600px",
+                      }}
+                    >
                       <div className="modal-content modal-border-radius">
                         <div className="modal-header">
                           <h5 className="modal-title" id="exampleModalLabel">
-                            More Information
+                            Details
                           </h5>
                           <button
                             type="button"
@@ -233,14 +160,21 @@ const Map = () => {
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div className="modal-body modal-pad-map">
+                        <div
+                          className="modal-body modal-pad-map"
+                          style={{
+                            padding: "20px",
+                            height: "calc(100% - 100px)", // Adjust height to leave space for header and footer
+                            overflow: "auto", // Prevent scrolling in the body
+                          }}
+                        >
                           <button
                             type="button"
                             className="map-modal-close-btn text-white border-0"
                             data-bs-dismiss="modal"
                             aria-label="Close"
                           >
-                            <i className="fa-solid fa-xmark"></i>
+                            {/* <i className="fa-solid fa-xmark"></i> */}
                           </button>
                           <div
                             id="carouselExampleControls"
@@ -249,21 +183,60 @@ const Map = () => {
                             <div className="carousel-inner">
                               <div className="carousel-item active">
                                 <img
-                                  src="/map-1.png"
+                                  src={
+                                    selectedPlace?.image_url &&
+                                      !selectedPlace?.image_url.includes(
+                                        "localhost"
+                                      ) &&
+                                      selectedPlace?.image_url !== ""
+                                      ? selectedPlace?.image_url
+                                      : defaultUrl
+                                  }
+                                  style={{
+                                    width: "300px",
+                                    height: "320px",
+                                    objectFit: "cover",
+                                  }}
                                   className="d-block w-100 modal-border-radius"
                                   alt="Slide 1"
                                 />
                               </div>
                               <div className="carousel-item">
                                 <img
-                                  src="/map-2.png"
+                                  src={
+                                    selectedPlace?.image_url2 &&
+                                      !selectedPlace?.image_url2.includes(
+                                        "localhost"
+                                      ) &&
+                                      selectedPlace?.image_url2 !== ""
+                                      ? selectedPlace?.image_url2
+                                      : defaultUrl
+                                  }
+                                  style={{
+                                    width: "300px",
+                                    height: "320px",
+                                    objectFit: "cover",
+                                  }}
                                   className="d-block w-100 modal-border-radius"
                                   alt="Slide 2"
                                 />
                               </div>
                               <div className="carousel-item">
                                 <img
-                                  src="/map-3.png"
+                                  src={
+                                    selectedPlace?.image_url3 &&
+                                      !selectedPlace?.image_url3.includes(
+                                        "localhost"
+                                      ) &&
+                                      selectedPlace?.image_url3 !== ""
+                                      ? selectedPlace?.image_url3
+                                      : defaultUrl
+                                  }
+                                  style={{
+                                    width: "300px",
+                                    height: "320px",
+                                    objectFit: "cover",
+                                  }}
                                   className="d-block w-100 modal-border-radius"
                                   alt="Slide 3"
                                 />
@@ -298,7 +271,15 @@ const Map = () => {
                           <div className="map-modal-border">
                             <div className="map-modal-content">
                               <div className="head d-flex justify-content-between align-items-center">
-                                <h3>The Cookhouse</h3>
+                                <Link
+                                  href={'#'}
+                                >
+                                  <h3>
+                                    {selectedPlace
+                                      ? selectedPlace.title
+                                      : "Not Mentioned "}
+                                  </h3>
+                                </Link>
                                 <Link href="#">
                                   {" "}
                                   <i className="fa-regular fa-bookmark"></i>
@@ -306,15 +287,29 @@ const Map = () => {
                               </div>
                               <div className="modal-stars d-flex justify-content-between align-items-center">
                                 <div className="stars d-flex align-items-center">
-                                  <div className="str d-flex">
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-solid fa-star"></i>
-                                    <i className="fa-regular fa-star-half-stroke"></i>
+                                  <div className="strs-map">
+                                    {[...Array(selectedPlace?.rating || 0)].map(
+                                      (_, i) => (
+                                        <i
+                                          key={i}
+                                          className="fa-solid fa-star"
+                                        ></i>
+                                      )
+                                    )}
+                                    {[
+                                      ...Array(
+                                        5 - (selectedPlace?.rating || 0)
+                                      ),
+                                    ].map((_, i) => (
+                                      <i
+                                        key={i}
+                                        className="fa-regular fa-star-half-stroke"
+                                      ></i>
+                                    ))}
                                   </div>
                                   <p className="m-0 ps-2">
-                                    (124 Reviews) <span>. Open</span>
+                                    ({selectedPlace?.reviews || 0} Reviews){" "}
+                                    <span>. Open</span>
                                   </p>
                                 </div>
                                 <div className="write-review-map mt-2">
@@ -324,13 +319,16 @@ const Map = () => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#reviewModal"
                                   >
-                                    <i className="fa-solid fa-pen me-2"></i>Write
-                                    Your Review!
+                                    <i className="fa-solid fa-pen me-2"></i>
+                                    Write Your Review!
                                   </Link>
                                 </div>
                               </div>
                               <div className="restro-name">
-                                <p>Contemporary Louisiana Restaurant</p>
+                                <p>
+                                  {" "}
+                                  {selectedPlace?.location || "Loading..."}
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -365,8 +363,7 @@ const Map = () => {
                                   <div className="location d-flex">
                                     <i className="bi bi-geo-alt"></i>
                                     <p className="m-0">
-                                      Suite 629 695 Gutmann Lights, West
-                                      Emeryside, CO 40675
+                                      {selectedPlace?.location || "Loading..."}
                                     </p>
                                   </div>
                                   <div className="contact d-flex align-items-center py-1">
@@ -382,9 +379,12 @@ const Map = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="modal-footer">
-                          <Link href="#" className="w-100">
-                            <button type="button" className="map-join-table m-auto">
+                        <div className="modal-footer" data-bs-dismiss="modal">
+                          <Link href={`/fooddetails/${selectedPlace?.id}`} className="w-100">
+                            <button
+                              type="button"
+                              className="map-join-table m-auto"
+                            >
                               JOIN THE TABLE
                             </button>
                           </Link>
@@ -392,9 +392,11 @@ const Map = () => {
                       </div>
                     </div>
                   </div>
+                  {/* d */}
                 </div>
               </div>
 
+              {/* review */}
               <div
                 className="modal fade"
                 id="reviewModal"
@@ -502,69 +504,23 @@ const Map = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-lg-8  col-md-7 col-lg-8">
               <div className="map-menu-top">
                 <div className="menus d-flex justify-content-evenly custom-row">
-                  <Link href="#" className="text-decoration-none custom-col">
-                    <div className="menu-1  d-flex align-items-center justify-content-between">
-                      <img src=" /cafe.png" alt="" />
-                      <p className="m-0">Cafe</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col lptp-lg-none"
-                  >
-                    <div className="menu-1 d-flex align-items-center justify-content-between">
-                      <img src=" /gym.png" alt="" />
-                      <p className="m-0">Gym</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col phone-d-none"
-                  >
-                    <div className="menu-1 d-flex align-items-center justify-content-between">
-                      <img src=" /hotels.png" alt="" />
-                      <p className="m-0">Hotel</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col d-col-none-lg"
-                  >
-                    <div className="menu-1 d-flex align-items-center justify-content-between">
-                      <img src=" /saloon.png" alt="" />
-                      <p className="m-0">salon</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col margin-md-mt d-col-none-lg"
-                  >
-                    <div className="menu-1 d-flex align-items-center justify-content-between">
-                      <img src=" /museums.png" alt="" />
-                      <p className="m-0">Museums</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col d-col-none-lg"
-                  >
-                    <div className="menu-1  d-flex align-items-center justify-content-between">
-                      <img src=" /cafe.png" alt="" />
-                      <p className="m-0">Cafe</p>
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="text-decoration-none custom-col col-resto-md margin-md-mt d-col-none-lg lptp-lg-none"
-                  >
-                    <div className="menu-1 d-flex align-items-center justify-content-between">
-                      <img src=" /restaurant.png" alt="" />
-                      <p className="m-0">Restaurant</p>
-                    </div>
-                  </Link>
+                  {foodTypes.map((food, index) => (
+                    <Link
+                      href="/foodie"
+                      key={index}
+                      className="text-decoration-none custom-col"
+                    >
+                      <div className="menu-1 d-flex align-items-center justify-content-between">
+                        <img src={food.image_url || cafe.src} />
+
+                        <p className="m-0">{food.title}</p>
+                      </div>
+                    </Link>
+                  ))}
                   <div className="dropdown custom-col margin-md-mt">
                     <Link
                       href="#"
@@ -582,82 +538,20 @@ const Map = () => {
                       className="dropdown-menu map-page-dropdown"
                       aria-labelledby="dropdownMenuLink-map"
                     >
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/restaurant.png" alt="" className="me-2" />{" "}
-                          Restaurant
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/shoes (2) 1.png" alt="" className="me-2" />{" "}
-                          Shoes
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/accessories 2.png" alt="" className="me-2" />{" "}
-                          Accessories
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/manicure 1.png" alt="" className="me-2" />{" "}
-                          Manicure Bar
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img
-                            src="/shopping-bag (13) 1.png"
-                            alt=""
-                            className="me-2"
-                          />{" "}
-                          Cloth Shop
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/home-decor.png" alt="" className="me-2" /> Home
-                          Decor Shop
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img src="/shop 1.png" alt="" className="me-2" /> Craft
-                          Shop
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item d-flex align-items-center border-0"
-                          href="#"
-                        >
-                          <img src="/gallery 1.png" alt="" className="me-2" /> Art
-                          Gallery
-                        </Link>
-                      </li>
+                      {foodTypes.map((foodType) => (
+                        <li key={foodType.id}>
+                          <Link
+                            className="dropdown-item d-flex align-items-center"
+                            href="/foodie"
+                          >
+                            <img
+                              src={foodType.image_url || cafe.src}
+                              className="me-2"
+                            />
+                            {foodType.title}
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>

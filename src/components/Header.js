@@ -10,9 +10,8 @@ import { useAuth } from "@/utils/Guard";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 
-const Header = () => {
-  const [showSearchPopup, setShowSearchPopup] = useState(false);
-
+const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -34,8 +33,18 @@ const Header = () => {
 
   const toggleSearchPopup = (e) => {
     e.preventDefault();
-    setShowSearchPopup(!showSearchPopup);
+    // setShowSearchPopup(false);
   };
+
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && searchQuery.trim() !== "") {
+      // Redirect to marketplace with the search query as a parameter
+      router.push(`/marketplace?search=${encodeURIComponent(searchQuery.trim())}`);
+      togglePopup(); // Close the popup after searching
+    }
+  };
+
 
   useEffect(() => {
     const userId = Cookies.get("id");
@@ -51,6 +60,7 @@ const Header = () => {
           setCartItems(cartData.data);
         } else if (userId && accessToken) {
           setError("No cart data")
+          setCartItems([]); //d
         } else {
           setError("LogIn")
 
@@ -185,7 +195,7 @@ const Header = () => {
   }
 
   return (
-    <header>
+    <header onClick={toggleSearchPopup}>
       <div id="navbar" className="fixed-top">
         <nav
           className={`navbar navbar-expand-md py-2 fixed-top`}
@@ -218,32 +228,40 @@ const Header = () => {
               style={{ paddingBottom: "15px" }}
             >
               <ul className="navbar-nav ms-auto align-items-center">
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => togglePopup()} >
                   {/* Search Icon */}
                   <Link
                     href="#"
                     id="search-icon"
                     className="text-decoration-none text-dark"
-                    onClick={toggleSearchPopup} // Trigger the popup toggle on click
+                  // Trigger the popup toggle on click
                   >
                     <i className="fa-solid fa-magnifying-glass"></i>
                   </Link>
 
                   {/* Search Popup */}
                   <div
+                    ref={popupRef}
                     id="searchPopup"
-                    style={{ display: showSearchPopup ? "block" : "none" }}
+                    style={{ display: isPopupOpen ? "block" : "none" }}
                     className="search-popup"
+
                   >
-                    <div className="search-content">
-                      <button
+                    <div className="search-content" onClick={(e) => e.stopPropagation()} >
+                      {/* <button
                         className="close-btn"
                         aria-label="Close"
                         onClick={toggleSearchPopup}
                       >
                         <i className="fa fa-times"></i>
-                      </button>
-                      <input type="text" placeholder="Search..." />
+                      </button> */}
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleSearch} // Trigger search on "Enter" key
+                      />
                     </div>
                   </div>
 
@@ -454,16 +472,31 @@ const Header = () => {
                     <h3>€ {calculateTotal()}</h3>
                   </div>
                   <div className="sidebar-checkout-btn">
-                    <Link
+                    {/* <Link
                       href="/checkout"
+                      
                       onClick={() => setIsOffcanvasOpen(false)}
+                     
                       className="text-decoration-none"
                     >
                       <button type="button" className="sidebar-checkout">
                         CHECKOUT{" "}
                         <i className="fa-solid fa-arrow-right-long"></i>
                       </button>
+                    </Link> */}
+                    <Link
+                      href="/checkout"
+                      onClick={() => {
+                        setIsOffcanvasOpen(false);
+
+                      }}
+                      className="text-decoration-none"
+                    >
+                      <button type="button" className="sidebar-checkout">
+                        CHECKOUT <i className="fa-solid fa-arrow-right-long"></i>
+                      </button>
                     </Link>
+
                   </div>
                 </div>
               </div>
