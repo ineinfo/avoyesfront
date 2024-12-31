@@ -1,22 +1,32 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import defaultImg from "../../public/defaultImg.jpg";
-import { fetchActivities } from "@/utils/api/ActivityApi"; 
+import { fetchActivities } from "@/utils/api/ActivityApi";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 
 const ActivityList = () => {
   const [activities, setActivities] = useState([]);
-  const [filter, setFilter] = useState("all"); 
+  const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Safe to use document or window here
+      console.log("Nikhil", document.getElementById("example"));
+    } else {
+      console.log("Nikhil We are on the server");
+    }
+  }, []);
+
 
   useEffect(() => {
     const getActivities = async () => {
       try {
         const data = await fetchActivities();
         if (data.status === true) {
-          setActivities(data.data); 
+          setActivities(data.data);
         } else {
           setError("Failed to fetch activities");
         }
@@ -144,7 +154,7 @@ const ActivityList = () => {
                   <div className="date-time-section d-flex justify-content-between align-items-center">
                     <div className="date">
                       <i className="fas fa-calendar-alt"></i>           {formatDateRange(activity.start_datetime, activity.end_datetime)}
-               
+
                     </div>
                     <div className="separator">|</div>
                     <div className="time">
@@ -168,7 +178,7 @@ const ActivityList = () => {
             </div>
           ))}
         </div>
-       
+
       </div>
     </div>
   );

@@ -31,6 +31,14 @@ const Activity = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
 
+  useEffect(() => {
+    // This will run only on the client-side
+    if (typeof document !== "undefined") {
+      // Your code that accesses `document` goes here
+    }
+  }, []);
+
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -221,7 +229,7 @@ const Activity = () => {
             <div className="hero-overlay"></div>
             <div className="container">
               <div className="hero-content">
-                <h1>Live. Don't Just Exist.</h1>
+                <h1>Live. Don&apos;t Just Exist.</h1>
                 <p>Discover the Most Happening Events Around You</p>
                 <div className="search-bar">
                   <div className="input-group">

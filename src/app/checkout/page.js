@@ -1,20 +1,18 @@
-import Checkout from '@/components/Checkout'
-import { AuthProvider } from '@/utils/Guard'
-import React from 'react'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import dynamic from 'next/dynamic';
+import Checkout from '@/components/Checkout';
+
+const ToastContainer = dynamic(
+    () => import('react-toastify').then((mod) => mod.ToastContainer),
+    { ssr: false }
+);
 
 const page = () => {
     return (
         <>
-        
-        <ToastContainer />
+            <ToastContainer />
             <Checkout />
-        
         </>
-      
-       
-    )
-}
+    );
+};
 
-export default page
+export default page;

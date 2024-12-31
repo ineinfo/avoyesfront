@@ -1,12 +1,17 @@
-import MarketPlace from '@/components/MarketPlace'
-import React from 'react'
+import dynamic from 'next/dynamic';
+import React from 'react';
 
-const page = () => {
+// Dynamically import MarketPlace with SSR disabled
+const MarketPlace = dynamic(() => import('@/components/MarketPlace'), {
+    ssr: false,
+});
+
+const Page = () => {
     return (
         <>
             <MarketPlace />
         </>
-    )
-}
+    );
+};
 
-export default page
+export default Page;

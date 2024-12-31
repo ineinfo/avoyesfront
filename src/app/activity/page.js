@@ -1,14 +1,10 @@
-import Activity from '@/components/Activity'
-import React from 'react'
+import dynamic from 'next/dynamic';
 
+const Activity = dynamic(() => import('@/components/Activity'));
 
 const page = () => {
-    return (
-        <div>
-           
-            <Activity />
-        </div>
-    )
+
+    return <div><Activity /></div>;
 }
 
-export default page
+export default page;

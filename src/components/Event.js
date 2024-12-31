@@ -469,7 +469,7 @@ const Event = () => {
                         </div>
                       </>
                     ) : (
-                      <p>Loading video...</p>
+                      <p><LoadingSpinner /></p>
                     )}
                   </div>
                 </div>

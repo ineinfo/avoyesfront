@@ -48,7 +48,7 @@ const PaymentFailed = () => {
 
                 <p>Thank you! Your order is confirmed.</p>
                 <p>
-                    We couldn't process your payment. Please check your details and try again.
+                    We couldn&apos;t process your payment. Please check your details and try again.
                     For assistance, contact support with your Order Attempt ID:
                     <span className="order-id">#7891011</span>.
                 </p>

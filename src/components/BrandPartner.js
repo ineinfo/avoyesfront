@@ -51,10 +51,10 @@ const BrandPartner = () => {
                   >
                     <div className="accordion-body acrdn-bdy-2">
                       To place an order, browse through our products, select the
-                      items you want, and add them to your cart. Once you're
+                      items you want, and add them to your cart. Once you&apos;re
                       ready, proceed to checkout, where you can review your
                       order, provide shipping details, and complete payment.
-                      After confirmation, you'll receive an order summary via
+                      After confirmation, you&apos;ll receive an order summary via
                       email.
                     </div>
                   </div>

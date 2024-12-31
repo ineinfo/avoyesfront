@@ -1,12 +1,17 @@
-import PaymentFailed from '@/components/PaymentFailed'
-import React from 'react'
+import dynamic from 'next/dynamic';
+import React from 'react';
 
-const page = () => {
+// Dynamically import the PaymentFailed component with SSR disabled
+const PaymentFailed = dynamic(() => import('@/components/PaymentFailed'), {
+    ssr: false,
+});
+
+const Page = () => {
     return (
         <div>
             <PaymentFailed />
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default Page;

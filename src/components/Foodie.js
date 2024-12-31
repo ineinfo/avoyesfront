@@ -170,7 +170,7 @@ const Foodie = () => {
                     <h1 className="display-4">Discover Your Next Favorite Spot</h1>
                     <p className="lead">
                         Explore the best local eateries, hidden gems, and must-visit dining
-                        destinations. Use the search bar to find exactly what you're craving
+                        destinations. Use the search bar to find exactly what you&apos;re craving
                         and uncover amazing food experiences near you!
                     </p>
                 </div>

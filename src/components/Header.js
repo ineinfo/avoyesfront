@@ -167,22 +167,25 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
   // Close the offcanvas when clicking outside of it or navigating
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      const offcanvasElement = document.getElementById("offcanvasRight");
-      if (
-        offcanvasElement &&
-        isOffcanvasOpen &&
-        !offcanvasElement.contains(event.target)
-      ) {
-        setIsOffcanvasOpen(false);
-      }
-    };
+    // Ensure the code runs only on the client
+    if (typeof document !== "undefined") {
+      const handleOutsideClick = (event) => {
+        const offcanvasElement = document.getElementById("offcanvasRight");
+        if (
+          offcanvasElement &&
+          isOffcanvasOpen &&
+          !offcanvasElement.contains(event.target)
+        ) {
+          setIsOffcanvasOpen(false);
+        }
+      };
 
-    document.addEventListener("click", handleOutsideClick);
+      document.addEventListener("click", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
+      return () => {
+        document.removeEventListener("click", handleOutsideClick);
+      };
+    }
   }, [isOffcanvasOpen]);
 
   if (

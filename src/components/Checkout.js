@@ -489,7 +489,7 @@ const Checkout = () => {
 
           {show && (
             <div className="dont-have-acc">
-              You don't have an Account?
+              You don&apos;t have an Account?
               <Link href="/login" className="text-decoration-none ms-1">
                 Login
               </Link>
@@ -546,7 +546,7 @@ const Checkout = () => {
                             <strong>Add New Address</strong>
                           </label>
                           {addressdata.map((address) => (
-                            <label>
+                            <label key={address?.id}>
 
                               <div className="address-details">
                                 <input

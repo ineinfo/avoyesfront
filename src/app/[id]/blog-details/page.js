@@ -5,12 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata = {
     title: "Blog-Detail - Avoyes",
-    
-  };
+
+};
 const page = () => {
     return (
         <div>
-            <ToastContainer/>
+            <ToastContainer />
             <BlogDetails />
         </div>
     )

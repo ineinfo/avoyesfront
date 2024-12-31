@@ -1,20 +1,26 @@
-import ActivityDetails from '@/components/ActivityDetails'
-import React from 'react'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from 'react';
+import dynamic from 'next/dynamic';
 
+// Dynamically import ActivityDetails with ssr: false
+const ActivityDetails = dynamic(() => import('@/components/ActivityDetails'), { ssr: true });
+
+// Dynamically import ToastContainer with ssr: false
+const ToastContainer = dynamic(() => import('react-toastify').then((mod) => mod.ToastContainer), {
+    ssr: false
+});
+import 'react-toastify/dist/ReactToastify.css'; // Import the toastify CSS
 
 export const metadata = {
     title: "Activity-Detail - Avoyes",
-    
-  };
+};
+
 const page = () => {
     return (
         <div>
-            <ToastContainer/>
-            <ActivityDetails />
+            <ToastContainer /> {/* Add the ToastContainer dynamically */}
+            <ActivityDetails /> {/* Add the ActivityDetails dynamically */}
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default page;

@@ -249,7 +249,7 @@ const ProductDetails = () => {
                 >
                   / MARKET PLACE
                 </Link>
-                <p className="m-0">/ WOMEN'S SEQUIN SKIRT</p>
+                <p className="m-0">/ WOMEN&apos;S SEQUIN SKIRT</p>
               </div>
               <h1>Market Place</h1>
             </div>

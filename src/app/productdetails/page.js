@@ -1,15 +1,22 @@
-import ProductDetails from '@/components/ProductDetails'
-import React from 'react'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import dynamic from 'next/dynamic';
+import React from 'react';
 
-const page = () => {
+// Dynamically import ProductDetails and ToastContainer with SSR disabled
+const ProductDetails = dynamic(() => import('@/components/ProductDetails'), {
+    ssr: false,
+});
+
+const ToastContainer = dynamic(() => import('react-toastify').then((mod) => mod.ToastContainer), {
+    ssr: false,
+});
+
+const Page = () => {
     return (
         <div>
-                 <ToastContainer />
+            <ToastContainer />
             <ProductDetails />
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default Page;

@@ -183,7 +183,7 @@ const Dashboard = () => {
 
 
           </tbody>
-        </table> : <p style={{ textAlign: 'center', fontSize: "18px", marginBottom: "50px" }}>You Haven't Ordered Anything Yet</p>}
+        </table> : <p style={{ textAlign: 'center', fontSize: "18px", marginBottom: "50px" }}> You Haven&apos;t Ordered Anything Yet</p>}
       </div>
 
       {/* Favorite Products */}

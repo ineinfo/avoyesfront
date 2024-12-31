@@ -14,6 +14,21 @@ const WishList = () => {
 
   const Id = Cookies.get('id');
   const Token = Cookies.get('accessToken');
+  useEffect(() => {
+    const userId = Cookies.get('id');
+
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist/${userId}`);
+        setWishlist(response.data.data);
+      } catch (error) {
+        console.error("Error fetching wishlist", error);
+      }
+    };
+
+    fetchWishlist();
+  }, []);
+
 
   if (!Id && !Token) {
     return (<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '55vh', backgroundColor: '#f0f8ff' }}>
@@ -40,20 +55,6 @@ const WishList = () => {
     </div>)
   }
 
-  useEffect(() => {
-    const userId = Cookies.get('id');
-
-    const fetchWishlist = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/wishlist/${userId}`);
-        setWishlist(response.data.data);
-      } catch (error) {
-        console.error("Error fetching wishlist", error);
-      }
-    };
-
-    fetchWishlist();
-  }, []);
 
   const removeFromWishlist = async (productId) => {
     try {
@@ -116,7 +117,7 @@ const WishList = () => {
           <div className="row pt-4 pb-4 pb-md-0">
 
             {wishlist.map((item) => (
-              <div className="col-xl-3 col-md-6 col-lg-3 mb-md-5">
+              <div key={item.product_id} className="col-xl-3 col-md-6 col-lg-3 mb-md-5">
                 <div className="market-place-product market-place-page-product">
                   <div className="img-wrapper">
                     <div className="img">

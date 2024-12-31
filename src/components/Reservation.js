@@ -304,7 +304,7 @@ const Reservation = ({ id }) => {
                       your reservation time.
                     </p>
                     <p>
-                      Please, be informed that we're serving breakfast from Open
+                      Please, be informed that we&apos;re serving breakfast from Open
                       until 2:00 PM
                     </p>
                     <p>
