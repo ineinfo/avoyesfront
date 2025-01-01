@@ -1,16 +1,11 @@
 import dynamic from 'next/dynamic';
-
-const ToastContainer = dynamic(
-    () => import('react-toastify').then((mod) => mod.ToastContainer),
-    { ssr: false }
-);
+import React from 'react';
 
 const Cart = dynamic(() => import('@/components/Cart'), { ssr: false });
 
 const page = () => {
     return (
         <div>
-            <ToastContainer />
             <Cart />
         </div>
     );
