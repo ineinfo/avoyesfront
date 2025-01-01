@@ -50,6 +50,11 @@ const Cart = () => {
   const [tempQuantities, setTempQuantities] = useState({});
   const router = useRouter();
 
+  const ToastContainer = dynamic(
+    () => import('react-toastify').then((mod) => mod.ToastContainer),
+    { ssr: false }
+  );
+
   useEffect(() => {
     const token = Cookies.get("accessToken");
     const userId = Cookies.get("id");
@@ -119,6 +124,7 @@ const Cart = () => {
 
   return (
     <>
+      <ToastContainer />
       <div className="breadcrumb-marketplace py-5">
         <div className="img">
           <img src="" alt="" />

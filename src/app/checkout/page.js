@@ -1,15 +1,12 @@
 import dynamic from 'next/dynamic';
-import Checkout from '@/components/Checkout';
-
-const ToastContainer = dynamic(
-    () => import('react-toastify').then((mod) => mod.ToastContainer),
-    { ssr: false }
-);
+import React from 'react';
+const Checkout = dynamic(() => import('@/components/Checkout'), {
+    ssr: false,
+});
 
 const page = () => {
     return (
         <>
-            <ToastContainer />
             <Checkout />
         </>
     );

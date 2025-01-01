@@ -4,7 +4,8 @@ import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from 'react-toastify';
+import dynamic from 'next/dynamic';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchCart, removeFromCartAll } from "@/utils/api/CartApi";
 import { AddAddress, fetchAddress } from "@/utils/api/AddressAPI";
@@ -70,6 +71,22 @@ const Checkout = () => {
     a_type: "3",
     pincode: ""
   });
+
+  const ToastContainer = dynamic(
+    () => import('react-toastify').then((mod) => mod.ToastContainer),
+    { ssr: false }
+  );
+
+  useEffect(() => {
+    // Dynamically import ToastContainer on client side
+    const loadToastContainer = async () => {
+      const { ToastContainer } = await import('react-toastify');
+      setToastContainer(<ToastContainer />);
+    };
+    loadToastContainer();
+  }, []);
+
+  const [toastContainer, setToastContainer] = useState(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -430,7 +447,7 @@ const Checkout = () => {
 
   return (
     <>
-      <ToastContainer />
+      {toastContainer}
       <div className="breadcrumb-marketplace py-5" >
         <div className="container">
           <div className="bread-head text-end">
