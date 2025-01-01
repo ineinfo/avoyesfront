@@ -11,8 +11,13 @@ import WishlistApi from "@/utils/api/WishlistApi";
 import { addToCart } from "@/utils/api/CartApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dynamic from 'next/dynamic';
 
 import defaultImg from "../../public/defaultImg.jpg";
+
+const ToastContainer = dynamic(() => import('react-toastify').then((mod) => mod.ToastContainer), {
+  ssr: false,
+});
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -233,6 +238,7 @@ const ProductDetails = () => {
 
   return (
     <>
+      <ToastContainer />
 
       <div className="breadcrumb-marketplace py-5">
         <div className="img">
