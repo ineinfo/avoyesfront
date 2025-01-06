@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@popperjs/core": "^2.11.8",
+    "@svgr/webpack": "^8.1.0",
     "aos": "^2.3.4",
     "axios": "^1.7.7",
     "baguettebox.js": "^1.12.0",
@@ -19,7 +20,7 @@
     "html-react-parser": "^5.1.18",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
-    "next": "14.2.13",
+    "next": "^14.2.22",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
