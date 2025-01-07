@@ -9,10 +9,11 @@ export const metadata = {
 };
 const page = () => {
     return (
-        <div>
+        <>
+
             <ToastContainer />
             <BlogDetails />
-        </div>
+        </>
     )
 }
 
