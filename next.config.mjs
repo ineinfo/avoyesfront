@@ -12,9 +12,17 @@ const nextConfig = {
             use: ['@svgr/webpack'],
         });
 
-        // Remove custom CSS handling for client-side builds
-
         return config;
+    },
+
+    // ✅ Setup Proxy to Handle HTTP APIs
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'http://your-http-api.com/:path*', // Replace with your actual HTTP API URL
+            },
+        ];
     },
 };
 
