@@ -885,10 +885,10 @@ const ProductDetails = () => {
               position: 'relative',
               textAlign: 'center',
               padding: '2rem',
-              backgroundColor: '#0000ff',
+              backgroundColor: '#F5F4F9',
               borderRadius: '8px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-              color: '#fff',
+              color: '#000000',
               width: '90%',
               maxWidth: '400px',
             }}
@@ -903,15 +903,15 @@ const ProductDetails = () => {
                 background: 'none',
                 border: 'none',
                 fontSize: '1.5rem',
-                color: '#fff',
+                color: '#000000',
                 cursor: 'pointer',
               }}
             >
               &times;
             </button>
 
-            <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Please Log In</h1>
-            <p style={{ fontSize: '1.1rem' }}>Please log in to add this product to your cart!</p>
+            <h1 style={{ fontSize: '2rem',  }}>Please Log In</h1>
+            <p style={{ fontSize: '1.3rem' }}>Please log in to add this product to your cart!</p>
             <button
               onClick={() => {
                 closeModal();
@@ -921,8 +921,8 @@ const ProductDetails = () => {
                 marginTop: '1.5rem',
                 padding: '0.8rem 1.5rem',
                 fontSize: '1rem',
-                backgroundColor: '#fff',
-                color: '#0000ff',
+                backgroundColor: '#F5F4F9',
+                color: '#000000',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',

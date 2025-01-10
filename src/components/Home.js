@@ -337,7 +337,8 @@ export default function CustomComponent() {
             <section>
                 <div className="top-menu-main py-3">
                     <div className="container py-4">
-                        <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+
                             <div className="col-custom">
                                 <Link href="/marketplace" className="text-decoration-none">
                                     <div className="menu-1">
@@ -350,18 +351,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom">
-                                <Link href="/map" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/location.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Map</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
+                      
                             <div className="col-custom">
                                 <Link href="/event" className="text-decoration-none">
                                     <div className="menu-1">
@@ -370,6 +360,18 @@ export default function CustomComponent() {
                                         </div>
                                         <div className="text pt-3">
                                             <p>Event</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="col-custom">
+                                <Link href="/map" className="text-decoration-none">
+                                    <div className="menu-1">
+                                        <div className="img pt-3">
+                                            <img src="/location.png" alt="Dress" />
+                                        </div>
+                                        <div className="text pt-3">
+                                            <p>Map</p>
                                         </div>
                                     </div>
                                 </Link>

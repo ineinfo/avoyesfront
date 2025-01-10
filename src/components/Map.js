@@ -5,6 +5,7 @@ import "../assets/css/responsive.css";
 import Link from "next/link";
 import cafe from "../../public/cafe.png";
 import { fetchFoodTypes, fetchFoodPlaces } from "@/utils/api/FoodieApi";
+import { Modal } from "bootstrap";
 
 const Map = () => {
   const [foodPlaces, setFoodPlaces] = useState([]);
@@ -13,6 +14,11 @@ const Map = () => {
   const defaultUrl = `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`;
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [foodTypes, setFoodTypes] = useState([]);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
+  const handleReviewModalClose = () => {
+    setIsReviewModalOpen(false);
+  };
 
   useEffect(() => {
     const getFoodPlaces = async () => {
@@ -43,8 +49,25 @@ const Map = () => {
     loadFoodTypes();
   }, []);
 
+  useEffect(() => {
+    const reviewModal = document.getElementById("reviewModal");
+    const bsModal = new Modal(reviewModal);
+
+    reviewModal.addEventListener("hidden.bs.modal", handleReviewModalClose);
+
+    return () => {
+      reviewModal.removeEventListener("hidden.bs.modal", handleReviewModalClose);
+    };
+  }, []);
+
   return (
     <>
+      {/* Overlay for review modal */}
+      <div
+        // className={`offcanvas-overlay ${isReviewModalOpen ? "active" : ""}`}
+        onClick={() => setIsReviewModalOpen(false)} // Click on overlay to close review modal
+      ></div>
+
       <div className="map-page-main py-4">
         <div className="container-fluid pb-5 pt-2">
           <div className="row">
@@ -149,7 +172,10 @@ const Map = () => {
                       }}
                     >
                       <div className="modal-content modal-border-radius">
-                        <div className="modal-header">
+                        <div className="modal-header"
+                        onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
+                        onShow={() => setIsReviewModalOpen(true)} 
+                        >
                           <h5 className="modal-title" id="exampleModalLabel">
                             Details
                           </h5>
@@ -403,6 +429,8 @@ const Map = () => {
                 tabIndex="-1"
                 aria-labelledby="reviewModalLabel"
                 aria-hidden="true"
+                onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
+                onShow={() => setIsReviewModalOpen(true)} // Set state when modal is shown
               >
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content ">
@@ -415,6 +443,7 @@ const Map = () => {
                         className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
+                        onClick={handleReviewModalClose}
                       ></button>
                     </div>
                     <div className="modal-body">
@@ -493,6 +522,7 @@ const Map = () => {
                         type="button"
                         className="border-0 close-btn"
                         data-bs-dismiss="modal"
+                        onClick={handleReviewModalClose}
                       >
                         CLOSE
                       </button>

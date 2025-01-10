@@ -186,7 +186,7 @@ const Foodie = () => {
                 </div>
                 <div className="container mt-4">
                     <ul
-                        className="nav nav-tabs d-flex justify-content-center"
+                        className="nav nav-tabs d-flex justify-content-center custom-nav-tabs"
                         id="myTab"
                         role="tablist"
                     >
@@ -227,61 +227,62 @@ const Foodie = () => {
                     </ul>
 
                     {/* 238- <div className="tab-content" id="myTabContent"> */}
-                    <div className="tab-content" id="myTabContent">
-                        {filteredFoodPlaces.length > 0 ? (
-                            <div className="tab-pane fade show active">
-                                <div className="row mt-4">
-                                    {filteredFoodPlaces.map((place) => (
-                                        <div key={place.id} className="col-md-3 box mb-4">
-                                            <div className="heart-icon">
-                                                {/* <i className="far fa-heart"></i> */}
-                                            </div>
-                                            <div className="img-box">
-                                                {/* <img src={place.image_url || cafe.src} alt={place.title} className="img-fluid" /> */}
-                                                <img
-                                                    src={
-                                                        place.image_url &&
-                                                            !place?.image_url?.includes("localhost")
-                                                            ? place.image_url
-                                                            : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                                    }
-                                                    style={{ height: "200px", width: "400px", objectFit: "cover" }}
-                                                />
-                                            </div>
-                                            <h5 className="mt-3">
-                                                <a href={`/fooddetails/${place.id}`} style={{ textDecoration: "none" }}>
-                                                    {place.title}
-                                                </a>
-                                            </h5>
-                                            {place.rating && place.reviews && (
-                                                <div className="d-flex align-items-center responsive-text-center mt-2">
-                                                    <div>
-                                                        {[...Array(Math.floor(place.rating))].map((_, i) => (
-                                                            <i key={i} className="fas fa-star"></i>
-                                                        ))}
-                                                        {place.rating % 1 !== 0 && (
-                                                            <i className="fas fa-star-half-alt"></i>
-                                                        )}
-                                                    </div>
-                                                    <div className="ml-2">
-                                                        <h6>{place.rating} reviews</h6>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            <div className="mt-2">
-                                                <i className="fas fa-map-marker-alt"></i>{" "}
-                                                {place.location}
-                                            </div>
-                                        </div>
+                    <div className="tab-content must-visit-places responsive-tab-content" id="myTabContent">
+    {filteredFoodPlaces.length > 0 ? (
+        <div className="tab-pane fade show active">
+            <div className="row mt-4">
+                {filteredFoodPlaces.map((place) => (
+                    <div key={place.id} className="col-md-3 box mb-4">
+                        <div className="heart-icon">
+                            {/* <i className="far fa-heart"></i> */}
+                        </div>
+                        <div className="img-box">
+                            <img
+                                src={
+                                    place.image_url &&
+                                    !place?.image_url?.includes("localhost")
+                                        ? place.image_url
+                                        : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                }
+                                alt={place.title}
+                                className="img-fluid responsive-img"
+                                style={{objectFit: "cover"}}
+                            />
+                        </div>
+                        <h5 className="mt-3">
+                            <a href={`/fooddetails/${place.id}`} style={{ textDecoration: "none" }}>
+                                {place.title}
+                            </a>
+                        </h5>
+                        {place.rating && place.reviews && (
+                            <div className="d-flex align-items-center responsive-text-center mt-2">
+                                <div>
+                                    {[...Array(Math.floor(place.rating))].map((_, i) => (
+                                        <i key={i} className="fas fa-star"></i>
                                     ))}
+                                    {place.rating % 1 !== 0 && (
+                                        <i className="fas fa-star-half-alt"></i>
+                                    )}
+                                </div>
+                                <div className="ml-2">
+                                    <h6>{place.rating} reviews</h6>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="centered-message  mt-4">
-                                No places available for this category.
-                            </div>
                         )}
+                        <div className="mt-2">
+                            <i className="fas fa-map-marker-alt"></i> {place.location}
+                        </div>
                     </div>
+                ))}
+            </div>
+        </div>
+    ) : (
+        <div className="centered-message mt-4">
+            No places available for this category.
+        </div>
+    )}
+</div>
+
                 </div>
             </div>
 
@@ -289,7 +290,7 @@ const Foodie = () => {
             <div className="foodie-cat-slider mt-4">
                 <CustomCarouselSix />
             </div>
-
+ 
             {/* food blog slider */}
 
             <div className="food-blog">
@@ -319,6 +320,7 @@ const Foodie = () => {
                                         <a
                                             href={`/${blog.id}/blog-details`}
                                             className="custom-link"
+                                            style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             {blog.title}
                                         </a>
@@ -330,6 +332,15 @@ const Foodie = () => {
                                     <a
                                         href={`/${blog.id}/blog-details`}
                                         className="custom-read-more"
+                                        style={{ textDecoration: 'none', color: 'inherit' }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.textDecoration = 'underline';
+                                            e.target.style.textDecorationColor = 'black';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.textDecoration = 'none';
+                                            e.target.style.textDecorationColor = 'transparent';
+                                        }}
                                     >
                                         Read More <i className="fas fa-arrow-right"></i>
                                     </a>
@@ -348,7 +359,7 @@ const Foodie = () => {
                     <input
                         type="text"
                         id="search-bar"
-                        className="search-input"
+                        className="search-input" 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                         placeholder="Search for restaurants, cafes, or bars near you..."
@@ -361,7 +372,7 @@ const Foodie = () => {
                         <div className="row" style={{ display: "flex" }}>
                             {/* sidebar */}
                             <div
-                                className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 filter-sidebar-section"
                                 style={{ display: "flex", flexDirection: "column" }}
                             >
                                 <h3>Suggested</h3>

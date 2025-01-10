@@ -5,6 +5,7 @@ import { fetchCart, removeFromCart, updateCart } from "@/utils/api/CartApi";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import dynamic from 'next/dynamic';
 import LoadingSpinner from "./Loading";
 import { useRouter } from "next/navigation";
 

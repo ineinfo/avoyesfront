@@ -191,6 +191,14 @@ const Event = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Initialize Bootstrap dropdowns
+    const dropdownElements = document.querySelectorAll('.dropdown-toggle');
+    dropdownElements.forEach(dropdown => {
+      new bootstrap.Dropdown(dropdown);
+    });
+  }, []);
+
 
   if (loading) {
     return <><LoadingSpinner /></>;

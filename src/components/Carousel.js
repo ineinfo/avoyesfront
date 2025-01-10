@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick"; // Importing the Slider component from React Slick
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../assets/css/responsive.css";
-import "../assets/css/style.css";
+// import "../assets/css/responsive.css";
+// import "../assets/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.js";
@@ -102,7 +102,6 @@ const CustomCarousel = () => {
 const MyCarousel = () => {
   const [bannerData, setBannerData] = useState([]);
 
-
   useEffect(() => {
     const getBannerData = async () => {
       const result = await fetchTopBanner();
@@ -115,6 +114,13 @@ const MyCarousel = () => {
     getBannerData();
   }, []);
 
+  const carouselStyles = {
+    width: "98%",
+    height: window.innerWidth < 480 ? "250px" : window.innerWidth < 576 ? "350px" : window.innerWidth < 768 ? "500px" : "600px",
+    overflow: "hidden",
+    margin: "0 auto",
+  };
+
   return (
     <section>
       <div
@@ -122,12 +128,7 @@ const MyCarousel = () => {
         className="carousel slide"
         data-bs-ride="carousel"
         data-bs-interval="3000"
-        style={{
-          width: "100%",
-          height: "700px",
-          overflow: "hidden",
-          margin: "0 auto",
-        }}
+        style={carouselStyles}
       >
         <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
           {bannerData.length > 0 ? (
@@ -139,21 +140,24 @@ const MyCarousel = () => {
               >
                 <div className="container">
                   <div className="row align-items-center">
-                    <div className="col-md-6 col-6 banner-text-padding">
+                    {/* Text on left and image on right for small devices */}
+                    <div className="col-md-6 col-6 banner-text-padding" style={{ marginTop: "-100px" }}>
                       <h6 className="sale-title">{banner.sub_title}</h6>
-                      <h1 className="banner-head">{banner.title}</h1>
+                      <h3 className="banner-head">{banner.title}</h3>
                       <div className="shop-now-banner-btn">
                         <Link href="/marketplace">
                           <button className="btn btn-primary custom-btn">SHOP NOW</button>
                         </Link>
                       </div>
                     </div>
+
+                    {/* Image on right */}
                     <div className="col-md-6 col-6">
                       <img
                         src={banner.image_url ? banner.image_url : '/banner-img.png'}
-                        className="d-block w-100 banner-img"
+                        className="d-block w-98 banner-img"
                         alt="Banner Image"
-                        style={{ width: "100%", height: "750px", marginTop: "0px ", objectFit: "cover" }}
+                        style={{ width: "85%", height: "550px", marginTop: "0px", objectFit: "cover" }}
                       />
                     </div>
                   </div>
@@ -187,6 +191,7 @@ const MyCarousel = () => {
     </section>
   );
 };
+
 
 const products = [
   {

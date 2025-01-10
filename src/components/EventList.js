@@ -127,7 +127,7 @@ const EventList = () => {
                                 <h3>{new Date(event.start_date).getDate()}</h3>
                               </div>
                               <div className="year">
-                                <p>{new Date(event.start_date).toLocaleString("default", { month: "long" })} {new Date(event.start_date).getFullYear()}</p>
+                                <p>{new Date(event.start_date).toLocaleString("default", { month: "short" })} {new Date(event.start_date).getFullYear()}</p>
                               </div>
                             </div>
                             <div className="trand-head">
@@ -135,10 +135,25 @@ const EventList = () => {
                                 <h6>{event.title}</h6>
                               </Link>
                             </div>
-                            <div className="trand-para d-flex justify-content-between align-items-center">
-                              <div className="para">
+                            <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
+                              {/* <div className="para">
                                 <p className="m-0">{event.short_description}</p>
-                              </div>
+                              </div> */}
+                                <div className="para">
+                                      <p
+                                        className="m-0"
+                                        style={{
+                                          fontSize: '0.9rem',
+                                          display: '-webkit-box',
+                                          WebkitLineClamp: 2,
+                                          WebkitBoxOrient: 'vertical',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis'
+                                        }}
+                                      >
+                                        {event.short_description}
+                                      </p>
+                                    </div>
                               <div className="icon">
                                 <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
                                   <i className="fa-solid fa-arrow-right trand-arrow"></i>

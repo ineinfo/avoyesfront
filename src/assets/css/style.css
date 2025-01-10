@@ -211,15 +211,15 @@ button.carousel-control-next:hover {
 }
 
 .sale-title {
-    font-size: 18px;
+    font-size: 8px;
     font-family: "Lato", sans-serif;
     margin-bottom: 25px;
 }
 
 .banner-head {
-    font-size: 80px;
+    font-size:60px;
     font-family: "Playfair Display", serif;
-    line-height: 94px;
+    line-height: 84px;
 }
 
 /* carousel arrow css */
@@ -240,6 +240,7 @@ button.carousel-control-next:hover {
     cursor: pointer;
     position: absolute;
     top: 50%;
+    margin: 0 -100px;
     transform: translateY(-50%);
     z-index: 0;
 }
@@ -451,7 +452,7 @@ button.carousel-control-prev i {
     padding: 11px 27px;
     border-radius: 7px 7px 0 0;
     font-family: "Montserrat", sans-serif;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -459,7 +460,7 @@ button.carousel-control-prev i {
     color: #ffffff;
     background-color: #1F1F1F;
     font-family: "Montserrat", sans-serif;
-    font-size: 13px;
+    font-size: 11px;
     padding: 8px 12px;
 }
 
@@ -1996,7 +1997,7 @@ input.form-control:focus {
     line-height: 23px;
 }
 
-.quantity__minus,
+quantity__minus,
 .quantity__minus-2 {
     border-radius: 3px 0 0 3px;
 }
@@ -3631,7 +3632,7 @@ button.carousel-control-next.modal-btn-next span.fas.fa-chevron-right {
     color: rgba(93, 93, 93, 1);
     margin-left: 8px;
 }
-
+/* 
 .join-challange-btn a button {
     font-family: "Lato", sans-serif;
     font-size: 15px;
@@ -3659,7 +3660,41 @@ button.carousel-control-next.modal-btn-next span.fas.fa-chevron-right {
     bottom: -32px;
     opacity: 1;
     z-index: -3;
+} */
+
+
+.join-challange-btn a button {
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    background-color: #0000ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 7px 0;
+    width: 100%;
+    transition: .3s;
 }
+
+.join-challange-btn {
+    position: absolute;
+    width: 100%;
+    bottom: 5px;
+    opacity: 0;
+    z-index: -3;
+    transition: opacity .1s, bottom .1s;
+}
+
+.challange-1:hover .join-challange-btn,
+.challange-1:active .join-challange-btn {
+    bottom: -32px;
+    opacity: 1;
+    z-index: 3;
+}
+
+
+
 
 .challange-1 {
     position: relative;
@@ -7485,7 +7520,7 @@ input#timePicker {
     top: 10px;
 }
 
-.foodie-hero {
+/* .foodie-hero {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7510,7 +7545,241 @@ input#timePicker {
     font-size: 21px;
     color: #fff;
     font-family: "lato";
+} */
+
+/* dhara */
+
+/* Optimize for mobile (375px to 430px wide) */
+@media (max-width: 420px) {
+    .must-visit-places .col-md-3 {
+        flex: 0 0 100%; /* One item per row on narrow screens */
+        max-width: 100%;
+    }
+
+    .must-visit-places .box {
+        text-align: center; /* Ensure text is centered for better readability */
+    }
+
+
+    .must-visit-places .img-box img {
+        height: 100px; /* Make the image a little smaller */
+        width: 95%; /* Ensure images don’t stretch */
+        object-fit: cover; /* Maintain aspect ratio without distortion */
+    }
+
+    .must-visit-places h5 a {
+        justify-content: center;
+        font-size: 16px; /* Reduce text size for small screens */
+    }
+
+    .must-visit-places h6 {
+        font-size: 12px; /* Smaller text for reviews on mobile */
+    }
+
+    .must-visit-places .d-flex {
+        justify-content: center; /* Center the rating icons and reviews count */
+    }
+
+    .must-visit-places .responsive-text-center {
+        text-align: center; /* Ensure centered text */
+    }
 }
+
+@media (max-width: 375px) {
+    .must-visit-places .col-md-3 {
+        flex: 0 0 100%; /* One item per row on the smallest screens */
+        max-width: 100%;
+    }
+
+    .must-visit-places h5 a {
+        font-size: 15px; /* Smaller text size on very small screens */
+        justify-content: center;
+    }
+
+    .must-visit-places h6 {
+        font-size: 11px; /* Even smaller text on very small screens */
+    }
+
+    .must-visit-places .img-box img {
+        height: 160px; /* Smaller image height for small phones */
+    }
+
+    .must-visit-places .box {
+        margin-bottom: 15px;
+    }
+}
+
+/* Make images responsive with a unique class */
+.must-visit-places .responsive-img {
+    width: 100%;
+    /* height: auto; */
+    object-fit: cover;
+}
+
+/* Custom styling for the navigation */
+.custom-nav-tabs .nav-item {
+    margin: 0 10px;
+}
+
+/* Make images smaller on mobile devices */
+.custom-nav-tabs img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Responsive adjustments for smaller devices */
+@media (max-width: 768px) {
+    .custom-nav-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;  /* Ensure items are centered */
+        padding: 0 15px;  /* Add some padding around the container */
+    }
+
+    .custom-nav-tabs .nav-item {
+        margin: 5px;
+    }
+
+    /* Resize the nav tabs text and icons on smaller devices */
+    .custom-nav-tabs img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .custom-nav-tabs .nav-link {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .custom-nav-tabs .nav-item {
+        margin: 7px;
+    }
+
+    /* Resize the nav tabs text and icons on smaller devices */
+    .custom-nav-tabs img {
+        width: 34px;
+        height: 24px;
+    }
+    
+    .custom-nav-tabs .nav-link {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Further responsive adjustments for very small devices */
+@media (max-width: 576px) {
+    .custom-nav-tabs {
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+    }
+
+    .custom-nav-tabs .nav-link {
+        text-align: center;
+    }
+
+    .custom-nav-tabs img {
+        width: 20px;
+        height: 20px;
+    }
+    .custom-nav-tabs .nav-link {
+        font-size: 0.75rem;
+    }
+}
+
+
+.foodie-hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height on larger screens */
+    min-height: 400px; /* Ensures the section has a minimum height on smaller screens */
+    background: url('../../../public/foodie-banner.png') no-repeat center center;
+    background-size: cover;
+    text-align: center;
+    position: relative;
+    padding: 20px; /* To add some space around the content */
+}
+
+.foodie-hero h1 {
+    font-size: 4rem; /* Adjusted for better responsiveness */
+    text-transform: capitalize;
+    font-family: "Playfair Display", serif;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 20px; /* To add space between the heading and paragraph */
+}
+
+.foodie-hero p {
+    margin: 0 20px;
+    font-size: 1.25rem; /* Adjust for responsiveness */
+    color: #fff;
+    font-family: "Lato", sans-serif;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .foodie-hero h1 {
+        font-size: 3rem; /* Reduce heading size on medium screens */
+    }
+
+    .foodie-hero p {
+        font-size: 1.125rem; /* Slightly smaller font size */
+        margin: 0 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .foodie-hero {
+        height: 300px; /* Decrease the hero height on smaller screens */
+    }
+
+    .foodie-hero h1 {
+        font-size: 2.5rem; /* Adjust heading size for smaller screens */
+    }
+
+    .foodie-hero p {
+        font-size: 1rem; /* Adjust paragraph font size for smaller screens */
+        margin: 0 15px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .foodie-hero {
+        height: 350px; /* Decrease the hero height on smaller screens */
+    }
+
+    .foodie-hero h1 {
+        font-size: 3rem; /* Adjust heading size for smaller screens */
+    }
+
+    .foodie-hero p {
+        font-size: 1.5rem; /* Adjust paragraph font size for smaller screens */
+        margin: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .foodie-hero {
+        height: 200px; /* Further reduce height for very small screens */
+    }
+
+    .foodie-hero h1 {
+        font-size: 2rem; /* Reduce the font size even more */
+    }
+
+    .foodie-hero p {
+        font-size: 0.875rem; /* Even smaller font size */
+        margin: 0 10px;
+    }
+}
+
+
+/* dhara */
 
 .owl-carousel .item {
     position: relative;
@@ -7838,6 +8107,162 @@ input#timePicker {
 .filter-sidebar-foodie .tag-link {
     color: #848486;
 }
+
+/* dhara */
+/* Common styles for the filter sidebar */
+.filter-sidebar-foodie label {
+    font-size: 15px;
+    font-family: "lato";
+}
+
+.filter-sidebar-foodie input {
+    margin-right: 10px;
+}
+
+.filter-sidebar-foodie h3 {
+    font-weight: bold;
+    margin: 20px 0;
+    font-size: 17px;
+    font-family: "lato";
+}
+
+.filter-sidebar-foodie .categories {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-sidebar-foodie .categories a {
+    padding: 0;
+    font-family: "Lato", sans-serif;
+    text-transform: capitalize;
+    text-align: left;
+    width: auto;
+    display: inline-block !important;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.filter-sidebar-foodie .box {
+    padding: 4px 2px;
+}
+
+.filter-sidebar-foodie .tag {
+    border: 1px solid #DFE1EB;
+    padding: 3px 8px;
+    display: inline-block;
+    margin: 3px 1px;
+    border-radius: 1px;
+    font-size: 14px;
+    font-family: "Lato", sans-serif;
+}
+
+.filter-sidebar-foodie .categories .btn-default {
+    color: #1c1c1c;
+}
+
+.filter-sidebar-foodie .box span {
+    font-size: 14px;
+}
+
+.filter-sidebar-foodie .checkbox input[type="checkbox"]:checked+span {
+    background-color: #0000FF !important;
+    color: white;
+    padding: 0 5px;
+}
+
+.checkbox input[type="checkbox"]:checked {
+    accent-color: #0000FF;
+}
+
+.filter-sidebar-foodie .tag-link {
+    color: #848486;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 767px) {
+    .filter-sidebar-foodie {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .filter-sidebar-foodie .col-xl-2,
+    .filter-sidebar-foodie .col-lg-3,
+    .filter-sidebar-foodie .col-md-3,
+    .filter-sidebar-foodie .col-sm-12,
+    .filter-sidebar-foodie .col-xs-12 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .filter-sidebar-foodie h3 {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    /* Make the suggested and distance sections stack vertically */
+    .filter-sidebar-foodie .checkbox,
+    .filter-sidebar-foodie .radio {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    /* Stack categories vertically */
+    .filter-sidebar-foodie .categories {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .filter-sidebar-foodie .category-item {
+        margin-bottom: 10px;
+    }
+
+    /* Ensure tags don't overflow in smaller screens */
+    .filter-sidebar-foodie .tag {
+        font-size: 12px;
+    }
+}
+
+/* Responsive styles for larger screens (desktops/tablets) */
+@media (min-width: 768px) {
+    .filter-sidebar-foodie {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .filter-sidebar-foodie .col-xl-2,
+    .filter-sidebar-foodie .col-lg-3,
+    .filter-sidebar-foodie .col-md-3 {
+        width: calc(50% - 10px); /* Two columns layout */
+        margin-bottom: 20px;
+    }
+
+    .filter-sidebar-foodie .checkbox,
+    .filter-sidebar-foodie .radio {
+        display: inline-block;
+        margin-bottom: 10px;
+        width: 48%; /* Make checkboxes and radio buttons more compact */
+    }
+
+    /* Categories list can stay in a column for larger screens */
+    .filter-sidebar-foodie .categories {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-sidebar-foodie .category-item {
+        margin-bottom: 5px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .filter-sidebar-foodie .col-xl-2 {
+        width: 20%; /* Maintain a reasonable width for large screens */
+    }
+}
+
+/* dhara*/
 
 .restaurants h2 {
     font-family: "poppins";
@@ -8587,3 +9012,44 @@ select.form-control {
 /*  font-family: "Lato", sans-serif; */
 /*  font-family: "Playfair Display", serif; */
 /*  font-family: "Montserrat", sans-serif; */
+
+@media (max-width: 430px) {
+    .responsive-tab-content .col-md-3 {
+        flex: 0 0 100%;
+        /* max-width: 90%; */
+        justify-content: center;
+    }
+
+    .responsive-tab-content .box {
+        text-align: center;
+    }
+
+    .responsive-tab-content .img-box img {
+        height: 350px;
+        width: 85%;
+        object-fit: cover;
+        justify-content: center;
+        border-radius: 10px;
+    }
+
+    .responsive-tab-content h5 a {
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .responsive-tab-content h6 {
+        font-size: 12px;
+    }
+
+    .responsive-tab-content .d-flex {
+        justify-content: center;
+    }
+
+    .responsive-tab-content .responsive-text-center {
+        text-align: center;
+    }
+}
+
+
+
+

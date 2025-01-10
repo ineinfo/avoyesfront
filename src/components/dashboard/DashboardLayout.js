@@ -68,7 +68,7 @@ const DashboardLayout = ({ children }) => {
           updateProfile({
             firstName: first_name,
             lastName: last_name,
-            profileImage: avatar || "/profile-pic.png", // Fallback image
+            profileImage: avatar || "/user.png", // Fallback image
           });
           setJoinedDate(new Date(created_at).toLocaleDateString());
         }
@@ -134,7 +134,8 @@ const DashboardLayout = ({ children }) => {
                 <div className="my-profile-tabs">
                   <div className="my-profile-pic text-center">
                     <div className="img">
-                      <img src={user ? user.avatar : ''} alt="Profile" />
+                      {/* <img src={user ? user.avatar : ''} alt="Profile" /> */}
+                      <img src={profileData.profileImage} alt="Profile" />
                     </div>
                     <div className="name">
                       <h3> {user

@@ -12,6 +12,7 @@ import "../assets/css/responsive.css";
 
 const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
 
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -192,12 +193,14 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
     pathname === "/otp" ||
     pathname === "/forgotpassword" ||
     pathname === "/new-password" ||
-    pathname === "/register"
+    pathname === "/register" ||
+    pathname === "/login" 
   ) {
     return null; // Don't render header on these paths
   }
 
   return (
+    <>
     <header onClick={toggleSearchPopup}>
       <div id="navbar" className="fixed-top">
         <nav
@@ -217,19 +220,14 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
             <button
               className="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
+              onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)}
               aria-controls="navbarSupportedContent"
-              aria-expanded="false"
+              aria-expanded={!isNavbarCollapsed}
               aria-label="Toggle navigation"
             >
               <i className="fas fa-bars"></i>
             </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-              style={{ paddingBottom: "15px" }}
-            >
+          <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarSupportedContent" style={{ paddingBottom: "15px" }}>
               <ul className="navbar-nav ms-auto align-items-center">
                 <li className="nav-item" onClick={() => togglePopup()} >
                   {/* Search Icon */}
@@ -510,6 +508,10 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
 
     </header>
+    {/* <hr style={{ borderColor: "#000000" }} /> */}
+    {pathname === "/" && <hr style={{ borderColor: "000000" }} />}
+    </>
+    
   );
 };
 

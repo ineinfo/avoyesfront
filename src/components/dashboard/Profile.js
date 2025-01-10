@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -19,7 +16,7 @@ const Profile = () => {
     email: profileData?.email || "",
     mobileNumber: profileData?.mobileNumber || "",
     gender: profileData?.gender || 2, 
-    profileImage: null,
+    profileImage: profileData?.profileImage ||  '/user.png', // Ensure this path is correct and accessible
   });
 
   // Move userId and accessToken outside of useEffect
@@ -52,7 +49,7 @@ const Profile = () => {
                 email: email,
                 mobileNumber: phone,
                 gender: gender || 2,
-                profileImage: avatar || null,
+                profileImage: avatar || '/user.png', // Ensure this path is correct and accessible
               });
             }
           } catch (error) {

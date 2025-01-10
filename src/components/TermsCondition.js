@@ -39,7 +39,9 @@ const TermsCondition = () => {
     if (!termsData) {
         return <div>No terms data available.</div>; // Handle case if termsData is null
     }
-
+    const modifyDescription = (description) => {
+        return description.replace(/<h5>/g, '<h5 style="font-weight: bold;">');
+    };
     return (
         <>
             <div className="breadcrumb-marketplace py-5">
@@ -60,7 +62,9 @@ const TermsCondition = () => {
             <div className="tc-page-main py-5">
                 <div className="container">
                     <div className="tandcpara">
-                        <p dangerouslySetInnerHTML={{ __html: termsData.description }}></p> {/* Fetch description from the API */}
+                        {/* <p dangerouslySetInnerHTML={{ __html: termsData.description }}></p> */}
+                        <div dangerouslySetInnerHTML={{ __html: modifyDescription(termsData.description) }}></div>
+                   
                     </div>
                 </div>
             </div>
