@@ -62,9 +62,8 @@ const CustomCarousel = () => {
               <div className="row align-items-center py-5">
                 <div className="col-md-5 d-flex align-items-center justify-content-center">
                   <img
-                    // src={blog.image_url || defaultBImg.src}
-                    // src={blog.image_url ? blog.image_url : defaultBImg.src}
-                    src={defaultImg.src}
+                    src={blog.image_url ? blog.image_url : defaultBImg.src}
+                    // src={defaultImg.src}
 
 
                     className="d-block custom-carousel-img"
@@ -157,8 +156,7 @@ const MyCarouseld = () => {
                     {/* Image on right */}
                     <div className="col-md-6 col-6">
                       <img
-                        // src={banner.image_url ? banner.image_url : '/banner-img.png'}
-                        src={'/banner-img.png'}
+                        src={banner.image_url ? banner.image_url : '/banner-img.png'}
 
                         className="d-block w-98 banner-img"
                         alt="Banner Image"
@@ -248,8 +246,8 @@ const MyCarousel = () => {
                     </div>
                     <div className="col-md-6 col-6">
                       <img
-                        // src={banner.image_url ? banner.image_url : '/banner-img.png'}
-                        src={'/banner-img.png'}
+                        src={banner.image_url ? banner.image_url : '/banner-img.png'}
+                        // src={'/banner-img.png'}
 
                         className="d-block w-100 banner-img"
                         alt="Banner Image"
@@ -435,8 +433,8 @@ const CustomCarouselFour = () => {
                   <div className="img">
                     <img
                      
-                      // src={product.image_url || product.image_url1} alt={product.title}
-                      src={defaultImg.src} alt={product.title}
+                      src={product.image_url || product.image_url1} alt={product.title}
+                      // src={defaultImg.src} alt={product.title}
 
                       style={{ width: "100%", height: "350px", objectFit: "cover" }}
                     />

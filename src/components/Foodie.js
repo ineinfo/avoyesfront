@@ -231,13 +231,13 @@ const Foodie = () => {
                         </div>
                         <div className="img-box">
                             <img
-                                // src={
-                                //     place.image_url &&
-                                //     !place?.image_url?.includes("localhost")
-                                //         ? place.image_url
-                                //         : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                // }
-                                src={foodieBanner.src} 
+                                src={
+                                    place.image_url &&
+                                    !place?.image_url?.includes("localhost")
+                                        ? place.image_url
+                                        : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                }
+                                // src={foodieBanner.src} 
                                 alt={place.title}
                                 className="img-fluid responsive-img"
                                 style={{objectFit: "cover"}}
@@ -298,8 +298,8 @@ const Foodie = () => {
                             foodBlogs.map((blog) => (
                                 <div key={blog.id} className="custom-slider-box">
                                     <img
-                                        // src={blog.image_url}
-                                        src={foodieBanner.src}
+                                        src={blog.image_url}
+                                        // src={foodieBanner.src}
 
                                         alt="Blog Image"
                                         className="custom-image-slider-food-blog"
@@ -501,13 +501,13 @@ const Foodie = () => {
                                                 <div key={place.id} className="restaurant-item border-bottom mb-4 pb-4">
                                                     <div className="d-flex align-items-start">
                                                         <img
-                                                            // src={
-                                                            //     place.image_url &&
-                                                            //         !place?.image_url?.includes("localhost")
-                                                            //         ? place.image_url
-                                                            //         : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                                            // }
-                                                            src={foodieBanner.src} 
+                                                            src={
+                                                                place.image_url &&
+                                                                    !place?.image_url?.includes("localhost")
+                                                                    ? place.image_url
+                                                                    : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                                            }
+                                                            // src={foodieBanner.src} 
                                                             alt={place.title}
                                                             className="img-fluid me-3"
                                                         />

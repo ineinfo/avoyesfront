@@ -277,8 +277,8 @@ const Activity = () => {
               <div className=" item" key={category.id}>
                 <a href="">
                   <img
-                    // src={category.image_url || defaultImg.src}
-                    src={defaultImg.src}
+                    src={category.image_url || defaultImg.src}
+                    // src={defaultImg.src}
 
                     alt={category.title}
                     style={{ marginBottom: '30px' }}
@@ -331,13 +331,13 @@ const Activity = () => {
                 <div className="content-box">
                   <div className="img-zoom">
                     <img
-                      // src={
-                      //   activity.image_url ? activity.image_url : defaultImg.src
-
-                      // }
                       src={
-                         defaultImg.src 
+                        activity.image_url ? activity.image_url : defaultImg.src
+
                       }
+                      // src={
+                      //    defaultImg.src 
+                      // }
                       alt={activity.title}
                       className="img-fluid mb-2"
 
@@ -444,8 +444,8 @@ const Activity = () => {
                 <div className="upcoming-content-box">
                   <div className="img-zoom">
                     <img
-                      // src={activity.image_url ? activity.image_url : defaultImg.src}
-                      src={defaultImg.src}
+                      src={activity.image_url ? activity.image_url : defaultImg.src}
+                      // src={defaultImg.src}
 
                       alt={activity.title}
                       className="img-fluid"

@@ -505,14 +505,14 @@ const FoodDetails = () => {
                       {sliderData.length > 0 ? (
                         sliderData.map((item, index) => (
                           <div key={item.id} className="map-slide">
-                            {/* <img src={item.image_url} 
-                            alt={item.title} 
-                            style={{ objectFit: 'cover' }} 
-                            /> */}
-                             <img src={defaultUrl} 
+                            <img src={item.image_url} 
                             alt={item.title} 
                             style={{ objectFit: 'cover' }} 
                             />
+                             {/* <img src={defaultUrl} 
+                            alt={item.title} 
+                            style={{ objectFit: 'cover' }} 
+                            /> */}
                             <div className="text">
                               <p>{item.title}</p>
                             </div>

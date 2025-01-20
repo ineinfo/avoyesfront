@@ -90,15 +90,13 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (product?.image_url1) {
-      // setMainImage(product.image_url1);
-      setMainImage(defaultImg.src);
+      setMainImage(product.image_url1);
 
     }
   }, [product]);
 
   const changeImage = (imageSrc) => {
-    // setMainImage(imageSrc);
-    setMainImage(defaultImg.src);
+    setMainImage(imageSrc);
   };
 
   const thumbnailImages = [
@@ -276,8 +274,8 @@ const ProductDetails = () => {
                     {thumbnailImages.map((src, index) => (
                       <img
                         key={index}
-                        // src={src}
-                        src={defaultImg.src}
+                        src={src}
+                        // src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
                         style={{ cursor: "pointer" }}
@@ -764,8 +762,8 @@ const ProductDetails = () => {
                     <div className="row">
                       <div className="col-lg-5">
                         <div className="img">
-                          {/* <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
-                          <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
+                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
+                          {/* <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
 
                         </div>
                         <div className="women-modal-text">

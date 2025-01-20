@@ -624,9 +624,7 @@ export default function CustomComponent() {
                                     <div className="img-wrapper-market-slide" style={{ flex: 1 }}>
                                         <div className="img">
                                             <img
-                                                // src={product.image_url || defaultPImg.src}
-                                                // src={product.image_url || product.image_url1} alt={product.title}
-                                                src={defaultPImg.src} alt={product.title}
+                                                src={product.image_url || product.image_url1} alt={product.title}
 
                                                 style={{ width: "100%", height: "350px", objectFit: "cover" }}
                                             />

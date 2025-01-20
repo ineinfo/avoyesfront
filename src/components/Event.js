@@ -925,8 +925,8 @@ const Event = () => {
                             <div className="col-sm-12 col-md-4 col-4" key={index}>
                               <a className="lightbox" onClick={() => openLightbox(index)}>
                                 <img
-                                  // src={imageUrl}
-                                  src={defaultImg.src}
+                                  src={imageUrl}
+                                  // src={defaultImg.src}
 
                                   alt={`Gallery Image ${index + 1}`}
                                   className="gal-img-height"

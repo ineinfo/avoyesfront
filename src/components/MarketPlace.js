@@ -666,8 +666,8 @@ const MarketPlace = () => {
                             <div className="img">
                               <img
                                 style={{ objectFit: "cover", height: "350px" }}
-                                // src={product.image_url1}
-                                src={defaultImg.src}
+                                src={product.image_url1}
+                                // src={defaultImg.src}
 
                                 alt={product.title}
                               />

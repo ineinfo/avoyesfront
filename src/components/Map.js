@@ -110,13 +110,13 @@ const Map = () => {
                       >
                         <div className="col-xl-5 col-lg-12">
                           <img
-                            // src={
-                            //   place.image_url &&
-                            //     !place.image_url.includes("localhost")
-                            //     ? place.image_url
-                            //     : defaultUrl
-                            // }                          
-                              src={foodieBanner.src} 
+                            src={
+                              place.image_url &&
+                                !place.image_url.includes("localhost")
+                                ? place.image_url
+                                : defaultUrl
+                            }                          
+                              // src={foodieBanner.src} 
                            
                             alt={place.title || "Food Place"}
                             style={{
@@ -221,16 +221,16 @@ const Map = () => {
                             <div className="carousel-inner">
                               <div className="carousel-item active">
                                 <img
-                                  // src={
-                                  //   selectedPlace?.image_url &&
-                                  //     !selectedPlace?.image_url.includes(
-                                  //       "localhost"
-                                  //     ) &&
-                                  //     selectedPlace?.image_url !== ""
-                                  //     ? selectedPlace?.image_url
-                                  //     : defaultUrl
-                                  // }
-                                  src={foodieBanner.src} 
+                                  src={
+                                    selectedPlace?.image_url &&
+                                      !selectedPlace?.image_url.includes(
+                                        "localhost"
+                                      ) &&
+                                      selectedPlace?.image_url !== ""
+                                      ? selectedPlace?.image_url
+                                      : defaultUrl
+                                  }
+                                  // src={foodieBanner.src} 
                                   style={{
                                     width: "300px",
                                     height: "320px",
