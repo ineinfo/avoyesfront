@@ -662,11 +662,13 @@ const MarketPlace = () => {
                         key={product.id}
                       >
                         <div className="market-place-product market-place-page-product">
-                          <div className="img-wrapper">
+                          <div className="img-wrapper-market">
                             <div className="img">
                               <img
                                 style={{ objectFit: "cover", height: "350px" }}
-                                src={product.image_url1}
+                                // src={product.image_url1}
+                                src={defaultImg.src}
+
                                 alt={product.title}
                               />
                               {product?.product_label === "new" ? (
@@ -778,7 +780,7 @@ const MarketPlace = () => {
                         <div className="row">
                           <div className="col-md-3 col-6">
                             <div className="market-place-product">
-                              <div className="img-wrapper">
+                              <div className="img-wrapper-market">
                                 <div className="img">
                                   <img
                                     src={product.image_url1}

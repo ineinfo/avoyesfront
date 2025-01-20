@@ -30,9 +30,10 @@ export const getWishlist = async () => {
 
 export const getOrder = async () => {
     const accessToken = Cookies.get("accessToken");
+    const userId = Cookies.get('id');
 
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/orders`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/orders/users/${userId}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

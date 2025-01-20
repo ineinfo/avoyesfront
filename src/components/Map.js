@@ -4,6 +4,7 @@ import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import Link from "next/link";
 import cafe from "../../public/cafe.png";
+import foodieBanner from "../../public/foodie-banner.png";
 import { fetchFoodTypes, fetchFoodPlaces } from "@/utils/api/FoodieApi";
 import { Modal } from "bootstrap";
 
@@ -14,7 +15,16 @@ const Map = () => {
   const defaultUrl = `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`;
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [foodTypes, setFoodTypes] = useState([]);
+ 
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = (e) => {
+    e.preventDefault();  // Prevent the default link behavior
+    setIsDropdownOpen(!isDropdownOpen);  // Toggle dropdown open/close
+  };
+
 
   const handleReviewModalClose = () => {
     setIsReviewModalOpen(false);
@@ -50,13 +60,13 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    const reviewModal = document.getElementById("reviewModal");
-    const bsModal = new Modal(reviewModal);
+    const mapreviewModal = document.getElementById("mapreviewModal");
+    const bsModal = new Modal(mapreviewModal);
 
-    reviewModal.addEventListener("hidden.bs.modal", handleReviewModalClose);
+    mapreviewModal.addEventListener("hidden.bs.modal", handleReviewModalClose);
 
     return () => {
-      reviewModal.removeEventListener("hidden.bs.modal", handleReviewModalClose);
+      mapreviewModal.removeEventListener("hidden.bs.modal", handleReviewModalClose);
     };
   }, []);
 
@@ -100,12 +110,14 @@ const Map = () => {
                       >
                         <div className="col-xl-5 col-lg-12">
                           <img
-                            src={
-                              place.image_url &&
-                                !place.image_url.includes("localhost")
-                                ? place.image_url
-                                : defaultUrl
-                            }
+                            // src={
+                            //   place.image_url &&
+                            //     !place.image_url.includes("localhost")
+                            //     ? place.image_url
+                            //     : defaultUrl
+                            // }                          
+                              src={foodieBanner.src} 
+                           
                             alt={place.title || "Food Place"}
                             style={{
                               width: "100%",
@@ -209,15 +221,16 @@ const Map = () => {
                             <div className="carousel-inner">
                               <div className="carousel-item active">
                                 <img
-                                  src={
-                                    selectedPlace?.image_url &&
-                                      !selectedPlace?.image_url.includes(
-                                        "localhost"
-                                      ) &&
-                                      selectedPlace?.image_url !== ""
-                                      ? selectedPlace?.image_url
-                                      : defaultUrl
-                                  }
+                                  // src={
+                                  //   selectedPlace?.image_url &&
+                                  //     !selectedPlace?.image_url.includes(
+                                  //       "localhost"
+                                  //     ) &&
+                                  //     selectedPlace?.image_url !== ""
+                                  //     ? selectedPlace?.image_url
+                                  //     : defaultUrl
+                                  // }
+                                  src={foodieBanner.src} 
                                   style={{
                                     width: "300px",
                                     height: "320px",
@@ -343,7 +356,7 @@ const Map = () => {
                                     href="#"
                                     className="text-decoration-none"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#reviewModal"
+                                    data-bs-target="#mapreviewModal"
                                   >
                                     <i className="fa-solid fa-pen me-2"></i>
                                     Write Your Review!
@@ -369,7 +382,7 @@ const Map = () => {
                                     MORNING:{" "}
                                     <span>
                                       <i className="fa-regular fa-clock px-1"></i>{" "}
-                                      7:00 Am- 3:00 Pm
+                                      7:00 AM- 3:00 PM
                                     </span>
                                   </p>
                                 </div>
@@ -378,7 +391,7 @@ const Map = () => {
                                     EVENING:{" "}
                                     <span>
                                       <i className="fa-regular fa-clock px-1"></i>{" "}
-                                      6:00 Pm- 311:00 Pm
+                                      6:00 PM- 11:00 PM
                                     </span>
                                   </p>
                                 </div>
@@ -425,7 +438,7 @@ const Map = () => {
               {/* review */}
               <div
                 className="modal fade"
-                id="reviewModal"
+                id="mapreviewModal"
                 tabIndex="-1"
                 aria-labelledby="reviewModalLabel"
                 aria-hidden="true"
@@ -537,7 +550,7 @@ const Map = () => {
 
             <div className="col-lg-8  col-md-7 col-lg-8">
               <div className="map-menu-top">
-                <div className="menus d-flex justify-content-evenly custom-row">
+                {/* <div className="menus d-flex justify-content-evenly custom-row">
                   {foodTypes.map((food, index) => (
                     <Link
                       href="/foodie"
@@ -584,7 +597,105 @@ const Map = () => {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </div> */}
+
+<div className="menus d-flex justify-content-evenly custom-row">
+      {/* Mapping through foodTypes to display each food item */}
+      {foodTypes.map((food, index) => (
+        <Link href="/foodie" key={index} className="text-decoration-none custom-col">
+          <div className="menu-1 d-flex align-items-center justify-content-between">
+            <img src={food.image_url || cafe.src} alt={food.title} />
+            <p className="m-0">{food.title}</p>
+          </div>
+        </Link>
+      ))}
+
+      {/* Custom Dropdown */}
+      <div className="dropdown custom-col margin-md-mt">
+        <a
+          href="#"
+          className="text-decoration-none dropdown-toggle"
+          onClick={toggleDropdown}  // Toggle dropdown on click
+        >
+          <div className="menu-1 more-drpdwn d-flex align-items-center justify-content-between">
+            <p className="m-0">More...</p>
+          </div>
+        </a>
+
+        {/* Dropdown Menu (Conditionally rendered based on isDropdownOpen state) */}
+        {isDropdownOpen && (
+          <ul className="dropdown-menu map-page-dropdown">
+            {foodTypes.map((foodType) => (
+              <li key={foodType.id}>
+                <Link className="dropdown-item d-flex align-items-center" href="/foodie">
+                  <img src={foodType.image_url || cafe.src} className="me-2" alt={foodType.title} />
+                  {foodType.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Internal CSS */}
+      <style jsx>{`
+   
+
+        .dropdown-menu {
+          display: block;
+          position: absolute;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          width: 200px;  /* Adjust the width as needed */
+          list-style-type: none;
+          padding: 0;
+          margin-top: 5px;
+          z-index: 1000;
+        }
+
+      
+
+        .dropdown-item:hover {
+          background-color: #f8f9fa;
+        }
+
+        .menu-1 {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .more-drpdwn {
+          cursor: pointer;
+        }
+
+        .text-decoration-none {
+          text-decoration: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1280px) and (max-height: 800px) {
+          .menus {
+            justify-content: flex-start; /* Align items to the left */
+            gap:8px;
+          }
+
+          .dropdown-menu {
+            width: 100%; /* Ensure the dropdown takes the full width if necessary */
+            box-shadow: none; /* Optional: remove shadow for smaller screens */
+          }
+
+          .more-drpdwn {
+            margin-left: 10px; /* Ensure some spacing from the left */
+          }
+        }
+
+        
+        }
+      `}</style>
+    </div>
 
                 <div className="map-main-section">
                   <iframe
@@ -606,3 +717,4 @@ const Map = () => {
 };
 
 export default Map;
+

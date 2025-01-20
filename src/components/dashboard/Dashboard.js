@@ -572,7 +572,7 @@ const Dashboard = () => {
             <tr>
               <th style={tableHeaderStyle}>Product</th>
               <th style={tableHeaderStyle}>Price</th>
-              <th style={tableHeaderStyle}>DiscountPrice</th>
+              <th style={tableHeaderStyle}>Discount Price</th>
             </tr>
           </thead>
           <tbody>
@@ -639,7 +639,8 @@ const tableHeaderStyle = {
 const tableCellStyle = {
   padding: "10px",
   textAlign: "left",
-  fontSize: "15px",
+  fontSize: "10px",
+  
 };
 
 const tableRowStyle = {
@@ -663,6 +664,7 @@ const mediaQueries = {
     tableCellStyle: {
       display: "block",
       width: "100%",
+      fontSize: "10px",
       boxSizing: "border-box",
     },
     tableRowStyle: {

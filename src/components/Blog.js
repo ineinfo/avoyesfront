@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments } from "@/utils/api/BlogApi"; 
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
-import defaultImg from "../../public/blog-img-1.png";
+import defaultImg from "../../public/defaultImg.jpg";
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -137,7 +137,10 @@ const Blog = () => {
                                                         {/* <img src={blog.image_url} alt="" />  */}
                                                         {/* src={blog.image_url ? blog.image_url : defaultBImg.src} */}
                                                         <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
-                                                        <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`}/>
+                                                        {/* <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`}/> */}
+                                                     
+                                                        <img src={ defaultImg.src}/>
+
                                                   
                                                         </Link>
                                                           </div>
@@ -186,7 +189,7 @@ const Blog = () => {
                                 <div className="left-blog-img">
                                     {/* <img src="/left-blog-img.png" alt="" /> */}
                                 </div>
-                            </div>
+                            </div>  
 
                             <div className="col-xl-9 col-lg-8">
                             {filteredBlogs.length > 0 ? (
@@ -196,7 +199,9 @@ const Blog = () => {
                                             <div className="col-xl-5">
                                                 <div className="blg-img-list">
                                                     <Link href={`/${blog.id}/blog-details`}>
-                                                        <img src={blog.image_url} alt={blog.title} 
+                                                        {/* <img src={blog.image_url} alt={blog.title}  */}
+                                                        <img src={defaultImg.src} alt={blog.title} 
+
                                                         style={{  borderRadius: "15px"}} />
                                                     </Link>
                                                 </div>

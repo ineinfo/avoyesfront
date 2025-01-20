@@ -98,6 +98,13 @@ button.carousel-control-next:hover {
     .carousel-control-next {
         right: calc(8% - 50px);
     }
+
+    #myCarousel .carousel-control-prev {
+        left: calc(20% - 50px);
+    }
+    .carousel-control-next {
+        right: calc(8% - 50px);
+    }
 }
 
 @media (max-width: 992px) {
@@ -173,11 +180,16 @@ button.carousel-control-next:hover {
         object-fit: cover;
     }
     #myCarousel {
-        height: 300px;
+        height: 400px;
     }
 }
 
 @media (max-width: 480px) {
+
+    
+
+
+
     .banner-head {
         font-size: 25px;
         line-height: 40px;
@@ -209,7 +221,7 @@ button.carousel-control-next:hover {
         object-fit: cover;
     }
     #myCarousel {
-        height: 250px;
+        height: 320px;
     }
 }
 
@@ -224,6 +236,14 @@ button.carousel-control-next:hover {
     .banner-img {
         display: none !important;
     }
+
+    #myCarousel .carousel-control-prev {
+        left: 160px
+    }
+    .carousel-control-next {
+        right:160px;
+    }
+
     .col-md-6.banner-text-padding {
         padding-left: 0;
         text-align: center;
@@ -235,8 +255,15 @@ button.carousel-control-next:hover {
     }
     .sale-title,
     .banner-head,
-    .shop-now-banner-btn {
+    .shop-now-banner-btn {     
         width: 100%;
+    }
+
+     #myCarousel .sale-title,
+     #myCarousel .banner-head,
+     #myCarousel.shop-now-banner-btn {
+        justify-content: center;
+        width: 190%;
     }
     .shop-now-banner-btn {
         display: flex;
@@ -249,3 +276,13 @@ button.carousel-control-next:hover {
 
 }
 
+.slick-slide {
+    display: inline-block;
+    margin: 0; /* Ensure no extra margin */
+  }
+  
+  .slick-track {
+    display: flex;
+    justify-content: center; /* Ensures centered alignment */
+  }
+  

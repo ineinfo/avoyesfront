@@ -90,12 +90,15 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (product?.image_url1) {
-      setMainImage(product.image_url1);
+      // setMainImage(product.image_url1);
+      setMainImage(defaultImg.src);
+
     }
   }, [product]);
 
   const changeImage = (imageSrc) => {
-    setMainImage(imageSrc);
+    // setMainImage(imageSrc);
+    setMainImage(defaultImg.src);
   };
 
   const thumbnailImages = [
@@ -273,7 +276,8 @@ const ProductDetails = () => {
                     {thumbnailImages.map((src, index) => (
                       <img
                         key={index}
-                        src={src}
+                        // src={src}
+                        src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
                         style={{ cursor: "pointer" }}
@@ -655,7 +659,7 @@ const ProductDetails = () => {
                     <div class="row">
                       <div class="col-lg-2 col-md-3">
                         <div class="img">
-                          <img src="/review-2.png" alt="" />
+                          <img src="/review-2.png" alt="" style={{objectFit:"cover"}}/>
                         </div>
                       </div>
                       <div class="col-lg-10 col-md-9">
@@ -760,7 +764,9 @@ const ProductDetails = () => {
                     <div className="row">
                       <div className="col-lg-5">
                         <div className="img">
-                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
+                          {/* <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
+                          <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
+
                         </div>
                         <div className="women-modal-text">
                           <div className="head">

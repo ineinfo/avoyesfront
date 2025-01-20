@@ -155,7 +155,7 @@ const Profile = () => {
       </div>
       <div className="border-btm-profile"></div>
       <div className="row align-items-center">
-        <div className="col-xl-3 col-lg-5">
+        <div className="upload col-xl-3 col-lg-5">
           <div
             className="upload-box mt-4"
             onClick={() => document.getElementById("file-input").click()}
@@ -258,7 +258,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="col-xl-6">
-          <div className="input-group login-field">
+          <div className="input-group-profile login-field">
             <input
               type="text"
               className="form-control login profile-input"

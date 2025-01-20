@@ -37,8 +37,6 @@ const Foodie = () => {
     };
 
 
-
-
     useEffect(() => {
         const getFoodTypes = async () => {
             const data = await fetchFoodTypes();
@@ -105,9 +103,6 @@ const Foodie = () => {
         }
     };
 
-
-
-
     const filteredPlacesByCategory = foodPlaces.filter(place => {
         const categoryMatches = selectedFoodTypes.length === 0 || selectedFoodTypes.includes(place.food_type_id);
 
@@ -121,8 +116,6 @@ const Foodie = () => {
 
         return categoryMatches && ratingMatches && searchMatches;
     });
-
-
 
     const filteredFoodPlaces = selectedFoodType
         ? foodPlaces.filter((place) => place.food_type_id === selectedFoodType)
@@ -238,12 +231,13 @@ const Foodie = () => {
                         </div>
                         <div className="img-box">
                             <img
-                                src={
-                                    place.image_url &&
-                                    !place?.image_url?.includes("localhost")
-                                        ? place.image_url
-                                        : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                }
+                                // src={
+                                //     place.image_url &&
+                                //     !place?.image_url?.includes("localhost")
+                                //         ? place.image_url
+                                //         : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                // }
+                                src={foodieBanner.src} 
                                 alt={place.title}
                                 className="img-fluid responsive-img"
                                 style={{objectFit: "cover"}}
@@ -281,7 +275,7 @@ const Foodie = () => {
             No places available for this category.
         </div>
     )}
-</div>
+                </div>
 
                 </div>
             </div>
@@ -304,9 +298,11 @@ const Foodie = () => {
                             foodBlogs.map((blog) => (
                                 <div key={blog.id} className="custom-slider-box">
                                     <img
-                                        src={blog.image_url}
+                                        // src={blog.image_url}
+                                        src={foodieBanner.src}
+
                                         alt="Blog Image"
-                                        className="custom-image"
+                                        className="custom-image-slider-food-blog"
                                     />
                                     <p className="custom-date">
                                         <i className="fa-solid fa-calendar-days"></i>
@@ -505,12 +501,13 @@ const Foodie = () => {
                                                 <div key={place.id} className="restaurant-item border-bottom mb-4 pb-4">
                                                     <div className="d-flex align-items-start">
                                                         <img
-                                                            src={
-                                                                place.image_url &&
-                                                                    !place?.image_url?.includes("localhost")
-                                                                    ? place.image_url
-                                                                    : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                                            }
+                                                            // src={
+                                                            //     place.image_url &&
+                                                            //         !place?.image_url?.includes("localhost")
+                                                            //         ? place.image_url
+                                                            //         : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                                            // }
+                                                            src={foodieBanner.src} 
                                                             alt={place.title}
                                                             className="img-fluid me-3"
                                                         />
@@ -523,17 +520,17 @@ const Foodie = () => {
                                                             <div className="small text-muted">
                                                                 {/* Generate stars dynamically based on rating */}
                                                                 {[...Array(Math.floor(place.rating))].map((_, i) => (
-                                                                    <i key={i} className="fas fa-star"></i>
+                                                                    <i key={i} className="fas fa-star"> </i>
                                                                 ))}
-                                                                {place.rating % 1 !== 0 && <i className="fas fa-star-half-alt"></i>}
-                                                                ({place.reviews} reviews)
+                                                                {place.rating % 1 !== 0 && <i className="fas fa-star-half-alt"></i>}  ({place.reviews} reviews)
+                                                               
                                                             </div>
 
 
 
                                                             <span className="badge bg-danger">{getFoodTypeTitle(place.food_type_id)}</span>
                                                             {/* <span className="text-danger ms-2">{place.status}</span> */}
-                                                            <p>{place.description}</p>
+                                                            <p className="two-line-text">{place.description}</p>
                                                             <div className="small">
                                                                 <i className="fa-solid fa-location-dot"></i> {place.location}
                                                             </div>

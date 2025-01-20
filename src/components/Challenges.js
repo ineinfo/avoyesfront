@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchChallenges } from "@/utils/api/ChallengesApi";
+import defaultImg from "../../public/defaultImg.jpg";
+
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
@@ -97,7 +99,9 @@ const Challenges = () => {
                                 <div className="col-xl-3 col-lg-6 col-md-6" key={challenge.id}>
                                     <div className="challange-1">
                                         <div className="img fixed-size">
-                                            <img src={challenge.image_url} alt={challenge.title} />
+                                            {/* <img src={challenge.image_url} alt={challenge.title} /> */}
+                                            <img src={defaultImg.src} alt={challenge.title} />
+
                                         </div>
                                         <div className="share-icon">
                                             <Link href="#" className="text-decoration-none"><i className="bi bi-share"></i></Link>

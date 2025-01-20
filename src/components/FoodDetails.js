@@ -29,7 +29,7 @@ const FoodDetails = () => {
 
 
   const imageUrls = [
-    placeData?.image_url,
+    placeData?.image_url || defaultUrl,
     placeData?.image_url2 || defaultUrl,
     placeData?.image_url3 || defaultUrl,
     placeData?.image_url4 || defaultUrl,
@@ -300,7 +300,7 @@ const FoodDetails = () => {
                         href="#"
                       >
                         <img
-                          src={imageUrls[0]}
+                          src={imageUrls[1]}
                           alt="Food Image 1"
                           className="map-dtl-1"
                         />
@@ -393,13 +393,13 @@ const FoodDetails = () => {
                 <img
                   src={imageUrls[currentImageIndex]}
                   alt="Lightbox"
-                  className="gal-large-img"
-                  style={{
-                    width: "800px",
-                    height: "500px",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  }}
+                  className="gal-large-img-food"
+                  // style={{
+                  //   width: "800px",
+                  //   height: "500px",
+                  //   objectFit: "cover",
+                  //   objectPosition: "center",
+                  // }}
                 />
                 <button
                   className="arrow-button next"
@@ -505,7 +505,11 @@ const FoodDetails = () => {
                       {sliderData.length > 0 ? (
                         sliderData.map((item, index) => (
                           <div key={item.id} className="map-slide">
-                            <img src={item.image_url} 
+                            {/* <img src={item.image_url} 
+                            alt={item.title} 
+                            style={{ objectFit: 'cover' }} 
+                            /> */}
+                             <img src={defaultUrl} 
                             alt={item.title} 
                             style={{ objectFit: 'cover' }} 
                             />
