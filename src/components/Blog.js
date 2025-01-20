@@ -199,8 +199,6 @@ const Blog = () => {
                                                 <div className="blg-img-list">
                                                     <Link href={`/${blog.id}/blog-details`}>
                                                         <img src={blog.image_url} alt={blog.title} 
-                                                        {/* <img src={defaultImg.src} alt={blog.title}  */}
-
                                                         style={{  borderRadius: "15px"}} />
                                                     </Link>
                                                 </div>
