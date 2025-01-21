@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick"; // Importing the Slider component from React Slick
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../assets/css/responsive.css";
-import "../assets/css/style.css";
+// import "../assets/css/responsive.css";
+// import "../assets/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.js";
@@ -16,6 +16,7 @@ import { fetchBlogs } from "@/utils/api/BlogApi";
 import { fetchTopBanner } from "@/utils/api/BannerApi";
 import LoadingSpinner from "./Loading";
 import fetchProducts from "@/utils/api/ProductApi";
+import defaultImg from "../../public/defaultImg.jpg";
 
 const CustomCarousel = () => {
   const [blogs, setBlogs] = useState([]);
@@ -61,8 +62,9 @@ const CustomCarousel = () => {
               <div className="row align-items-center py-5">
                 <div className="col-md-5 d-flex align-items-center justify-content-center">
                   <img
-                    // src={blog.image_url || defaultBImg.src}
                     src={blog.image_url ? blog.image_url : defaultBImg.src}
+                    // src={defaultImg.src}
+
 
                     className="d-block custom-carousel-img"
                     alt="Banner Image"
@@ -99,6 +101,100 @@ const CustomCarousel = () => {
 
 
 
+const MyCarouseld = () => {
+  const [bannerData, setBannerData] = useState([]);
+
+  useEffect(() => {
+    const getBannerData = async () => {
+      const result = await fetchTopBanner();
+      if (result.status) {
+        setBannerData(result.data);
+      } else {
+        console.error(result.message);
+      }
+    };
+    getBannerData();
+  }, []);
+
+  const carouselStyles = {
+    width: "98%",
+    height: window.innerWidth < 480 ? "250px" : window.innerWidth < 576 ? "350px" : window.innerWidth < 768 ? "500px" : "600px",
+    overflow: "hidden",
+    margin: "0 auto",
+  };
+
+  return (
+    <section>
+      <div
+        id="myCarousel"
+        className="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="3000"
+        style={carouselStyles}
+      >
+        <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
+          {bannerData.length > 0 ? (
+            bannerData.map((banner, index) => (
+              <div
+                key={banner.id}
+                className={`carousel-item ${index === 0 ? "active" : ""}`}
+                style={{ width: "100%", height: "100%" }}
+              >
+                <div className="container">
+                  <div className="row align-items-center">
+                    {/* Text on left and image on right for small devices */}
+                    <div className="col-md-6 col-6 banner-text-padding" style={{ marginTop: "-100px" }}>
+                      <h6 className="sale-title">{banner.sub_title}</h6>
+                      <h3 className="banner-head">{banner.title}</h3>
+                      <div className="shop-now-banner-btn">
+                        <Link href="/marketplace">
+                          <button className="btn btn-primary custom-btn">SHOP NOW</button>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Image on right */}
+                    <div className="col-md-6 col-6">
+                      <img
+                        src={banner.image_url ? banner.image_url : '/banner-img.png'}
+
+                        className="d-block w-98 banner-img"
+                        alt="Banner Image"
+                        style={{ width: "85%", height: "550px", marginTop: "0px", objectFit: "cover" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
+
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="prev"
+        >
+          <i className="fa fa-chevron-left" aria-hidden="true"></i>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="next"
+        >
+          <i className="fa fa-chevron-right" aria-hidden="true"></i>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </section>
+  );
+};
+
 const MyCarousel = () => {
   const [bannerData, setBannerData] = useState([]);
 
@@ -122,12 +218,12 @@ const MyCarousel = () => {
         className="carousel slide"
         data-bs-ride="carousel"
         data-bs-interval="3000"
-        style={{
-          width: "100%",
-          height: "700px",
-          overflow: "hidden",
-          margin: "0 auto",
-        }}
+        // style={{
+        //   width: "100%",
+        //   height: "700px",
+        //   overflow: "hidden",
+        //   margin: "0 auto",
+        // }}
       >
         <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
           {bannerData.length > 0 ? (
@@ -151,6 +247,8 @@ const MyCarousel = () => {
                     <div className="col-md-6 col-6">
                       <img
                         src={banner.image_url ? banner.image_url : '/banner-img.png'}
+                        // src={'/banner-img.png'}
+
                         className="d-block w-100 banner-img"
                         alt="Banner Image"
                         style={{ width: "100%", height: "750px", marginTop: "0px ", objectFit: "cover" }}
@@ -187,6 +285,8 @@ const MyCarousel = () => {
     </section>
   );
 };
+
+
 
 const products = [
   {
@@ -329,11 +429,13 @@ const CustomCarouselFour = () => {
 
                 }}
               >
-                <div className="img-wrapper" style={{ flex: 1 }}>
+                <div className="img-wrapper-market-slide" style={{ flex: 1 }}>
                   <div className="img">
                     <img
-                      // src={product.image_url || defaultPImg.src}
+                     
                       src={product.image_url || product.image_url1} alt={product.title}
+                      // src={defaultImg.src} alt={product.title}
+
                       style={{ width: "100%", height: "350px", objectFit: "cover" }}
                     />
                     {product.label && (

@@ -98,17 +98,17 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="/event" className="text-decoration-none">
                     Events
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="/foodie" className="text-decoration-none">
                     Foodies
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="/activity" className="text-decoration-none">
                     Activities
                   </Link>
                 </li>
@@ -155,27 +155,27 @@ const Footer = () => {
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
                 <li>
-                  <Link href="/brandpartner" className="text-decoration-none">
+                  <Link href="/dashboard" className="text-decoration-none">
                     Brand Partner
                   </Link>
                 </li>
                 <li>
-                  <Link href="/deliverydetails" className="text-decoration-none">
+                  <Link href="/dashboard" className="text-decoration-none">
                     Delivery Details
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="dashboard" className="text-decoration-none">
                     Manage Deliveries
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="dashboard" className="text-decoration-none">
                     Orders
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-decoration-none">
+                  <Link href="dashboard" className="text-decoration-none">
                     Payments
                   </Link>
                 </li>

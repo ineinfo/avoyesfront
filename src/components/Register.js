@@ -17,6 +17,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [terms, setTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
 
 
@@ -66,7 +67,9 @@ const Register = () => {
     }
 };
 
-
+const togglePasswordVisibility = () => {
+  setShowPassword(!showPassword);
+};
 
   return (
     <div className="register">
@@ -127,12 +130,21 @@ const Register = () => {
               
               <div className="input-group register-field">
                 <input
-                  type="password"
+                  // type="password"
+                  type={showPassword ? "text" : "password"}
                   className="form-control login register-input"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                  <span onClick={togglePasswordVisibility} style={{ cursor: "pointer", marginLeft: "10px", position: "absolute", right: 10, top: 9, zIndex: 100 }}>
+                    {showPassword ? <i class="fa-solid fa-eye-slash"></i> : <i class="fa-solid fa-eye"></i>}
+                  </span>
+                  {/* {error.password && (
+                    <p className="error-message" style={{ color: "red", marginTop: "5px" }}>
+                      {error.password}
+                    </p>
+                  )} */}
               
               </div>
 

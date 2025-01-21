@@ -115,7 +115,7 @@ const ActivityList = () => {
         <h2>Featured activities</h2>
       </div>
       <div className="container mt-5">
-        <ul className="nav nav-tabs" id="myTab" role="tablist">
+        <ul className="activity-tab-content-nav nav nav-tabs" id="myTab" role="tablist">
           {["all", "today", "tomorrow", "this-week", "this-weekend", "next-week", "next-weekend", "this-month"].map((tab) => (
             <li className="nav-item" role="presentation" key={tab}>
               <a
@@ -129,14 +129,14 @@ const ActivityList = () => {
         </ul>
         <div className="row mt-5">
           {filteredActivities.map((activity) => (
-            <div className="col-lg-4 col-md-6 col-sm-6 mb-3" key={activity.id}>
+            <div className="col-lg-4 col-md-6 col-sm-12 mb-3" key={activity.id}>
               <div className="content-box">
                 <div className="img-zoom">
                   <img
                     src={activity.image_url ? activity.image_url : defaultImg.src}
                     alt={activity.title}
                     className="img-fluid mb-2"
-                    style={{ width: "500px", height: "250px", objectFit: "cover" }}
+                    // style={{ width: "100%", height: "250px", objectFit: "cover" }}
                   />
                 </div>
                 <div className="box">
@@ -153,8 +153,7 @@ const ActivityList = () => {
                   <h6>hosted by {activity.hosted_by}</h6>
                   <div className="date-time-section d-flex justify-content-between align-items-center">
                     <div className="date">
-                      <i className="fas fa-calendar-alt"></i>           {formatDateRange(activity.start_datetime, activity.end_datetime)}
-
+                      <i className="fas fa-calendar-alt"></i> {formatDateRange(activity.start_datetime, activity.end_datetime)}
                     </div>
                     <div className="separator">|</div>
                     <div className="time">

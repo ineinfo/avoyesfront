@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -19,7 +16,7 @@ const Profile = () => {
     email: profileData?.email || "",
     mobileNumber: profileData?.mobileNumber || "",
     gender: profileData?.gender || 2, 
-    profileImage: null,
+    profileImage: profileData?.profileImage ||  '/user.png', // Ensure this path is correct and accessible
   });
 
   // Move userId and accessToken outside of useEffect
@@ -52,7 +49,7 @@ const Profile = () => {
                 email: email,
                 mobileNumber: phone,
                 gender: gender || 2,
-                profileImage: avatar || null,
+                profileImage: avatar || '/user.png', // Ensure this path is correct and accessible
               });
             }
           } catch (error) {
@@ -158,7 +155,7 @@ const Profile = () => {
       </div>
       <div className="border-btm-profile"></div>
       <div className="row align-items-center">
-        <div className="col-xl-3 col-lg-5">
+        <div className="upload col-xl-3 col-lg-5">
           <div
             className="upload-box mt-4"
             onClick={() => document.getElementById("file-input").click()}
@@ -261,7 +258,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="col-xl-6">
-          <div className="input-group login-field">
+          <div className="input-group-profile login-field">
             <input
               type="text"
               className="form-control login profile-input"

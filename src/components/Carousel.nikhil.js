@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "./Carousal.css"; // Assuming your CSS is in Carousel.css
 import Link from "next/link";
+import foodieBanner from "../../public/foodie-banner.png";
 import { fetchFoodTypes } from "@/utils/api/FoodieApi";
 
 const CustomCarousel = () => {
@@ -136,127 +137,127 @@ const CustomCarousel = () => {
   );
 };
 
-const MyCarousel = () => {
-  return (
-    <section>
-      <div
-        id="myCarousel"
-        className="carousel slide"
-        data-bs-ride="carousel"
-        data-bs-interval="2000"
-      >
-        <div className="carousel-inner">
-          {/* First carousel item */}
-          <div className="carousel-item active">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>{" "}
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 1"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Repeat similar structure for other carousel items */}
-          <div className="carousel-item">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>{" "}
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 2"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="container">
-              <div className="row align-items-center">
-                <div className="col-md-6 col-6 banner-text-padding">
-                  <h6 className="sale-title">SALE UP TO 50% OFF</h6>
-                  <h1 className="banner-head">Fashion For Every Occasion</h1>
-                  <div className="shop-now-banner-btn">
-                    <Link href="/marketplace">
-                      {/* <button style={{
-                                                background: 'linear-gradient(to right, blue 50%, black 50%)',
-                                                backgroundSize: '200% 100%',
-                                                backgroundPosition: 'right bottom',
-                                                color: 'white',
-                                                padding: '10px 20px',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                transition: 'background-position 0.5s ease',
-                                                fontSize: '16px',
-                                                borderRadius: '5px',
-                                            }}
-                                                onMouseEnter={(e) => (e.target.style.backgroundPosition = 'left bottom')}
-                                                onMouseLeave={(e) => (e.target.style.backgroundPosition = 'right bottom')}>SHOP NOW</button> */}
-                      <button className="btn btn-primary custom-btn">
-                        SHOP NOW
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-                <div className="col-md-6 col-6">
-                  <img
-                    src="banner-img.png"
-                    className="d-block w-100 banner-img"
-                    alt="Image 3"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button
-          className="carousel-control-prev"
-          type="button"
-          data-bs-target="#myCarousel"
-          data-bs-slide="prev"
-        >
-          <i className="fa fa-chevron-left" aria-hidden="true"></i>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next"
-          type="button"
-          data-bs-target="#myCarousel"
-          data-bs-slide="next"
-        >
-          <i className="fa fa-chevron-right" aria-hidden="true"></i>
-          <span className="visually-hidden">Next</span>
-        </button>
-      </div>
-    </section>
-  );
-};
+// const MyCarousel = () => {
+//   return (
+//     <section>
+//       <div
+//         id="myCarousel"
+//         className="carousel slide"
+//         data-bs-ride="carousel"
+//         data-bs-interval="2000"
+//       >
+//         <div className="carousel-inner">
+//           {/* First carousel item */}
+//           <div className="carousel-item active">
+//             <div className="container">
+//               <div className="row align-items-center">
+//                 <div className="col-md-6 col-6 banner-text-padding">
+//                   <h6 className="sale-title">SALE UP TO 50% OFF</h6>
+//                   <h1 className="banner-head">Fashion For Every Occasion</h1>
+//                   <div className="shop-now-banner-btn">
+//                     <Link href="/marketplace">
+//                       <button className="btn btn-primary custom-btn">
+//                         SHOP NOW
+//                       </button>
+//                     </Link>{" "}
+//                   </div>
+//                 </div>
+//                 <div className="col-md-6 col-6">
+//                   <img
+//                     src="banner-img.png"
+//                     className="d-block w-100 banner-img"
+//                     alt="Image 1"
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           {/* Repeat similar structure for other carousel items */}
+//           <div className="carousel-item">
+//             <div className="container">
+//               <div className="row align-items-center">
+//                 <div className="col-md-6 col-6 banner-text-padding">
+//                   <h6 className="sale-title">SALE UP TO 50% OFF</h6>
+//                   <h1 className="banner-head">Fashion For Every Occasion</h1>
+//                   <div className="shop-now-banner-btn">
+//                     <Link href="/marketplace">
+//                       <button className="btn btn-primary custom-btn">
+//                         SHOP NOW
+//                       </button>
+//                     </Link>{" "}
+//                   </div>
+//                 </div>
+//                 <div className="col-md-6 col-6">
+//                   <img
+//                     src="banner-img.png"
+//                     className="d-block w-100 banner-img"
+//                     alt="Image 2"
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="carousel-item">
+//             <div className="container">
+//               <div className="row align-items-center">
+//                 <div className="col-md-6 col-6 banner-text-padding">
+//                   <h6 className="sale-title">SALE UP TO 50% OFF</h6>
+//                   <h1 className="banner-head">Fashion For Every Occasion</h1>
+//                   <div className="shop-now-banner-btn">
+//                     <Link href="/marketplace">
+//                       {/* <button style={{
+//                                                 background: 'linear-gradient(to right, blue 50%, black 50%)',
+//                                                 backgroundSize: '200% 100%',
+//                                                 backgroundPosition: 'right bottom',
+//                                                 color: 'white',
+//                                                 padding: '10px 20px',
+//                                                 border: 'none',
+//                                                 cursor: 'pointer',
+//                                                 transition: 'background-position 0.5s ease',
+//                                                 fontSize: '16px',
+//                                                 borderRadius: '5px',
+//                                             }}
+//                                                 onMouseEnter={(e) => (e.target.style.backgroundPosition = 'left bottom')}
+//                                                 onMouseLeave={(e) => (e.target.style.backgroundPosition = 'right bottom')}>SHOP NOW</button> */}
+//                       <button className="btn btn-primary custom-btn">
+//                         SHOP NOW
+//                       </button>
+//                     </Link>
+//                   </div>
+//                 </div>
+//                 <div className="col-md-6 col-6">
+//                   <img
+//                     src="banner-img.png"
+//                     className="d-block w-100 banner-img"
+//                     alt="Image 3"
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//         <button
+//           className="carousel-control-prev"
+//           type="button"
+//           data-bs-target="#myCarousel"
+//           data-bs-slide="prev"
+//         >
+//           <i className="fa fa-chevron-left" aria-hidden="true"></i>
+//           <span className="visually-hidden">Previous</span>
+//         </button>
+//         <button
+//           className="carousel-control-next"
+//           type="button"
+//           data-bs-target="#myCarousel"
+//           data-bs-slide="next"
+//         >
+//           <i className="fa fa-chevron-right" aria-hidden="true"></i>
+//           <span className="visually-hidden">Next</span>
+//         </button>
+//       </div>
+//     </section>
+//   );
+// };
 
 const products = [
   {
@@ -458,12 +459,16 @@ const CustomCarouselSix = () => {
         breakpoint: 992,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 1,  // Make sure you scroll 1 slide at a time
+        centerMode: true,    // To center slides and avoid excessive spacing
+        centerPadding: "0",
         },
       },
       {
         breakpoint: 576,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -489,6 +494,7 @@ const CustomCarouselSix = () => {
                           item.image_url ||
                           "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
                         }
+                        //  src={foodieBanner.src} 
                         alt={item.title}
                         style={{ width: "450px", height: "400px", objectFit: "cover" }}
                       />
@@ -514,4 +520,4 @@ const CustomCarouselSix = () => {
   );
 };
 
-export { CustomCarousel, MyCarousel, CustomCarouselFour, CustomCarouselSix };
+export { CustomCarousel,  CustomCarouselFour, CustomCarouselSix };

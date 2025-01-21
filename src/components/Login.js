@@ -103,7 +103,7 @@ const Login = () => {
             </div>
             <div className="register-text">
               <h2>LOGIN</h2>
-              <p>GREAT TO HAVE YOU BACK!</p>
+              <p>GREAT TO HAVE YOU BACK!</p> 
             </div>
             <form onSubmit={handleSubmit}>
               <div className="register-login-fields">

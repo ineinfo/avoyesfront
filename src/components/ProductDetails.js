@@ -91,6 +91,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (product?.image_url1) {
       setMainImage(product.image_url1);
+
     }
   }, [product]);
 
@@ -274,6 +275,7 @@ const ProductDetails = () => {
                       <img
                         key={index}
                         src={src}
+                        // src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
                         style={{ cursor: "pointer" }}
@@ -655,7 +657,7 @@ const ProductDetails = () => {
                     <div class="row">
                       <div class="col-lg-2 col-md-3">
                         <div class="img">
-                          <img src="/review-2.png" alt="" />
+                          <img src="/review-2.png" alt="" style={{objectFit:"cover"}}/>
                         </div>
                       </div>
                       <div class="col-lg-10 col-md-9">
@@ -761,6 +763,8 @@ const ProductDetails = () => {
                       <div className="col-lg-5">
                         <div className="img">
                           <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} />
+                          {/* <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
+
                         </div>
                         <div className="women-modal-text">
                           <div className="head">
@@ -885,10 +889,10 @@ const ProductDetails = () => {
               position: 'relative',
               textAlign: 'center',
               padding: '2rem',
-              backgroundColor: '#0000ff',
+              backgroundColor: '#F5F4F9',
               borderRadius: '8px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-              color: '#fff',
+              color: '#000000',
               width: '90%',
               maxWidth: '400px',
             }}
@@ -903,15 +907,15 @@ const ProductDetails = () => {
                 background: 'none',
                 border: 'none',
                 fontSize: '1.5rem',
-                color: '#fff',
+                color: '#000000',
                 cursor: 'pointer',
               }}
             >
               &times;
             </button>
 
-            <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Please Log In</h1>
-            <p style={{ fontSize: '1.1rem' }}>Please log in to add this product to your cart!</p>
+            <h1 style={{ fontSize: '2rem',  }}>Please Log In</h1>
+            <p style={{ fontSize: '1.3rem' }}>Please log in to add this product to your cart!</p>
             <button
               onClick={() => {
                 closeModal();
@@ -921,8 +925,8 @@ const ProductDetails = () => {
                 marginTop: '1.5rem',
                 padding: '0.8rem 1.5rem',
                 fontSize: '1rem',
-                backgroundColor: '#fff',
-                color: '#0000ff',
+                backgroundColor: '#F5F4F9',
+                color: '#000000',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',

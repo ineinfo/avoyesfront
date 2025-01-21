@@ -10,6 +10,8 @@ import LoadingSpinner from "./Loading";
 const Faqs = () => {
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredFaqs, setFilteredFaqs] = useState([]);
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -19,8 +21,10 @@ const Faqs = () => {
         console.log(data);
         if (Array.isArray(data.data)) {
           setFaqs(data.data);
+          setFilteredFaqs(data.data);
         } else {
           setFaqs([]);
+          setFilteredFaqs([]);
         }
       } catch (error) {
         console.error("Error fetching FAQs:", error);
@@ -31,6 +35,14 @@ const Faqs = () => {
 
     fetchFaqs();
   }, []);
+
+  useEffect(() => {
+    const filtered = faqs.filter(faq =>
+      (faq.title && faq.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (faq.description && faq.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    setFilteredFaqs(filtered);
+  }, [searchTerm, faqs]);
 
   return (
     <>
@@ -61,8 +73,8 @@ const Faqs = () => {
                 <><LoadingSpinner /></>
               ) : (
                 <div className="accordion" id="faqaccordion">
-                  {Array.isArray(faqs) && faqs.length > 0 ? (
-                    faqs.map((faq, index) => (
+                  {Array.isArray(filteredFaqs) && filteredFaqs.length > 0 ? (
+                    filteredFaqs.map((faq, index) => (
                       <div className="accordion-item-2" key={faq.id}>
                         <h2 className="accordion-header mb-3" id={`heading${index}`}>
                           <button
@@ -90,7 +102,9 @@ const Faqs = () => {
                       </div>
                     ))
                   ) : (
-                    <p>No FAQs available.</p>
+                    <div className="centered-message mt-4">
+                      No Search available for this.
+                    </div>
                   )}
                 </div>
               )}
@@ -104,11 +118,17 @@ const Faqs = () => {
                 <p>You can ask anything</p>
               </div>
               <div className="faq-input text-center">
-                <input type="text" className="empty-input" placeholder="" />
+                <input
+                  type="text"
+                  className="empty-input"
+                  placeholder=""
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
               <div className="sent-faq-btn text-center">
                 <Link href="#">
-                  <button type="button">SENT</button>
+                  <button type="button">SEARCH</button>
                 </Link>
               </div>
             </div>

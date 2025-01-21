@@ -448,3 +448,15 @@ document.querySelectorAll('.fas.fa-edit').forEach(function (editButton) {
     document.getElementById('backToAddressListBtn').style.display = 'inline-block';  // Show 'Back' button
   });
 });
+
+
+  // dhara
+  // Popper.js (required for Bootstrap features like tooltips, popovers, and dropdowns)
+  const popperScript = document.createElement('script');
+  popperScript.src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js";
+  document.head.appendChild(popperScript);
+
+  const bootstrapScript = document.createElement('script');
+  bootstrapScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js";
+  document.head.appendChild(bootstrapScript);
+

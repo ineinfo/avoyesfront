@@ -12,6 +12,8 @@ const nextConfig = {
             use: ['@svgr/webpack'],
         });
 
+        // Remove custom CSS handling for client-side builds
+
         return config;
     },
 

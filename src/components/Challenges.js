@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchChallenges } from "@/utils/api/ChallengesApi";
+import defaultImg from "../../public/defaultImg.jpg";
+
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
@@ -17,6 +19,27 @@ const Challenges = () => {
         getChallenges();
     }, []);
 
+    useEffect(() => {
+        const handleTouchStart = (e) => {
+            const challengeElement = e.target.closest('.challange-1');
+            if (challengeElement) {
+                const joinButton = challengeElement.querySelector('.join-challange-btn');
+                if (joinButton.style.opacity === '1') {
+                    joinButton.style.opacity = '0';
+                    joinButton.style.bottom = '5px';
+                } else {
+                    joinButton.style.opacity = '1';
+                    joinButton.style.bottom = '-32px';
+                }
+            }
+        };
+
+        document.addEventListener('touchstart', handleTouchStart);
+
+        return () => {
+            document.removeEventListener('touchstart', handleTouchStart);
+        };
+    }, []);
 
     const filteredChallenges = challenges.filter(challenge =>
         challenge.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -26,6 +49,13 @@ const Challenges = () => {
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
         return new Date(dateString).toLocaleDateString('en-US', options);
     };
+
+    
+
+
+
+
+
     return (
         <>
             <div className="challanges-breadcrumb " style={{ marginTop: '1rem' }}>
@@ -40,7 +70,7 @@ const Challenges = () => {
                                 <p>Find A Challenge That Suits You And Start Achieving Your Goals Today.</p>
                             </div>
                             <div className="breadcrumb-btn">
-                                <button type="button" className="challange-btn">EXPLORE CHALLANGES</button>
+                                <button type="button" className="challange-btn">EXPLORE CHALLENGES</button>
                             </div>
                         </div>
                     </div>
@@ -69,7 +99,9 @@ const Challenges = () => {
                                 <div className="col-xl-3 col-lg-6 col-md-6" key={challenge.id}>
                                     <div className="challange-1">
                                         <div className="img fixed-size">
-                                            <img src={challenge.image_url} alt={challenge.title} />
+                                            {/* <img src={challenge.image_url} alt={challenge.title} /> */}
+                                            <img src={defaultImg.src} alt={challenge.title} />
+
                                         </div>
                                         <div className="share-icon">
                                             <Link href="#" className="text-decoration-none"><i className="bi bi-share"></i></Link>
@@ -98,10 +130,10 @@ const Challenges = () => {
                                             </div>
                                         </div>
                                         <div className="join-challange-btn">
-                                            <Link href="#"><button type="button">JOIN CHALLANGE</button></Link>
+                                            <Link href="#"><button type="button">JOIN CHALLENGE</button></Link>
                                         </div>
                                     </div>
-                                </div>
+                                 </div>
                             ))
 
                         ) : (

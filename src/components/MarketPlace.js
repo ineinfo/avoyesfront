@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -28,11 +27,16 @@ const MarketPlace = () => {
   const [wishlistStatus, setWishlistStatus] = useState({});
   const [selectedColor, setSelectedColor] = useState("");
   const [queryParams, setQueryParams] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const searchParams = useSearchParams(); // Get the search parameters
   const data = searchParams.get('data'); // Access the 'data' parameter
   const search = searchParams.get('search'); // Access the 'data' parameter
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (data) {
@@ -456,7 +460,7 @@ const MarketPlace = () => {
         });
       }
     } else {
-      console.log("No user ID found.");
+      setShowModal(true); // Show modal if no user ID found
     }
   };
 
@@ -658,11 +662,13 @@ const MarketPlace = () => {
                         key={product.id}
                       >
                         <div className="market-place-product market-place-page-product">
-                          <div className="img-wrapper">
+                          <div className="img-wrapper-market">
                             <div className="img">
                               <img
                                 style={{ objectFit: "cover", height: "350px" }}
                                 src={product.image_url1}
+                                // src={defaultImg.src}
+
                                 alt={product.title}
                               />
                               {product?.product_label === "new" ? (
@@ -715,9 +721,12 @@ const MarketPlace = () => {
                                   )}
                                 </button>
 
-                                <button type="button"
+                                <button
+                                  type="button"
                                   className="text-decoration-none"
-                                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                                  onClick={() => window.location.href = `/${product.id}/productdetails`}
+                                >
                                   <i className="bi bi-handbag ms-1 quick-icons"></i>
                                 </button>
                               </div>
@@ -771,7 +780,7 @@ const MarketPlace = () => {
                         <div className="row">
                           <div className="col-md-3 col-6">
                             <div className="market-place-product">
-                              <div className="img-wrapper">
+                              <div className="img-wrapper-market">
                                 <div className="img">
                                   <img
                                     src={product.image_url1}
@@ -1039,7 +1048,77 @@ const MarketPlace = () => {
         </div>
       )}
 
+      {showModal && (
+        <div
+          onClick={closeModal} // Closes the modal when clicking outside the content box
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside the content box
+            style={{
+              position: 'relative',
+              textAlign: 'center',
+              padding: '2rem',
+              backgroundColor: '#F5F4F9',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+              color: '#000000',
+              width: '90%',
+              maxWidth: '400px',
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5rem',
+                color: '#000000',
+                cursor: 'pointer',
+              }}
+            >
+              &times;
+            </button>
 
+            <h1 style={{ fontSize: '2rem' }}>Please Log In</h1>
+            <p style={{ fontSize: '1.3rem' }}>Please log in to add this product to your cart!</p>
+            <button
+              onClick={() => {
+                closeModal();
+                router.push('/login');
+              }}
+              style={{
+                marginTop: '1.5rem',
+                padding: '0.8rem 1.5rem',
+                fontSize: '1rem',
+                backgroundColor: '#F5F4F9',
+                color: '#000000',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+              }}
+            >
+              Log In
+            </button>
+          </div>
+        </div>
+      )}
 
     </>
   );

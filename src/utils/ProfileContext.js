@@ -14,7 +14,7 @@ export const ProfileProvider = ({ children }) => {
     email: '',
     mobileNumber: '',
     gender: 'Female',
-    profileImage: '/profile-pic.png', // Default image
+    profileImage: '/user.png', // Ensure this path is correct and accessible
   });
 
   const updateProfile = (newData) => {
@@ -30,4 +30,3 @@ export const ProfileProvider = ({ children }) => {
     </ProfileContext.Provider>
   );
 };
- 

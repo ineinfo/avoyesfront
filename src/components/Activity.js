@@ -253,7 +253,7 @@ const Activity = () => {
                       onChange={handleCountryChange}
                     >
                       <option value="" selected>
-                        Choose Country
+                        Country
                       </option>
                       {Array.isArray(countries) &&
                         countries.map((country) => (
@@ -278,6 +278,8 @@ const Activity = () => {
                 <a href="">
                   <img
                     src={category.image_url || defaultImg.src}
+                    // src={defaultImg.src}
+
                     alt={category.title}
                     style={{ marginBottom: '30px' }}
                   />
@@ -333,6 +335,9 @@ const Activity = () => {
                         activity.image_url ? activity.image_url : defaultImg.src
 
                       }
+                      // src={
+                      //    defaultImg.src 
+                      // }
                       alt={activity.title}
                       className="img-fluid mb-2"
 
@@ -440,6 +445,8 @@ const Activity = () => {
                   <div className="img-zoom">
                     <img
                       src={activity.image_url ? activity.image_url : defaultImg.src}
+                      // src={defaultImg.src}
+
                       alt={activity.title}
                       className="img-fluid"
                     // style={{ width: "200px", height: "200px", objectFit: "cover" }}

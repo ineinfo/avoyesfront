@@ -19,7 +19,8 @@ const ContactUs = () => {
         console.log("d");
 
         if (response.data.status) {
-          setContactInfo(response.data.data);
+        console.log("dzxdgsx",response.data.data);
+        setContactInfo(response.data.data);
         } else {
           console.error("Failed to fetch contact information:", response.data.message);
         }
@@ -65,6 +66,17 @@ const ContactUs = () => {
     return <div>No contact information available.</div>;
   }
 
+
+  // Function to convert goo.gl links to Google Maps Embed URL
+const convertToEmbedUrl = (gooGlUrl) => {
+  // Extract the place name or coordinates from the goo.gl URL
+  const placeCode = gooGlUrl.split('/').pop(); // Get the last part of the URL
+  return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.381701999791!2d2.437570915674733!3d48.849919798386465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e5e1c403a68c17%3A0x10b82c3688b2570!2s${placeCode}!5e0!3m2!1sen!2sus!4v1673436584705!5m2!1sen!2sus`; 
+};
+
+
+const embedMapUrl = convertToEmbedUrl(contactInfo.google_map);
+
   return (
     <>
       <div className="breadcrumb-marketplace py-5">
@@ -106,7 +118,7 @@ const ContactUs = () => {
                   </div>
                   <div className="contact-map">
                     <iframe
-                      src={contactInfo.google_map}
+                    src={embedMapUrl} 
                       width="100%"
                       height="225px"
                       style={{ border: 0 }}

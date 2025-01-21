@@ -191,6 +191,14 @@ const Event = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Initialize Bootstrap dropdowns
+    const dropdownElements = document.querySelectorAll('.dropdown-toggle');
+    dropdownElements.forEach(dropdown => {
+      new bootstrap.Dropdown(dropdown);
+    });
+  }, []);
+
 
   if (loading) {
     return <><LoadingSpinner /></>;
@@ -266,6 +274,14 @@ const Event = () => {
     ]
   };
 
+// window.onload = function() {
+//   document.querySelector('#speakerDropdown').addEventListener('click', function() {
+//     var dropdownMenu = this.nextElementSibling;
+//     dropdownMenu.classList.toggle('show');
+//   });
+// };
+
+  
   return (
     <>
       <div className="event-page">
@@ -287,21 +303,22 @@ const Event = () => {
 
           {/* <!-- what you want section --> */}
           <section>
-            <div className="what-you-want-box">
+            <div className="what-you-want-box custom-responsive">
               <div className="container">
                 <div className="row">
                   <div className="icon-what-you-want d-flex align-items-center">
-                    <div className="md-icon d-flex align-items-center">
-                      <div className="icon">
-                        <img src="/cal-icon.png" alt="" />
-                      </div>
-                      <div className="what-text">
-                        <h3>WHAT YOU WANT</h3>
-                      </div>
-                      <div className="find-best-text">
-                        <p>find the best for you</p>
-                      </div>
-                    </div>
+                  <div className="md-icon d-flex align-items-center rtext">
+  <div className="icon">
+    <img src="/cal-icon.png" alt="" />
+  </div>
+  <div className="what-text">
+    <h3>WHAT YOU WANT</h3>
+  </div>
+  <div className="find-best-text">
+    <p>find the best for you</p>
+  </div>
+</div>
+
                     <div className="md-input d-flex align-items-center">
                       <div className="input-container-event">
                         <input
@@ -909,6 +926,8 @@ const Event = () => {
                               <a className="lightbox" onClick={() => openLightbox(index)}>
                                 <img
                                   src={imageUrl}
+                                  // src={defaultImg.src}
+
                                   alt={`Gallery Image ${index + 1}`}
                                   className="gal-img-height"
                                 />
@@ -1004,7 +1023,7 @@ const Event = () => {
             {isLightboxOpen && (
               <div id="lightbox-modal" className="lightbox-modal" onClick={closeLightbox}>
                 <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-                  <button className="arrow-button prev" onClick={prevImage}>&#10094;</button>
+                  <button className="arrow-button prev-event" onClick={prevImage}>&#10094;</button>
                   <img
                     id="lightbox-image"
                     src={galleryImages[currentImageIndex]}
@@ -1017,7 +1036,7 @@ const Event = () => {
                       objectPosition: 'center',
                     }}
                   />
-                  <button className="arrow-button next" onClick={nextImage}>&#10095;</button>
+                  <button className="arrow-button next-event" onClick={nextImage}>&#10095;</button>
                 </div>
               </div>
             )}
