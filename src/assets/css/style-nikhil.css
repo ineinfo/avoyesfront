@@ -368,12 +368,12 @@ button.carousel-control-prev i {
     }
 }
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
     .col-custom {
         flex: 0 0 100%;
         max-width: 100%;
     }
-}
+} */
 
 /* trending section css */
 .tranding-section .head .heading h1 {
