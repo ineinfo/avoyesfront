@@ -1240,7 +1240,7 @@
     }
 }
 
-@media (min-width: 541px) and (max-width: 768px) {
+@media (min-width: 430px) and (max-width: 932px) {
     .top-menu-main .container {
         padding: 2rem 1rem;
     }
@@ -2284,7 +2284,7 @@
     }
 
     .challanges-breadcrumb .head-sec {
-        right: 20%;
+        right: 0%;
     }
 
     .challanges-breadcrumb .bread-img img {
