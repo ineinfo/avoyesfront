@@ -377,7 +377,7 @@ button.carousel-control-prev i {
 @media (max-width: 768px) {
     .col-custom {
         flex: 0 0 50%;
-        max-width: 50%;
+        max-width: 45%;
     }
 }
 
