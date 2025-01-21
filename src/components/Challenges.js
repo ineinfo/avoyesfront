@@ -50,7 +50,7 @@ const Challenges = () => {
         return new Date(dateString).toLocaleDateString('en-US', options);
     };
 
-    
+
 
 
 
@@ -79,7 +79,7 @@ const Challenges = () => {
 
             <div className="challanges-searchbar py-5">
                 <div className="container">
-                    <div className="input-container-3">
+                    <div className="input-container-3" style={{ width: '100%' }}>
                         <i className="fa fa-search"></i>
                         <input
                             type="text"
@@ -133,7 +133,7 @@ const Challenges = () => {
                                             <Link href="#"><button type="button">JOIN CHALLENGE</button></Link>
                                         </div>
                                     </div>
-                                 </div>
+                                </div>
                             ))
 
                         ) : (
