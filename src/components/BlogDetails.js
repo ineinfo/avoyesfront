@@ -371,8 +371,8 @@ const BlogDetails = () => {
                                     <>
                                         <div className="blog-details-main">
                                             <div className="blog-dtl-img">
-                                                {/* <img src={blogDetails.image_url} alt="Blog Detail" /> */}
-                                                <img src={defaultImg.src} alt="Blog Detail" />
+                                                <img src={blogDetails.image_url} alt="Blog Detail" />
+                                                {/* <img src={defaultImg.src} alt="Blog Detail" /> */}
 
                                             </div>
                                         </div>
@@ -424,8 +424,8 @@ const BlogDetails = () => {
 
                                         <div className="blog-end-dtl d-flex justify-content-between align-items-center">
                                             <div className="text">
-                                            Category: <a style={{ textTransform: 'uppercase' }}>
-                                                   {blogDetails.blog_category_title}
+                                                Category: <a style={{ textTransform: 'uppercase' }}>
+                                                    {blogDetails.blog_category_title}
                                                 </a>
 
                                             </div>
@@ -458,16 +458,16 @@ const BlogDetails = () => {
                                                 <div className="modal fade show" style={{ display: 'block' }} onClick={closeModal}>
                                                     <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
                                                         <div className="modal-content"
-                                                            // style={{
-                                                            //     position: 'absolute',
-                                                            //     top: '50%',
-                                                            //     left: '50%',
-                                                            //     transform: 'translate(-50%, -50%)',
-                                                            //     width: '550px',
-                                                            //     height: '400px',
-                                                            //     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
-                                                            //     overflow: 'auto',
-                                                            // }}
+                                                        // style={{
+                                                        //     position: 'absolute',
+                                                        //     top: '50%',
+                                                        //     left: '50%',
+                                                        //     transform: 'translate(-50%, -50%)',
+                                                        //     width: '550px',
+                                                        //     height: '400px',
+                                                        //     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+                                                        //     overflow: 'auto',
+                                                        // }}
                                                         >
                                                             <div className="modal-header">
                                                                 <h5 className="modal-title w-100 text-center write-review-head">
