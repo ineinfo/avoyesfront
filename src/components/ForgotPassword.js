@@ -10,12 +10,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie'; // Import js-cookie
 import { toast } from 'react-toastify';
+import { Grid } from "antd";
 
+const {useBreakpoint} = Grid
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const router = useRouter(); 
-
+  const screens = useBreakpoint()
 
 
   const handleSubmit = async () => {
@@ -59,7 +61,7 @@ const ForgotPassword = () => {
         <div className="container-fluid">
           <div className="row align-items-center">
             <div className="col-md-7 ps-0">
-              <div className="register-img">
+            <div className="register-img" style={{display: screens.sm ? 'block' : 'none'}}>
                 <img src="/auth-img-1.png" alt="" />
               </div>
             </div>

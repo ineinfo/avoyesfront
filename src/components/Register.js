@@ -9,7 +9,9 @@ import Link from "next/link";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
+import { Grid } from "antd";
 
+const {useBreakpoint} = Grid
 const Register = () => {
   const router = useRouter();
   const [first_name, setFirstName] = useState("");
@@ -20,7 +22,7 @@ const Register = () => {
   const [terms, setTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-
+const screens = useBreakpoint()
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -102,7 +104,7 @@ const togglePasswordVisibility = () => {
       <div className="container-fluid">
         <div className="row align-items-center">
           <div className="col-md-7 ps-0">
-            <div className="register-img">
+          <div className="register-img" style={{display: screens.sm ? 'block' : 'none'}}>
               <img src="/auth-img-1.png" alt="" />
             </div>
           </div>

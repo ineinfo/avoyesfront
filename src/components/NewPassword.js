@@ -10,12 +10,14 @@ import Cookies from 'js-cookie'; // Import the cookies package
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toastify
+import { Grid } from 'antd';
 
+const {useBreakpoint} = Grid
 const NewPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const router = useRouter();
-
+    const screens = useBreakpoint()
     const handleChangePassword = async () => {
         if (!newPassword || !confirmPassword) {
             toast.error("Both password fields are required."); // Show error toast
@@ -58,7 +60,7 @@ const NewPassword = () => {
                     <div className="container-fluid">
                         <div className="row align-items-center">
                             <div className="col-md-7 ps-0">
-                                <div className="register-img">
+                            <div className="register-img" style={{display: screens.sm ? 'block' : 'none'}}>
                                     <img src="/auth-img-1.png" alt="" />
                                 </div>
                             </div>
