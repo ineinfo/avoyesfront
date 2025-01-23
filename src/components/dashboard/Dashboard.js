@@ -7,13 +7,15 @@ import { getOrder } from "@/utils/api/CheckoutApi";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { fetchReservations } from "@/utils/api/FoodieApi";
+import { Grid } from "antd";
 
+const { useBreakpoint } = Grid
 const Dashboard = () => {
   const [user, setUser] = useState();
   const [orders, setOrders] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [reservations, setReservations] = useState([]);
-
+  const screens = useBreakpoint()
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
@@ -41,12 +43,12 @@ const Dashboard = () => {
       try {
         const userId = Cookies.get("id"); // Retrieve the logged-in user's id from cookies
         const data = await fetchReservations();
-        
+
         // Filter reservations by user_id
         const filteredData = Array.isArray(data)
           ? data.filter(reservation => reservation.user_id === parseInt(userId))
           : [];
-          
+
         setReservations(filteredData); // Set filtered reservations
       } catch (error) {
         console.error("Error fetching reservations:", error);
@@ -97,12 +99,12 @@ const Dashboard = () => {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: screens.sm ? "20px" : '',
         fontFamily: "Arial, sans-serif",
         color: "#333",
         marginTop: "-20px",
-        marginLeft: "-10px", //dhara
-        marginRight: "auto", 
+        marginLeft: screens.sm ? "-10px" : '', //dhara
+        marginRight: "auto",
         maxWidth: "100%",
       }}
     >
@@ -118,7 +120,7 @@ const Dashboard = () => {
       </h1>
 
       {/* User Information Section */}
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "20px", textAlign: screens.sm ? "" : 'center' }} >
         <h2 style={{ fontSize: "24px" }}>
           Welcome,{" "}
           {user
@@ -268,7 +270,7 @@ const Dashboard = () => {
             marginBottom: "10px",
           }}
         >
-          <h2 style={{ fontSize: "20px" , marginTop: "30px"}}>
+          <h2 style={{ fontSize: "20px", marginTop: "30px" }}>
             Your Reservations
           </h2>{" "}
           {reservations.length > 3 && <button style={{
@@ -282,7 +284,7 @@ const Dashboard = () => {
         <table style={tableStyle}>
           <thead>
             <tr>
-            <th style={tableHeaderStyle}>Place</th>
+              <th style={tableHeaderStyle}>Place</th>
               <th style={tableHeaderStyle}>People</th>
               <th style={tableHeaderStyle}>Date</th>
               <th style={tableHeaderStyle}>Time</th>
@@ -332,12 +334,13 @@ const cardValueStyle = {
 };
 
 const tableStyle = {
-  width: "100%",
+  width: screens.sm ? "100%" : '94vw',
   borderCollapse: "collapse",
-  marginTop: "10px",
+  marginTop: screens.sm ? "10px" : '',
+  margin: screens.sm ? "" : '0 -40px',
   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   '@media (max-width: 430px)': {
-    display: "block", 
+    display: "block",
     whiteSpace: "nowrap",
     // overflowX: "auto", // Ensures horizontal scrolling on smaller screens
     marginLeft: "auto", // Adjust the margin to remove left space
@@ -357,7 +360,7 @@ const tableCellStyle = {
   padding: "10px",
   textAlign: "left",
   fontSize: "14px",
-  
+
 };
 
 const tableRowStyle = {

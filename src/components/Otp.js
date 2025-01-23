@@ -5,13 +5,15 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'; // Import js-cookie
 import { toast } from 'react-toastify';
+import { Grid } from 'antd';
 
+const {useBreakpoint} = Grid
 const Otp = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]); // State for 6-digit OTP
     const inputRefs = useRef([]);
     const router = useRouter();
     const email = Cookies.get('email'); // Retrieve email from cookies
-
+    const screens = useBreakpoint()
     // Handle input change
     const handleChange = (e, index) => {
         const { value } = e.target;
@@ -100,7 +102,7 @@ const Otp = () => {
                 <div className="container-fluid">
                     <div className="row align-items-center">
                         <div className="col-md-7 ps-0">
-                            <div className="register-img">
+                        <div className="register-img" style={{display: screens.sm ? 'block' : 'none'}}>
                                 <img src="/auth-img-1.png" alt="Auth Image" />
                             </div>
                         </div>
