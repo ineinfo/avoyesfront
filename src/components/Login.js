@@ -8,15 +8,16 @@ import Link from "next/link";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import { toast } from 'react-toastify';
+import { Grid } from "antd";
 
-
+const {useBreakpoint} = Grid;
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter(); // Initialize useRouter
-
+ const screens = useBreakpoint();
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -92,7 +93,7 @@ const Login = () => {
         <div className="row align-items-center">
           <div className="col-md-7 ps-0">
             <div className="register-img">
-              <img src="/auth-img-1.png" alt="" />
+              {screens["sm"] ? '':<img src="/auth-img-1.png" alt="" />}
             </div>
           </div>
           <div className="col-md-5">
