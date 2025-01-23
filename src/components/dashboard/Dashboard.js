@@ -18,6 +18,102 @@ const Dashboard = () => {
   const screens = useBreakpoint()
   const [showAll, setShowAll] = useState(false);
 
+
+  // Inline styles for cards and table elements
+const cardStyle = {
+  flex: 1,
+  margin: "10px",
+  padding: "20px",
+  backgroundColor: "#f9f9f9",
+  borderRadius: "10px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+  maxWidth: "calc(50% - 20px)", // Set max width to fit 2 items on small screens
+};
+
+const cardTitleStyle = {
+  margin: 0,
+  fontSize: "16px",
+  color: "#555",
+};
+
+const cardValueStyle = {
+  margin: "10px 0 0",
+  fontSize: "24px",
+  color: "#0000ff",
+};
+
+const tableStyle = {
+  width: screens.sm ? "100%" : '94vw',
+  borderCollapse: "collapse",
+  marginTop: screens.sm ? "10px" : '',
+  margin: screens.sm ? "" : '0 -40px',
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  '@media (max-width: 430px)': {
+    display: "block",
+    whiteSpace: "nowrap",
+    // overflowX: "auto", // Ensures horizontal scrolling on smaller screens
+    marginLeft: "auto", // Adjust the margin to remove left space
+    marginRight: "auto", // Optional: Adjust the margin to balance the layout on small screens
+  },
+};
+
+const tableHeaderStyle = {
+  padding: "10px",
+  textAlign: "left",
+  backgroundColor: "#0000ff",
+  color: "white",
+  fontSize: "16px",
+};
+
+const tableCellStyle = {
+  padding: "10px",
+  textAlign: "left",
+  fontSize: "14px",
+
+};
+
+const tableRowStyle = {
+  backgroundColor: "#f9f9f9",
+  borderBottom: "1px solid #eee",
+};
+
+// Media Queries for Small Devices
+const mediaQueries = {
+  "@media (max-width: 430px)": {
+    tableStyle: {
+      display: "block",
+      overflowX: "auto",
+      whiteSpace: "nowrap",
+    },
+    tableHeaderStyle: {
+      display: "block",
+      width: "100%",
+      boxSizing: "border-box",
+    },
+    tableCellStyle: {
+      display: "block",
+      width: "100%",
+      fontSize: "10px",
+      boxSizing: "border-box",
+    },
+    tableRowStyle: {
+      display: "block",
+      marginBottom: "10px",
+    },
+    cardStyle: {
+      flex: 1,
+      margin: "10px",
+      padding: "20px",
+      maxWidth: "100%", // Remove fixed max width
+    },
+    container: {
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+};
+
   useEffect(() => {
     const fetchuser = async () => {
       try {
@@ -309,99 +405,6 @@ const Dashboard = () => {
   );
 };
 
-// Inline styles for cards and table elements
-const cardStyle = {
-  flex: 1,
-  margin: "10px",
-  padding: "20px",
-  backgroundColor: "#f9f9f9",
-  borderRadius: "10px",
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  textAlign: "center",
-  maxWidth: "calc(50% - 20px)", // Set max width to fit 2 items on small screens
-};
 
-const cardTitleStyle = {
-  margin: 0,
-  fontSize: "16px",
-  color: "#555",
-};
-
-const cardValueStyle = {
-  margin: "10px 0 0",
-  fontSize: "24px",
-  color: "#0000ff",
-};
-
-const tableStyle = {
-  width: screens.sm ? "100%" : '94vw',
-  borderCollapse: "collapse",
-  marginTop: screens.sm ? "10px" : '',
-  margin: screens.sm ? "" : '0 -40px',
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  '@media (max-width: 430px)': {
-    display: "block",
-    whiteSpace: "nowrap",
-    // overflowX: "auto", // Ensures horizontal scrolling on smaller screens
-    marginLeft: "auto", // Adjust the margin to remove left space
-    marginRight: "auto", // Optional: Adjust the margin to balance the layout on small screens
-  },
-};
-
-const tableHeaderStyle = {
-  padding: "10px",
-  textAlign: "left",
-  backgroundColor: "#0000ff",
-  color: "white",
-  fontSize: "16px",
-};
-
-const tableCellStyle = {
-  padding: "10px",
-  textAlign: "left",
-  fontSize: "14px",
-
-};
-
-const tableRowStyle = {
-  backgroundColor: "#f9f9f9",
-  borderBottom: "1px solid #eee",
-};
-
-// Media Queries for Small Devices
-const mediaQueries = {
-  "@media (max-width: 430px)": {
-    tableStyle: {
-      display: "block",
-      overflowX: "auto",
-      whiteSpace: "nowrap",
-    },
-    tableHeaderStyle: {
-      display: "block",
-      width: "100%",
-      boxSizing: "border-box",
-    },
-    tableCellStyle: {
-      display: "block",
-      width: "100%",
-      fontSize: "10px",
-      boxSizing: "border-box",
-    },
-    tableRowStyle: {
-      display: "block",
-      marginBottom: "10px",
-    },
-    cardStyle: {
-      flex: 1,
-      margin: "10px",
-      padding: "20px",
-      maxWidth: "100%", // Remove fixed max width
-    },
-    container: {
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
-  },
-};
 
 export default Dashboard;
