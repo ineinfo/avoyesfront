@@ -93,7 +93,7 @@ const Login = () => {
         <div className="row align-items-center">
           <div className="col-md-7 ps-0">
             <div className="register-img">
-              {screens["sm"] ? '':<img src="/auth-img-1.png" alt="" />}
+              {screens["sm"] ? <img src="/auth-img-1.png" alt="" />:''}
             </div>
           </div>
           <div className="col-md-5">
