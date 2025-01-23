@@ -97,14 +97,14 @@ const FoodDetails = () => {
   const handleReservationClick = async () => {
     const token = Cookies.get('accessToken');
 
+    // Check if all required fields are selected and non-empty
+    if (!selectedTimeId || !selectedPeople || !selectedDate || selectedTimeId === "" || selectedPeople === "" || selectedDate === "") {
+      console.log("Please select all field (date, people, and time)");
+      setErrormsg("Please select all field (people, date, and time)");
+      return;
+    }
+
     if (token) {
-
-      if (!selectedTimeId || !selectedPeople || !selectedDate) {
-        console.log("Please select all field (date, people, and time)");
-        setErrormsg("Please select all field (people, date, and time)")
-        return;
-      }
-
       try {
         // Create the reservation and get the response with the reservation id
         const reservationResponse = await makeReservation({
@@ -113,7 +113,7 @@ const FoodDetails = () => {
           people: selectedPeople,
           date: selectedDate,
         });
-        setErrormsg('')
+        setErrormsg('');
         // Get the reservation id from the response
         const reservationId = reservationResponse.data[0].id;
         console.log("ID", reservationResponse.data[0].id);
@@ -129,9 +129,10 @@ const FoodDetails = () => {
         console.log("Failed to make reservation. Please try again.");
       }
     } else {
-      setErrormsg("Log In First For Making a Reservation ")
+      setErrormsg("Log In First For Making a Reservation ");
     }
   };
+
 
 
 
@@ -831,32 +832,35 @@ const FoodDetails = () => {
                                 <div className="time-btn-1">
                                   <button
                                     type="button"
-                                    onClick={() => {
-                                      setSelectedTimeId(time.id);
-                                      handleReservationClick();
+                                    onClick={() => setSelectedTimeId(time.id)}
+                                    // className={selectedTimeId === time.id ? "active" : ""}
+                                    style={{
+                                      backgroundColor: selectedTimeId === time.id ? 'blue' : '',
+                                      color: selectedTimeId === time.id ? 'white' : '',
                                     }}
-                                    className={selectedTimeId === time.id ? "active" : ""}
                                   >
                                     {time.time}
                                   </button>
-
                                 </div>
                               </div>
                             ))
                           ) : (
                             <p>No available times for this place.</p>
                           )}
-                          {/* <div className="time-btn-1" >
-                              <button
-                                type="button"
-                                onClick={handleReservationClick}
-                              >
-                                Reserve Now
-                              </button>
-                            </div> */}
                         </div>
                       </div>
                     </div>
+
+                    {/* Add a separate button for making the reservation */}
+                    <div className="time-btn-1">
+                      <button
+                        type="button"
+                        onClick={handleReservationClick}
+                      >
+                        Reserve Now
+                      </button>
+                    </div>
+
                   </div>
                   {errormsg ? <span style={{ color: 'red' }}>{errormsg}</span> : ""}
                 </div>

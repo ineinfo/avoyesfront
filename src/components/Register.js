@@ -8,6 +8,7 @@ import "../assets/css/responsive.css";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 const Register = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Register = () => {
     console.log("Form clicked");
 
     // Basic Frontend Validation
-    if (!first_name || !last_name || !email || !phone || !password) {
+    if (!first_name || !last_name || !email || !password) {
         toast.error("All fields are required.");
         return;
     }
@@ -41,13 +42,38 @@ const Register = () => {
             first_name,
             last_name,
             email,
-            phone,
+            // phone,
             password,
         });
         console.log("Response:", response.data);
         toast.success("Registration successful! Redirecting to login...");
-        setTimeout(() => {
-            router.push("/login");
+        setTimeout(async() => {
+            // router.push("/login");
+            try {
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/users/frontlogin`, {
+                email,
+                password,
+              });
+        
+              if (response.data && response.data.user) {
+                const { user, accessToken } = response.data;
+                Cookies.set('id', user.id, { path: '/' });
+                Cookies.set('accessToken', accessToken, { path: '/' });
+                toast.success("Login successful!"); // Success toast
+        
+                setTimeout(() => {
+                  router.push("/dashboard");
+                }, 2000);
+                // router.push("/dashboard");
+              } else {
+                const errorMsg = "Invalid credentials.";
+                toast.error(errorMsg); // Show error toast
+              }
+            } catch (error) {
+              console.error("Login failed:", error);
+              const errorMsg = "Login failed. Invalid credentials.";
+              toast.error(errorMsg); // Show error toast
+            }
         }, 2000); // Optional delay before redirect
 
     } catch (error) {
@@ -117,7 +143,7 @@ const togglePasswordVisibility = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="input-group register-field">
+              {/* <div className="input-group register-field">
                 <input
                   type="text"
                   className="form-control login register-input"
@@ -125,7 +151,7 @@ const togglePasswordVisibility = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
-              </div>
+              </div> */}
                     
               
               <div className="input-group register-field">

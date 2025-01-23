@@ -611,90 +611,51 @@ const Map = () => {
       ))}
 
       {/* Custom Dropdown */}
-      <div className="dropdown custom-col margin-md-mt">
-        <a
-          href="#"
-          className="text-decoration-none dropdown-toggle"
-          onClick={toggleDropdown}  // Toggle dropdown on click
-        >
-          <div className="menu-1 more-drpdwn d-flex align-items-center justify-content-between">
-            <p className="m-0">More...</p>
-          </div>
-        </a>
-
-        {/* Dropdown Menu (Conditionally rendered based on isDropdownOpen state) */}
-        {isDropdownOpen && (
-          <ul className="dropdown-menu map-page-dropdown">
-            {foodTypes.map((foodType) => (
-              <li key={foodType.id}>
-                <Link className="dropdown-item d-flex align-items-center" href="/foodie">
-                  <img src={foodType.image_url || cafe.src} className="me-2" alt={foodType.title} />
-                  {foodType.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    
 
       {/* Internal CSS */}
       <style jsx>{`
-   
+    .menus {
+      display: flex;
+      flex-wrap: nowrap; /* Prevent items from wrapping */
+      overflow-x: auto; /* Enable horizontal scroll */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+      gap: 16px; /* Space between items */
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: #ccc transparent; /* Customize scrollbar color */
+    }
 
-        .dropdown-menu {
-          display: block;
-          position: absolute;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          width: 200px;  /* Adjust the width as needed */
-          list-style-type: none;
-          padding: 0;
-          margin-top: 5px;
-          z-index: 1000;
-        }
+    .menus::-webkit-scrollbar {
+      height: 8px; /* Height of the scrollbar */
+    }
 
-      
+    .menus::-webkit-scrollbar-thumb {
+      background-color: #ccc; /* Scrollbar color */
+      border-radius: 4px; /* Rounded edges */
+    }
 
-        .dropdown-item:hover {
-          background-color: #f8f9fa;
-        }
+    .menus::-webkit-scrollbar-track {
+      background-color: transparent; /* Transparent track */
+    }
 
-        .menu-1 {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
+    .menu-1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 0 0 auto; /* Prevent flex items from shrinking */
+    }
 
-        .more-drpdwn {
-          cursor: pointer;
-        }
+    .text-decoration-none {
+      text-decoration: none;
+    }
 
-        .text-decoration-none {
-          text-decoration: none;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1280px) and (max-height: 800px) {
-          .menus {
-            justify-content: flex-start; /* Align items to the left */
-            gap:8px;
-          }
-
-          .dropdown-menu {
-            width: 100%; /* Ensure the dropdown takes the full width if necessary */
-            box-shadow: none; /* Optional: remove shadow for smaller screens */
-          }
-
-          .more-drpdwn {
-            margin-left: 10px; /* Ensure some spacing from the left */
-          }
-        }
-
-        
-        }
-      `}</style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .menus {
+        gap: 8px; /* Adjust gap for smaller screens */
+      }
+    }
+  `}</style>
     </div>
 
                 <div className="map-main-section">

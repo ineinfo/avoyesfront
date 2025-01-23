@@ -97,9 +97,9 @@ const WishList = () => {
                 <Link href="index" className="text-decoration-none me-1">
                   HOME
                 </Link>
-                <p className="m-0 ps-1"> / WISHLIST</p>
+                <p className="m-0 ps-1"> / Favourite</p>
               </div>
-              <h1>Wishlist</h1>
+              <h1>Favourite</h1>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@ const WishList = () => {
           <div className="head d-flex justify-content-between align-items-center my-5">
             <div className="heading">
               <h1>
-                <span>MY </span> Wishlist  ({wishlist.length})
+                <span></span> Favourite  ({wishlist.length})
               </h1>
             </div>
           </div>

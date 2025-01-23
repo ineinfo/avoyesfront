@@ -7357,6 +7357,7 @@ button#speakerDropdown.active {
     border-radius: 3px;
 }
 
+
 .time-btn-1 {
     margin-top: 13px;
 }
@@ -9730,6 +9731,10 @@ select.form-control {
 }
 
 @media (max-width: 430px) {
+    .homecontainer{
+        overflow-x: scroll;
+        justify-content: left;
+    }
     .gal-large-img-food{
         width: 400px;
         height: 250px;
@@ -9786,6 +9791,10 @@ select.form-control {
   
   /* Media Query for Small Devices */
   @media (max-width: 600px) {
+    .homecontainer{
+        overflow-x: scroll;
+        justify-content: left;
+    }
  
  
       #reviewModal .modal-content {
@@ -9811,6 +9820,12 @@ select.form-control {
       }
       /* Media Query for Small Devices */
   @media (max-width: 390px) {
+    .homecontainer{
+        overflow-x: scroll;
+        justify-content: left;
+    }
+
+ 
    
     #reviewModal .modal-content {
         width: 380px;

@@ -80,7 +80,7 @@ export const getUserData = async () => {
 
 export const fetchTimes = async () => {
   try {
-    const response = await axios.get('http://38.108.127.253:3000/api/time');
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/time`);
     // Return the 'data' field of the response
     return response.data.data || []; // Ensure it defaults to an empty array if data is undefined
   } catch (error) {
@@ -103,15 +103,25 @@ export const makeReservation = async ({ time_id, food_place_id, people, date }) 
       },
       {
         headers: {
-          Authorization: `${token}`,
-          "Content-Type": "application/json"
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     console.log("===", response.data);
     return response.data;
   } catch (error) {
     console.error("Failed to make reservation", error);
+    throw error;
+  }
+};
+
+
+export const fetchReservations = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/reservation`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching reservation:", error);
     throw error;
   }
 };

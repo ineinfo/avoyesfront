@@ -32,6 +32,8 @@ const DashboardLayout = ({ children }) => {
         return "profile";
       case "/dashboard/address":
         return "address";
+        case "/dashboard/reservations":
+          return "reservations";
       case "/dashboard/changepassword":
         return "password";
       default:
@@ -198,6 +200,16 @@ const DashboardLayout = ({ children }) => {
                       >
                         <p className="m-0 d-flex align-items-center p-tab-font">
                           <i className="bi bi-geo-alt pe-2"></i>Manage Address
+                        </p>
+                      </Link>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <Link
+                        href="/dashboard/reservations"
+                        className={`nav-link text-dark d-flex justify-content-between align-items-center bg-white profile-tab rounded-pill-tab mb-3 ${activeTab === "reservations" ? "active" : ""}`}
+                      >
+                        <p className="m-0 d-flex align-items-center p-tab-font">
+                        <i className="fa-regular fa-calendar-check pe-2"></i> Reservations
                         </p>
                       </Link>
                     </li>

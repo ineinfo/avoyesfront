@@ -32,13 +32,15 @@
     }
 
     .top-menu-main .row {
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
     }
 
     .col-custom {
-        flex: 0 0 50%;
-        max-width: 44%;
+        flex: 0 0 20%;
+        
+        max-width: 24%;
         margin-bottom: 1rem;
+        overflow-x: scroll;
     }
 
     .top-menu-main.menu-1 {
@@ -1850,7 +1852,7 @@
     }
 
     .col-custom {
-        flex: 0 0 20%; /* Adjust to 5 items per row */
+        flex: 0 0 13%; /* Adjust to 5 items per row */
         max-width: 20%;
     }
 

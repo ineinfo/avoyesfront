@@ -337,7 +337,7 @@ export default function CustomComponent() {
             <section>
                 <div className="top-menu-main py-3">
                     <div className="container py-4">
-                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+                    <div className="homecontainer" style={{ display: "flex", justifyContent: "center" }}>
 
                             <div className="col-custom">
                                 <Link href="/marketplace" className="text-decoration-none">

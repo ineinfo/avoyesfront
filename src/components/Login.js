@@ -18,8 +18,6 @@ const Login = () => {
   const router = useRouter(); // Initialize useRouter
 
 
-
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
