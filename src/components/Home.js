@@ -22,8 +22,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CustomCarousel, MyCarousel } from "@/components/Carousel";
 import Link from "next/link";
 import axios from "axios";
+import { Grid } from "antd";
 
-
+const {useBreakpoint} = Grid
 
 export default function CustomComponent() {
 
@@ -32,7 +33,7 @@ export default function CustomComponent() {
     const [bannerData, setBannerData] = useState(null);
 
 
-
+    const screens = useBreakpoint()
 
 
 
@@ -337,9 +338,9 @@ export default function CustomComponent() {
             <section>
                 <div className="top-menu-main py-3">
                     <div className="container py-4">
-                    <div className="homecontainer" style={{ display: "flex", justifyContent: "center" }}>
+                    <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
 
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/marketplace" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -352,7 +353,7 @@ export default function CustomComponent() {
                                 </Link>
                             </div>
                       
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/event" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -364,7 +365,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/map" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -376,7 +377,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/activity" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -388,7 +389,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/foodie" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -400,7 +401,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom">
+                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
                                 <Link href="/challanges" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
