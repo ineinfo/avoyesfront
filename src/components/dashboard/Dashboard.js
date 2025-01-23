@@ -356,7 +356,7 @@ const tableHeaderStyle = {
 const tableCellStyle = {
   padding: "10px",
   textAlign: "left",
-  fontSize: "10px",
+  fontSize: "14px",
   
 };
 

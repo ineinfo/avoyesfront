@@ -86,7 +86,7 @@ const WishList = () => {
 
   return (
     <>
-
+   <div id="wishlist-page">
 
       <div className="breadcrumb-marketplace py-5">
         <div className="img">
@@ -117,6 +117,7 @@ const WishList = () => {
           <div className="row pt-4 pb-4 pb-md-0">
 
             {wishlist.map((item) => (
+              
               <div key={item.product_id} className="col-xl-3 col-md-6 col-lg-3 mb-md-5">
                 <div className="market-place-product market-place-page-product">
                   <div className="img-wrapper">
@@ -177,7 +178,7 @@ const WishList = () => {
 
         </div>
       </div>
-
+      </div>
     </>
   );
 };

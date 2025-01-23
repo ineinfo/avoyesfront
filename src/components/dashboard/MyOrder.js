@@ -15,7 +15,9 @@ const MyOrder = () => {
       try {
         const res = await getOrder()
 
-        setOrders(res)
+        // setOrders(res)
+        setOrders(Array.isArray(res) ? res : []);
+
       } catch (error) {
         console.log("error", error)
       }
