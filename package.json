@@ -12,7 +12,6 @@
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@popperjs/core": "^2.11.8",
     "@svgr/webpack": "^8.1.0",
-    "antd": "^5.23.2",
     "aos": "^2.3.4",
     "avoyes": "file:",
     "axios": "^1.7.7",
