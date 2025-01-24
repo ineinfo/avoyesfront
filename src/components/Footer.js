@@ -116,7 +116,7 @@ const Footer = () => {
             </div>
 
             <div className="col-md-2">
-              <h5 className="ftr-help-head">Quick Links</h5>
+              <h5 className="ftr-help-head">Help</h5>
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
                 <li>
@@ -160,17 +160,17 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard" className="text-decoration-none">
+                  <Link href="/dashboard/address" className="text-decoration-none">
                     Delivery Details
                   </Link>
                 </li>
                 <li>
-                  <Link href="dashboard" className="text-decoration-none">
+                  <Link href="dashboard/cart" className="text-decoration-none">
                     Manage Deliveries
                   </Link>
                 </li>
                 <li>
-                  <Link href="dashboard" className="text-decoration-none">
+                  <Link href="dashboard/orders" className="text-decoration-none">
                     Orders
                   </Link>
                 </li>
@@ -196,7 +196,8 @@ const Footer = () => {
                     onChange={handleInputChange}
                   />
                   <button type="submit" className="search-submit" name="submit">
-                    <i className="bi bi-arrow-right d-flex align-items-center"></i>
+                    Send
+                    {/* <i className="bi bi-arrow-right d-flex align-items-center"></i> */}
                   </button>
                 </div>
               </form>

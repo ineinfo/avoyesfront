@@ -466,7 +466,7 @@ const Event = () => {
                         <div className="img" id="playButton">
                           {/* <img src="/play-button.png" alt="Play" /> */}
                         </div>
-                        <div className="timer-counter d-flex">
+                        {/* <div className="timer-counter d-flex">
                           <div className="hrs">
                             <h3>{String(timer.hours).padStart(2, "0")}</h3>
                             <p>Hours</p>
@@ -479,7 +479,7 @@ const Event = () => {
                             <h3>{String(timer.seconds).padStart(2, "0")}</h3>
                             <p>Sec</p>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="event-video-title">
                           <h1>{videoData.video_title}</h1>
                           <p>{videoData.video_sub_heading}</p>

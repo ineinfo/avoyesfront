@@ -103,16 +103,16 @@ const Challenges = () => {
                                             {/* <img src={defaultImg.src} alt={challenge.title} /> */}
 
                                         </div>
-                                        <div className="share-icon">
+                                        {/* <div className="share-icon">
                                             <Link href="#" className="text-decoration-none"><i className="bi bi-share"></i></Link>
-                                        </div>
+                                        </div> */}
                                         <div className="challange-box">
                                             <div className="head">
-                                                <h3 className="mb-0">{challenge.title}</h3>
+                                                <h3 className="mb-0"style={{ minHeight: '30px' }}>{challenge.title}</h3>
                                             </div>
                                             <div className="info d-flex">
                                                 <i className="fa-solid fa-layer-group"></i>
-                                                <p className="m-0">{challenge.sub_title}</p>
+                                                <p className="m-0"style={{ minHeight: '60px' }}>{challenge.sub_title}</p>
                                             </div>
                                             <div className="challanges-date d-flex align-items-center">
                                                 <i className="bi bi-calendar-week"></i>

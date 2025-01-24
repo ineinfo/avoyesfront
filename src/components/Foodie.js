@@ -4,8 +4,7 @@ import axios from "axios";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import foodieBanner from "../../public/foodie-banner.png";
 import cafe from "../../public/cafe.png";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -17,7 +16,8 @@ import {
 } from "@/utils/api/FoodieApi";
 
 import { CustomCarouselSix } from "./Carousel.nikhil";
-
+import { Grid } from "antd";
+const {useBreakpoint} = Grid
 const Foodie = () => {
     const [foodTypes, setFoodTypes] = useState([]);
     const [foodPlaces, setFoodPlaces] = useState([]);
@@ -28,7 +28,7 @@ const Foodie = () => {
     const [foodBlogs, setFoodBlogs] = useState([]);
 
     // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const screens = useBreakpoint()
 
 
 
@@ -126,8 +126,6 @@ const Foodie = () => {
         infinite: true,
         autoplay: true,
         arrows: false,
-        infinite: true,
-
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplaySpeed: 2000,
@@ -139,6 +137,7 @@ const Foodie = () => {
                     slidesToScroll: 1,
                     infinite: true,
                     dots: true,
+                    
                 },
             },
             {
@@ -149,6 +148,7 @@ const Foodie = () => {
                 },
             },
         ],
+        style: { width: '100vw' },
     };
 
     return (
@@ -194,6 +194,7 @@ const Foodie = () => {
                                 <img
                                     src="/cafe.png"
                                     alt="All"
+                                    style={{verticalAlign: "top"}}
                                 />
                                 All
                             </a>
@@ -212,6 +213,7 @@ const Foodie = () => {
                                     <img
                                         src={foodType.image_url || cafe.src}
                                         alt={foodType.title}
+                                        style={{verticalAlign: "top"}}
                                     />
                                     {foodType.title}
                                 </a>
@@ -293,10 +295,10 @@ const Foodie = () => {
                     <p className="mt-3"> from cafes to healthy food</p>
                 </div>
                 <div className="container mt-5">
-                    <Slider {...foodsliderSettings}>
+                    <Slider {...foodsliderSettings} >
                         {foodBlogs.length > 0 ? (
                             foodBlogs.map((blog) => (
-                                <div key={blog.id} className="custom-slider-box">
+                                <div key={blog.id} className="custom-slider-box-food" >
                                     <img
                                         src={blog.image_url}
                                         // src={foodieBanner.src}
@@ -369,7 +371,7 @@ const Foodie = () => {
                             {/* sidebar */}
                             <div
                                 className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 filter-sidebar-section"
-                                style={{ display: "flex", flexDirection: "column" }}
+                                style={{ display: "flex", flexDirection: "column", }}
                             >
                                 <h3>Suggested</h3>
                                 <div className="checkbox">
@@ -497,7 +499,7 @@ const Foodie = () => {
                                     {/* <!-- Restaurant List --> */}
                                     <div className="restaurant-list">
                                         {filteredPlacesByCategory.length > 0 ? (
-                                            filteredPlacesByCategory.map((place) => (
+                                            filteredPlacesByCategory.slice(0, 5).map((place) => (
                                                 <div key={place.id} className="restaurant-item border-bottom mb-4 pb-4">
                                                     <div className="d-flex align-items-start">
                                                         <img

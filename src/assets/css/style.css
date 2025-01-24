@@ -7933,7 +7933,7 @@ input#timePicker {
 /* Make images smaller on mobile devices */
 .custom-nav-tabs img {
     width: 30px;
-    height: 30px;
+    height: 20px;
 }
 
 /* Responsive adjustments for smaller devices */
@@ -8348,7 +8348,7 @@ input#timePicker {
 }
 
 .filter-sidebar-foodie label {
-    font-size: 10px;
+    font-size: 14px;
     font-family: "lato";
 }
 
@@ -8418,7 +8418,7 @@ input#timePicker {
 /* dhara */
 /* Common styles for the filter sidebar */
 .filter-sidebar-foodie label {
-    font-size: 10px;
+    font-size: 12px;
     font-family: "lato";
 }
 @media(min-width:1280px) and (max-width:800px) {
@@ -8571,7 +8571,7 @@ input#timePicker {
 
 @media (min-width: 1200px) {
     .filter-sidebar-foodie .col-xl-2 {
-        width: 20%; /* Maintain a reasonable width for large screens */
+        width: 22%; /* Maintain a reasonable width for large screens */
     }
 }
 
@@ -9860,6 +9860,13 @@ select.form-control {
     object-position: center;    
 }
 
+
+ .custom-slider-box-food {
+    width: 70%;
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+}
+
 /* dhara css */
 
 @media (max-width: 320px) and (max-height: 956px) {
@@ -9885,6 +9892,13 @@ select.form-control {
         object-fit: cover;
     }
     
+}
+
+
+.custom-slider-box-food {
+    width: 70%;
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
 }
 
 /* dhara css */

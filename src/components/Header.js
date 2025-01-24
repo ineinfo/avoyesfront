@@ -258,7 +258,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                       </button> */}
                       <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Search For Brands, Products And More..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleSearch} // Trigger search on "Enter" key
