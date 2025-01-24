@@ -571,7 +571,7 @@ const Foodie = () => {
                             {/* <!-- Third Column: Map --> */}
                             <div
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
-                                style={{ display: 'flex', flexDirection: 'column' }}
+                                style={{ display: 'flex', flexDirection: 'column' , width: '100%', height: '300px' }}
                             >
                                 <iframe
                                     id="map"

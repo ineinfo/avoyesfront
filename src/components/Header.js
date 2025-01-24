@@ -9,7 +9,9 @@ import { bottom } from "@popperjs/core";
 import { useAuth } from "@/utils/Guard";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
+import { Grid } from "antd";
 
+const { useBreakpoint } = Grid
 const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
@@ -23,6 +25,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const screens = useBreakpoint()
   const auth = useAuth()
   console.log("User", auth);
 
@@ -194,286 +197,286 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
     pathname === "/forgotpassword" ||
     pathname === "/new-password" ||
     pathname === "/register" ||
-    pathname === "/login" 
+    pathname === "/login"
   ) {
     return null; // Don't render header on these paths
   }
 
   return (
     <>
-    <header onClick={toggleSearchPopup}>
-      <div id="navbar" className="fixed-top">
-        <nav
-          className={`navbar navbar-expand-md py-2 fixed-top`}
-          style={{
-            backgroundColor: scrolled
-              ? "rgba(255, 255, 255, 0.9)"
-              : "transparent",
-            transition: "background-color 0.3s ease",
-            zIndex: 1000,
-          }}
-        >
-          <div className="container d-flex justify-content-between align-items-center py-2">
-            <Link className="navbar-brand" href="/">
-              <img src="/logo.png" alt="Logo" />
-            </Link>
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)}
-              aria-controls="navbarSupportedContent"
-              aria-expanded={!isNavbarCollapsed}
-              aria-label="Toggle navigation"
-            >
-              <i className="fas fa-bars"></i>
-            </button>
-          <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarSupportedContent" style={{ paddingBottom: "15px" }}>
-              <ul className="navbar-nav ms-auto align-items-center">
-                <li className="nav-item" onClick={() => togglePopup()} >
-                  {/* Search Icon */}
-                  <Link
-                    href="#"
-                    id="search-icon"
-                    className="text-decoration-none text-dark"
-                  // Trigger the popup toggle on click
-                  >
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                  </Link>
+      <header onClick={toggleSearchPopup}>
+        <div id="navbar" className="fixed-top">
+          <nav
+            className={`navbar navbar-expand-md py-2 fixed-top`}
+            style={{
+              backgroundColor: scrolled
+                ? "rgba(255, 255, 255, 0.9)"
+                : "transparent",
+              transition: "background-color 0.3s ease",
+              zIndex: 1000,
+            }}
+          >
+            <div className="container d-flex justify-content-between align-items-center py-2">
+              <Link className="navbar-brand" href="/">
+                <img src="/logo.png" alt="Logo" />
+              </Link>
+              <button
+                className="navbar-toggler"
+                type="button"
+                onClick={() => setIsNavbarCollapsed(!isNavbarCollapsed)}
+                aria-controls="navbarSupportedContent"
+                aria-expanded={!isNavbarCollapsed}
+                aria-label="Toggle navigation"
+              >
+                <i className="fas fa-bars"></i>
+              </button>
+              <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarSupportedContent" style={{ paddingBottom: "15px" }}>
+                <ul className="navbar-nav ms-auto align-items-center">
+                  <li className="nav-item" onClick={() => togglePopup()} >
+                    {/* Search Icon */}
+                    <Link
+                      href="#"
+                      id="search-icon"
+                      className="text-decoration-none text-dark"
+                    // Trigger the popup toggle on click
+                    >
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                    </Link>
 
-                  {/* Search Popup */}
-                  <div
-                    ref={popupRef}
-                    id="searchPopup"
-                    style={{ display: isPopupOpen ? "block" : "none" }}
-                    className="search-popup"
+                    {/* Search Popup */}
+                    <div
+                      ref={popupRef}
+                      id="searchPopup"
+                      style={{ display: isPopupOpen ? "block" : "none" }}
+                      className="search-popup"
 
-                  >
-                    <div className="search-content" onClick={(e) => e.stopPropagation()} >
-                      {/* <button
+                    >
+                      <div className="search-content" onClick={(e) => e.stopPropagation()} >
+                        {/* <button
                         className="close-btn"
                         aria-label="Close"
                         onClick={toggleSearchPopup}
                       >
                         <i className="fa fa-times"></i>
                       </button> */}
-                      <input
-                        type="text"
-                        placeholder="Search For Brands, Products And More..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={handleSearch} // Trigger search on "Enter" key
-                      />
-                    </div>
-                  </div>
-
-                </li>
-
-
-                <li className="nav-item">
-                  <Link
-                    href="/wishlist"
-                    className="text-decoration-none text-dark header-heart"
-                  >
-                    <i className="fa-regular fa-heart"></i>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    href="#"
-                    className="text-decoration-none text-dark header-heart"
-                    onClick={() => setIsOffcanvasOpen(true)} // Open offcanvas
-                  >
-                    <img
-                      src="/header-cart.png"
-                      alt=""
-                      className="header-cart"
-                    />
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  {showName ? (
-                    <Link
-                      href="/dashboard"
-                      style={{
-                        padding: "8px 15px",
-                        backgroundColor: "blue",
-                        marginLeft: "15px",
-                        color: "white",
-                        fontWeight: "bold",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        textDecoration: "none",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <i class="fa-solid fa-address-card"></i> Dashboard
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/login"
-                      style={{
-                        padding: "8px 15px",
-                        backgroundColor: "blue",
-                        marginLeft: "15px",
-                        color: "white",
-                        fontWeight: "bold",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        textDecoration: "none",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <i className="fa-regular fa-user me-1"></i>
-                      Login
-                    </Link>
-                  )}
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-
-      <div style={{ overflow: "hidden" }}>
-        {/* Overlay */}
-        <div
-          className={`offcanvas-overlay ${isOffcanvasOpen ? "active" : ""}`}
-          onClick={() => setIsOffcanvasOpen(false)} // Click on overlay to close offcanvas
-        ></div>
-
-        {/* Offcanvas Sidebar */}
-        <div
-          className={`offcanvas offcanvas-end ${isOffcanvasOpen ? "show" : ""}`}
-          tabIndex="-1"
-          id="offcanvasRight"
-          aria-labelledby="offcanvasRightLabel"
-          style={{
-            visibility: isOffcanvasOpen ? "visible" : "hidden",
-            overflowY: "auto", // Allow vertical scrolling
-            overflowX: "hidden", // Prevent horizontal scrolling
-            maxHeight: "100vh", // Ensure the sidebar doesn’t exceed the viewport height
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              minHeight: "100%",
-              overflowX: "hidden",
-              minWidth: "50vh",
-            }}
-          >
-            <div className="offcanvas-header mt-4 d-flex align-items-center justify-content-between mx-4">
-              <div className="heading d-flex align-items-center">
-                <h5 id="offcanvasRightLabel" className="m-0 your-cart">
-                  Your Cart
-                </h5>
-                {cartItems.length > 0 && (
-                  <Link href="/cart" className="text-decoration-none ms-5">
-                    <h6
-                      onClick={() => setIsOffcanvasOpen(false)}
-                      className="m-0 view-cart"
-                    >
-                      View Cart{" "}
-                      <i className="fa-solid fa-arrow-right-long ms-1"></i>
-                    </h6>
-                  </Link>
-                )}
-              </div>
-              <button
-                type="button"
-                className="text-reset right-sidebar-close"
-                aria-label="Close"
-                onClick={() => setIsOffcanvasOpen(false)}
-              >
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <div className="offcanvas-body" style={{ overflowX: "hidden" }}>
-              {loading ? (
-                <p>Loading cart items...</p>
-              ) : error ? (
-                <>{error === 'LogIn' ? <p onClick={() => { setIsOffcanvasOpen(false) }}><Link href={'/login'}>Log in</Link> First to add products in cart</p> : error}</>
-              ) : (
-                cartItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="row checkout-product-1 align-items-center mx-4 prd-border"
-                    style={{ marginBottom: "15px" }}
-                  >
-                    <div className="col-xl-2 col-lg-2 col-md-4 col-6">
-                      <div className="cart-img">
-                        <img
-                          src={item.image_url1}
-                          alt={item.product_title}
-                          height={80}
-                          width={65}
+                        <input
+                          type="text"
+                          placeholder="Search For Brands, Products And More..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onKeyDown={handleSearch} // Trigger search on "Enter" key
                         />
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-3 col-md-5 col-5 p-0">
-                      {" "}
-                      {/* Adjusted from col-md-8 to col-md-6 and col-6 to col-5 */}
-                      <div className="product-name-with-category ms-4">
-                        <h5 className="mb-1">{item.product_title}</h5>
-                        <p className="mb-0 text-muted">{item.category_title}</p>
-                      </div>
-                    </div>
-                    <div className="col-xl-3 col-lg-3 col-md-3">
-                      <div className="quantity">
-                        <button
-                          onClick={() => updateQuantity(item.id, "decrement")}
-                          className="btn"
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                          onClick={() => updateQuantity(item.id, "increment")}
-                          className="btn"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-xl-3 col-lg-3 col-md-4">
-                      <div className="price">
-                        <span
-                          className="fw-bold"
-                          style={{ marginRight: "80px" }}
-                        >
-                          €{(item.amount * item.quantity).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-xl-1 col-lg-1 col-md-1">
-                      <button
-                        onClick={() => handleRemoveItem(item)}
-                        className="btn p-0"
-                        title="Remove"
-                      >
-                        <i className="fa-solid fa-xmark"></i>
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
 
-            {cartItems.length > 0 && (
-              <div className="sidebar-ftr-shadow">
-                <div className="right-sidebar-bottom-btns mx-5 d-flex align-items-center justify-content-between">
-                  <div className="total-price">
-                    <p className="mb-1">Total</p>
-                    <h3>€ {calculateTotal()}</h3>
-                  </div>
-                  <div className="sidebar-checkout-btn">
-                    {/* <Link
+                  </li>
+
+
+                  <li className="nav-item">
+                    <Link
+                      href="/wishlist"
+                      className="text-decoration-none text-dark header-heart"
+                    >
+                      <i className="fa-regular fa-heart"></i>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      href="#"
+                      className="text-decoration-none text-dark header-heart"
+                      onClick={() => setIsOffcanvasOpen(true)} // Open offcanvas
+                    >
+                      <img
+                        src="/header-cart.png"
+                        alt=""
+                        className="header-cart"
+                      />
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {showName ? (
+                      <Link
+                        href="/dashboard"
+                        style={{
+                          padding: "8px 15px",
+                          backgroundColor: "blue",
+                          marginLeft: "15px",
+                          color: "white",
+                          fontWeight: "bold",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <i class="fa-solid fa-address-card"></i> Dashboard
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/login"
+                        style={{
+                          padding: "8px 15px",
+                          backgroundColor: "blue",
+                          marginLeft: "15px",
+                          color: "white",
+                          fontWeight: "bold",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <i className="fa-regular fa-user me-1"></i>
+                        Login
+                      </Link>
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <div style={{ overflow: "hidden" }}>
+          {/* Overlay */}
+          <div
+            className={`offcanvas-overlay ${isOffcanvasOpen ? "active" : ""}`}
+            onClick={() => setIsOffcanvasOpen(false)} // Click on overlay to close offcanvas
+          ></div>
+
+          {/* Offcanvas Sidebar */}
+          <div
+            className={`offcanvas offcanvas-end ${isOffcanvasOpen ? "show" : ""}`}
+            tabIndex="-1"
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+            style={{
+              visibility: isOffcanvasOpen ? "visible" : "hidden",
+              overflowY: "auto", // Allow vertical scrolling
+              overflowX: "hidden", // Prevent horizontal scrolling
+              maxHeight: "100vh", // Ensure the sidebar doesn’t exceed the viewport height
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                minHeight: "100%",
+                overflowX: "hidden",
+                minWidth: "50vh",
+              }}
+            >
+              <div className="offcanvas-header mt-4 d-flex align-items-center justify-content-between mx-4">
+                <div className="heading d-flex align-items-center">
+                  <h5 id="offcanvasRightLabel" className="m-0 your-cart">
+                    Your Cart
+                  </h5>
+                  {cartItems.length > 0 && (
+                    <Link href="/cart" className="text-decoration-none ms-5">
+                      <h6
+                        onClick={() => setIsOffcanvasOpen(false)}
+                        className="m-0 view-cart"
+                      >
+                        View Cart{" "}
+                        <i className="fa-solid fa-arrow-right-long ms-1"></i>
+                      </h6>
+                    </Link>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className="text-reset right-sidebar-close"
+                  aria-label="Close"
+                  onClick={() => setIsOffcanvasOpen(false)}
+                >
+                  <i className="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div className="offcanvas-body" style={{ overflowX: "hidden" }}>
+                {loading ? (
+                  <p>Loading cart items...</p>
+                ) : error ? (
+                  <>{error === 'LogIn' ? <p onClick={() => { setIsOffcanvasOpen(false) }}><Link href={'/login'}>Log in</Link> First to add products in cart</p> : error}</>
+                ) : (
+                  cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="row checkout-product-1 align-items-center mx-4 prd-border"
+                      style={{ marginBottom: "15px" }}
+                    >
+                      <div className="col-xl-2 col-lg-2 col-md-4 col-6">
+                        <div className="cart-img">
+                          <img
+                            src={item.image_url1}
+                            alt={item.product_title}
+                            height={80}
+                            width={65}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-xl-3 col-lg-3 col-md-5 col-5 p-0">
+                        {" "}
+                        {/* Adjusted from col-md-8 to col-md-6 and col-6 to col-5 */}
+                        <div className="product-name-with-category ms-4">
+                          <h5 className="mb-1">{item.product_title}</h5>
+                          <p className="mb-0 text-muted">{item.category_title}</p>
+                        </div>
+                      </div>
+                      <div className="col-xl-3 col-lg-3 col-md-3">
+                        <div className="quantity">
+                          <button
+                            onClick={() => updateQuantity(item.id, "decrement")}
+                            className="btn"
+                          >
+                            -
+                          </button>
+                          <span>{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.id, "increment")}
+                            className="btn"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="col-xl-3 col-lg-3 col-md-4">
+                        <div className="price">
+                          <span
+                            className="fw-bold"
+                            style={{ marginRight: "80px" }}
+                          >
+                            €{(item.amount * item.quantity).toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-xl-1 col-lg-1 col-md-1">
+                        <button
+                          onClick={() => handleRemoveItem(item)}
+                          className="btn p-0"
+                          title="Remove"
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {cartItems.length > 0 && (
+                <div className="sidebar-ftr-shadow">
+                  <div className="right-sidebar-bottom-btns mx-5 d-flex align-items-center justify-content-between">
+                    <div className="total-price">
+                      <p className="mb-1">Total</p>
+                      <h3>€ {calculateTotal()}</h3>
+                    </div>
+                    <div className="sidebar-checkout-btn">
+                      {/* <Link
                       href="/checkout"
                       
                       onClick={() => setIsOffcanvasOpen(false)}
@@ -485,33 +488,120 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                         <i className="fa-solid fa-arrow-right-long"></i>
                       </button>
                     </Link> */}
-                    <Link
-                      href="/checkout"
-                      onClick={() => {
-                        setIsOffcanvasOpen(false);
+                      <Link
+                        href="/checkout"
+                        onClick={() => {
+                          setIsOffcanvasOpen(false);
 
-                      }}
-                      className="text-decoration-none"
-                    >
-                      <button type="button" className="sidebar-checkout">
-                        CHECKOUT <i className="fa-solid fa-arrow-right-long"></i>
-                      </button>
-                    </Link>
+                        }}
+                        className="text-decoration-none"
+                      >
+                        <button type="button" className="sidebar-checkout">
+                          CHECKOUT <i className="fa-solid fa-arrow-right-long"></i>
+                        </button>
+                      </Link>
 
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
 
-    </header>
-    {/* <hr style={{ borderColor: "#000000" }} /> */}
-    {pathname === "/" && <hr style={{ borderColor: "000000" }} />}
+      </header>
+      {/* <hr style={{ borderColor: "#000000" }} /> */}
+      {pathname === "/" && <hr style={{ borderColor: "000000" }} />}
+       {/* <hr style={{ borderColor: "000000" }} /> */}
+
+
+      <section>
+        <div className="top-menu-main py-3">
+          <div className="container py-4">
+            <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
+
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/marketplace" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/dress.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Market Place</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/event" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/calendar.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Event</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/map" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/location.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Map</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/activity" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/puzzle.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Activity</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/foodie" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/fork.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Foodie</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+                <Link href="/challanges" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/goal.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3">
+                      <p>Challanges</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
     </>
-    
+
   );
 };
 

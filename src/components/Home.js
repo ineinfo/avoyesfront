@@ -24,7 +24,7 @@ import Link from "next/link";
 import axios from "axios";
 import { Grid } from "antd";
 
-const {useBreakpoint} = Grid
+const { useBreakpoint } = Grid
 
 export default function CustomComponent() {
 
@@ -335,12 +335,12 @@ export default function CustomComponent() {
     return (
         <div id="home">
 
-            <section>
+            {/* <section>
                 <div className="top-menu-main py-3">
                     <div className="container py-4">
-                    <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
+                        <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
 
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/marketplace" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -352,8 +352,8 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                      
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/event" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -365,7 +365,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/map" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -377,7 +377,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/activity" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -389,7 +389,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/foodie" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -401,7 +401,7 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-custom" style={{maxWidth: screens.sm ? "" : '30%'}}>
+                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
                                 <Link href="/challanges" className="text-decoration-none">
                                     <div className="menu-1">
                                         <div className="img pt-3">
@@ -413,35 +413,11 @@ export default function CustomComponent() {
                                     </div>
                                 </Link>
                             </div>
-                            {/* <div className="col-custom">
-                <Link href="/community" className="text-decoration-none">
-                  <div className="menu-1">
-                    <div className="img pt-3">
-                      <img src="/community-engagement.png" alt="Dress" />
-                    </div>
-                    <div className="text pt-3">
-                      <p>Community</p>
-                    </div>
-                  </div>
-                </Link>
-              </div> */}
-                            {/* <div className="col-custom">
-                <Link href="/categories" className="text-decoration-none pt-1">
-                  <div className="menu-1 pt-2">
-                    <div className="icon  pt-3">
-                      <i
-                        className="fa-solid fa-arrow-right view-more-arrow"></i>
-                    </div>
-                    <div className="text pt-3">
-                      <p>View More</p>
-                    </div>
-                  </div>
-                </Link>
-              </div> */}
+                      
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             <MyCarousel />
             <section>
