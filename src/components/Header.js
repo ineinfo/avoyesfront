@@ -228,8 +228,11 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                 aria-expanded={!isNavbarCollapsed}
                 aria-label="Toggle navigation"
               >
+                
                 <i className="fas fa-bars"></i>
+                
               </button>
+              
               <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarSupportedContent" style={{ paddingBottom: "15px" }}>
                 <ul className="navbar-nav ms-auto align-items-center">
                   <li className="nav-item" onClick={() => togglePopup()} >

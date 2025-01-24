@@ -462,7 +462,7 @@ const Map = () => {
                     <div className="modal-body">
                       <div className="row">
                         <div className="col-lg-12">
-                          <div className="main-review-popup-section mt-3">
+                          <div className="main-review-popup-section mt-3" style={{marginTop: "4rem !important"}}> 
                             <div className="quality d-flex align-items-center">
                               <div className="title">
                                 <h6 className="m-0">Quality</h6>

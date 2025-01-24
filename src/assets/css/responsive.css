@@ -875,7 +875,7 @@
     .custom-col {
         flex: 1 1 calc(100% / 4);
         /* Default to 3 columns */
-        max-width: calc(100% / 3);
+        max-width: 100%;
         /* Ensure items don’t exceed 3 per row */
         display: flex;
         justify-content: center;

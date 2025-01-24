@@ -4,7 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useRouter } from "next/navigation";
 import { fetchBestFor, fetchCategories, fetchRatings, fetchTypes } from "@/utils/api/FilterApi";
+import { Grid } from "antd";
 
+const {useBreakpoint} = Grid
 const Filter = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [checkedItems, setCheckedItems] = useState({});
@@ -16,7 +18,7 @@ const Filter = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
+  const screens = useBreakpoint()
 
 
   useEffect(() => {
@@ -178,7 +180,7 @@ const Filter = () => {
         </div>
         <div className="offcanvas-body">
           <div className="row">
-            <div className="col-xl-5 left-tab-bg p-0">
+            <div className="col-xl-5 left-tab-bg p-0 " style={{height: screens.sm ? "86.6vh" : '45.6vh'}}>
               <div className="filter-list">
                 {[1, 2, 3, 4, 5, 6].map((tab) => (
                   <div
