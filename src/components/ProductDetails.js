@@ -272,8 +272,8 @@ const ProductDetails = () => {
           <div className="container mt-5">
             <div className="row">
               <div className="col-lg-6">
-                <div className="row">
-                  <div className="col-3 mt-2 text-center">
+                <div className="row" style={screens.sm ? {} : { display: "flex", flexDirection: "column-reverse" }}>
+                  <div className="col-3 mt-2 text-center" style={screens.sm ? {} : { display: "flex", width: "100%", gap: "10px" }}>
                     {thumbnailImages.map((src, index) => (
                       <img
                         key={index}
@@ -281,7 +281,7 @@ const ProductDetails = () => {
                         // src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", height: screens.sm ? "" : "65px" }}
                         alt={`Thumbnail ${index + 1}`}
                         onError={(e) => (e.target.src = defaultImg)}
                       />
@@ -290,9 +290,10 @@ const ProductDetails = () => {
 
                   <div
                     className="tab-pane fade show active description-content col-9"
-                    style={{ position: "relative" }}
+
                     role="tabpanel"
                     aria-labelledby="description-tab"
+                    style={screens.sm ? { position: "relative" } : { width: "100%" }}
                   >
                     <img
                       ref={mainImageRef}
@@ -649,7 +650,7 @@ const ProductDetails = () => {
                 aria-labelledby="reviews-tab">
                 <div class="reviews-heading d-flex justify-content-between align-items-center">
                   <div class="head">
-                    <h1 style={screens.sm ? {} : { fontSize: "15px" }}>(2) Reviews For Sequin Shirt</h1>
+                    <h1 style={screens.sm ? {} : { fontSize: "23px" }}>(2) Reviews For Sequin Shirt</h1>
                   </div>
                   <div class="write-review">
                     <a href="#" class="text-decoration-none" data-bs-toggle="modal"

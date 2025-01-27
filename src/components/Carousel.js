@@ -372,7 +372,7 @@ const CustomCarouselFour = () => {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    arrows: true,
+    arrows: screens.sm ? true : false,
     autoplaySpeed: 2000,
     prevArrow: <button className="slick-prev ">Prev</button>,
     nextArrow: <button className="slick-next">Next</button>,
