@@ -409,7 +409,15 @@ const CustomCarouselFour = () => {
         <div className="container">
           <div className="head d-flex justify-content-between align-items-center">
             <div className="heading">
-              <h1>
+              <h1 style={
+                screens.sm
+                  ? {}
+                  : {
+                    display: "flex",
+                    justifyContent: "left",
+                    flexDirection: "column",
+                  }
+              }>
                 <span>RELATED  </span> Product
               </h1>
             </div>

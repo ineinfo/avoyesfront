@@ -14,15 +14,18 @@ import "react-toastify/dist/ReactToastify.css";
 import dynamic from 'next/dynamic';
 
 import defaultImg from "../../public/defaultImg.jpg";
+import { Grid } from "antd";
 
 const ToastContainer = dynamic(() => import('react-toastify').then((mod) => mod.ToastContainer), {
   ssr: false,
 });
 
+const { useBreakpoint } = Grid;
+
 const ProductDetails = () => {
   const { id } = useParams();
   console.log("pathName", id);
-
+  const screens = useBreakpoint();
   const router = useRouter();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
@@ -241,7 +244,7 @@ const ProductDetails = () => {
     <>
       <ToastContainer />
 
-      <div className="breadcrumb-marketplace py-5">
+      {/* <div className="breadcrumb-marketplace py-5">
         <div className="img">
           <img src="" alt="" />
           <div className="container">
@@ -262,7 +265,7 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <section>
         <div className="product-info-main py-5">
@@ -424,7 +427,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="cart-add-counter d-flex align-items-center">
-                  <div className="counter-btn-main d-flex align-items-center">
+                  <div className="counter-btn-main d-flex align-items-center" style={screens.sm ? {} : { width: "30%" }}>
                     <button
                       className="btn border-0"
                       onClick={decrementCounter}
@@ -481,6 +484,7 @@ const ProductDetails = () => {
                     style={{
                       cursor: product?.stock_status === "in_stock" ? "pointer" : "not-allowed",
                       opacity: product?.stock_status === "in_stock" ? 1 : 0.5,
+                      width: screens.sm ? "" : "100%"
                     }}
                   >
                     ADD TO CART
@@ -563,6 +567,7 @@ const ProductDetails = () => {
                   role="tab"
                   aria-controls="description"
                   aria-selected="true"
+                  style={screens.sm ? {} : { fontSize: "13px" }}
                 >
                   Description
                 </button>
@@ -577,6 +582,7 @@ const ProductDetails = () => {
                   role="tab"
                   aria-controls="additional-info"
                   aria-selected="false"
+                  style={screens.sm ? {} : { fontSize: "13px" }}
                 >
                   Additional Information
                 </button>
@@ -591,6 +597,7 @@ const ProductDetails = () => {
                   role="tab"
                   aria-controls="reviews"
                   aria-selected="false"
+                  style={screens.sm ? {} : { fontSize: "13px" }}
                 >
                   Reviews
                 </button>
@@ -642,7 +649,7 @@ const ProductDetails = () => {
                 aria-labelledby="reviews-tab">
                 <div class="reviews-heading d-flex justify-content-between align-items-center">
                   <div class="head">
-                    <h1>(2) Reviews For Sequin Shirt</h1>
+                    <h1 style={screens.sm ? {} : { fontSize: "15px" }}>(2) Reviews For Sequin Shirt</h1>
                   </div>
                   <div class="write-review">
                     <a href="#" class="text-decoration-none" data-bs-toggle="modal"
@@ -657,7 +664,7 @@ const ProductDetails = () => {
                     <div class="row">
                       <div class="col-lg-2 col-md-3">
                         <div class="img">
-                          <img src="/review-2.png" alt="" style={{objectFit:"cover"}}/>
+                          <img src="/review-2.png" alt="" style={{ objectFit: "cover" }} />
                         </div>
                       </div>
                       <div class="col-lg-10 col-md-9">
@@ -914,7 +921,7 @@ const ProductDetails = () => {
               &times;
             </button>
 
-            <h1 style={{ fontSize: '2rem',  }}>Please Log In</h1>
+            <h1 style={{ fontSize: '2rem', }}>Please Log In</h1>
             <p style={{ fontSize: '1.3rem' }}>Please log in to add this product to your cart!</p>
             <button
               onClick={() => {
