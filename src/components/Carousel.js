@@ -17,6 +17,10 @@ import { fetchTopBanner } from "@/utils/api/BannerApi";
 import LoadingSpinner from "./Loading";
 import fetchProducts from "@/utils/api/ProductApi";
 import defaultImg from "../../public/defaultImg.jpg";
+import { Grid } from "antd";
+
+const { useBreakpoint } = Grid;
+
 
 const CustomCarousel = () => {
   const [blogs, setBlogs] = useState([]);
@@ -196,6 +200,7 @@ const MyCarouseld = () => {
 };
 
 const MyCarousel = () => {
+  const screens = useBreakpoint();
   const [bannerData, setBannerData] = useState([]);
 
 
@@ -218,12 +223,12 @@ const MyCarousel = () => {
         className="carousel slide"
         data-bs-ride="carousel"
         data-bs-interval="3000"
-        // style={{
-        //   width: "100%",
-        //   height: "700px",
-        //   overflow: "hidden",
-        //   margin: "0 auto",
-        // }}
+      // style={{
+      //   width: "100%",
+      //   height: "700px",
+      //   overflow: "hidden",
+      //   margin: "0 auto",
+      // }}
       >
         <div className="carousel-inner" style={{ width: "100%", height: "100%", marginTop: "60px" }}>
           {bannerData.length > 0 ? (
@@ -235,7 +240,7 @@ const MyCarousel = () => {
               >
                 <div className="container">
                   <div className="row align-items-center">
-                    <div className="col-md-6 col-6 banner-text-padding">
+                    <div className="col-md-6 col-6 banner-text-padding" style={screens.sm ? {} : { paddingLeft: "-5px" }}>
                       <h6 className="sale-title">{banner.sub_title}</h6>
                       <h1 className="banner-head">{banner.title}</h1>
                       <div className="shop-now-banner-btn">
@@ -432,7 +437,7 @@ const CustomCarouselFour = () => {
                 <div className="img-wrapper-market-slide" style={{ flex: 1 }}>
                   <div className="img">
                     <img
-                     
+
                       src={product.image_url || product.image_url1} alt={product.title}
                       // src={defaultImg.src} alt={product.title}
 

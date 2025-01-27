@@ -10,8 +10,6 @@ import defaultPImg from "../../public/defaultImg.jpg";
 import fetchProducts from "@/utils/api/ProductApi";
 import { fetchBanner } from "@/utils/api/BannerApi";
 
-
-
 import "../assets/css/responsive.css";
 import "../assets/css/responsive.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -25,18 +23,14 @@ import axios from "axios";
 import { Grid } from "antd";
 import LoadingSpinner from "./Loading";
 
-const { useBreakpoint } = Grid
+const { useBreakpoint } = Grid;
 
 export default function CustomComponent() {
-
     const [events, setEvents] = useState([]);
     const [products, setProducts] = useState([]);
     const [bannerData, setBannerData] = useState(null);
 
-
-    const screens = useBreakpoint()
-
-
+    const screens = useBreakpoint();
 
     useEffect(() => {
         // Search input functionality
@@ -51,14 +45,8 @@ export default function CustomComponent() {
                         )}`;
                     }
                 }
-
             });
         }
-
-
-
-
-
 
         // Header search icon popup
         const searchIcon = document.getElementById("search-icon");
@@ -251,8 +239,8 @@ export default function CustomComponent() {
     useEffect(() => {
         const getBanner = async () => {
             try {
-                const result = await fetchBanner()
-                console.log('RESULT', result);
+                const result = await fetchBanner();
+                console.log("RESULT", result);
 
                 if (result) {
                     setBannerData(result); // Set the fetched banner data
@@ -266,7 +254,6 @@ export default function CustomComponent() {
 
         getBanner();
     }, []);
-
 
     // Optional: Show a loading state or fallback UI if bannerData is null
     // if (!bannerData) {
@@ -307,7 +294,6 @@ export default function CustomComponent() {
         arrows: false,
         autoplaySpeed: 2000,
 
-
         responsive: [
             {
                 breakpoint: 1024,
@@ -335,7 +321,6 @@ export default function CustomComponent() {
 
     return (
         <div id="home">
-
             {/* <section>
                 <div className="top-menu-main py-3">
                     <div className="container py-4">
@@ -426,12 +411,35 @@ export default function CustomComponent() {
                     <div className="container">
                         <div className="head d-flex justify-content-between align-items-center">
                             <div className="heading">
-                                <h1>
+                                <h1
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                            }
+                                    }
+                                >
                                     <span>Trending </span> Events
                                 </h1>
                             </div>
                             <div className="view-more-head">
-                                <Link href="/event" className="text-decoration-none">
+                                <Link
+                                    href="/event"
+                                    className="text-decoration-none"
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                                alignItems: "flex-end",
+                                            }
+                                    }
+                                >
                                     View All{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
@@ -455,7 +463,11 @@ export default function CustomComponent() {
                             alt={event.title}
                             className="img-fluid"
                           /> */}
-                                                    <img src={event.image_url || defaultImg.src} alt={event.title} height={'300px'} />
+                                                    <img
+                                                        src={event.image_url || defaultImg.src}
+                                                        alt={event.title}
+                                                        height={"300px"}
+                                                    />
                                                     <div className="icon">
                                                         <Link href="#">
                                                             {/* <i className="fa-regular fa-heart"></i> */}
@@ -463,7 +475,7 @@ export default function CustomComponent() {
                                                     </div>
                                                 </div>
                                                 <div className="trand-text-box">
-                                                    <div className="date-box" style={{ zIndex: "1" }}>
+                                                    <div className="date-box" style={screens.sm ? { zIndex: "1" } : { top: "51%" }}>
                                                         {dateValid ? (
                                                             <>
                                                                 <div className="date">
@@ -483,17 +495,21 @@ export default function CustomComponent() {
                                                         )}
                                                     </div>
                                                     <div className="trand-head">
-                                                        <Link href="/event" className="text-decoration-none">
+                                                        <Link
+                                                            href="/event"
+                                                            className="text-decoration-none"
+                                                        >
                                                             <h6>{event.title}</h6>
                                                         </Link>
                                                     </div>
-                                                    <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
+                                                    <div
+                                                        className="trand-para d-flex justify-content-between"
+                                                        style={{ minHeight: "60px" }}
+                                                    >
                                                         <div className="para">
-                                                            <p className="m-0">
-                                                                {event.short_description}
-                                                            </p>
+                                                            <p className="m-0">{event.short_description}</p>
                                                         </div>
-                                                        <div className="icon">
+                                                        <div className="icon" style={screens.sm ? {} : { display: "flex", justifyContent: "right", width: "100%" }}>
                                                             <Link
                                                                 href="/event"
                                                                 className="text-decoration-none"
@@ -508,7 +524,10 @@ export default function CustomComponent() {
                                     );
                                 })
                             ) : (
-                                <p> <LoadingSpinner />.</p>
+                                <p>
+                                    {" "}
+                                    <LoadingSpinner />.
+                                </p>
                             )}
                         </Slider>
                     </div>
@@ -567,44 +586,72 @@ export default function CustomComponent() {
         </div>
       </section> */}
 
-
-
             <section>
                 <div className="market-main py-5">
                     <div className="container">
                         <div className="head d-flex justify-content-between align-items-center">
                             <div className="heading">
-                                <h1>
+                                <h1
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                            }
+                                    }
+                                >
                                     <span>MARKET </span> Place
                                 </h1>
                             </div>
                             <div className="view-more-head">
-                                <Link href="/marketplace" className="text-decoration-none">
-                                    View All <i className="fa-solid fa-arrow-right view-more-arrow"></i>
+                                <Link
+                                    href="/marketplace"
+                                    className="text-decoration-none"
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                                alignItems: "flex-end",
+                                            }
+                                    }
+                                >
+                                    View All{" "}
+                                    <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
                         </div>
-                        <Slider {...productsettings} style={{ padding: '0 25px' }} className="product-slider pt-4">
-
+                        <Slider
+                            {...productsettings}
+                            style={{ padding: "0 25px" }}
+                            className="product-slider pt-4"
+                        >
                             {products.map((product) => (
                                 <div
                                     className="col-xl-4 col-lg-4 col-md-6 col-sm-12 p-2 market-place-product"
                                     key={product.id}
                                     style={{
-                                        margin: '0 2px',
+                                        margin: "0 2px",
                                         height: "500px",
                                         display: "flex",
                                         flexDirection: "column",
-                                        width: 'calc(15% - 100px)',
-
+                                        width: "calc(15% - 100px)",
                                     }}
                                 >
                                     <div className="img-wrapper-market-slide" style={{ flex: 1 }}>
                                         <div className="img">
                                             <img
-                                                src={product.image_url || product.image_url1} alt={product.title}
-
-                                                style={{ width: "100%", height: "350px", objectFit: "cover" }}
+                                                src={product.image_url || product.image_url1}
+                                                alt={product.title}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "350px",
+                                                    objectFit: "cover",
+                                                }}
                                             />
                                             {product.label && (
                                                 <div
@@ -623,10 +670,17 @@ export default function CustomComponent() {
                                                 </div>
                                             )}
                                             <div className="heart-icon">
-                                                <a href="/wishlist" className="text-decoration-none text-dark" style={{ marginBottom: '20px' }}>
+                                                <a
+                                                    href="/wishlist"
+                                                    className="text-decoration-none text-dark"
+                                                    style={{ marginBottom: "20px" }}
+                                                >
                                                     <i className="fa-regular fa-heart"></i>
                                                 </a>
-                                                <a href="/cart" className="text-decoration-none text-dark">
+                                                <a
+                                                    href="/cart"
+                                                    className="text-decoration-none text-dark"
+                                                >
                                                     <i className="bi bi-handbag ms-1 quick-icons"></i>
                                                 </a>
                                             </div>
@@ -634,7 +688,10 @@ export default function CustomComponent() {
                                     </div>
                                     <div className="info d-flex justify-content-between align-items-center">
                                         <div className="item">
-                                            <Link href={`${product.id}/productdetails`} className="text-decoration-none">
+                                            <Link
+                                                href={`${product.id}/productdetails`}
+                                                className="text-decoration-none"
+                                            >
                                                 <p className="m-0">{product.title}</p>
                                             </Link>
                                         </div>
@@ -666,80 +723,111 @@ export default function CustomComponent() {
                 </div>
             </section>
 
-            {bannerData && <section>
-                <div className="products-banner py-5">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-xl-3 col-md-3 p-0">
-                                <div className="product-bg-img-1">
-                                    <img
-                                        src={bannerData[2]?.image_url || "/shirt.png"}
-                                        alt="Left Banner"
-                                    />
-                                    <div className="text">
-                                        <h3>{bannerData[2]?.title || "Default Left Text"}</h3>
-                                        <div className="view-more-btn">
-                                            <Link href={bannerData[2]?.view_url || "/marketplace"} className="text-decoration-none">
-                                                VIEW MORE
-                                            </Link>
+            {bannerData && (
+                <section>
+                    <div className="products-banner py-5">
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-xl-3 col-md-3 p-0">
+                                    <div className="product-bg-img-1">
+                                        <img
+                                            src={bannerData[2]?.image_url || "/shirt.png"}
+                                            alt="Left Banner"
+                                        />
+                                        <div className="text">
+                                            <h3>{bannerData[2]?.title || "Default Left Text"}</h3>
+                                            <div className="view-more-btn">
+                                                <Link
+                                                    href={bannerData[2]?.view_url || "/marketplace"}
+                                                    className="text-decoration-none"
+                                                >
+                                                    VIEW MORE
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-xl-6 col-md-6 p-0">
-                                <div className="product-bg-img-2">
-                                    <img
-                                        src={bannerData[1]?.image_url || "/bagpack.png"}
-                                        alt="Center Banner"
-                                    />
-                                    <div className="text">
-                                        <h3>{bannerData[1]?.title || "Default Center Text"}</h3>
-                                        <div className="view-more-btn">
-                                            <Link href={bannerData[1]?.view_url || "/marketplace"} className="text-decoration-none">
-                                                VIEW MORE
-                                            </Link>
+                                <div className="col-xl-6 col-md-6 p-0">
+                                    <div className="product-bg-img-2">
+                                        <img
+                                            src={bannerData[1]?.image_url || "/bagpack.png"}
+                                            alt="Center Banner"
+                                        />
+                                        <div className="text">
+                                            <h3>{bannerData[1]?.title || "Default Center Text"}</h3>
+                                            <div className="view-more-btn">
+                                                <Link
+                                                    href={bannerData[1]?.view_url || "/marketplace"}
+                                                    className="text-decoration-none"
+                                                >
+                                                    VIEW MORE
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-xl-3 col-md-3 p-0">
-                                <div className="product-bg-img-3">
-                                    <img
-                                        src={bannerData[0]?.image_url || "/gogals.png"}
-                                        alt="Right Banner"
-                                    />
-                                    <div className="text">
-                                        <h3>{bannerData[0]?.title || "Default Right Text"}</h3>
-                                        <div className="view-more-btn">
-                                            <Link href={bannerData[0]?.view_url || "/default-url"} className="text-decoration-none">
-                                                VIEW MORE
-                                            </Link>
-                                            {/* <Link href="/marketplace" className="text-decoration-none">
+                                <div className="col-xl-3 col-md-3 p-0">
+                                    <div className="product-bg-img-3">
+                                        <img
+                                            src={bannerData[0]?.image_url || "/gogals.png"}
+                                            alt="Right Banner"
+                                        />
+                                        <div className="text">
+                                            <h3>{bannerData[0]?.title || "Default Right Text"}</h3>
+                                            <div className="view-more-btn">
+                                                <Link
+                                                    href={bannerData[0]?.view_url || "/default-url"}
+                                                    className="text-decoration-none"
+                                                >
+                                                    VIEW MORE
+                                                </Link>
+                                                {/* <Link href="/marketplace" className="text-decoration-none">
                         VIEW MORE
                       </Link> */}
-
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>}
-
-
+                </section>
+            )}
 
             <section>
                 <div className="main-blog py-5">
                     <div className="container">
                         <div className="head d-flex justify-content-between align-items-center">
                             <div className="heading">
-                                <h1>
+                                <h1
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                            }
+                                    }
+                                >
                                     <span>LATEST </span> Blog
                                 </h1>
                             </div>
                             <div className="view-more-head">
-                                <Link href="/blog" className="text-decoration-none">
+                                <Link
+                                    href="/blog"
+                                    className="text-decoration-none"
+                                    style={
+                                        screens.sm
+                                            ? {}
+                                            : {
+                                                display: "flex",
+                                                justifyContent: "left",
+                                                flexDirection: "column",
+                                                alignItems: "flex-end",
+                                            }
+                                    }
+                                >
                                     View All{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
@@ -749,8 +837,6 @@ export default function CustomComponent() {
                     </div>
                 </div>
             </section>
-
-
         </div>
     );
 }
