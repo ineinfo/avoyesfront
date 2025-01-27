@@ -353,6 +353,7 @@ const CustomCarouselFour = () => {
 
 
   const [products, setProducts] = useState([]);
+  const screens = useBreakpoint();
   useEffect(() => {
     const fetchProductData = async () => {
       const result = await fetchProducts();
