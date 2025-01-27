@@ -6,7 +6,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Grid } from "antd";
 
+const { useBreakpoint } = Grid
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
@@ -15,7 +17,7 @@ const Footer = () => {
   if (pathname === "/login" || pathname === "/otp" || pathname === "/forgotpassword" || pathname === "/new-password" || pathname === "/register") {
     return null;
   }
-
+  const screens = useBreakpoint()
   const token = Cookies.get("accessToken");
 
   const handleInputChange = (event) => {
@@ -65,11 +67,12 @@ const Footer = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-3 mb-2">
-              <div className="footer-logo " style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <div><img src="/logo-nobg.png" alt="Logo" /></div>
-                <div> <img src="/logo.png" alt="Logo" height={"80px"} width={"90vw"} /></div>
+              <div style={{ display: "flex", justifyContent: "left", alignItems: "center", marginLeft: "-10px" }}>
+                <div><img src="/logo-nobg.png" alt="Logo" height={"80px"} /></div>
+                <div> <img src="/logo.png" alt="Logo" height={"50px"} /></div>
               </div>
-              <p className="ftr-para">
+              <p className="ftr-para" style={screens.sm ? {} : { minWidth: "100%" }}>
+                {/* <img src="/logo-nobg.png" alt="Logo" height={"40px"} /> */}
                 This company meets the highest standard of social and
                 environmental performance transparency and accountability{" "}
               </p>
@@ -89,7 +92,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-md-2">
+            <div className="col-md-2" style={screens.sm ? {} : { width: "50%" }}>
               <h5 className="ftr-company-head">Categories</h5>
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
@@ -116,7 +119,7 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div className="col-md-2">
+            <div className="col-md-2" style={screens.sm ? {} : { width: "50%" }}>
               <h5 className="ftr-help-head">Help</h5>
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
@@ -195,6 +198,7 @@ const Footer = () => {
                     placeholder="Enter your email"
                     value={email}
                     onChange={handleInputChange}
+                    style={screens.sm ? {} : { width: "100%" }}
                   />
                   <button type="submit" className="search-submit" name="submit" style={{ backgroundColor: "black" }}>
                     Send

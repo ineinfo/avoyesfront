@@ -24,7 +24,7 @@ const { useBreakpoint } = Grid;
 
 const CustomCarousel = () => {
   const [blogs, setBlogs] = useState([]);
-
+  const screens = useBreakpoint();
   useEffect(() => {
     const getBlogs = async () => {
       const result = await fetchBlogs();
@@ -72,7 +72,7 @@ const CustomCarousel = () => {
 
                     className="d-block custom-carousel-img"
                     alt="Banner Image"
-                    style={{ width: '80%', height: '670px', objectFit: 'cover' }}
+                    style={{ width: '80%', height: screens.sm ? '670px' : "500px", objectFit: 'cover' }}
                   />
 
                 </div>
@@ -81,7 +81,7 @@ const CustomCarousel = () => {
                     <p>{blog.author}</p>
                   </div>
                   <div className="banner-2-head">
-                    <h1>{blog.title}</h1>
+                    <h1 style={screens.sm ? {} : { fontSize: "30px", padding: "0" }}>{blog.title}</h1>
                   </div>
                   <div className="banner-2-para">
                     <p>{blog.short_description}</p>
@@ -240,7 +240,7 @@ const MyCarousel = () => {
               >
                 <div className="container">
                   <div className="row align-items-center">
-                    <div className="col-md-6 col-6 banner-text-padding" style={screens.sm ? {} : { paddingLeft: "-5px" }}>
+                    <div className="col-md-6 col-6 banner-text-padding" style={screens.sm ? {} : { paddingLeft: "0" }}>
                       <h6 className="sale-title">{banner.sub_title}</h6>
                       <h1 className="banner-head">{banner.title}</h1>
                       <div className="shop-now-banner-btn">
