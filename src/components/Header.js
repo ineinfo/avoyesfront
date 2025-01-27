@@ -10,6 +10,7 @@ import { useAuth } from "@/utils/Guard";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import { Grid } from "antd";
+import LoadingSpinner from "./Loading";
 
 const { useBreakpoint } = Grid
 const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
@@ -228,11 +229,11 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                 aria-expanded={!isNavbarCollapsed}
                 aria-label="Toggle navigation"
               >
-                
+
                 <i className="fas fa-bars"></i>
-                
+
               </button>
-              
+
               <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarSupportedContent" style={{ paddingBottom: "15px" }}>
                 <ul className="navbar-nav ms-auto align-items-center">
                   <li className="nav-item" onClick={() => togglePopup()} >
@@ -402,7 +403,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
               </div>
               <div className="offcanvas-body" style={{ overflowX: "hidden" }}>
                 {loading ? (
-                  <p>Loading cart items...</p>
+                  <p><LoadingSpinner /></p>
                 ) : error ? (
                   <>{error === 'LogIn' ? <p onClick={() => { setIsOffcanvasOpen(false) }}><Link href={'/login'}>Log in</Link> First to add products in cart</p> : error}</>
                 ) : (
@@ -515,8 +516,8 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
       </header>
       {/* <hr style={{ borderColor: "#000000" }} /> */}
-      {pathname === "/" && <hr style={{ borderColor: "000000" }} />}
-       {/* <hr style={{ borderColor: "000000" }} /> */}
+      {/* {pathname === "/" && <hr style={{ borderColor: "000000" }} />} */}
+      <hr style={{ borderColor: "000000" }} />
 
 
       <section>
@@ -524,75 +525,75 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
           <div className="container py-4">
             <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
 
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/marketplace" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/dress.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Market Place</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Market Place</p>
                     </div>
                   </div>
                 </Link>
               </div>
 
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/event" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/calendar.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Event</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Event</p>
                     </div>
                   </div>
                 </Link>
               </div>
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/map" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/location.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Map</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Map</p>
                     </div>
                   </div>
                 </Link>
               </div>
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/activity" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/puzzle.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Activity</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Activity</p>
                     </div>
                   </div>
                 </Link>
               </div>
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/foodie" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/fork.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Foodie</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Foodie</p>
                     </div>
                   </div>
                 </Link>
               </div>
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/challanges" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/goal.png" alt="Dress" />
                     </div>
-                    <div className="text pt-3">
-                      <p>Challanges</p>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Challanges</p>
                     </div>
                   </div>
                 </Link>

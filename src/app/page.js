@@ -1,8 +1,9 @@
+import LoadingSpinner from '@/components/Loading';
 import dynamic from 'next/dynamic';
 
 const CustomComponent = dynamic(() => import('@/components/Home'), {
   ssr: false,
-  loading: () => <div>Loading...</div>
+  loading: () => <div><LoadingSpinner /></div>
 });
 export const metadata = {
   title: 'Avoyes',

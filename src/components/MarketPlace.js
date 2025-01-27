@@ -492,7 +492,7 @@ const MarketPlace = () => {
 
   return (
     <>
-      <div className="breadcrumb-marketplace py-5">
+      {/* <div className="breadcrumb-marketplace py-5">
         <div className="img">
           <img src="" alt="" />
           <div className="container">
@@ -507,7 +507,7 @@ const MarketPlace = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <section>
         <div className="market-main py-5">

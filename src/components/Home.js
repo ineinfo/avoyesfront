@@ -23,6 +23,7 @@ import { CustomCarousel, MyCarousel } from "@/components/Carousel";
 import Link from "next/link";
 import axios from "axios";
 import { Grid } from "antd";
+import LoadingSpinner from "./Loading";
 
 const { useBreakpoint } = Grid
 
@@ -507,7 +508,7 @@ export default function CustomComponent() {
                                     );
                                 })
                             ) : (
-                                <p>Loading events...</p>
+                                <p> <LoadingSpinner />.</p>
                             )}
                         </Slider>
                     </div>

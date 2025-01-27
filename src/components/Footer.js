@@ -64,9 +64,10 @@ const Footer = () => {
       <footer className="footer">
         <div className="container">
           <div className="row">
-            <div className="col-md-3">
-              <div className="footer-logo mb-3">
-                <img src="/logo.png" alt="Logo" />
+            <div className="col-md-3 mb-2">
+              <div className="footer-logo " style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div><img src="/logo-nobg.png" alt="Logo" /></div>
+                <div> <img src="/logo.png" alt="Logo" height={"80px"} width={"90vw"} /></div>
               </div>
               <p className="ftr-para">
                 This company meets the highest standard of social and
@@ -121,7 +122,7 @@ const Footer = () => {
               <ul className="list-unstyled ftr-links">
                 <li>
                   <Link href="/contact-us" className="text-decoration-none">
-                    Contact Us
+                    Customer Support
                   </Link>
                 </li>
                 <li>
@@ -150,7 +151,7 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div className="col-md-2">
+            {/* <div className="col-md-2">
               <h5 className="ftr-faq-head">Quick Links</h5>
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
@@ -180,7 +181,7 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             <div className="col-md-3">
               <h5 className="ftr-join-head">Join Our Community</h5>
@@ -195,7 +196,7 @@ const Footer = () => {
                     value={email}
                     onChange={handleInputChange}
                   />
-                  <button type="submit" className="search-submit" name="submit">
+                  <button type="submit" className="search-submit" name="submit" style={{ backgroundColor: "black" }}>
                     Send
                     {/* <i className="bi bi-arrow-right d-flex align-items-center"></i> */}
                   </button>

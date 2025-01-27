@@ -274,14 +274,14 @@ const Event = () => {
     ]
   };
 
-// window.onload = function() {
-//   document.querySelector('#speakerDropdown').addEventListener('click', function() {
-//     var dropdownMenu = this.nextElementSibling;
-//     dropdownMenu.classList.toggle('show');
-//   });
-// };
+  // window.onload = function() {
+  //   document.querySelector('#speakerDropdown').addEventListener('click', function() {
+  //     var dropdownMenu = this.nextElementSibling;
+  //     dropdownMenu.classList.toggle('show');
+  //   });
+  // };
 
-  
+
   return (
     <>
       <div className="event-page">
@@ -307,17 +307,17 @@ const Event = () => {
               <div className="container">
                 <div className="row">
                   <div className="icon-what-you-want d-flex align-items-center">
-                  <div className="md-icon d-flex align-items-center rtext">
-  <div className="icon">
-    <img src="/cal-icon.png" alt="" />
-  </div>
-  <div className="what-text">
-    <h3>WHAT YOU WANT</h3>
-  </div>
-  <div className="find-best-text">
-    <p>find the best for you</p>
-  </div>
-</div>
+                    <div className="md-icon d-flex align-items-center rtext">
+                      <div className="icon">
+                        <img src="/cal-icon.png" alt="" />
+                      </div>
+                      <div className="what-text">
+                        <h3>WHAT YOU WANT</h3>
+                      </div>
+                      <div className="find-best-text">
+                        <p>find the best for you</p>
+                      </div>
+                    </div>
 
                     <div className="md-input d-flex align-items-center">
                       <div className="input-container-event">
@@ -444,7 +444,7 @@ const Event = () => {
               <div className="container">
                 <div className="head">
                   <h1>Upcoming Events</h1>
-                  <p>{videoData ? videoData.top_sub_heading : "Loading..."}</p>
+                  <p>{videoData ? videoData.top_sub_heading : <LoadingSpinner />}</p>
                 </div>
                 <div className="video-box">
                   <div className="video-container">

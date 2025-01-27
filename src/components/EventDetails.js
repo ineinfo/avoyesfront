@@ -2,47 +2,48 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { fetchEventDetails, fetchEventsVideo, fetchCategories } from "@/utils/api/EventApi"; 
+import { fetchEventDetails, fetchEventsVideo, fetchCategories } from "@/utils/api/EventApi";
 import axios from 'axios';
+import LoadingSpinner from './Loading';
 const EventDetails = () => {
   const { id } = useParams();
   const [eventDetails, setEventDetails] = useState(null);
-  const [videoUrl, setVideoUrl] = useState(''); 
+  const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(true);
-  const [loadingVideo, setLoadingVideo] = useState(true); 
+  const [loadingVideo, setLoadingVideo] = useState(true);
   const [categories, setCategories] = useState([]);
   const [eventCategory, setEventCategory] = useState('');
 
-    
+
   useEffect(() => {
     const getCategories = async () => {
       const fetchedCategories = await fetchCategories();
       console.log("daharaa2", fetchedCategories);
-  
+
       if (Array.isArray(fetchedCategories.data)) {
         setCategories(fetchedCategories.data);
-  
+
         // Assuming you want to set eventCategory to the first category
         if (fetchedCategories.data.length > 0) {
           setEventCategory(fetchedCategories.data[0].title); // Adjust this based on your data structure
         }
       }
     };
-  
+
     getCategories();
   }, []); // Make sure to include dependencies if needed
-  
-  
-    useEffect(() => {
-      console.log("daharaa1",eventDetails)
 
-      if (eventDetails ) { 
-        const category = categories.find((cat) => cat.id === eventDetails.event_category_id);
-        console.log("daharaa",category)
-        const title= category?.title
-        setEventCategory( title); 
-      }
-    }, [categories, eventDetails]);
+
+  useEffect(() => {
+    console.log("daharaa1", eventDetails)
+
+    if (eventDetails) {
+      const category = categories.find((cat) => cat.id === eventDetails.event_category_id);
+      console.log("daharaa", category)
+      const title = category?.title
+      setEventCategory(title);
+    }
+  }, [categories, eventDetails]);
 
 
   useEffect(() => {
@@ -60,9 +61,9 @@ const EventDetails = () => {
 
       const getEventVideo = async () => {
         try {
-          const videoData = await fetchEventsVideo(); 
+          const videoData = await fetchEventsVideo();
           if (videoData && videoData.data.length > 0) {
-            setVideoUrl(videoData.data[0].video_url); 
+            setVideoUrl(videoData.data[0].video_url);
           }
         } catch (error) {
           console.error('Error fetching event video:', error);
@@ -72,32 +73,32 @@ const EventDetails = () => {
       };
 
       getEventDetails();
-      getEventVideo(); 
+      getEventVideo();
     }
   }, [id]);
 
   const formatDate = (dateString) => {
     const options = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     };
     const date = new Date(dateString);
     return date.toLocaleString('en-US', options);
-};
-const formatTime = (dateString) => {
-  const date = new Date(dateString);
-  const options = {
+  };
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    const options = {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
+    };
+    return date.toLocaleTimeString('en-US', options);
   };
-  return date.toLocaleTimeString('en-US', options);
-};
 
- 
+
   if (loading || loadingVideo) {
-    return <div>Loading event ...</div>;
+    return <div> <LoadingSpinner /></div>;
   }
 
 
@@ -154,12 +155,12 @@ const formatTime = (dateString) => {
                       <h1>{eventDetails.title}</h1>
                       <p>
                         {new Date(eventDetails.start_date).toLocaleDateString('en-US', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
                         })}
-                    </p>
-                                        </div>
+                      </p>
+                    </div>
                     <div className="evt-dtl-box">
                       <div className="row">
                         {/* Details Section */}
@@ -184,7 +185,7 @@ const formatTime = (dateString) => {
                           {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">Event Categories:</strong> {eventDetails.event_category_id}</p> */}
                           <p className="evt-dtl-p"><strong className="evt-dtl-head">Event Categories :  </strong> {eventCategory || "Not mentioned"}</p>
                           {/* <p><strong className="evt-dtl-head">Category :</strong> {eventCategory || "Not mentioned"}</p> */}
-                        
+
                         </div>
 
                         {/* Organizers Section */}
@@ -197,13 +198,13 @@ const formatTime = (dateString) => {
                           <p className="evt-dtl-p"><strong className="evt-dtl-head">Phone:</strong> {eventDetails.organizer_contact}</p> */}
                           <p className="evt-dtl-p">
                             <strong className="evt-dtl-head">
-                                {eventDetails.organizer || "Not mentioned"} 
+                              {eventDetails.organizer || "Not mentioned"}
                             </strong>
-                        </p>
-                        <p className="evt-dtl-p">
-                            <strong className="evt-dtl-head">Phone :  </strong> 
+                          </p>
+                          <p className="evt-dtl-p">
+                            <strong className="evt-dtl-head">Phone :  </strong>
                             {eventDetails.organizer_contact || "Not mentioned"}
-                        </p>
+                          </p>
 
 
 
@@ -229,7 +230,7 @@ const formatTime = (dateString) => {
                       </div>
                       <div className="para">
                         {/* <p>{eventDetails.description}</p> */}
-                        <p  dangerouslySetInnerHTML={{ __html: eventDetails?.description || "" }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: eventDetails?.description || "" }}></p>
                       </div>
                       <div className="blog-end-dtl d-flex justify-content-between align-items-center">
                         <div className="text">
@@ -250,7 +251,7 @@ const formatTime = (dateString) => {
                       </div>
                     </div>
 
-                          {/* event-multiple div*/}
+                    {/* event-multiple div*/}
 
                   </div>
                   <div className="col-lg-4 evt-sticky-box">
@@ -264,15 +265,15 @@ const formatTime = (dateString) => {
                           src={eventDetails.map_url}                        
                           width="100%" height="330" style={{ border: 0 }} allowFullScreen="" loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"></iframe> */}
-                       <iframe
-    src={eventDetails.map_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.7782458348!2d2.2646349990563044!3d48.85893843455474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sin!4v1727960219961!5m2!1sen!2sin"}
-    width="100%"
-    height="330"
-    style={{ border: 0 }}  // Updated to use an object
-    allowFullScreen
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-/>
+                        <iframe
+                          src={eventDetails.map_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.7782458348!2d2.2646349990563044!3d48.85893843455474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sin!4v1727960219961!5m2!1sen!2sin"}
+                          width="100%"
+                          height="330"
+                          style={{ border: 0 }}  // Updated to use an object
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                        />
 
 
                       </div>

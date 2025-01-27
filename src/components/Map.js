@@ -7,6 +7,7 @@ import cafe from "../../public/cafe.png";
 import foodieBanner from "../../public/foodie-banner.png";
 import { fetchFoodTypes, fetchFoodPlaces } from "@/utils/api/FoodieApi";
 import { Modal } from "bootstrap";
+import LoadingSpinner from "./Loading";
 
 const Map = () => {
   const [foodPlaces, setFoodPlaces] = useState([]);
@@ -15,9 +16,9 @@ const Map = () => {
   const defaultUrl = `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`;
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [foodTypes, setFoodTypes] = useState([]);
- 
+
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = (e) => {
@@ -115,9 +116,9 @@ const Map = () => {
                                 !place.image_url.includes("localhost")
                                 ? place.image_url
                                 : defaultUrl
-                            }                          
-                              // src={foodieBanner.src} 
-                           
+                            }
+                            // src={foodieBanner.src} 
+
                             alt={place.title || "Food Place"}
                             style={{
                               width: "100%",
@@ -185,8 +186,8 @@ const Map = () => {
                     >
                       <div className="modal-content modal-border-radius">
                         <div className="modal-header"
-                        onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
-                        onShow={() => setIsReviewModalOpen(true)} 
+                          onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
+                          onShow={() => setIsReviewModalOpen(true)}
                         >
                           <h5 className="modal-title" id="exampleModalLabel">
                             Details
@@ -366,7 +367,7 @@ const Map = () => {
                               <div className="restro-name">
                                 <p>
                                   {" "}
-                                  {selectedPlace?.location || "Loading..."}
+                                  {selectedPlace?.location || <LoadingSpinner />}
                                 </p>
                               </div>
                             </div>
@@ -462,7 +463,7 @@ const Map = () => {
                     <div className="modal-body">
                       <div className="row">
                         <div className="col-lg-12">
-                          <div className="main-review-popup-section mt-3" style={{marginTop: "4rem !important"}}> 
+                          <div className="main-review-popup-section mt-3" style={{ marginTop: "4rem !important" }}>
                             <div className="quality d-flex align-items-center">
                               <div className="title">
                                 <h6 className="m-0">Quality</h6>
@@ -599,22 +600,22 @@ const Map = () => {
                   </div>
                 </div> */}
 
-<div className="menus d-flex justify-content-evenly custom-row">
-      {/* Mapping through foodTypes to display each food item */}
-      {foodTypes.map((food, index) => (
-        <Link href="/foodie" key={index} className="text-decoration-none custom-col">
-          <div className="menu-1 d-flex align-items-center justify-content-between">
-            <img src={food.image_url || cafe.src} alt={food.title} />
-            <p className="m-0">{food.title}</p>
-          </div>
-        </Link>
-      ))}
+                <div className="menus d-flex justify-content-evenly custom-row">
+                  {/* Mapping through foodTypes to display each food item */}
+                  {foodTypes.map((food, index) => (
+                    <Link href="/foodie" key={index} className="text-decoration-none custom-col">
+                      <div className="menu-1 d-flex align-items-center justify-content-between">
+                        <img src={food.image_url || cafe.src} alt={food.title} />
+                        <p className="m-0">{food.title}</p>
+                      </div>
+                    </Link>
+                  ))}
 
-      {/* Custom Dropdown */}
-    
+                  {/* Custom Dropdown */}
 
-      {/* Internal CSS */}
-      <style jsx>{`
+
+                  {/* Internal CSS */}
+                  <style jsx>{`
     .menus {
       display: flex;
       flex-wrap: nowrap; /* Prevent items from wrapping */
@@ -656,7 +657,7 @@ const Map = () => {
       }
     }
   `}</style>
-    </div>
+                </div>
 
                 <div className="map-main-section">
                   <iframe

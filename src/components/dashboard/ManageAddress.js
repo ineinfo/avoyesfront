@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import { fetchCities, fetchCountries, fetchStates } from "@/utils/api/CommonApi";
+import LoadingSpinner from "../Loading";
 
 
 
@@ -362,7 +363,7 @@ const ManageAddress = () => {
                 <p>
                   {addressDetails[address.id]
                     ? `${addressDetails[address.id].cityName}, ${addressDetails[address.id].stateName}, ${addressDetails[address.id].countryName} - ${address.pincode}`
-                    : "Loading..."}</p>
+                    : <LoadingSpinner />}</p>
               </div>
             </div>
             <div className="d-flex align-items-center">
