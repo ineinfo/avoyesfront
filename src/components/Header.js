@@ -335,7 +335,9 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                           gap: "10px",
                         }}
                       >
-                        <i class="fa-solid fa-address-card"></i> Dashboard
+                        <i class="fa-solid fa-address-card"></i>
+                         {/* Dashboard */}
+                         Tableau de bord
                       </a>
                     ) : (
                       <a
@@ -355,7 +357,8 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                         }}
                       >
                         <i className="fa-regular fa-user me-1"></i>
-                        Login
+                        {/* Login */}
+                        Se connecter
                       </a>
                     )}
                   </li>
@@ -545,6 +548,18 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
           <div className="container py-4">
             <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
 
+            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
+                <Link href="/event" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/calendar.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Sorties</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/marketplace" className="text-decoration-none">
                   <div className="menu-1">
@@ -558,18 +573,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                 </Link>
               </div>
 
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
-                <Link href="/event" className="text-decoration-none">
-                  <div className="menu-1">
-                    <div className="img pt-3">
-                      <img src="/calendar.png" alt="Dress" />
-                    </div>
-                    <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Event</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+            
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/map" className="text-decoration-none">
                   <div className="menu-1">
@@ -583,29 +587,30 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                 </Link>
               </div>
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
-                <Link href="/activity" className="text-decoration-none">
-                  <div className="menu-1">
-                    <div className="img pt-3">
-                      <img src="/puzzle.png" alt="Dress" />
-                    </div>
-                    <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Activity</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/foodie" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
                       <img src="/fork.png" alt="Dress" />
                     </div>
                     <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Foodie</p>
+                      <p style={{ fontWeight: "bold" }}>Foodies</p>
                     </div>
                   </div>
                 </Link>
               </div>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
+                <Link href="/activity" className="text-decoration-none">
+                  <div className="menu-1">
+                    <div className="img pt-3">
+                      <img src="/puzzle.png" alt="Dress" />
+                    </div>
+                    <div className="text pt-3" >
+                      <p style={{ fontWeight: "bold" }}>Activités</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+             
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/challanges" className="text-decoration-none">
                   <div className="menu-1">
@@ -613,7 +618,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                       <img src="/goal.png" alt="Dress" />
                     </div>
                     <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Challanges</p>
+                      <p style={{ fontWeight: "bold" }}>Challenges</p>
                     </div>
                   </div>
                 </Link>

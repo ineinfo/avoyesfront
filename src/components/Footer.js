@@ -66,16 +66,44 @@ const Footer = () => {
       <footer className="footer">
         <div className="container">
           <div className="row">
-            <div className="col-md-3 mb-2">
+            <div className="col-md-3 mb-2" style={{marginTop: "-25px"}} >
               <div style={{ display: "flex", justifyContent: "left", alignItems: "center", marginLeft: "-10px" }}>
                 <div><img src="/logo-nobg.png" alt="Logo" height={"80px"} /></div>
                 <div> <img src="/logo.png" alt="Logo" height={"50px"} /></div>
               </div>
-              <p className="ftr-para" style={screens.sm ? {} : { minWidth: "100%" }}>
-                {/* <img src="/logo-nobg.png" alt="Logo" height={"40px"} /> */}
+              {/* <p className="ftr-para" style={screens.sm ? {} : { minWidth: "100%" }}>
                 This company meets the highest standard of social and
                 environmental performance transparency and accountability{" "}
+              </p> */}
+
+              <p className="ftr-para" style={screens.sm ? {minWidth: "40vw"} : { minWidth: "100%" }}>
+                Réservez vos restaurants coup de cœur avec{" "}
+                <a href="/foodie" style={{ textDecoration: "underline", color: "black" }}>
+                  Foodies
+                </a>
+                <br />
+                Explorez des activités uniques grâce à{" "}
+                <a href="/map" style={{ textDecoration: "underline", color: "black" }}>
+                  notre carte interactive
+                </a>
+                <br />
+                Ne manquez aucun événement incontournable avec{" "}
+                <a href="/event" style={{ textDecoration: "underline", color: "black" }}>
+                  Sorties
+                </a>
+                <br />
+                Découvrez nos sélections pépites sur{" "}
+                <a href="/marketplace" style={{ textDecoration: "underline", color: "black" }}>
+                  Marketplace
+                </a>
+                <br />
+                Relevez des défis bien-être excitants sur{" "}
+                <a href="/challanges" style={{ textDecoration: "underline" , color: "black"}}>
+                  Challenges
+                </a>
               </p>
+
+
               <div className="footer-social-icons">
                 <Link href="#" className="social-icon">
                   <i className="bi bi-facebook"></i>
@@ -92,18 +120,18 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-md-2" style={screens.sm ? {} : { width: "50%" }}>
-              <h5 className="ftr-company-head">Categories</h5>
+            <div className="col-md-2" style={screens.sm ? {width:"30%", display:"flex", flexDirection:"column", alignItems:"center"} : { width: "50%" }}>
+              <h5 className="ftr-company-head">À découvrir</h5> 
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
                 <li>
                   <Link href="/marketplace" className="text-decoration-none">
-                    Market Place
+                  Marketplace 
                   </Link>
                 </li>
                 <li>
                   <Link href="/event" className="text-decoration-none">
-                    Events
+                  Sorties
                   </Link>
                 </li>
                 <li>
@@ -113,24 +141,25 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href="/activity" className="text-decoration-none">
-                    Activities
+                  Activités
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="col-md-2" style={screens.sm ? {} : { width: "50%" }}>
-              <h5 className="ftr-help-head">Help</h5>
+              <h5 className="ftr-help-head">Support </h5>
               <div className="ftr-head-btm-border"></div>
               <ul className="list-unstyled ftr-links">
                 <li>
                   <Link href="/contact-us" className="text-decoration-none">
-                    Customer Support
+                  Support client
+
                   </Link>
                 </li>
                 <li>
                   <Link href="/faqs" className="text-decoration-none">
-                    FAQs
+                  FAQs
                   </Link>
                 </li>
                 <li>
@@ -138,56 +167,29 @@ const Footer = () => {
                     href="terms-and-conditions"
                     className="text-decoration-none"
                   >
-                    Terms & Conditions
+                    {/* Terms & Conditions */}
+                    Conditions générales
                   </Link>
                 </li>
                 <li>
                   <Link href="/privacy-policy" className="text-decoration-none">
-                    Privacy Policy
+                    {/* Privacy Policy */}
+                    Politique de confidentialité
                   </Link>
                 </li>
                 <li>
                   <Link href="/customer-support" className="text-decoration-none">
-                    Customer Support
+                    {/* Customer Support */}
+                    Devenir partenaire
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* <div className="col-md-2">
-              <h5 className="ftr-faq-head">Quick Links</h5>
-              <div className="ftr-head-btm-border"></div>
-              <ul className="list-unstyled ftr-links">
-                <li>
-                  <Link href="/dashboard" className="text-decoration-none">
-                    Brand Partner
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/address" className="text-decoration-none">
-                    Delivery Details
-                  </Link>
-                </li>
-                <li>
-                  <Link href="dashboard/cart" className="text-decoration-none">
-                    Manage Deliveries
-                  </Link>
-                </li>
-                <li>
-                  <Link href="dashboard/orders" className="text-decoration-none">
-                    Orders
-                  </Link>
-                </li>
-                <li>
-                  <Link href="dashboard" className="text-decoration-none">
-                    Payments
-                  </Link>
-                </li>
-              </ul>
-            </div> */}
+    
 
             <div className="col-md-3">
-              <h5 className="ftr-join-head">Join Our Community</h5>
+              <h5 className="ftr-join-head">Rejoignez notre communauté</h5>
               <div className="ftr-head-btm-border"></div>
               <form role="search" method="get" onSubmit={handleSubmit}>
                 <div className="input-container">
@@ -226,7 +228,8 @@ const Footer = () => {
           <div className="footer-2 d-flex justify-content-between align-items-center">
             <div className="copyright">
               <p className="m-0">
-                @2024 Avoyes LIFE STYLE PRIVATE LIMITED All Rights Reserved
+                {/* @2024 Avoyes LIFE STYLE PRIVATE LIMITED All Rights Reserved */}
+                © 2025 Avöyes LLC All rights reserved.
               </p>
             </div>
             <div className="ftr-2-icon">

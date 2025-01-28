@@ -422,7 +422,8 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    <span>Trending </span> Events
+                                    {/* <span>Trending </span> Events */}
+                                    <span> À Ne Pas Manquer </span>
                                 </h1>
                             </div>
                             <div className="view-more-head">
@@ -440,7 +441,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    View All{" "}
+                                    Tout afficher{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
@@ -602,7 +603,8 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    <span>MARKET </span> Place
+                                    {/* <span>MARKET </span> Place */}
+                                    <span>Nos sélections pépites </span>
                                 </h1>
                             </div>
                             <div className="view-more-head">
@@ -620,7 +622,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    View All{" "}
+                                    Tout afficher{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
@@ -741,7 +743,7 @@ export default function CustomComponent() {
                                                     href={bannerData[2]?.view_url || "/marketplace"}
                                                     className="text-decoration-none"
                                                 >
-                                                    VIEW MORE
+                                                    En savoir plus
                                                 </Link>
                                             </div>
                                         </div>
@@ -760,7 +762,8 @@ export default function CustomComponent() {
                                                     href={bannerData[1]?.view_url || "/marketplace"}
                                                     className="text-decoration-none"
                                                 >
-                                                    VIEW MORE
+                                                    {/* VIEW MORE */}
+                                                    En savoir plus
                                                 </Link>
                                             </div>
                                         </div>
@@ -779,7 +782,7 @@ export default function CustomComponent() {
                                                     href={bannerData[0]?.view_url || "/default-url"}
                                                     className="text-decoration-none"
                                                 >
-                                                    VIEW MORE
+                                                   En savoir plus
                                                 </Link>
                                                 {/* <Link href="/marketplace" className="text-decoration-none">
                         VIEW MORE
@@ -810,7 +813,8 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    <span>LATEST </span> Blog
+                                    {/* <span>LATEST </span> Blog */}
+                                    <span>Dernières publications </span>
                                 </h1>
                             </div>
                             <div className="view-more-head">
@@ -828,7 +832,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    View All{" "}
+                                    Tout afficher{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>

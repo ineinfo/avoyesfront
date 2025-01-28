@@ -153,7 +153,8 @@ const Filter = () => {
             aria-controls="offcanvasWithBothOptions"
           >
             <img src="/filter-icon.png" alt="Filter Button Icon" />
-            Filter
+            {/* Filter */}
+            Filtrer
             <i className="fa-solid fa-chevron-down ms-3"></i>
           </button>
         </div>

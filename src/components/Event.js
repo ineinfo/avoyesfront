@@ -9,7 +9,9 @@ import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import defaultImg from "../../public/event-breadcrumb.png";
+// import defaultImg from "../../public/event-breadcrumb.png";
+import defaultImg from "../../public/eventbanner.jpg";
+
 
 
 import {
@@ -589,7 +591,7 @@ const Event = () => {
 
                                     <div className="icon">
                                       <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                                        <i className="fa-solid fa-arrow-right trand-arrow"></i>
+                                        {/* <i className="fa-solid fa-arrow-right trand-arrow"></i> */}
                                       </Link>
                                     </div>
                                   </div>
@@ -619,9 +621,12 @@ const Event = () => {
             <div className="featured-events-main">
               <div className="container">
                 <div className="head">
-                  <h1>Featured Events</h1>
+                  {/* <h1>Featured Events</h1> */}
+                  <h1>Événements les plus tendance</h1>
+
                   <p>
-                    Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences!
+                    {/* Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences! */}
+                    Des soirées animées, des festivals, des événements exclusifs et bien plus encore - plongez dans un univers d expériences inoubliables !
                   </p>
                 </div>
                 <div className="event-page-slide">
@@ -688,7 +693,7 @@ const Event = () => {
 
                               <div className="icon">
                                 <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                                  <i className="fa-solid fa-arrow-right trand-arrow"></i>
+                                  {/* <i className="fa-solid fa-arrow-right trand-arrow"></i> */}
                                 </Link>
                               </div>
                             </div>
@@ -851,7 +856,7 @@ const Event = () => {
                                   </div>
                                   <div className="read-more-event-btn">
                                     <Link href={`/${event.id}/eventdetails`}>
-                                      <button type="button">Read More</button>
+                                      <button type="button">Voir plus</button>
                                     </Link>
                                   </div>
                                 </div>

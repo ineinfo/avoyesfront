@@ -38,7 +38,7 @@ const EventList = () => {
   }, []);
 
   if (loading) {
-    return <p> <LoadingSpinner /></p>;
+    return <div> <LoadingSpinner /></div>;
   }
 
   if (error) {
@@ -120,7 +120,8 @@ const EventList = () => {
                       <div className="row">
                         {filteredEvents.length > 0 ? (
                           filteredEvents.map((event) => (
-                            <div className="col-xl-4 col-lg-4" key={event.id}>
+                            // 4 events in a row
+                            <div className="col-xl-3 col-lg-3" key={event.id}>
                               <div className="trend-1 pt-4">
                                 <div className="img">
                                   <img src={event.image_url || defaultImg.src} alt={event.title} />

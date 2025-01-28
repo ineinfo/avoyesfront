@@ -15,7 +15,7 @@ import { fetchBestFor, fetchCategories, fetchRatings, fetchTypes } from "@/utils
 
 const MarketPlace = () => {
   const [showingCount, setShowingCount] = useState(12);
-  const [selectedOption, setSelectedOption] = useState("Latest");
+  const [selectedOption, setSelectedOption] = useState(" Plus récentsevents");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -564,7 +564,7 @@ const MarketPlace = () => {
                         aria-expanded="false"
                         style={{ outline: "none" }}
                       >
-                        Showing: <span id="showingOption">{showingCount === 1000000000000000 ? 'All' : showingCount}</span>
+                        Affichage: <span id="showingOption">{showingCount === 1000000000000000 ? 'All' : showingCount}</span>
 
                       </button>
                       <ul
@@ -603,7 +603,7 @@ const MarketPlace = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        Sort By :{" "}
+                        Trier par :{" "}
                         <span id="sortingOption">{selectedOption}</span>
                       </button>
                       <ul
@@ -617,7 +617,7 @@ const MarketPlace = () => {
                             data-value="3"
                             onClick={handleOptionClick}
                           >
-                            Latest
+                             Plus récents
                           </Link>
                         </li>
                         <li>
