@@ -6,6 +6,9 @@ import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments } from 
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import defaultImg from "../../public/defaultImg.jpg";
+import { Grid } from 'antd';
+
+const { useBreakpoint } = Grid
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -15,7 +18,7 @@ const Blog = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedTag, setSelectedTag] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-
+    const screens = useBreakpoint()
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -210,7 +213,7 @@ const Blog = () => {
                                                                 <h1>{blog.title}</h1>
                                                             </Link>
                                                         </div>
-                                                        <div className="blg-by-and-comments d-flex align-items-center">
+                                                        <div className="blg-by-and-comments d-flex align-items-center" style={screens.sm ? {} : { justifyContent: 'space-between', alignItems: "flex-start" }}>
                                                             <div className="blog-by">
                                                                 <p className="m-0">
                                                                     By <span>{blog.author || 'Admin'}</span> On {new Date(blog.blog_date).toLocaleDateString('en-US', {
@@ -220,7 +223,8 @@ const Blog = () => {
                                                                     })}
                                                                 </p>
                                                             </div>
-                                                            <div className="border-left-blog"></div>
+                                                            {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
+                                                                <div className="border-left-blog"></div>)}
                                                             {comments.filter(comment => comment.blog_id === blog.id).length > 0 && (
                                                                 <div className="comment-blog-listing d-flex align-items-center">
                                                                     <i className="fa-regular fa-comment"></i>
