@@ -503,42 +503,51 @@ const Event = () => {
                 <div className="tab-container">
                   <div className="tab-head-event d-flex justify-content-between align-items-center">
                     {/* <ul className="nav nav-tabs event-tab" id="myTab" role="tablist"> */}
-                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'auto' }}>
+                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'scroll', overflowY: 'hidden', paddingBottom: '10px' , scrollbarWidth:"thin"}}>
                       <li className="nav-item" role="presentation">
                         <button
                           className={`nav-link ${selectedCategoryId === null ? 'active' : ''}`}
                           id="profile-tab-event"
                           type="button"
                           onClick={(event) => handleTabClick(event, null)}
+                          style={{
+                            border: '1px solid #ccc',
+                            backgroundColor: selectedCategoryId === null ? '#e9f5ff' : 'white',
+                            color: selectedCategoryId === null ? '#007bff' : '#000',
+                            borderRadius: '5px',
+                            padding: '5px 10px',
+                            marginRight: '10px', // Add space between boxes
+                            marginBottom: '10px', // Add space at the bottom
+                            whiteSpace: 'nowrap' // Prevent line breaks
+                          }}
                         >
-                          <img src="/event-tab.png" alt="" />
+                           Categories
                         </button>
                       </li>
-                      <div className="tab-brdr d-flex">
-                        {categories.map((category) => (
-                          <li className="nav-item" role="presentation" key={category.id}>
-                            <a
-                              className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
-                              onClick={(event) => handleTabClick(event, category.id)}
-                              style={{
-                                fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal',
-                                color: selectedCategoryId === category.id ? '#007bff' : '#000',
-                                backgroundColor: selectedCategoryId === category.id ? '#e9f5ff' : 'transparent',
-                                borderRadius: '5px',
-                                padding: '5px 10px',
-                                transition: 'background-color 0.3s, color 0.3s',
-                              }}
-                              href="#"
-                            >
-                              {category.title}
-                            </a>
-                          </li>
-                        ))}
-                      </div>
+                      {categories.map((category) => (
+                        <li className="nav-item" role="presentation" key={category.id}>
+                          <button
+                            className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
+                            onClick={(event) => handleTabClick(event, category.id)}
+                            style={{
+                              border: '1px solid #ccc',
+                              backgroundColor: selectedCategoryId === category.id ? '#e9f5ff' : 'white',
+                              color: selectedCategoryId === category.id ? '#007bff' : '#000',
+                              borderRadius: '5px',
+                              padding: '5px 10px',
+                              marginRight: '10px', // Add space between boxes
+                              marginBottom: '10px', // Add space at the bottom
+                              whiteSpace: 'nowrap' // Prevent line breaks
+                            }}
+                          >
+                            {category.title}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
-                    <div className="evt-head-btn">
+                    <div className="evt-head-btn" style={{marginLeft: '12px',marginTop: '-30px'}}>
                       <Link href="/eventlist">
-                        <button type="button">SEE ALL EVENTS</button>
+                        <button type="button"> ALL </button>
                       </Link>
                     </div>
                   </div>
@@ -882,7 +891,7 @@ const Event = () => {
           </div>
 
           {/* gallery */}
-          <section>
+          {/* <section>
             <div className="img-gallary-main">
               <div className="container mt-4">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -910,7 +919,7 @@ const Event = () => {
                         aria-controls="photos"
                         aria-selected="false"
                       >
-                        Photos
+                        Photosdd
                       </a>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -926,19 +935,7 @@ const Event = () => {
                         Videos
                       </a>
                     </li>
-                    {/* <li className="nav-item" role="presentation">
-                      <a
-                        className="nav-link"
-                        id="gallery-tab"
-                        data-bs-toggle="tab"
-                        href="#gallery"
-                        role="tab"
-                        aria-controls="gallery"
-                        aria-selected="false"
-                      >
-                        Gallery
-                      </a>
-                    </li> */}
+                  
                   </div>
                 </ul>
                 <div className="tab-content" id="myTabContent">
@@ -956,7 +953,6 @@ const Event = () => {
                               <a className="lightbox" onClick={() => openLightbox(index)}>
                                 <img
                                   src={imageUrl}
-                                  // src={defaultImg.src}
 
                                   alt={`Gallery Image ${index + 1}`}
                                   className="gal-img-height"
@@ -1073,7 +1069,7 @@ const Event = () => {
 
 
 
-          </section>
+          </section> */}
 
           {/* newsfrom section */}
           {/* <section>

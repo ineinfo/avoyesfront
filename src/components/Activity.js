@@ -404,7 +404,8 @@ const Activity = () => {
           <div className="text-center my-4">
             <a href="/activitylist">
               <button className="btn-all-activities">
-                All activities <i className="fas fa-arrow-right"></i>
+              Tout voir  
+              {/* <i className="fas fa-arrow-right"></i> */}
               </button>
             </a>
           </div>
@@ -413,7 +414,7 @@ const Activity = () => {
 
       <div className="upcoming-activities mt-5">
         <div className="heading-area text-center">
-          <h2>Upcoming Activities</h2>
+          <h2>Nos Recommandations d&apos;activités</h2>
         </div>
         <div className="container mt-5">
           <Slider
@@ -520,29 +521,29 @@ const Activity = () => {
       {/* <!-- activity service --> */}
       <div className="activity-services">
         <div className="heading-area text-center mb-5">
-          <h2>why book with avoyes</h2>
+          <h2>Planifiez, réservez, partez — on s&apos;occupe de tout pour vous simplifier la vie.</h2>
         </div>
         <div className="container mt-5">
           <div className="row text-center activity-support">
             <div className="col-md-3 feature">
               <i className="fas fa-headset feature-icon"></i>
               <h5>24/7 Customer Support</h5>
-              <p>No matter the time zone we are here to help</p>
+              <p>Où que vous soyez, notre équipe est disponible à tout moment pour vous assister.</p>
             </div>
             <div className="col-md-3 feature">
               <i className="fas fa-trophy feature-icon"></i>
               <h5>Earn Rewards</h5>
-              <p>No matter the time zone we are here to help</p>
+              <p>Cumulez des points et profitez d&apos;avantages exclusifs à chaque réservation.</p>
             </div>
             <div className="col-md-3 feature">
               <i className="fas fa-star feature-icon"></i>
               <h5>Millions Of Reviews</h5>
-              <p>No matter the time zone we are here to help</p>
+              <p>Consultez les retours honnêtes de notre communauté pour faire les meilleurs choix.</p>
             </div>
             <div className="col-md-3 feature">
               <i className="fas fa-calendar-alt feature-icon"></i>
               <h5>Plan Your Way</h5>
-              <p>No matter the time zone we are here to help</p>
+              <p>Créez un itinéraire sur-mesure, adapté à vos besoins et vos rêves.</p>
             </div>
           </div>
         </div>

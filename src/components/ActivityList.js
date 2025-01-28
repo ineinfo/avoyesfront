@@ -112,7 +112,7 @@ const ActivityList = () => {
   return (
     <div className="activity-tab-content">
       <div className="heading-area text-center">
-        <h2>Featured activities</h2>
+        <h2>Activités à la une</h2>
       </div>
       <div className="container mt-5">
         <ul className="activity-tab-content-nav nav nav-tabs" id="myTab" role="tablist">
