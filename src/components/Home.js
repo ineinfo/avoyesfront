@@ -419,6 +419,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
+                                                fontSize: "20px"
                                             }
                                     }
                                 >
@@ -441,7 +442,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    Tout afficher{" "}
+                                    {screens.sm ? "Tout afficher" : ""}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
@@ -600,6 +601,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
+                                                fontSize: "20px"
                                             }
                                     }
                                 >
@@ -622,7 +624,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    Tout afficher{" "}
+                                    {screens.sm ? "Tout afficher" : ""}{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
@@ -782,7 +784,7 @@ export default function CustomComponent() {
                                                     href={bannerData[0]?.view_url || "/default-url"}
                                                     className="text-decoration-none"
                                                 >
-                                                   En savoir plus
+                                                    En savoir plus
                                                 </Link>
                                                 {/* <Link href="/marketplace" className="text-decoration-none">
                         VIEW MORE
@@ -810,6 +812,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
+                                                fontSize: "20px"
                                             }
                                     }
                                 >
@@ -832,7 +835,7 @@ export default function CustomComponent() {
                                             }
                                     }
                                 >
-                                    Tout afficher{" "}
+                                    {screens.sm ? "Tout afficher" : ""}{" "}
                                     <i className="fa-solid fa-arrow-right view-more-arrow"></i>
                                 </Link>
                             </div>
