@@ -225,7 +225,7 @@ const Blog = () => {
                                                                 <div className="comment-blog-listing d-flex align-items-center">
                                                                     <i className="fa-regular fa-comment"></i>
                                                                     <p className="m-0 ps-2">
-                                                                        {comments.filter(comment => comment.blog_id === blog.id).length} Comments
+                                                                        {comments.filter(comment => comment.blog_id === blog.id).length}
                                                                     </p>
                                                                 </div>
                                                             )}

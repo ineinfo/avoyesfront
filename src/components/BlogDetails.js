@@ -9,12 +9,15 @@ import defaultImg from "../../public/defaultImg.jpg";
 
 import { fetchBlogs, fetchBlogCategory, fetchBlogTags, fetchBlogComments, fetchBlogById, addBlogComment } from "@/utils/api/BlogApi";
 import LoadingSpinner from './Loading';
+import { Grid } from 'antd';
+
+const { useBreakpoint } = Grid
 
 const BlogDetails = () => {
     const { id } = useParams();
     const [blogPost, setBlogPost] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const screens = useBreakpoint()
     const [blogs, setBlogs] = useState([]);
     const [blogCategories, setBlogCategories] = useState([]);
     const [tags, setTags] = useState([]);
@@ -371,7 +374,7 @@ const BlogDetails = () => {
                                     <>
                                         <div className="blog-details-main">
                                             <div className="blog-dtl-img">
-                                                <img src={blogDetails.image_url} alt="Blog Detail" />
+                                                <img src={blogDetails.image_url} alt="Blog Detail" style={screens.sm ? {} : { height: "250px", borderRadius: "15px" }} />
                                                 {/* <img src={defaultImg.src} alt="Blog Detail" /> */}
 
                                             </div>
@@ -385,7 +388,7 @@ const BlogDetails = () => {
                                             {commentsCount > 0 && (
                                                 <div className="comment-blog-listing d-flex align-items-center">
                                                     <i className="fa-regular fa-comment"></i>
-                                                    <p className="m-0 ps-2">{commentsCount} Comments</p>
+                                                    <p className="m-0 ps-2">{commentsCount}</p>
                                                 </div>
                                             )}
                                         </div>
@@ -405,7 +408,7 @@ const BlogDetails = () => {
                                                     </div>
                                                     <div>
                                                         <div className="italic-quote">
-                                                            <p>{quote}</p>
+                                                            <p dangerouslySetInnerHTML={{ __html: quote }}></p>
                                                         </div>
                                                         <div className="slogan-by ms-4">
                                                             <p> - {blogDetails.author}</p>
@@ -417,6 +420,7 @@ const BlogDetails = () => {
                                             {/* Conditionally render following paragraphs */}
                                             {followingParagraphs && (
                                                 <div dangerouslySetInnerHTML={{ __html: followingParagraphs }} />
+
                                             )}
 
                                             <p>Tags: {Array.isArray(blogDetails.tags) ? blogDetails.tags.join(', ') : 'No tags available'}</p>
@@ -458,16 +462,18 @@ const BlogDetails = () => {
                                                 <div className="modal fade show" style={{ display: 'block' }} onClick={closeModal}>
                                                     <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
                                                         <div className="modal-content"
-                                                        // style={{
-                                                        //     position: 'absolute',
-                                                        //     top: '50%',
-                                                        //     left: '50%',
-                                                        //     transform: 'translate(-50%, -50%)',
-                                                        //     width: '550px',
-                                                        //     height: '400px',
-                                                        //     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
-                                                        //     overflow: 'auto',
-                                                        // }}
+                                                            // style={{
+                                                            //     position: 'absolute',
+                                                            //     top: '50%',
+                                                            //     left: '50%',
+                                                            //     transform: 'translate(-50%, -50%)',
+                                                            //     width: '550px',
+                                                            //     height: '400px',
+                                                            //     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+                                                            //     overflow: 'auto',
+                                                            // }}
+
+                                                            style={screens.sm ? {} : { top: '20vh', }}
                                                         >
                                                             <div className="modal-header">
                                                                 <h5 className="modal-title w-100 text-center write-review-head">
@@ -523,7 +529,7 @@ const BlogDetails = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="name">
-                                                                <h3>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
+                                                                <h3 style={screens.sm ? {} : { fontSize: "20px" }}>{comment.user_first_name || 'Anonymous'} {comment.user_last_name || ''}</h3>
                                                             </div>
                                                             <div className="para">
                                                                 <p>{comment.comment}</p>
