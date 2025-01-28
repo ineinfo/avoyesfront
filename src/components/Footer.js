@@ -67,7 +67,7 @@ const Footer = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-3 mb-2" style={{marginTop: "-25px"}} >
-              <div style={{ display: "flex", justifyContent: "left", alignItems: "center", marginLeft: "-10px" }}>
+              <div style={{ display: "flex", justifyContent: "left", alignItems: "center" }}>
                 <div><img src="/logo-nobg.png" alt="Logo" height={"80px"} /></div>
                 <div> <img src="/logo.png" alt="Logo" height={"50px"} /></div>
               </div>

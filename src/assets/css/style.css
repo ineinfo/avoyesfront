@@ -5353,7 +5353,6 @@ button.accordion-button {
     font-weight: 800;
     text-align: center;
     text-transform: capitalize;
-
 }
 
 .event-bread-text p {
@@ -5366,6 +5365,8 @@ button.accordion-button {
     text-transform: capitalize;
 
 } 
+
+
 
 .icon-what-you-want .icon img {
     width: 26px;
@@ -5607,7 +5608,7 @@ button#speakerDropdown.active {
 
   /* Third Row: Dropdowns stacked vertically */
   .drp-mob-sec {
-    margin-left: -320px;
+    margin-left: -265px;
         margin-top: 167px;
     display: flex;
     flex-direction: row; /* Stack dropdowns vertically */

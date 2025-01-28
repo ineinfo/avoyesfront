@@ -11,8 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import defaultImg from "../../public/event-breadcrumb.png";
 import defaultImg from "../../public/eventbanner.jpg";
-
-
+import { Dropdown } from 'bootstrap'; // Add this import
 
 import {
   fetchEvents,
@@ -22,7 +21,8 @@ import {
   fetchCategories
 } from "@/utils/api/EventApi";
 import LoadingSpinner from "./Loading";
-
+import { Grid } from "antd";
+const {useBreakpoint} = Grid
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [featuredEvents, setFeaturedEvents] = useState([]);
@@ -38,7 +38,7 @@ const Event = () => {
   const [selectedSpeaker, setSelectedSpeaker] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSpeakerId, setSelectedSpeakerId] = useState(null);
-
+  const screens = useBreakpoint()
   const [timer, setTimer] = useState({ hours: 24, minutes: 59, seconds: 59 });
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -197,7 +197,7 @@ const Event = () => {
     // Initialize Bootstrap dropdowns
     const dropdownElements = document.querySelectorAll('.dropdown-toggle');
     dropdownElements.forEach(dropdown => {
-      new bootstrap.Dropdown(dropdown);
+      new Dropdown(dropdown); // Update this line to use the imported Dropdown
     });
   }, []);
 
@@ -261,7 +261,7 @@ const Event = () => {
           slidesToScroll: 1,
           infinite: true,
           dots: false,
-          arrows: true,
+          arrows: false,
         }
       },
       {
@@ -270,7 +270,7 @@ const Event = () => {
           slidesToShow: 1,
           slidesToScroll: 1,
           dots: false,
-          arrows: true,
+          arrows: false,
         }
       }
     ]
@@ -292,8 +292,8 @@ const Event = () => {
             <div className="event-list-breadcrumb">
               <img src={defaultImg.src} alt="Event Breadcrumb" />
               <div className="event-bread-text">
-                <h1>Discover Upcoming Events</h1>
-                <p>
+                <h1 style={{fontSize:screens.sm ? "57px": '45px' , fontWeight:screens.sm ? "800px" : '600px'}}>Discover Upcoming Events</h1>
+                <p style={{fontSize:screens.sm ? "16px": '12px' , lineHeight:screens.sm ? "25px" : '20px'}}>
                   Explore a range of exciting events tailored to your interests!
                   From community gatherings and workshops to special occasions
                   and online meetups, find the perfect event to enhance your
@@ -434,6 +434,8 @@ const Event = () => {
                         </div>
                       </div>
                     </div>
+
+                    
                   </div>
                 </div>
               </div>
@@ -557,7 +559,7 @@ const Event = () => {
                       <div className="row">
                         {filteredSearchEvents.length > 0 ? (
                           filteredSearchEvents.map((event) => (
-                            <div className="col-xl-4 col-lg-4" key={event.id}>
+                            <div className={`col-xl-4 col-lg-4 ${screens.sm ? "" : "col-md-6 col-sm-12"}`} key={event.id}>
                               <div className="trend-1 pt-4">
                                 <div className="img">
                                   <img src={event.image_url || defaultImg.src} alt={event.title} style={{ objectFit: "cover" }} />
