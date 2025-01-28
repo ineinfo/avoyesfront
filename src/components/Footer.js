@@ -75,33 +75,39 @@ const Footer = () => {
                 This company meets the highest standard of social and
                 environmental performance transparency and accountability{" "}
               </p> */}
+<ul className="ftr-para" style={screens.sm ? { minWidth: "40vw" } : { minWidth: "100%" }}>
+  <li>
+    <strong>Réservez vos restaurants coup de cœur avec</strong>{" "}
+    <a href="/foodie" style={{ textDecoration: "underline", color: "black" }}>
+      Foodies
+    </a>
+  </li>
+  <li>
+    <strong>Explorez des activités uniques grâce à</strong>{" "}
+    <a href="/map" style={{ textDecoration: "underline", color: "black" }}>
+      notre carte interactive
+    </a>
+  </li>
+  <li>
+    <strong>Ne manquez aucun événement incontournable avec</strong>{" "}
+    <a href="/event" style={{ textDecoration: "underline", color: "black" }}>
+      Sorties
+    </a>
+  </li>
+  <li>
+    <strong>Découvrez nos sélections pépites sur</strong>{" "}
+    <a href="/marketplace" style={{ textDecoration: "underline", color: "black" }}>
+      Marketplace
+    </a>
+  </li>
+  <li>
+    <strong>Relevez des défis bien-être excitants sur</strong>{" "}
+    <a href="/challanges" style={{ textDecoration: "underline", color: "black" }}>
+      Challenges
+    </a>
+  </li>
+</ul>
 
-              <p className="ftr-para" style={screens.sm ? {minWidth: "40vw"} : { minWidth: "100%" }}>
-                Réservez vos restaurants coup de cœur avec{" "}
-                <a href="/foodie" style={{ textDecoration: "underline", color: "black" }}>
-                  Foodies
-                </a>
-                <br />
-                Explorez des activités uniques grâce à{" "}
-                <a href="/map" style={{ textDecoration: "underline", color: "black" }}>
-                  notre carte interactive
-                </a>
-                <br />
-                Ne manquez aucun événement incontournable avec{" "}
-                <a href="/event" style={{ textDecoration: "underline", color: "black" }}>
-                  Sorties
-                </a>
-                <br />
-                Découvrez nos sélections pépites sur{" "}
-                <a href="/marketplace" style={{ textDecoration: "underline", color: "black" }}>
-                  Marketplace
-                </a>
-                <br />
-                Relevez des défis bien-être excitants sur{" "}
-                <a href="/challanges" style={{ textDecoration: "underline" , color: "black"}}>
-                  Challenges
-                </a>
-              </p>
 
 
               <div className="footer-social-icons">
