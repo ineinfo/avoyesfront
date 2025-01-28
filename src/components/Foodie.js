@@ -4,9 +4,11 @@ import axios from "axios";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import Slider from "react-slick";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import foodieBanner from "../../public/foodie-banner.png";
 import cafe from "../../public/cafe.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import {
@@ -26,11 +28,19 @@ const Foodie = () => {
     const [isHighestRated, setIsHighestRated] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [foodBlogs, setFoodBlogs] = useState([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const screens = useBreakpoint()
 
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
+    const handleDropdownItemClick = (ratingType) => {
+        handleRatingFilter(ratingType);
+        setIsDropdownOpen(false);
+    };
 
     const handleRatingFilter = (ratingType) => {
         setIsHighestRated(ratingType === 'highest');
@@ -148,7 +158,7 @@ const Foodie = () => {
                 },
             },
         ],
-        style: { width: '100vw' },
+        
     };
 
     return (
@@ -295,7 +305,7 @@ const Foodie = () => {
                     <p className="mt-3"> from cafes to healthy food</p>
                 </div>
                 <div className="container mt-5">
-                    <Slider {...foodsliderSettings} >
+                    <Slider {...foodsliderSettings}>
                         {foodBlogs.length > 0 ? (
                             foodBlogs.map((blog) => (
                                 <div key={blog.id} className="custom-slider-box-food" >
@@ -449,49 +459,44 @@ const Foodie = () => {
                             <div className="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div className="restaurants">
                                     <div className="d-flex justify-content-between responsive-column">
-                                        <h2>Top 10 Best Fast Food Near Your Location</h2>
+                                        <h2>Top 3 Best Fast Food Near Your Location</h2>
 
                                         {/* <!-- Sort Dropdown --> */}
                                         <div className="mb-3">
-                                            <div className="dropdown speaker-dropdwn">
+                                            <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block' }}>
                                                 <button
-                                                    className="btn btn-secondary dropdown-toggle select-city speaker-drp d-flex justify-content-between align-items-center"
+                                                    className="custom-dropdown-toggle"
                                                     type="button"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                    onClick={() => handleRatingFilter('all')}
-                                                    id="categoryDropdown"
+                                                    onClick={toggleDropdown}
                                                     style={{
                                                         border: '1px solid #ccc',
                                                         backgroundColor: 'white',
                                                         color: '#000',
-                                                        transition: 'none',
+                                                        padding: '10px',
+                                                        cursor: 'pointer',
+                                                        width: '100%',
+                                                        textAlign: 'left',
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        borderRadius: '5px'
                                                     }}
                                                 >
                                                     Recommended
-                                                    {/* <i className="fa fa-chevron-down ms-2"></i> */}
+                                                    <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
+                                                        ▼
+                                                    </span>
                                                 </button>
-                                                <ul className="dropdown-menu city-menu">
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="#"
-                                                            data-value="     Recommended"
-                                                        >
+                                                {isDropdownOpen && (
+                                                    <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
+                                                        <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
                                                             Recommended
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="#"
-                                                            data-value="    highest rated"
-                                                            onClick={() => handleRatingFilter('highest')}
-                                                        >
+                                                        </li>
+                                                        <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
                                                             highest rated
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                        </li>
+                                                    </ul>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -499,7 +504,7 @@ const Foodie = () => {
                                     {/* <!-- Restaurant List --> */}
                                     <div className="restaurant-list">
                                         {filteredPlacesByCategory.length > 0 ? (
-                                            filteredPlacesByCategory.slice(0, 5).map((place) => (
+                                            filteredPlacesByCategory.slice(0, 3).map((place) => (
                                                 <div key={place.id} className="restaurant-item border-bottom mb-4 pb-4">
                                                     <div className="d-flex align-items-start">
                                                         <img
@@ -519,17 +524,15 @@ const Foodie = () => {
                                                                     {place.title}
                                                                 </a>
                                                             </h5>
-                                                            <div className="small text-muted">
-                                                                {/* Generate stars dynamically based on rating */}
-                                                                {[...Array(Math.floor(place.rating))].map((_, i) => (
-                                                                    <i key={i} className="fas fa-star"> </i>
-                                                                ))}
-                                                                {place.rating % 1 !== 0 && <i className="fas fa-star-half-alt"></i>}  ({place.reviews} reviews)
-                                                               
-                                                            </div>
-
-
-
+                                                            {place.rating && place.reviews && (
+                                                                <div className="small text-muted">
+                                                                    {/* Generate stars dynamically based on rating */}
+                                                                    {[...Array(Math.floor(place.rating))].map((_, i) => (
+                                                                        <i key={i} className="fas fa-star"> </i>
+                                                                    ))}
+                                                                    {place.rating % 1 !== 0 && <i className="fas fa-star-half-alt"></i>}  ({place.reviews} reviews)
+                                                                </div>
+                                                            )}
                                                             <span className="badge bg-danger">{getFoodTypeTitle(place.food_type_id)}</span>
                                                             {/* <span className="text-danger ms-2">{place.status}</span> */}
                                                             <p className="two-line-text">{place.description}</p>

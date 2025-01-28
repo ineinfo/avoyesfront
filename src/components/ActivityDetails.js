@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { fetchActivityDetails } from "@/utils/api/ActivityApi";
 import LoadingSpinner from "./Loading";
+import Image from "next/image";
 
 const ActivityDetails = () => {
     const { id } = useParams();
@@ -67,7 +68,7 @@ const ActivityDetails = () => {
                 {/* header */}
                 <div className="breadcrumb-marketplace py-5">
                     <div className="img">
-                        {/* <img src="" alt={activity.title} />  */}
+                   
                         <div className="container">
                             <div className="bread-head text-end">
                                 <div className="link d-flex align-items-center justify-content-end">
@@ -145,7 +146,7 @@ const ActivityDetails = () => {
                                 <div className="custom-modal" id="imageModalCustom" style={{ display: 'none' }}>
                                     <div className="custom-modal-content">
                                         <span className="close-custom">&times;</span>
-                                        <img id="modalImageCustom" src="" className="modal-custom-img" />
+                                        <img id="modalImageCustom" src="" className="modal-custom-img"/>
                                     </div>
                                 </div>
 

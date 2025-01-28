@@ -32,7 +32,7 @@ const WishList = () => {
 
   if (!Id && !Token) {
     return (<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '55vh', backgroundColor: '#f0f8ff' }}>
-      <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#0000ff', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', color: '#ffff', }}>
+      <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#F5F4F9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', color: '#000', }}>
         <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Please Log In</h1>
         <p style={{ fontSize: '1.1rem' }}>Log in to see your wishlist and manage your saved items.</p>
         <button
@@ -42,7 +42,7 @@ const WishList = () => {
             padding: '0.8rem 1.5rem',
             fontSize: '1rem',
             backgroundColor: '#ffff',
-            color: '#0000ff',
+            color: '#000',
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',

@@ -31,19 +31,23 @@ const CartModal = () => {
                           src="/Thumb-1.png"
                           className="img-fluid thumbnail w-75"
                           onClick="changeImage('/Thumb-1.png', 'mainImage2')"
+                          alt=''
                         />
                         <img
                           src="/Thumb-2.png"
                           className="img-fluid thumbnail w-75"
                           onClick="changeImage('/Thumb-2.png', 'mainImage2')"
+                          alt=''
                         />
                         <img
                           src="/Thumb-4.png"
                           className="img-fluid thumbnail w-75"
+                          alt=''
                           onClick="changeImage('/Thumb-4.png', 'mainImage2')"
                         />
                         <img
                           src="/Thumb-3.png"
+                          alt=''
                           className="img-fluid thumbnail w-75"
                           onClick="changeImage('/Thumb-3.png', 'mainImage2')"
                         />
@@ -52,6 +56,7 @@ const CartModal = () => {
                         <img
                           id="mainImage2"
                           src="/main-thumb.png"
+                          alt=''
                           className="img-fluid w-100"
                         />
                       </div>

@@ -15,6 +15,12 @@ import "jquery";
 import dynamic from 'next/dynamic';
 import defaultImg from "../../public/event-breadcrumb.png";
 import LoadingSpinner from "./Loading";
+import { Grid } from "antd";
+import Image from "next/image";
+
+
+const { useBreakpoint } = Grid
+
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
   ssr: false,
 });
@@ -26,6 +32,7 @@ const Activity = () => {
   const [countries, setCountries] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const screens = useBreakpoint();
 
   const [selectedCountry, setSelectedCountry] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -190,17 +197,20 @@ const Activity = () => {
   const categorySliderSettings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: screens.sm ? 5 : 4,
+
+    // slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
     arrows: false,
 
     autoplaySpeed: 2000,
-    responsive: [
+    responsive: [      
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
+          objectFit: 'cover',
         },
       },
       {
@@ -271,10 +281,10 @@ const Activity = () => {
         {/* slider */}
 
 
-        <div className="activity-categories" style={{ marginTop: '60px', marginBottom: '100px' }}>
+        <div className="activity-categories" style={{ marginTop: '60px', marginBottom: '100px',margin:"20px" }}>
           <Slider {...categorySliderSettings}>
             {categories.map((category) => (
-              <div className=" item" key={category.id}>
+              <div className="item" key={category.id}>
                 <a href="">
                   <img
                     src={category.image_url || defaultImg.src}

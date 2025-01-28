@@ -137,7 +137,7 @@ const Blog = () => {
                                                         {/* <img src={blog.image_url} alt="" />  */}
                                                         {/* src={blog.image_url ? blog.image_url : defaultBImg.src} */}
                                                         <Link href={`/${blog.id}/blog-details`} className="text-decoration-none">
-                                                        <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`}/>
+                                                        <img src={blog.image_url && !blog?.image_url?.includes('localhost')? blog.image_url : `http://38.108.127.253:3000/uploads/blogs/1730093974333-15225507.png`} alt=''/>
                                                      
 
                                                   

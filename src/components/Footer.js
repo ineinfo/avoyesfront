@@ -13,11 +13,11 @@ const Footer = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
+  const screens = useBreakpoint();
   const pathname = usePathname(); // Get current path
   if (pathname === "/login" || pathname === "/otp" || pathname === "/forgotpassword" || pathname === "/new-password" || pathname === "/register") {
     return null;
   }
-  const screens = useBreakpoint()
   const token = Cookies.get("accessToken");
 
   const handleInputChange = (event) => {

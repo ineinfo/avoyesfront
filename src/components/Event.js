@@ -518,6 +518,14 @@ const Event = () => {
                             <a
                               className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
                               onClick={(event) => handleTabClick(event, category.id)}
+                              style={{
+                                fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal',
+                                color: selectedCategoryId === category.id ? '#007bff' : '#000',
+                                backgroundColor: selectedCategoryId === category.id ? '#e9f5ff' : 'transparent',
+                                borderRadius: '5px',
+                                padding: '5px 10px',
+                                transition: 'background-color 0.3s, color 0.3s',
+                              }}
                               href="#"
                             >
                               {category.title}
@@ -722,6 +730,14 @@ const Event = () => {
                           }`}
                         id="upcoming-tab"
                         onClick={() => setActiveTab("upcoming")}
+                        style={{
+                          fontWeight: activeTab === "upcoming" ? "bold" : "normal",
+                          color: activeTab === "upcoming" ? "#007bff" : "#000",
+                          backgroundColor: activeTab === "upcoming" ? "#e9f5ff" : "transparent",
+                          borderRadius: "5px",
+                          padding: "5px 10px",
+                          transition: "background-color 0.3s, color 0.3s",
+                        }}
                         role="tab"
                         aria-controls="upcoming"
                         aria-selected={activeTab === "upcoming"}
@@ -735,6 +751,15 @@ const Event = () => {
                           }`}
                         id="latest-tab"
                         onClick={() => setActiveTab("latest")}
+                        style={{
+                          fontWeight: activeTab === "latest" ? "bold" : "normal",
+                          color: activeTab === "latest" ? "#007bff" : "#000",
+                          backgroundColor: activeTab === "latest" ? "#e9f5ff" : "transparent",
+                          borderRadius: "5px",
+                          padding: "5px 10px",
+                          transition: "background-color 0.3s, color 0.3s",
+                        }}
+                        
                         role="tab"
                         aria-controls="latest"
                         aria-selected={activeTab === "latest"}
@@ -896,7 +921,7 @@ const Event = () => {
                         Videos
                       </a>
                     </li>
-                    <li className="nav-item" role="presentation">
+                    {/* <li className="nav-item" role="presentation">
                       <a
                         className="nav-link"
                         id="gallery-tab"
@@ -908,7 +933,7 @@ const Event = () => {
                       >
                         Gallery
                       </a>
-                    </li>
+                    </li> */}
                   </div>
                 </ul>
                 <div className="tab-content" id="myTabContent">

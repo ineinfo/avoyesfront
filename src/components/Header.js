@@ -50,6 +50,10 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
     }
   };
 
+  const handleNavigation = (url) => {
+    setIsNavbarCollapsed(true); // Close the navbar
+    router.push(url); // Navigate to the specified URL
+  };
 
   useEffect(() => {
     const userId = Cookies.get("id");
@@ -193,6 +197,21 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
     }
   }, [isOffcanvasOpen]);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      const navbarElement = document.getElementById("navbarSupportedContent");
+      if (navbarElement && !navbarElement.contains(event.target)) {
+        setIsNavbarCollapsed(true); // Close the navbar when clicking outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   if (
     pathname === "/otp" ||
     pathname === "/forgotpassword" ||
@@ -277,30 +296,31 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
 
                   <li className="nav-item">
-                    <Link
-                      href="/wishlist"
+                    <a
+                      onClick={() => handleNavigation('/wishlist')}
                       className="text-decoration-none text-dark header-heart"
+                      style={{ cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-heart"></i>
-                    </Link>
+                    </a>
                   </li>
                   <li className="nav-item">
-                    <Link
-                      href="#"
+                    <a
+                      onClick={() => handleNavigation('/cart')}
                       className="text-decoration-none text-dark header-heart"
-                      onClick={() => setIsOffcanvasOpen(true)} // Open offcanvas
+                      style={{ cursor: 'pointer' }}
                     >
                       <img
                         src="/header-cart.png"
                         alt=""
                         className="header-cart"
                       />
-                    </Link>
+                    </a>
                   </li>
                   <li className="nav-item">
                     {showName ? (
-                      <Link
-                        href="/dashboard"
+                      <a
+                        onClick={() => handleNavigation('/dashboard')}
                         style={{
                           padding: "8px 15px",
                           backgroundColor: "blue",
@@ -316,10 +336,10 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                         }}
                       >
                         <i class="fa-solid fa-address-card"></i> Dashboard
-                      </Link>
+                      </a>
                     ) : (
-                      <Link
-                        href="/login"
+                      <a
+                        onClick={() => handleNavigation('/login')}
                         style={{
                           padding: "8px 15px",
                           backgroundColor: "blue",
@@ -336,7 +356,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                       >
                         <i className="fa-regular fa-user me-1"></i>
                         Login
-                      </Link>
+                      </a>
                     )}
                   </li>
                 </ul>

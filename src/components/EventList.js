@@ -97,6 +97,14 @@ const EventList = () => {
                             <a
                               className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
                               onClick={(event) => handleTabClick(event, category.id)}
+                              style={{
+                                fontWeight: selectedCategoryId === category.id ? 'bold' : 'normal',
+                                color: selectedCategoryId === category.id ? '#007bff' : '#000',
+                                backgroundColor: selectedCategoryId === category.id ? '#e9f5ff' : 'transparent',
+                                borderRadius: '5px',
+                                padding: '15px 10px',
+                                transition: 'background-color 0.3s, color 0.3s',
+                              }}
                               href="#"
                             >
                               {category.title}
