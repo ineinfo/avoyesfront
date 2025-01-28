@@ -336,8 +336,8 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                         }}
                       >
                         <i class="fa-solid fa-address-card"></i>
-                         {/* Dashboard */}
-                         Tableau de bord
+                        {/* Dashboard */}
+                        <span style={screens.sm ? {} : { display: "none" }}>Tableau de bord</span>
                       </a>
                     ) : (
                       <a
@@ -358,7 +358,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                       >
                         <i className="fa-regular fa-user me-1"></i>
                         {/* Login */}
-                        Se connecter
+                        <span style={screens.sm ? {} : { display: "none" }}> Se connecter</span>
                       </a>
                     )}
                   </li>
@@ -548,7 +548,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
           <div className="container py-4">
             <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
 
-            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
+              <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/event" className="text-decoration-none">
                   <div className="menu-1">
                     <div className="img pt-3">
@@ -573,7 +573,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                 </Link>
               </div>
 
-            
+
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/map" className="text-decoration-none">
                   <div className="menu-1">
@@ -610,7 +610,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
                   </div>
                 </Link>
               </div>
-             
+
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/challanges" className="text-decoration-none">
                   <div className="menu-1">
