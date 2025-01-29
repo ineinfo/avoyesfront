@@ -21,8 +21,25 @@ import {
   fetchCategories,
 } from "@/utils/api/EventApi";
 import LoadingSpinner from "./Loading";
-import { Grid } from "antd";
+import { Carousel, Grid, Layout } from "antd";
+import Sider from "antd/es/layout/Sider";
+import { Content } from "antd/es/layout/layout";
+
 const { useBreakpoint } = Grid;
+
+
+const contentStyle = {
+  margin: 0,
+  height: '720px',
+  color: '#fff',
+  lineHeight: '160px',
+  textAlign: 'center',
+  background: '#364d79',
+
+};
+
+
+
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [featuredEvents, setFeaturedEvents] = useState([]);
@@ -314,6 +331,28 @@ const Event = () => {
                 </p>
               </div>
             </div>
+            {/* <Carousel dots={false} arrows={false} infinite={true} autoplay>
+              <div>
+                <h3 style={contentStyle}><Layout >
+                  <Layout>
+                    <Sider style={{backgroundColor:"white"}} width={screens.sm?"50%":"100%"} height={screens.sm?"100%":"50%"}>
+                      Sider
+                    </Sider>
+                    <Content style={contentStyle}>Content</Content>
+                  </Layout>
+                </Layout>
+                </h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>2</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}><img src={defaultImg.src} alt="Event Breadcrumb" /></h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>4</h3>
+              </div>
+            </Carousel> */}
           </section>
 
           {/* <!-- what you want section --> */}

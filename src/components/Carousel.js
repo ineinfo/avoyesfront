@@ -64,7 +64,7 @@ const CustomCarousel = () => {
           <div className="carousel-item" key={blog.id}>
             <div className="container">
               <div className="row align-items-center py-5">
-                <div className="col-md-5 d-flex align-items-center justify-content-center">
+                <div className="col-md-6 d-flex align-items-center justify-content-center">
                   <img
                     src={blog.image_url ? blog.image_url : defaultBImg.src}
                     // src={defaultImg.src}
@@ -72,11 +72,11 @@ const CustomCarousel = () => {
 
                     className="d-block custom-carousel-img"
                     alt="Banner Image"
-                    style={{ width: '80%', height: screens.sm ? '670px' : "500px", objectFit: 'cover' }}
+                    style={{ width: '33vw', height: screens.sm ? '670px' : "500px", objectFit: 'cover' , borderRadius:"15px" }}
                   />
 
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-6">
                   <div className="admin">
                     <p>{blog.author}</p>
                   </div>

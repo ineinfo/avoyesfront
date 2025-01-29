@@ -248,7 +248,7 @@ const Activity = () => {
       <div className="activity-page" style={{ marginTop: "1rem" }}>
         <div className="activity-hero">
           {/* Activity hero section */}
-          <section className="hero-section">
+          <section className="hero-section" style={{height:screens.sm ? "" : "75vh"}}>
             <div className="hero-overlay"></div>
             <div className="container">
               <div className="hero-content">
@@ -324,7 +324,7 @@ const Activity = () => {
           <h2 style={{fontSize:screens.sm? "" :"20px"}}>Featured activities</h2>
         </div>
         <div className="container mt-5">
-          <ul className="nav nav-tabs" id="myTab" role="tablist">
+          <ul className="nav nav-tabs" id="myTab" role="tablist" style={{ display: "flex", flexWrap: "nowrap", overflowX: "auto", whiteSpace: "nowrap" , overflowY:"hidden"}}>
             {[
               "all",
               "today",
@@ -501,10 +501,17 @@ const Activity = () => {
                         <i className="fas fa-clock"></i>  <span>
                           {formatTime(activity.start_datetime)} - {formatTime(activity.end_datetime)}
                         </span>
+                      </div>
+                      <div>
+                    
+                      <i className="fas fa-map-marker-alt"></i>
+                      <span className="location-name">
+                          {activity.location}
+                        </span>
 
                       </div>
                     </div>
-                    <div className="location-section">
+                    {/* <div className="location-section">
                       <div className="location d-flex align-items-center">
                         <i className="fas fa-map-marker-alt"></i>
                         <span className="location-name">
@@ -512,7 +519,7 @@ const Activity = () => {
                         </span>
                       </div>
 
-                    </div>
+                    </div> */}
                     {/* <div className="heart-icon">
                 <a href="#">
                   <i className="far fa-heart"></i>
@@ -531,7 +538,7 @@ const Activity = () => {
       {/* <!-- activity service --> */}
       <div className="activity-services">
         <div className="heading-area text-center mb-5">
-          <h2 style={{fontSize:screens.sm? "32px" :"17px"}}>Planifiez, réservez, partez — on s&apos;occupe de tout pour vous simplifier la vie.</h2>
+          <h2 style={{fontSize:screens.sm? "32px" :"17px" , textAlign:screens.sm? "" : "left", padding:screens.sm? "" : "25px"}}>Planifiez, réservez, partez — on s&apos;occupe de tout pour vous simplifier la vie.</h2>
         </div>
         <div className="container mt-5">
           <div className="row text-center activity-support">

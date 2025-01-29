@@ -263,7 +263,7 @@ export default function CustomComponent() {
         dots: false,
         infinite: true,
         speed: 1000,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
