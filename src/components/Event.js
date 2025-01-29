@@ -22,7 +22,7 @@ import {
 } from "@/utils/api/EventApi";
 import LoadingSpinner from "./Loading";
 import { Grid } from "antd";
-const {useBreakpoint} = Grid
+const { useBreakpoint } = Grid
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [featuredEvents, setFeaturedEvents] = useState([]);
@@ -292,8 +292,8 @@ const Event = () => {
             <div className="event-list-breadcrumb">
               <img src={defaultImg.src} alt="Event Breadcrumb" />
               <div className="event-bread-text">
-                <h1 style={{fontSize:screens.sm ? "57px": '45px' , fontWeight:screens.sm ? "800px" : '600px'}}>Discover Upcoming Events</h1>
-                <p style={{fontSize:screens.sm ? "16px": '12px' , lineHeight:screens.sm ? "25px" : '20px'}}>
+                <h1 style={{ fontSize: screens.sm ? "57px" : '45px', fontWeight: screens.sm ? "800px" : '600px' }}>Discover Upcoming Events</h1>
+                <p style={{ fontSize: screens.sm ? "16px" : '12px', lineHeight: screens.sm ? "25px" : '20px' }}>
                   Explore a range of exciting events tailored to your interests!
                   From community gatherings and workshops to special occasions
                   and online meetups, find the perfect event to enhance your
@@ -435,7 +435,7 @@ const Event = () => {
                       </div>
                     </div>
 
-                    
+
                   </div>
                 </div>
               </div>
@@ -505,7 +505,7 @@ const Event = () => {
                 <div className="tab-container">
                   <div className="tab-head-event d-flex justify-content-between align-items-center">
                     {/* <ul className="nav nav-tabs event-tab" id="myTab" role="tablist"> */}
-                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'scroll', overflowY: 'hidden', paddingBottom: '10px' , scrollbarWidth:"thin"}}>
+                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'scroll', overflowY: 'hidden', paddingBottom: '10px', scrollbarWidth: "thin" }}>
                       <li className="nav-item" role="presentation">
                         <button
                           className={`nav-link ${selectedCategoryId === null ? 'active' : ''}`}
@@ -523,7 +523,7 @@ const Event = () => {
                             whiteSpace: 'nowrap' // Prevent line breaks
                           }}
                         >
-                           Categories
+                          Categories
                         </button>
                       </li>
                       {categories.map((category) => (
@@ -547,7 +547,7 @@ const Event = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="evt-head-btn" style={{marginLeft: '12px',marginTop: '-30px'}}>
+                    <div className="evt-head-btn" style={{ marginLeft: '12px', marginTop: '-30px' }}>
                       <Link href="/eventlist">
                         <button type="button"> ALL </button>
                       </Link>
@@ -654,7 +654,7 @@ const Event = () => {
                               className="event-image"
                               src={event.image_url ? event.image_url : defaultImg.src}
                               alt={event.title}
-                              style={screens.sm?{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }:{width:"100%", height: "220px"}}  // Image styling
+                              style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }}  // Image styling
                             />
                             <div className="icon">
                               {/* <a href="#"><i className="fa-regular fa-heart"></i></a> */}
@@ -775,7 +775,7 @@ const Event = () => {
                           padding: "5px 10px",
                           transition: "background-color 0.3s, color 0.3s",
                         }}
-                        
+
                         role="tab"
                         aria-controls="latest"
                         aria-selected={activeTab === "latest"}
@@ -808,11 +808,11 @@ const Event = () => {
                       {filteredEvents.map((event) => (
                         <div
                           key={event.id}
-                          className={`col-xl-6 col-lg-6 col-md-6 ${screens.sm ? "" : "col-12"}`}
+                          className={`col-xl-6 col-lg-6 col-md-6`}
                         >
-                          <div className="event-tab-bg-box">
-                            <div className="row">
-                              <div className={`col-xl-4 col-lg-5 ${screens.sm ? "" : "col-12"}`}>
+                          <div className="event-tab-bg-box" style={screens.sm ? {} : { width: "400px", height: "525px" }}>
+                            <div className="row" style={screens.sm ? {} : { display: 'flex', flexDirection: 'column' }}>
+                              <div className={`col-xl-4 col-lg-5 `} style={screens.sm ? {} : { width: "100%" }}>
                                 {/* <img src={event.image_url || "/defaultImg.png"} alt={event.title} /> */}
                                 <img
                                   className="event-image"
@@ -826,7 +826,7 @@ const Event = () => {
                                   style={{ objectFit: "cover" }}
                                 />
                               </div>
-                              <div className={`col-xl-8 col-lg-7 ${screens.sm ? "" : "col-12"}`}>
+                              <div className={`col-xl-8 col-lg-7`} style={screens.sm ? {} : { width: "100%" }}>
                                 <div className="trand-text-box-3">
                                   <div className="trand-head">
                                     <Link
