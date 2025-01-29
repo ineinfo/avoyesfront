@@ -136,14 +136,14 @@ const Foodie = () => {
         infinite: true,
         autoplay: true,
         arrows: false,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplaySpeed: 2000,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 3, // Adjusted to 3 for this breakpoint
                     slidesToScroll: 1,
                     infinite: true,
                     dots: true,
@@ -184,8 +184,8 @@ const Foodie = () => {
             <div className="must-visit-places">
                 <div className="must-visit-places-section text-center">
                     <div className="heading-area">
-                        <h2>must visit places</h2>
-                        <p className="mt-3">from cafes to healthy food</p>
+                        <h2>doit visiter des endroits</h2>
+                        <p className="mt-3">des cafés à la nourriture saine</p>
                     </div>
                 </div>
                 <div className="container mt-4">
@@ -302,18 +302,16 @@ const Foodie = () => {
 
             <div className="food-blog">
                 <div className="heading-area text-center">
-                    <h2>latest blog</h2>
-                    <p className="mt-3"> from cafes to healthy food</p>
+                    <h2>dernier blog</h2>
+                    <p className="mt-3">des cafés à la nourriture saine</p>
                 </div>
                 <div className="container mt-5">
                     <Slider {...foodsliderSettings}>
                         {foodBlogs.length > 0 ? (
                             foodBlogs.map((blog) => (
-                                <div key={blog.id} className="custom-slider-box-food" >
+                                <div key={blog.id} className="custom-slider-box-food">
                                     <img
                                         src={blog.image_url}
-                                        // src={foodieBanner.src}
-
                                         alt="Blog Image"
                                         className="custom-image-slider-food-blog"
                                     />
@@ -371,7 +369,7 @@ const Foodie = () => {
                         className="search-input" 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
-                        placeholder="Search for restaurants, cafes, or bars near you..."
+                        placeholder="Recherchez des restaurants, cafés ou bars près de chez vous..."
                     />
                     <i className="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
@@ -384,26 +382,26 @@ const Foodie = () => {
                                 className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 filter-sidebar-section"
                                 style={{ display: "flex", flexDirection: "column", }}
                             >
-                                <h3>Suggested</h3>
+                                <h3>Suggéré</h3>
                                 <div className="checkbox">
                                     <label>
-                                        <input type="checkbox" /> Open Now
+                                        <input type="checkbox" />Ouvrir maintenant
                                     </label>
                                     <br />
                                     <label>
-                                        <input type="checkbox" /> Good for Lunch
+                                        <input type="checkbox" /> Bon pour le déjeuner
                                     </label>
                                     <br />
                                     <label>
-                                        <input type="checkbox" /> Good for Dinner
+                                        <input type="checkbox" /> Bon pour le dîner
                                     </label>
                                     <br />
                                     <label>
-                                        <input type="checkbox" /> Reservations
+                                        <input type="checkbox" /> Réservations
                                     </label>
                                 </div>
 
-                                <h3>Categories</h3>
+                                <h3>Catégories</h3>
                                 <div className="categories">
                                     <div key="all" className="category-item">
                                         <label>
@@ -460,7 +458,7 @@ const Foodie = () => {
                             <div className="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div className="restaurants">
                                     <div className="d-flex justify-content-between responsive-column">
-                                        <h2>Top 3 Best Fast Food Near Your Location</h2>
+                                        <h2>Top 3 des meilleurs fast-foods près de chez vous</h2>
 
                                         {/* <!-- Sort Dropdown --> */}
                                         <div className="mb-3">
@@ -483,7 +481,7 @@ const Foodie = () => {
                                                         borderRadius: '5px'
                                                     }}
                                                 >
-                                                    Recommended
+                                                    recommandée
                                                     <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
                                                         ▼
                                                     </span>
@@ -491,10 +489,10 @@ const Foodie = () => {
                                                 {isDropdownOpen && (
                                                     <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
                                                         <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
-                                                            Recommended
+                                                        recommandée
                                                         </li>
                                                         <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
-                                                            highest rated
+                                                        le mieux noté
                                                         </li>
                                                     </ul>
                                                 )}

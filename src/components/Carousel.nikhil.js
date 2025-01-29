@@ -446,7 +446,7 @@ const CustomCarouselSix = () => {
 
 
   const settings = {
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
     arrows: false,
     dots: false,
@@ -490,13 +490,13 @@ const CustomCarouselSix = () => {
                   <div className="img-wrapper">
                     <div className="img position-relative">
                       <img
-                        src={
-                          item.image_url ||
-                          "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
-                        }
-                        //  src={foodieBanner.src} 
+                        // src={
+                        //   item.image_url ||
+                        //   "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
+                        // }
+                         src={foodieBanner.src} 
                         alt={item.title}
-                        style={{ width: "450px", height: "400px", objectFit: "cover" }}
+                        style={{ width: "450px", height: "380px", objectFit: "cover" }}
                       />
 
                       <div className="hover-effect">

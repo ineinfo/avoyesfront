@@ -266,7 +266,7 @@ const Event = () => {
     arrows: false,
     infinite: true,
     speed: 3000,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -591,9 +591,9 @@ const Event = () => {
                             color:
                               selectedCategoryId === null ? "#007bff" : "#000",
                             borderRadius: "5px",
-                            padding: "5px 10px",
+                            padding: "7px 11px",
                             marginRight: "10px", // Add space between boxes
-                            marginBottom: "10px", // Add space at the bottom
+                            marginBottom: "8px", // Add space at the bottom
                             whiteSpace: "nowrap", // Prevent line breaks
                           }}
                         >
@@ -653,7 +653,7 @@ const Event = () => {
                         {filteredSearchEvents.length > 0 ? (
                           filteredSearchEvents.map((event) => (
                             <div
-                              className={`col-xl-4 col-lg-4 ${screens.sm ? "" : "col-md-6 col-sm-12"
+                              className={`col-xl-3 col-lg-3 ${screens.sm ? "" : "col-md-6 col-sm-12"
                                 }`}
                               key={event.id}
                             >
@@ -880,10 +880,9 @@ const Event = () => {
           </section>
 
           {/*   <!-- popular & latest events --> */}
-          <div className="popular-latest-event my-5">
+          {/* <div className="popular-latest-event my-5">
             <div className="container ">
               <div className="latest-events-tabs d-flex justify-content-between align-items-center">
-                {/* <!-- Nav tabs --> */}
                 <ul className="nav nav-tabs" id="eventTabs" role="tablist">
                   <li className="nav-item" role="presentation">
                     <a
@@ -965,7 +964,6 @@ const Event = () => {
                 </div>
               </div>
 
-              {/* <!-- Tab content --> */}
               <div className="tab-content" id="eventTabsContent">
                 <div
                   className="tab-pane fade show active"
@@ -1000,7 +998,6 @@ const Event = () => {
                                 className={`col-xl-4 col-lg-5 `}
                                 style={screens.sm ? {} : { width: "100%" }}
                               >
-                                {/* <img src={event.image_url || "/defaultImg.png"} alt={event.title} /> */}
                                 <img
                                   className="event-image"
                                   src={
@@ -1027,11 +1024,7 @@ const Event = () => {
                                   </div>
                                   <div className="cal-date d-flex align-items-center">
                                     <img src="/cal-evnt.png" alt="Calendar" />
-                                    {/* <p>
-                                      {new Date(
-                                        event.start_date
-                                      ).toLocaleDateString()}
-                                    </p> */}
+                             
 
                                     <p>
                                       {(() => {
@@ -1089,7 +1082,7 @@ const Event = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* gallery */}
           {/* <section>
