@@ -859,7 +859,7 @@ const Event = () => {
                       <img src="/event-tab.png" alt="" />
                     </a>
                   </li>
-                  <div className="latest-tabs-border d-flex align-items-center">
+                  <div className="latest-tabs-border d-flex align-items-center" style={screens.sm ? {} : { padding: "5px" }}>
                     <li className="nav-item" role="presentation">
                       <a
                         className={`nav-link ${activeTab === "upcoming" ? "active" : ""
@@ -910,16 +910,16 @@ const Event = () => {
                     </li>
                   </div>
                 </ul>
-                <div className="evt-head-btn">
+                <div className="evt-head-btn" style={screens.sm ? {} : { marginTop: "0" }}>
                   <a href="/eventlist">
                     <button type="button">
                       {screens.sm ? (
                         <>
-                          SEE ALL EVENTS
+                          See All Events
                           <i className="fa-solid fa-arrow-right ms-2 text-white"></i>
                         </>
                       ) : (
-                        " All "
+                        "See All"
                       )}
                     </button>
                   </a>
