@@ -808,11 +808,11 @@ const Event = () => {
                       {filteredEvents.map((event) => (
                         <div
                           key={event.id}
-                          className="col-xl-6 col-lg-6 col-md-6"
+                          className={`col-xl-6 col-lg-6 col-md-6 ${screens.sm ? "col-12" : ""}`}
                         >
                           <div className="event-tab-bg-box">
                             <div className="row">
-                              <div className="col-xl-4 col-lg-5">
+                              <div className={`col-xl-4 col-lg-5 ${screens.sm ? "col-12" : ""}`}>
                                 {/* <img src={event.image_url || "/defaultImg.png"} alt={event.title} /> */}
                                 <img
                                   className="event-image"
@@ -826,7 +826,7 @@ const Event = () => {
                                   style={{ objectFit: "cover" }}
                                 />
                               </div>
-                              <div className="col-xl-8 col-lg-7">
+                              <div className={`col-xl-8 col-lg-7 ${screens.sm ? "col-12" : ""}`}>
                                 <div className="trand-text-box-3">
                                   <div className="trand-head">
                                     <Link
