@@ -299,7 +299,7 @@ const Activity = () => {
           <Slider {...categorySliderSettings}>
             {categories.map((category) => (
               <div className="item" key={category.id}>
-                <a href="">
+                <a href="" style={{textDecoration:"none"}}>
                   <img
                     src={category.image_url || defaultImg.src}
                     // src={defaultImg.src}
@@ -307,8 +307,8 @@ const Activity = () => {
                     alt={category.title}
                     style={{ marginBottom: '30px' }}
                   />
-                  <div className="item-content">
-                    <p style={{textDecoration:"none"}}>{category.title}</p>
+                  <div className="item-content" style={{textDecoration:"none"}}>
+                    <p>{category.title}</p>
                   </div>
                 </a>
               </div>
@@ -320,8 +320,8 @@ const Activity = () => {
 
       {/* Featured activities section */}
       <div className="activity-tab-content">
-        <div className="heading-area text-center"style={{fontSize:screens.sm? "" :"25px"}}>
-          <h2 >Featured activities</h2>
+        <div className="heading-area text-center">
+          <h2 style={{fontSize:screens.sm? "" :"20px"}}>Featured activities</h2>
         </div>
         <div className="container mt-5">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -384,15 +384,14 @@ const Activity = () => {
                     <h6>hosted by {activity.hosted_by}</h6>
                     <div className="date-time-section d-flex justify-content-between align-items-center">
                       <div className="date">
-                        <i className="fas fa-calendar-alt"></i>       {formatDateRange(
+                        <i className="fas fa-calendar-alt"></i>  {formatDateRange(
                           activity.start_datetime,
                           activity.end_datetime
                         )}
-
                       </div>
                       <div className="separator">|</div>
                       <div className="time" >
-                        <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
+                        <i className="fas fa-clock" style={{ marginRight: '-2px' }}></i>
                         <span>
                           {formatTime(activity.start_datetime)} -
                           {formatTime(activity.end_datetime)}
@@ -428,7 +427,7 @@ const Activity = () => {
 
       <div className="upcoming-activities mt-5">
         <div className="heading-area text-center">
-          <h2>Nos Recommandations d&apos;activités</h2>
+          <h2 style={{fontSize:screens.sm? "" :"20px"}}>Nos Recommandations d&apos;activités</h2>
         </div>
         <div className="container mt-5">
           <Slider
@@ -438,7 +437,7 @@ const Activity = () => {
               slidesToShow: 3,
               slidesToScroll: 1,
               arrows: false,
-              autoplay: true,
+              autoplay: false,
               autoplaySpeed: 2000,
               responsive: [
                 {
@@ -447,7 +446,7 @@ const Activity = () => {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     infinite: true,
-                    autoplay: true,
+                    autoplay: false,
                     autoplaySpeed: 3000,
                   },
                 },
@@ -456,7 +455,7 @@ const Activity = () => {
                   settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    autoplay: true,
+                    autoplay: false,
                     autoplaySpeed: 3000,
                   },
                 },
@@ -492,28 +491,25 @@ const Activity = () => {
                       </div>
                     </div>
                     <h6 style={{ marginBottom: '-40px' }}>hosted by {activity.hosted_by}</h6>
-                    <div className="date-time-section d-flex justify-content-between align-items-center">
+                    <div className="date-time-section d-flex justify-content-between" style={{ flexDirection: screens.sm ? "row" : "column" , alignItems: screens.sm ? "center" : "flex-start" }}>
                       <div className="date">
                         <i className="fas fa-calendar-alt"></i>
                         <span>       {formatDateRange(activity.start_datetime, activity.end_datetime)}</span>
                       </div>
-                      <div className="separator">|</div>
+                      <div className="separator" style={{display:screens.sm ? "" : "none"}}>|</div>
                       <div className="time">
-                        <i className="fas fa-clock"></i>         <span>
+                        <i className="fas fa-clock"></i>  <span>
                           {formatTime(activity.start_datetime)} - {formatTime(activity.end_datetime)}
                         </span>
 
                       </div>
                     </div>
-                    <div className="location-section" style={{ marginTop: '-20px' }}>
+                    <div className="location-section">
                       <div className="location d-flex align-items-center">
                         <i className="fas fa-map-marker-alt"></i>
                         <span className="location-name">
                           {activity.location}
                         </span>
-
-
-
                       </div>
 
                     </div>
@@ -535,7 +531,7 @@ const Activity = () => {
       {/* <!-- activity service --> */}
       <div className="activity-services">
         <div className="heading-area text-center mb-5">
-          <h2>Planifiez, réservez, partez — on s&apos;occupe de tout pour vous simplifier la vie.</h2>
+          <h2 style={{fontSize:screens.sm? "32px" :"17px"}}>Planifiez, réservez, partez — on s&apos;occupe de tout pour vous simplifier la vie.</h2>
         </div>
         <div className="container mt-5">
           <div className="row text-center activity-support">

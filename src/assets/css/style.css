@@ -8822,6 +8822,7 @@ input#timePicker {
     height: 250px; /* Set a fixed height for the item content */
     border-radius: 10px; /* Add border radius */
     overflow: hidden; /* Optional: to ensure content fits within the border-radius */
+    text-decoration: none;
   }
 
 .item-content {
@@ -8835,6 +8836,7 @@ input#timePicker {
     font-size: 17px;
     font-family: "lato";
     font-weight: 600;
+    text-decoration: none;
   }
 
 /* .activities-cat-slider .item-content p {
@@ -8970,6 +8972,7 @@ top: 10px;
 
 .activity-tab-content .content-box .box .separator {
     color: #5f5d5d;
+    margin:3px
 }
 
 .activity-tab-content .content-box .box .location-section span {
