@@ -654,7 +654,7 @@ const Event = () => {
                               className="event-image"
                               src={event.image_url ? event.image_url : defaultImg.src}
                               alt={event.title}
-                              style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }}  // Image styling
+                              style={screens.sm?{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }:{width:"100%", height: "220px"}}  // Image styling
                             />
                             <div className="icon">
                               {/* <a href="#"><i className="fa-regular fa-heart"></i></a> */}

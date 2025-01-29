@@ -110,7 +110,7 @@ const EventDetails = () => {
     <>
       <div className="event-page">
         <div id="home">
-          <div className="breadcrumb-marketplace py-5">
+          {/* <div className="breadcrumb-marketplace py-5">
             <div className="img">
               <img src="" alt="" />
               <div className="container">
@@ -124,7 +124,7 @@ const EventDetails = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Event Video Section */}
           <section>
