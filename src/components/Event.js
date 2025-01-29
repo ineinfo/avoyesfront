@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Slider from "react-slick";
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
@@ -11,18 +11,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import defaultImg from "../../public/event-breadcrumb.png";
 import defaultImg from "../../public/eventbanner.jpg";
-import { Dropdown } from 'bootstrap'; // Add this import
+import { Dropdown } from "bootstrap"; // Add this import
 
 import {
   fetchEvents,
   fetchEventsFeatured,
   fetchEventsVideo,
   fetchSpeakers,
-  fetchCategories
+  fetchCategories,
 } from "@/utils/api/EventApi";
 import LoadingSpinner from "./Loading";
 import { Grid } from "antd";
-const { useBreakpoint } = Grid
+const { useBreakpoint } = Grid;
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [featuredEvents, setFeaturedEvents] = useState([]);
@@ -38,7 +38,7 @@ const Event = () => {
   const [selectedSpeaker, setSelectedSpeaker] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSpeakerId, setSelectedSpeakerId] = useState(null);
-  const screens = useBreakpoint()
+  const screens = useBreakpoint();
   const [timer, setTimer] = useState({ hours: 24, minutes: 59, seconds: 59 });
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -65,17 +65,20 @@ const Event = () => {
 
   // Go to the previous image
   const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1));
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1
+    );
   };
 
   // Go to the next image
   const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1));
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   useEffect(() => {
     let interval;
-
 
     interval = setInterval(() => {
       setTimer((prevTimer) => {
@@ -83,18 +86,15 @@ const Event = () => {
         let newMinutes = prevTimer.minutes;
         let newHours = prevTimer.hours;
 
-
         if (newSeconds < 0) {
           newSeconds = 59;
           newMinutes -= 1;
         }
 
-
         if (newMinutes < 0) {
           newMinutes = 59;
           newHours -= 1;
         }
-
 
         if (newHours < 0) {
           newHours = 0;
@@ -108,7 +108,6 @@ const Event = () => {
       });
     }, 1000);
 
-
     return () => {
       clearInterval(interval);
     };
@@ -121,7 +120,6 @@ const Event = () => {
   const handleVideoPause = () => {
     setIsVideoPlaying(false);
   };
-
 
   useEffect(() => {
     const getEvents = async () => {
@@ -158,8 +156,6 @@ const Event = () => {
       }
     };
 
-
-
     const fetchAdditionalData = async () => {
       try {
         const categoriesData = await fetchCategories();
@@ -195,15 +191,18 @@ const Event = () => {
 
   useEffect(() => {
     // Initialize Bootstrap dropdowns
-    const dropdownElements = document.querySelectorAll('.dropdown-toggle');
-    dropdownElements.forEach(dropdown => {
+    const dropdownElements = document.querySelectorAll(".dropdown-toggle");
+    dropdownElements.forEach((dropdown) => {
       new Dropdown(dropdown); // Update this line to use the imported Dropdown
     });
   }, []);
 
-
   if (loading) {
-    return <><LoadingSpinner /></>;
+    return (
+      <>
+        <LoadingSpinner />
+      </>
+    );
   }
 
   if (error) {
@@ -217,15 +216,20 @@ const Event = () => {
         .slice(0, 5)
       : events;
 
-
-
-  const filteredSearchEvents = events.filter(event => {
+  const filteredSearchEvents = events.filter((event) => {
     const matchesSearchTerm =
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (event.short_description && event.short_description.toLowerCase().includes(searchTerm.toLowerCase()));
+      (event.short_description &&
+        event.short_description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()));
 
-    const matchesCategory = selectedCategoryId ? event.event_category_id === selectedCategoryId : true;
-    const matchesSpeaker = selectedSpeakerId ? event.event_speaker_id === selectedSpeakerId : true;
+    const matchesCategory = selectedCategoryId
+      ? event.event_category_id === selectedCategoryId
+      : true;
+    const matchesSpeaker = selectedSpeakerId
+      ? event.event_speaker_id === selectedSpeakerId
+      : true;
 
     return matchesSearchTerm && matchesCategory && matchesSpeaker;
   });
@@ -235,12 +239,10 @@ const Event = () => {
     setSelectedCategoryId(categoryId);
   };
 
-
   const truncateCharacters = (text, charLimit) => {
     if (!text) return "";
     return text.length > charLimit ? text.slice(0, charLimit) + "..." : text;
   };
-
 
   const settings = {
     dots: false,
@@ -262,7 +264,7 @@ const Event = () => {
           infinite: true,
           dots: false,
           arrows: false,
-        }
+        },
       },
       {
         breakpoint: 600,
@@ -271,9 +273,9 @@ const Event = () => {
           slidesToScroll: 1,
           dots: false,
           arrows: false,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   // window.onload = function() {
@@ -283,7 +285,6 @@ const Event = () => {
   //   });
   // };
 
-
   return (
     <>
       <div className="event-page">
@@ -292,8 +293,20 @@ const Event = () => {
             <div className="event-list-breadcrumb">
               <img src={defaultImg.src} alt="Event Breadcrumb" />
               <div className="event-bread-text">
-                <h1 style={{ fontSize: screens.sm ? "57px" : '45px', fontWeight: screens.sm ? "800px" : '600px' }}>Discover Upcoming Events</h1>
-                <p style={{ fontSize: screens.sm ? "16px" : '12px', lineHeight: screens.sm ? "25px" : '20px' }}>
+                <h1
+                  style={{
+                    fontSize: screens.sm ? "57px" : "45px",
+                    fontWeight: screens.sm ? "800px" : "600px",
+                  }}
+                >
+                  Discover Upcoming Events
+                </h1>
+                <p
+                  style={{
+                    fontSize: screens.sm ? "16px" : "12px",
+                    lineHeight: screens.sm ? "25px" : "20px",
+                  }}
+                >
                   Explore a range of exciting events tailored to your interests!
                   From community gatherings and workshops to special occasions
                   and online meetups, find the perfect event to enhance your
@@ -341,10 +354,10 @@ const Event = () => {
                             aria-expanded="false"
                             id="speakerDropdown"
                             style={{
-                              border: '1px solid #ccc',
-                              backgroundColor: 'white',
-                              color: '#000',
-                              transition: 'none',
+                              border: "1px solid #ccc",
+                              backgroundColor: "white",
+                              color: "#000",
+                              transition: "none",
                             }}
                           >
                             {selectedSpeaker || "Speaker"}
@@ -360,7 +373,10 @@ const Event = () => {
                                   setSelectedSpeaker("");
                                   setSelectedSpeakerId(null);
                                 }}
-                                style={{ color: '#000', backgroundColor: 'transparent' }}
+                                style={{
+                                  color: "#000",
+                                  backgroundColor: "transparent",
+                                }}
                               >
                                 All Speakers
                               </a>
@@ -391,14 +407,12 @@ const Event = () => {
                             aria-expanded="false"
                             id="categoryDropdown"
                             style={{
-                              border: '1px solid #ccc',
-                              backgroundColor: 'white',
-                              color: '#000',
-                              transition: 'none',
+                              border: "1px solid #ccc",
+                              backgroundColor: "white",
+                              color: "#000",
+                              transition: "none",
                             }}
                           >
-
-
                             {selectedCategory || "Category"}
                             {/* <i className="fa fa-chevron-down ms-2"></i> */}
                           </button>
@@ -411,7 +425,10 @@ const Event = () => {
                                   setSelectedCategory("");
                                   setSelectedCategoryId(null);
                                 }}
-                                style={{ color: '#000', backgroundColor: 'transparent' }}
+                                style={{
+                                  color: "#000",
+                                  backgroundColor: "transparent",
+                                }}
                               >
                                 All Category
                               </a>
@@ -434,8 +451,6 @@ const Event = () => {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
@@ -448,7 +463,9 @@ const Event = () => {
               <div className="container">
                 <div className="head">
                   <h1>Upcoming Events</h1>
-                  <p>{videoData ? videoData.top_sub_heading : <LoadingSpinner />}</p>
+                  <p>
+                    {videoData ? videoData.top_sub_heading : <LoadingSpinner />}
+                  </p>
                 </div>
                 <div className="video-box">
                   <div className="video-container">
@@ -458,7 +475,10 @@ const Event = () => {
                           id="video"
                           width="100%"
                           height="900"
-                          src={videoData.video_url.replace("watch?v=", "embed/")}
+                          src={videoData.video_url.replace(
+                            "watch?v=",
+                            "embed/"
+                          )}
                           title={videoData.video_title}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -490,7 +510,9 @@ const Event = () => {
                         </div>
                       </>
                     ) : (
-                      <p><LoadingSpinner /></p>
+                      <p>
+                        <LoadingSpinner />
+                      </p>
                     )}
                   </div>
                 </div>
@@ -505,41 +527,67 @@ const Event = () => {
                 <div className="tab-container">
                   <div className="tab-head-event d-flex justify-content-between align-items-center">
                     {/* <ul className="nav nav-tabs event-tab" id="myTab" role="tablist"> */}
-                    <ul className="nav nav-tabs event-tab d-flex flex-nowrap" id="myTab" role="tablist" style={{ overflowX: 'scroll', overflowY: 'hidden', paddingBottom: '10px', scrollbarWidth: "thin" }}>
+                    <ul
+                      className="nav nav-tabs event-tab d-flex flex-nowrap"
+                      id="myTab"
+                      role="tablist"
+                      style={{
+                        overflowX: "scroll",
+                        overflowY: "hidden",
+                        paddingBottom: "10px",
+                        scrollbarWidth: "thin",
+                      }}
+                    >
                       <li className="nav-item" role="presentation">
                         <button
-                          className={`nav-link ${selectedCategoryId === null ? 'active' : ''}`}
+                          className={`nav-link ${selectedCategoryId === null ? "active" : ""
+                            }`}
                           id="profile-tab-event"
                           type="button"
                           onClick={(event) => handleTabClick(event, null)}
                           style={{
-                            border: '1px solid #ccc',
-                            backgroundColor: selectedCategoryId === null ? '#e9f5ff' : 'white',
-                            color: selectedCategoryId === null ? '#007bff' : '#000',
-                            borderRadius: '5px',
-                            padding: '5px 10px',
-                            marginRight: '10px', // Add space between boxes
-                            marginBottom: '10px', // Add space at the bottom
-                            whiteSpace: 'nowrap' // Prevent line breaks
+                            border: "1px solid #ccc",
+                            backgroundColor:
+                              selectedCategoryId === null ? "#e9f5ff" : "white",
+                            color:
+                              selectedCategoryId === null ? "#007bff" : "#000",
+                            borderRadius: "5px",
+                            padding: "5px 10px",
+                            marginRight: "10px", // Add space between boxes
+                            marginBottom: "10px", // Add space at the bottom
+                            whiteSpace: "nowrap", // Prevent line breaks
                           }}
                         >
                           Categories
                         </button>
                       </li>
                       {categories.map((category) => (
-                        <li className="nav-item" role="presentation" key={category.id}>
+                        <li
+                          className="nav-item"
+                          role="presentation"
+                          key={category.id}
+                        >
                           <button
-                            className={`nav-link ${selectedCategoryId === category.id ? 'active' : ''}`}
-                            onClick={(event) => handleTabClick(event, category.id)}
+                            className={`nav-link ${selectedCategoryId === category.id ? "active" : ""
+                              }`}
+                            onClick={(event) =>
+                              handleTabClick(event, category.id)
+                            }
                             style={{
-                              border: '1px solid #ccc',
-                              backgroundColor: selectedCategoryId === category.id ? '#e9f5ff' : 'white',
-                              color: selectedCategoryId === category.id ? '#007bff' : '#000',
-                              borderRadius: '5px',
-                              padding: '5px 10px',
-                              marginRight: '10px', // Add space between boxes
-                              marginBottom: '10px', // Add space at the bottom
-                              whiteSpace: 'nowrap' // Prevent line breaks
+                              border: "1px solid #ccc",
+                              backgroundColor:
+                                selectedCategoryId === category.id
+                                  ? "#e9f5ff"
+                                  : "white",
+                              color:
+                                selectedCategoryId === category.id
+                                  ? "#007bff"
+                                  : "#000",
+                              borderRadius: "5px",
+                              padding: "5px 10px",
+                              marginRight: "10px", // Add space between boxes
+                              marginBottom: "10px", // Add space at the bottom
+                              whiteSpace: "nowrap", // Prevent line breaks
                             }}
                           >
                             {category.title}
@@ -547,53 +595,82 @@ const Event = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="evt-head-btn" style={{ marginLeft: '12px', marginTop: '-30px' }}>
+                    <div
+                      className="evt-head-btn"
+                      style={{ marginLeft: "12px", marginTop: "-30px" }}
+                    >
                       <Link href="/eventlist">
                         <button type="button"> ALL </button>
                       </Link>
                     </div>
                   </div>
 
-                  <div className="tab-content evt-tab-content" id="myTabContent">
+                  <div
+                    className="tab-content evt-tab-content"
+                    id="myTabContent"
+                  >
                     <div className="tab-pane fade show active" role="tabpanel">
                       <div className="row">
                         {filteredSearchEvents.length > 0 ? (
                           filteredSearchEvents.map((event) => (
-                            <div className={`col-xl-4 col-lg-4 ${screens.sm ? "" : "col-md-6 col-sm-12"}`} key={event.id}>
+                            <div
+                              className={`col-xl-4 col-lg-4 ${screens.sm ? "" : "col-md-6 col-sm-12"
+                                }`}
+                              key={event.id}
+                            >
                               <div className="trend-1 pt-4">
                                 <div className="img">
-                                  <img src={event.image_url || defaultImg.src} alt={event.title} style={{ objectFit: "cover" }} />
+                                  <img
+                                    src={event.image_url || defaultImg.src}
+                                    alt={event.title}
+                                    style={{ objectFit: "cover" }}
+                                  />
                                   <div className="icon">
-                                    <a href="#">
-                                      {/* heart-icon */}
-                                    </a>
+                                    <a href="#">{/* heart-icon */}</a>
                                   </div>
                                 </div>
                                 <div className="trand-text-box">
                                   <div className="date-box">
                                     <div className="date">
-                                      <h3>{new Date(event.start_date).getDate()}</h3>
+                                      <h3>
+                                        {new Date(event.start_date).getDate()}
+                                      </h3>
                                     </div>
                                     <div className="year">
-                                      <p>{new Date(event.start_date).toLocaleString("default", { month: "short" }).toUpperCase()} {new Date(event.start_date).getFullYear()}</p>
+                                      <p>
+                                        {new Date(event.start_date)
+                                          .toLocaleString("default", {
+                                            month: "short",
+                                          })
+                                          .toUpperCase()}{" "}
+                                        {new Date(
+                                          event.start_date
+                                        ).getFullYear()}
+                                      </p>
                                     </div>
                                   </div>
                                   <div className="trand-head">
-                                    <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
+                                    <Link
+                                      href={`/${event.id}/eventdetails`}
+                                      className="text-decoration-none"
+                                    >
                                       <h6>{event.title}</h6>
                                     </Link>
                                   </div>
-                                  <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
+                                  <div
+                                    className="trand-para d-flex justify-content-between align-items-center"
+                                    style={{ minHeight: "60px" }}
+                                  >
                                     <div className="para">
                                       <p
                                         className="m-0"
                                         style={{
-                                          fontSize: '0.9rem',
-                                          display: '-webkit-box',
+                                          fontSize: "0.9rem",
+                                          display: "-webkit-box",
                                           WebkitLineClamp: 2,
-                                          WebkitBoxOrient: 'vertical',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis'
+                                          WebkitBoxOrient: "vertical",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
                                         }}
                                       >
                                         {event.short_description}
@@ -601,7 +678,10 @@ const Event = () => {
                                     </div>
 
                                     <div className="icon">
-                                      <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
+                                      <Link
+                                        href={`/${event.id}/eventdetails`}
+                                        className="text-decoration-none"
+                                      >
                                         {/* <i className="fa-solid fa-arrow-right trand-arrow"></i> */}
                                       </Link>
                                     </div>
@@ -614,7 +694,6 @@ const Event = () => {
                           <div className="centered-message">
                             No Events Found Of This Search.
                           </div>
-
                         )}
                       </div>
                     </div>
@@ -623,9 +702,6 @@ const Event = () => {
               </div>
             </div>
           </section>
-
-
-
 
           {/* Featured Events Section */}
           <section>
@@ -637,7 +713,9 @@ const Event = () => {
 
                   <p>
                     {/* Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences! */}
-                    Des soirées animées, des festivals, des événements exclusifs et bien plus encore - plongez dans un univers d expériences inoubliables !
+                    Des soirées animées, des festivals, des événements exclusifs
+                    et bien plus encore - plongez dans un univers d expériences
+                    inoubliables !
                   </p>
                 </div>
                 <div className="event-page-slide">
@@ -646,39 +724,80 @@ const Event = () => {
                       <div
                         className="col-xl-4 col-lg-4 event-1-box"
                         key={event.id}
-                        style={{ margin: '30px', height: '400px' }}  // Fixed height for consistency
+                        style={{ margin: "30px", height: "400px" }} // Fixed height for consistency
                       >
-                        <div className="trend-1 pt-4" style={{ margin: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          className="trend-1 pt-4"
+                          style={{
+                            margin: "10px",
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
                           <div className="img" style={{ flexGrow: 1 }}>
                             <img
                               className="event-image"
-                              src={event.image_url ? event.image_url : defaultImg.src}
+                              src={
+                                event.image_url
+                                  ? event.image_url
+                                  : defaultImg.src
+                              }
                               alt={event.title}
-                              style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '5px' }}  // Image styling
+                              style={{
+                                width: "100%",
+                                height: "300px",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                              }} // Image styling
                             />
                             <div className="icon">
                               {/* <a href="#"><i className="fa-regular fa-heart"></i></a> */}
                             </div>
                           </div>
-                          <div className="trand-text-box" style={{ padding: '20px' }}>
-                            <div className="cal-date d-flex align-items-center" style={{ fontSize: '0.9rem' }}> {/* Adjust font size */}
+                          <div
+                            className="trand-text-box"
+                            style={{ padding: "20px" }}
+                          >
+                            <div
+                              className="cal-date d-flex align-items-center"
+                              style={{ fontSize: "0.9rem" }}
+                            >
+                              {" "}
+                              {/* Adjust font size */}
                               <img
                                 src="/cal-evnt.png"
                                 alt="Calendar"
-                                style={{ width: '20px', height: '20px', marginRight: '5px' }} // Smaller calendar image
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  marginRight: "5px",
+                                }} // Smaller calendar image
                               />
                               {/* <p style={{ margin: 0 }}>{event.start_date}</p>  */}
                               <p style={{ margin: 0 }}>
-                                {new Date(event.start_date).toLocaleDateString('en-US', {
-                                  day: 'numeric',
-                                  month: 'long',
-                                  year: 'numeric',
-                                })}
+                                {new Date(event.start_date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                  }
+                                )}
                               </p>
                             </div>
-                            <div className="trand-head" style={{ marginTop: '20px' }}>
-                              <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
-                                <h6 style={{ fontSize: '1rem' }}>{event.title}</h6> {/* Adjust title size if needed */}
+                            <div
+                              className="trand-head"
+                              style={{ marginTop: "20px" }}
+                            >
+                              <Link
+                                href={`/${event.id}/eventdetails`}
+                                className="text-decoration-none"
+                              >
+                                <h6 style={{ fontSize: "1rem" }}>
+                                  {event.title}
+                                </h6>{" "}
+                                {/* Adjust title size if needed */}
                               </Link>
                             </div>
                             <div className="trand-para d-flex justify-content-between align-items-center">
@@ -689,13 +808,13 @@ const Event = () => {
                                 <p
                                   className="m-0"
                                   style={{
-                                    fontSize: '0.9rem',
-                                    display: '-webkit-box',
+                                    fontSize: "0.9rem",
+                                    display: "-webkit-box",
                                     WebkitLineClamp: 2,
-                                    WebkitBoxOrient: 'vertical',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    minHeight: '60px'
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    minHeight: "60px",
                                   }}
                                 >
                                   {event.short_description}
@@ -703,7 +822,10 @@ const Event = () => {
                               </div>
 
                               <div className="icon">
-                                <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
+                                <Link
+                                  href={`/${event.id}/eventdetails`}
+                                  className="text-decoration-none"
+                                >
                                   {/* <i className="fa-solid fa-arrow-right trand-arrow"></i> */}
                                 </Link>
                               </div>
@@ -717,8 +839,6 @@ const Event = () => {
               </div>
             </div>
           </section>
-
-
 
           {/*   <!-- popular & latest events --> */}
           <div className="popular-latest-event my-5">
@@ -747,9 +867,13 @@ const Event = () => {
                         id="upcoming-tab"
                         onClick={() => setActiveTab("upcoming")}
                         style={{
-                          fontWeight: activeTab === "upcoming" ? "bold" : "normal",
+                          fontWeight:
+                            activeTab === "upcoming" ? "bold" : "normal",
                           color: activeTab === "upcoming" ? "#007bff" : "#000",
-                          backgroundColor: activeTab === "upcoming" ? "#e9f5ff" : "transparent",
+                          backgroundColor:
+                            activeTab === "upcoming"
+                              ? "#e9f5ff"
+                              : "transparent",
                           borderRadius: "5px",
                           padding: "5px 10px",
                           transition: "background-color 0.3s, color 0.3s",
@@ -758,7 +882,7 @@ const Event = () => {
                         aria-controls="upcoming"
                         aria-selected={activeTab === "upcoming"}
                       >
-                        Upcoming Events
+                        {screens.sm ? "Upcoming Events" : "Upcoming"}
                       </a>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -768,19 +892,20 @@ const Event = () => {
                         id="latest-tab"
                         onClick={() => setActiveTab("latest")}
                         style={{
-                          fontWeight: activeTab === "latest" ? "bold" : "normal",
+                          fontWeight:
+                            activeTab === "latest" ? "bold" : "normal",
                           color: activeTab === "latest" ? "#007bff" : "#000",
-                          backgroundColor: activeTab === "latest" ? "#e9f5ff" : "transparent",
+                          backgroundColor:
+                            activeTab === "latest" ? "#e9f5ff" : "transparent",
                           borderRadius: "5px",
                           padding: "5px 10px",
                           transition: "background-color 0.3s, color 0.3s",
                         }}
-
                         role="tab"
                         aria-controls="latest"
                         aria-selected={activeTab === "latest"}
                       >
-                        Latest Events
+                        {screen.sm ? "Latest Events" : "Latest"}
                       </a>
                     </li>
                   </div>
@@ -788,8 +913,14 @@ const Event = () => {
                 <div className="evt-head-btn">
                   <a href="/eventlist">
                     <button type="button">
-                      SEE ALL EVENTS{" "}
-                      <i className="fa-solid fa-arrow-right ms-2 text-white"></i>
+                      {screens.sm ? (
+                        <>
+                          SEE ALL EVENTS
+                          <i className="fa-solid fa-arrow-right ms-2 text-white"></i>
+                        </>
+                      ) : (
+                        " All "
+                      )}
                     </button>
                   </a>
                 </div>
@@ -810,13 +941,29 @@ const Event = () => {
                           key={event.id}
                           className={`col-xl-6 col-lg-6 col-md-6`}
                         >
-                          <div className="event-tab-bg-box" style={screens.sm ? {} : { width: "400px", height: "525px" }}>
-                            <div className="row" style={screens.sm ? {} : { display: 'flex', flexDirection: 'column' }}>
-                              <div className={`col-xl-4 col-lg-5 `} style={screens.sm ? {} : { width: "100%" }}>
+                          <div
+                            className="event-tab-bg-box"
+                            style={
+                              screens.sm
+                                ? {}
+                                : { width: "auto", height: "525px" }
+                            }
+                          >
+                            <div
+                              className="row"
+                              style={
+                                screens.sm
+                                  ? {}
+                                  : { display: "flex", flexDirection: "column" }
+                              }
+                            >
+                              <div
+                                className={`col-xl-4 col-lg-5 `}
+                                style={screens.sm ? {} : { width: "100%" }}
+                              >
                                 {/* <img src={event.image_url || "/defaultImg.png"} alt={event.title} /> */}
                                 <img
                                   className="event-image"
-
                                   src={
                                     event.image_url
                                       ? event.image_url
@@ -826,7 +973,10 @@ const Event = () => {
                                   style={{ objectFit: "cover" }}
                                 />
                               </div>
-                              <div className={`col-xl-8 col-lg-7`} style={screens.sm ? {} : { width: "100%" }}>
+                              <div
+                                className={`col-xl-8 col-lg-7`}
+                                style={screens.sm ? {} : { width: "100%" }}
+                              >
                                 <div className="trand-text-box-3">
                                   <div className="trand-head">
                                     <Link
@@ -847,23 +997,33 @@ const Event = () => {
                                     <p>
                                       {(() => {
                                         const date = new Date(event.start_date);
-                                        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                                        const formattedDate = date.toLocaleDateString('en-GB', options).split(' ');
+                                        const options = {
+                                          day: "numeric",
+                                          month: "long",
+                                          year: "numeric",
+                                        };
+                                        const formattedDate = date
+                                          .toLocaleDateString("en-GB", options)
+                                          .split(" ");
                                         return `${formattedDate[0]} ${formattedDate[1]}, ${formattedDate[2]}`;
                                       })()}
                                     </p>
-
-
                                   </div>
-                                  <div className="trand-para d-flex justify-content-between align-items-center" style={{ minHeight: '60px' }}>
-
+                                  <div
+                                    className="trand-para d-flex justify-content-between align-items-center"
+                                    style={{ minHeight: "60px" }}
+                                  >
                                     <div className="para">
                                       <div
                                         className="description-limit m-0"
-                                        dangerouslySetInnerHTML={{ __html: truncateCharacters(event.description, 60) }}
+                                        dangerouslySetInnerHTML={{
+                                          __html: truncateCharacters(
+                                            event.description,
+                                            60
+                                          ),
+                                        }}
                                       />
                                     </div>
-
                                   </div>
                                   <div className="read-more-event-btn">
                                     <Link href={`/${event.id}/eventdetails`}>
@@ -1142,7 +1302,6 @@ const Event = () => {
                 </div>
             </div>
         </section> */}
-
         </div>
       </div>
     </>
