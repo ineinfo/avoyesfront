@@ -198,7 +198,7 @@ const EventDetails = () => {
                             <i className="bi bi-people me-2"></i>
                             <span className="evt-dtl-head-lg">Organizers</span>
                           </div>
-                          {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">{eventDetails.organizer}Avoyes Team</strong></p>
+                          {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">{eventDetails.organizer}Avöyes  Team</strong></p>
                           <p className="evt-dtl-p"><strong className="evt-dtl-head">Phone:</strong> {eventDetails.organizer_contact}</p> */}
                           <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} >
                             <strong className="evt-dtl-head">

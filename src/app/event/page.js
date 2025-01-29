@@ -7,7 +7,7 @@ const Event = dynamic(() => import('@/components/Event'), {
 });
 
 export const metadata = {
-    title: "Event - Avoyes",
+    title: "Event - Avöyes ",
     description: "Event page",
 };
 

@@ -6,7 +6,7 @@ const CustomComponent = dynamic(() => import('@/components/Home'), {
   loading: () => <div><LoadingSpinner /></div>
 });
 export const metadata = {
-  title: 'Avoyes',
+  title: 'Avöyes ',
 };
 const Page = () => {
   return (

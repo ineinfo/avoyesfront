@@ -11,7 +11,7 @@ const ToastContainer = dynamic(() => import('react-toastify').then((mod) => mod.
 import 'react-toastify/dist/ReactToastify.css'; // Import the toastify CSS
 
 export const metadata = {
-    title: "Activity-Detail - Avoyes",
+    title: "Activity-Detail - Avöyes ",
 };
 
 const page = () => {

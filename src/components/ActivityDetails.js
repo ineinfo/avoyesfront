@@ -66,7 +66,7 @@ const ActivityDetails = () => {
         <>
             <div id="home">
                 {/* header */}
-                <div className="breadcrumb-marketplace py-5">
+                {/* <div className="breadcrumb-marketplace py-5">
                     <div className="img">
                    
                         <div className="container">
@@ -76,11 +76,11 @@ const ActivityDetails = () => {
                                     <a href="/activity" className="text-decoration-none">/ activity </a>
                                     <p className="m-0 ps-1"></p>
                                 </div>
-                                {activity && activity.title && <h1>{activity.title}</h1>} {/* Only render h1 if activity.title exists */}
+                                {activity && activity.title && <h1>{activity.title}</h1>} 
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Additional details about the activity */}
                 <div className="activity-detail-page">
@@ -146,7 +146,7 @@ const ActivityDetails = () => {
                                 <div className="custom-modal" id="imageModalCustom" style={{ display: 'none' }}>
                                     <div className="custom-modal-content">
                                         <span className="close-custom">&times;</span>
-                                        <img id="modalImageCustom" src="" className="modal-custom-img"/>
+                                        <img id="modalImageCustom" src="" className="modal-custom-img" />
                                     </div>
                                 </div>
 
