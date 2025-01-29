@@ -228,15 +228,15 @@ const EventDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="abt-evt-desc">
+                    <div className="abt-evt-desc" style={screens.sm ? {} : { marginTop: "20px" }}>
                       <div className="head">
-                        <h1>About this event</h1>
+                        <h1 style={screens.sm ? {} : { fontSize: "20px", marginBottom: "15px" }}>About this event</h1>
                       </div>
                       <div className="para">
                         {/* <p>{eventDetails.description}</p> */}
                         <p dangerouslySetInnerHTML={{ __html: eventDetails?.description || "" }}></p>
                       </div>
-                      <div className="blog-end-dtl d-flex justify-content-between align-items-center">
+                      <div className="blog-end-dtl d-flex justify-content-between align-items-center" style={screens.sm ? {} : { margin: "25px 0" }}>
                         <div className="text">
                           {Array.isArray(eventDetails.tags) && eventDetails.tags.length > 0 ? (
                             eventDetails.tags.map(tag => (
@@ -258,8 +258,8 @@ const EventDetails = () => {
                     {/* event-multiple div*/}
 
                   </div>
-                  <div className="col-lg-4 evt-sticky-box">
-                    <div className="evt-side-box">
+                  <div className="col-lg-4 evt-sticky-box" style={screens.sm ? {} : { marginBottom: "0px" }}>
+                    <div className="evt-side-box" style={screens.sm ? {} : { marginTop: "0px" }}>
                       <div className="evt-loc d-flex">
                         <i className="bi bi-geo-alt"></i>
                         <p>{eventDetails.location}</p>
