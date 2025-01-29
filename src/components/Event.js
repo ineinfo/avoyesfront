@@ -292,7 +292,7 @@ const Event = () => {
           <section>
             <div className="event-list-breadcrumb">
               <img src={defaultImg.src} alt="Event Breadcrumb" />
-              <div className="event-bread-text">
+              <div className="event-bread-text" style={screens.sm ? {} : { width: "100%" }}>
                 <h1
                   style={{
                     fontSize: screens.sm ? "57px" : "45px",
@@ -597,7 +597,7 @@ const Event = () => {
                     </ul>
                     <div
                       className="evt-head-btn"
-                      style={{ marginLeft: "12px", marginTop: "-30px" }}
+                      style={screens.sm ? { marginLeft: "12px", marginTop: "-30px" } : { marginTop: "-25px" }}
                     >
                       <Link href="/eventlist">
                         <button type="button"> ALL </button>

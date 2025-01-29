@@ -5,6 +5,10 @@ import { useParams } from 'next/navigation';
 import { fetchEventDetails, fetchEventsVideo, fetchCategories } from "@/utils/api/EventApi";
 import axios from 'axios';
 import LoadingSpinner from './Loading';
+import { Grid } from 'antd';
+
+const { useBreakpoint } = Grid;
+
 const EventDetails = () => {
   const { id } = useParams();
   const [eventDetails, setEventDetails] = useState(null);
@@ -13,7 +17,7 @@ const EventDetails = () => {
   const [loadingVideo, setLoadingVideo] = useState(true);
   const [categories, setCategories] = useState([]);
   const [eventCategory, setEventCategory] = useState('');
-
+  const screens = useBreakpoint();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -128,12 +132,12 @@ const EventDetails = () => {
 
           {/* Event Video Section */}
           <section>
-            <div className="video-sec-evnt">
+            <div className="video-sec-evnt" style={screens.sm ? {} : { marginTop: "0" }}>
               <div className="container">
-                <div className="video-container" style={{ opacity: 0.9 }}>
+                <div className="video-container" style={screens.sm ? {} : { height: "250px" }}>
                   <iframe
                     width="100%"
-                    height="700"
+                    height={screens.sm ? "700" : "250"}
                     src={`${videoUrl}?controls=0`}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -151,9 +155,9 @@ const EventDetails = () => {
               <div className="container">
                 <div className="row">
                   <div className="col-lg-8">
-                    <div className="indo-head d-flex justify-content-between align-items-center">
-                      <h1>{eventDetails.title}</h1>
-                      <p>
+                    <div className={`indo-head d-flex justify-content-between ${screens.sm ? "align-items-center" : ""}`}>
+                      <h1 style={screens.sm ? {} : { width: "60%", fontSize: "18px", lineHeight: "0" }}>{eventDetails.title}</h1>
+                      <p style={screens.sm ? {} : { fontSize: "12px", lineHeight: "0" }}>
                         {new Date(eventDetails.start_date).toLocaleDateString('en-US', {
                           day: 'numeric',
                           month: 'long',
@@ -161,29 +165,29 @@ const EventDetails = () => {
                         })}
                       </p>
                     </div>
-                    <div className="evt-dtl-box">
+                    <div className="evt-dtl-box" style={screens.sm ? {} : { padding: "0" }}>
                       <div className="row">
                         {/* Details Section */}
                         <div className="col-md-6 details-section">
-                          <div className="icon-text">
+                          <div className="icon-text" style={screens.sm ? {} : { marginBottom: "10px", marginTop: "10px" }} >
                             <i className="bi bi-calendar3 me-2"></i>
                             <span className="evt-dtl-head-lg">Details</span>
                           </div>
                           {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">Start:</strong> {formatDate(eventDetails.start_date)} -  8:00 am</p>
                           <p className="evt-dtl-p"><strong className="evt-dtl-head">End:</strong> {formatDate(eventDetails.end_date)} -  8:00 am</p> */}
 
-                          <p className="evt-dtl-p">
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} >
                             <strong className="evt-dtl-head">Start:</strong> {formatDate(eventDetails.start_date)} - {formatTime(eventDetails.start_date)}
                           </p>
-                          <p className="evt-dtl-p">
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} >
                             <strong className="evt-dtl-head">End:</strong> {formatDate(eventDetails.end_date)} - {formatTime(eventDetails.end_date)}
                           </p>
 
 
 
-                          <p className="evt-dtl-p"><strong className="evt-dtl-head">Cost :  </strong> € {eventDetails.cost || "Not mentioned"} /-</p>
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} ><strong className="evt-dtl-head">Cost :  </strong> € {eventDetails.cost || "Not mentioned"} /-</p>
                           {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">Event Categories:</strong> {eventDetails.event_category_id}</p> */}
-                          <p className="evt-dtl-p"><strong className="evt-dtl-head">Event Categories :  </strong> {eventCategory || "Not mentioned"}</p>
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} ><strong className="evt-dtl-head">Event Categories :  </strong> {eventCategory || "Not mentioned"}</p>
                           {/* <p><strong className="evt-dtl-head">Category :</strong> {eventCategory || "Not mentioned"}</p> */}
 
                         </div>
@@ -196,12 +200,12 @@ const EventDetails = () => {
                           </div>
                           {/* <p className="evt-dtl-p"><strong className="evt-dtl-head">{eventDetails.organizer}Avoyes Team</strong></p>
                           <p className="evt-dtl-p"><strong className="evt-dtl-head">Phone:</strong> {eventDetails.organizer_contact}</p> */}
-                          <p className="evt-dtl-p">
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} >
                             <strong className="evt-dtl-head">
                               {eventDetails.organizer || "Not mentioned"}
                             </strong>
                           </p>
-                          <p className="evt-dtl-p">
+                          <p className="evt-dtl-p" style={screens.sm ? {} : { marginBottom: "2px" }} >
                             <strong className="evt-dtl-head">Phone :  </strong>
                             {eventDetails.organizer_contact || "Not mentioned"}
                           </p>
