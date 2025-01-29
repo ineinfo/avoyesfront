@@ -37,6 +37,19 @@ const Activity = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [placeholderText, setPlaceholderText] = useState("Search activities, categories, locations...");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPlaceholderText(window.innerWidth >= 640 ? "Search activities, categories, locations..." : "Search...");
+    };
+  
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+  
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
 
   useEffect(() => {
     // This will run only on the client-side
@@ -250,7 +263,8 @@ const Activity = () => {
                     <input
                       type="text"
                       className="form-control width-more"
-                      placeholder="Search activities, categories, locations..."
+                      // placeholder="Search activities, categories, locations..."
+                      placeholder={placeholderText}
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />
@@ -294,7 +308,7 @@ const Activity = () => {
                     style={{ marginBottom: '30px' }}
                   />
                   <div className="item-content">
-                    <p>{category.title}</p>
+                    <p style={{textDecoration:"none"}}>{category.title}</p>
                   </div>
                 </a>
               </div>
@@ -306,8 +320,8 @@ const Activity = () => {
 
       {/* Featured activities section */}
       <div className="activity-tab-content">
-        <div className="heading-area text-center">
-          <h2>Featured activities</h2>
+        <div className="heading-area text-center"style={{fontSize:screens.sm? "" :"25px"}}>
+          <h2 >Featured activities</h2>
         </div>
         <div className="container mt-5">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
