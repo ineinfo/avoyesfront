@@ -19,7 +19,8 @@ import {
 
 import { CustomCarouselSix } from "./Carousel.nikhil";
 import { Grid } from "antd";
-const {useBreakpoint} = Grid
+import Link from "next/link";
+const { useBreakpoint } = Grid
 const Foodie = () => {
     const [foodTypes, setFoodTypes] = useState([]);
     const [foodPlaces, setFoodPlaces] = useState([]);
@@ -131,23 +132,23 @@ const Foodie = () => {
         ? foodPlaces.filter((place) => place.food_type_id === selectedFoodType)
         : foodPlaces;
 
+    const uniqueFoodBlogs = [...new Map(foodBlogs.map(blog => [blog.id, blog])).values()];
     const foodsliderSettings = {
         dots: false,
         infinite: true,
         autoplay: true,
         arrows: false,
-        slidesToShow: 4,
+        slidesToShow: Math.min(uniqueFoodBlogs.length, 4), // Fix slidesToShow
         slidesToScroll: 1,
         autoplaySpeed: 2000,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3, // Adjusted to 3 for this breakpoint
+                    slidesToShow: Math.min(uniqueFoodBlogs.length, 3),
                     slidesToScroll: 1,
                     infinite: true,
                     dots: true,
-                    
                 },
             },
             {
@@ -159,9 +160,7 @@ const Foodie = () => {
                 },
             },
         ],
-        
     };
-
     return (
         <div id="home">
             <section
@@ -205,7 +204,7 @@ const Foodie = () => {
                                 <img
                                     src="/cafe.png"
                                     alt="All"
-                                    style={{verticalAlign: "top"}}
+                                    style={{ verticalAlign: "top" }}
                                 />
                                 All
                             </a>
@@ -224,7 +223,7 @@ const Foodie = () => {
                                     <img
                                         src={foodType.image_url || cafe.src}
                                         alt={foodType.title}
-                                        style={{verticalAlign: "top"}}
+                                        style={{ verticalAlign: "top" }}
                                     />
                                     {foodType.title}
                                 </a>
@@ -234,61 +233,61 @@ const Foodie = () => {
 
                     {/* 238- <div className="tab-content" id="myTabContent"> */}
                     <div className="tab-content must-visit-places responsive-tab-content" id="myTabContent">
-    {filteredFoodPlaces.length > 0 ? (
-        <div className="tab-pane fade show active">
-            <div className="row mt-4">
-                {filteredFoodPlaces.map((place) => (
-                    <div key={place.id} className="col-md-3 box mb-4">
-                        <div className="heart-icon">
-                            {/* <i className="far fa-heart"></i> */}
-                        </div>
-                        <div className="img-box">
-                            <img
-                                src={
-                                    place.image_url &&
-                                    !place?.image_url?.includes("localhost")
-                                        ? place.image_url
-                                        : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
-                                }
-                                // src={foodieBanner.src} 
-                                alt={place.title}
-                                className="img-fluid responsive-img"
-                                style={{objectFit: "cover"}}
-                            />
-                        </div>
-                        <h5 className="mt-3">
-                            <a href={`/fooddetails/${place.id}`} style={{ textDecoration: "none" }}>
-                                {place.title}
-                            </a>
-                        </h5>
-                        {place.rating && place.reviews && (
-                            <div className="d-flex align-items-center responsive-text-center mt-2">
-                                <div>
-                                    {[...Array(Math.floor(place.rating))].map((_, i) => (
-                                        <i key={i} className="fas fa-star"></i>
+                        {filteredFoodPlaces.length > 0 ? (
+                            <div className="tab-pane fade show active">
+                                <div className="row mt-4">
+                                    {filteredFoodPlaces.map((place) => (
+                                        <div key={place.id} className="col-md-3 box mb-4">
+                                            <div className="heart-icon">
+                                                {/* <i className="far fa-heart"></i> */}
+                                            </div>
+                                            <div className="img-box">
+                                                <img
+                                                    src={
+                                                        place.image_url &&
+                                                            !place?.image_url?.includes("localhost")
+                                                            ? place.image_url
+                                                            : `http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png`
+                                                    }
+                                                    // src={foodieBanner.src} 
+                                                    alt={place.title}
+                                                    className="img-fluid responsive-img"
+                                                    style={{ objectFit: "cover" }}
+                                                />
+                                            </div>
+                                            <h5 className="mt-3">
+                                                <a href={`/fooddetails/${place.id}`} style={{ textDecoration: "none" }}>
+                                                    {place.title}
+                                                </a>
+                                            </h5>
+                                            {place.rating && place.reviews && (
+                                                <div className="d-flex align-items-center responsive-text-center mt-2">
+                                                    <div>
+                                                        {[...Array(Math.floor(place.rating))].map((_, i) => (
+                                                            <i key={i} className="fas fa-star"></i>
+                                                        ))}
+                                                        {place.rating % 1 !== 0 && (
+                                                            <i className="fas fa-star-half-alt"></i>
+                                                        )}
+                                                    </div>
+                                                    <div className="ml-2">
+                                                        <h6>{place.rating} reviews</h6>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div className="mt-2">
+                                                <i className="fas fa-map-marker-alt"></i> {place.location}
+                                            </div>
+                                        </div>
                                     ))}
-                                    {place.rating % 1 !== 0 && (
-                                        <i className="fas fa-star-half-alt"></i>
-                                    )}
-                                </div>
-                                <div className="ml-2">
-                                    <h6>{place.rating} reviews</h6>
                                 </div>
                             </div>
+                        ) : (
+                            <div className="centered-message mt-4">
+                                No places available for this category.
+                            </div>
                         )}
-                        <div className="mt-2">
-                            <i className="fas fa-map-marker-alt"></i> {place.location}
-                        </div>
                     </div>
-                ))}
-            </div>
-        </div>
-    ) : (
-        <div className="centered-message mt-4">
-            No places available for this category.
-        </div>
-    )}
-                </div>
 
                 </div>
             </div>
@@ -297,7 +296,7 @@ const Foodie = () => {
             <div className="foodie-cat-slider mt-4">
                 <CustomCarouselSix />
             </div>
- 
+
             {/* food blog slider */}
 
             <div className="food-blog">
@@ -307,16 +306,17 @@ const Foodie = () => {
                 </div>
                 <div className="container mt-5">
                     <Slider {...foodsliderSettings}>
-                        {foodBlogs.length > 0 ? (
+                        {foodBlogs && foodBlogs.length > 0 ? (
                             foodBlogs.map((blog) => (
                                 <div key={blog.id} className="custom-slider-box-food">
                                     <img
                                         src={blog.image_url}
                                         alt="Blog Image"
                                         className="custom-image-slider-food-blog"
+                                        style={{ borderRadius: '10px' }}
                                     />
                                     <p className="custom-date">
-                                        <i className="fa-solid fa-calendar-days"></i>
+                                        <i className="fa-solid fa-calendar-days"></i>{" "}
                                         {new Date(blog.created_at).toLocaleDateString("en-US", {
                                             month: "long",
                                             day: "numeric",
@@ -327,7 +327,7 @@ const Foodie = () => {
                                         <a
                                             href={`/${blog.id}/blog-details`}
                                             className="custom-link"
-                                            style={{ textDecoration: 'none', color: 'inherit' }}
+                                            style={{ textDecoration: "none", color: "inherit" }}
                                         >
                                             {blog.title}
                                         </a>
@@ -339,14 +339,14 @@ const Foodie = () => {
                                     <a
                                         href={`/${blog.id}/blog-details`}
                                         className="custom-read-more"
-                                        style={{ textDecoration: 'none', color: 'inherit' }}
+                                        style={{ textDecoration: "none", color: "inherit" }}
                                         onMouseEnter={(e) => {
-                                            e.target.style.textDecoration = 'underline';
-                                            e.target.style.textDecorationColor = 'black';
+                                            e.target.style.textDecoration = "underline";
+                                            e.target.style.textDecorationColor = "black";
                                         }}
                                         onMouseLeave={(e) => {
-                                            e.target.style.textDecoration = 'none';
-                                            e.target.style.textDecorationColor = 'transparent';
+                                            e.target.style.textDecoration = "none";
+                                            e.target.style.textDecorationColor = "transparent";
                                         }}
                                     >
                                         Read More <i className="fas fa-arrow-right"></i>
@@ -366,7 +366,7 @@ const Foodie = () => {
                     <input
                         type="text"
                         id="search-bar"
-                        className="search-input" 
+                        className="search-input"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                         placeholder="Recherchez des restaurants, cafés ou bars près de chez vous..."
@@ -489,10 +489,10 @@ const Foodie = () => {
                                                 {isDropdownOpen && (
                                                     <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
                                                         <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
-                                                        recommandée
+                                                            recommandée
                                                         </li>
                                                         <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
-                                                        le mieux noté
+                                                            le mieux noté
                                                         </li>
                                                     </ul>
                                                 )}
@@ -572,16 +572,36 @@ const Foodie = () => {
 
                             {/* <!-- Third Column: Map --> */}
                             <div
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
-                                style={{ display: 'flex', flexDirection: 'column' , width: '100%', height: '300px' }}
+
+                                style={{ display: 'flex', flexDirection: screens.sm ? 'row' : "column", width: '100%', height: '300px', gap: '10px' }}
                             >
                                 <iframe
                                     id="map"
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.901142067501!2d2.3522216156741363!3d48.85661417928756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fefef7a5d7d%3A0x4f183df2d9e5f3af!2sEiffel%20Tower!5e0!3m2!1sen!2sau!4v1634846356248!5m2!1sen!2sau"
-                                    style={{ border: '0', width: '100%', height: '100%' }}
+                                    style={{ border: '0', width: screens.sm ? '50%' : '100%', height: '100%' }}
                                     allowFullScreen=""
                                     loading="lazy"
                                 ></iframe>
+
+                                <div className="product-bg-img-3" style={{ width: screens.sm ? '50%' : '100%', height: screens.sm ? '50%' : "100%" }}>
+                                    <img
+                                        src={"/gogals.png"}
+                                        alt="Right Banner"
+                                        style={{ height: screens.sm ? 300 : 200 }}
+                                    />
+                                    <div className="text" style={screens.sm ? {} : { marginTop: "-10px" }}>
+                                        <h3 style={{ fontSize: screens.sm ? "" : "20px" }}>{"Default Right Text"}</h3>
+                                        <div className="view-more-btn" style={{ fontSize: screens.sm ? "" : "15px" }}>
+                                            <Link
+                                                href={"/default-url"}
+                                                className="text-decoration-none"
+                                            >
+                                                En savoir plus
+                                            </Link>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
 
