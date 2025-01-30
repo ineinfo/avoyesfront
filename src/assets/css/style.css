@@ -8352,7 +8352,7 @@ input#timePicker {
 }
 
 .filter-sidebar-foodie label {
-    font-size: 15px;
+    font-size: 14px;
     font-family: "lato";
 }
 
@@ -8422,7 +8422,7 @@ input#timePicker {
 /* dhara */
 /* Common styles for the filter sidebar */
 .filter-sidebar-foodie label {
-    font-size: 15px;
+    font-size: 14px;
     font-family: "lato";
 }
 @media(min-width:1280px) and (max-width:800px) {

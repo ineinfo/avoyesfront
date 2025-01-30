@@ -205,9 +205,8 @@ const FoodDetails = () => {
   return (
     <div className="event-page">
       <div id="home">
-        <div className="breadcrumb-marketplace py-5">
+        {/* <div className="breadcrumb-marketplace py-5">
           <div className="img">
-            {/* <img src={placeData?.data?.image_url || ''} alt={placeData?.data?.title || 'Place Image'} /> */}
             <div className="container">
               <div className="bread-head text-end">
                 <div className="link d-flex align-items-center justify-content-end">
@@ -217,15 +216,13 @@ const FoodDetails = () => {
                   <a href="/foodie" className="text-decoration-none">
                     / Food /
                   </a>
-                  {/* <p className="m-0 ps-1">The Cookhouse</p> */}
                   <p className="m-0 ps-1">{foodTypeTitle}</p>
                 </div>
-                {/* Display the title directly */}
                 {placeData && placeData.title && <h1>{placeData.title}</h1>}
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* title-reviews */}
         <section>
@@ -422,7 +419,7 @@ const FoodDetails = () => {
               <div className="row">
                 <div className="col-lg-7">
                   <div className="map-dtl-left">
-                    <div className="map-top-btns d-flex align-items-center">
+                    {/* <div className="map-top-btns d-flex align-items-center">
                       <div className="map-review-btn">
                         <a href="#">
                           <button type="button">
@@ -449,7 +446,7 @@ const FoodDetails = () => {
                           </button>
                         </a>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="location-hours">
                       <h1>Location & Hours</h1>
@@ -666,7 +663,7 @@ const FoodDetails = () => {
                         </div>
                       </div>
 
-                      <div className="input-container-map">
+                      {/* <div className="input-container-map">
                         <i className="fa fa-search"></i>
                         <input
                           type="text"
@@ -714,7 +711,7 @@ const FoodDetails = () => {
                             </a>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                     </div>
 
                     {/* reviews */}

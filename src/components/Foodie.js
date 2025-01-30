@@ -382,7 +382,7 @@ const Foodie = () => {
                                 className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 filter-sidebar-section"
                                 style={{ display: "flex", flexDirection: "column", }}
                             >
-                                <h3>Suggéré</h3>
+                                {/* <h3>Suggéré</h3>
                                 <div className="checkbox">
                                     <label>
                                         <input type="checkbox" />Ouvrir maintenant
@@ -399,7 +399,7 @@ const Foodie = () => {
                                     <label>
                                         <input type="checkbox" /> Réservations
                                     </label>
-                                </div>
+                                </div> */}
 
                                 <h3>Catégories</h3>
                                 <div className="categories">
@@ -430,7 +430,7 @@ const Foodie = () => {
                                 </div>
 
 
-                                <h3>Distance</h3>
+                                {/* <h3>Distance</h3>
                                 <div className="radio">
                                     <label>
                                         <input type="radio" name="distance" value="1km" /> 1 km
@@ -449,7 +449,7 @@ const Foodie = () => {
                                     </label>
                                 </div>
 
-                                <h3>Tags</h3>
+                                <h3>Tags</h3> */}
                                 <div></div>
                             </div>
 
@@ -601,6 +601,9 @@ const Foodie = () => {
 
                                         </div>
                                     </div>
+                                    <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                            AD
+                                        </div>
                                 </div>
                             </div>
 
