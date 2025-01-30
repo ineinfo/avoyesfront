@@ -38,9 +38,6 @@ const CustomCarousel = () => {
   }, []);
 
 
-
-
-
   const blogsettings = {
     dots: false,
     arrows: false,
@@ -72,7 +69,7 @@ const CustomCarousel = () => {
 
                     className="d-block custom-carousel-img"
                     alt="Banner Image"
-                    style={{ width: '33vw', height: screens.sm ? '670px' : "500px", objectFit: 'cover' , borderRadius:"15px" }}
+                    style={{ width: screens.sm ? '33vw' : "90vw", height: screens.sm ? '670px' : "500px", objectFit: 'cover', borderRadius: "15px" }}
                   />
 
                 </div>
