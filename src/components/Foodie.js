@@ -575,13 +575,7 @@ const Foodie = () => {
 
                                 style={{ display: 'flex', flexDirection: screens.sm ? 'row' : "column", width: '100%', height: '300px', gap: '10px' }}
                             >
-                                <iframe
-                                    id="map"
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.901142067501!2d2.3522216156741363!3d48.85661417928756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fefef7a5d7d%3A0x4f183df2d9e5f3af!2sEiffel%20Tower!5e0!3m2!1sen!2sau!4v1634846356248!5m2!1sen!2sau"
-                                    style={{ border: '0', width: screens.sm ? '50%' : '100%', height: '100%' }}
-                                    allowFullScreen=""
-                                    loading="lazy"
-                                ></iframe>
+
 
                                 <div className="product-bg-img-3" style={{ width: screens.sm ? '50%' : '100%', height: screens.sm ? '50%' : "100%" }}>
                                     <img
@@ -601,6 +595,16 @@ const Foodie = () => {
 
                                         </div>
                                     </div>
+                                </div>
+
+                                <div>
+                                    <iframe
+                                        id="map"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.901142067501!2d2.3522216156741363!3d48.85661417928756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fefef7a5d7d%3A0x4f183df2d9e5f3af!2sEiffel%20Tower!5e0!3m2!1sen!2sau!4v1634846356248!5m2!1sen!2sau"
+                                        style={{ border: '0', width: screens.sm ? '30vw' : '100%', height: '100%' }}
+                                        allowFullScreen=""
+                                        loading="lazy"
+                                    ></iframe>
                                 </div>
                             </div>
 
