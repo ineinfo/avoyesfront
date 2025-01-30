@@ -574,7 +574,9 @@ const Event = () => {
                         overflowX: "scroll",
                         overflowY: "hidden",
                         paddingBottom: "10px",
-                        scrollbarWidth: "thin",
+                        scrollbarWidth: "none", 
+                        msOverflowStyle: "none", 
+                        WebkitOverflowScrolling: "touch",
                       }}
                     >
                       <li className="nav-item" role="presentation">

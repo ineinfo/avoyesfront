@@ -8,6 +8,9 @@ import foodieBanner from "../../public/foodie-banner.png";
 import { fetchFoodTypes, fetchFoodPlaces } from "@/utils/api/FoodieApi";
 import { Modal } from "bootstrap";
 import LoadingSpinner from "./Loading";
+import { Grid } from "antd";
+
+const {useBreakpoint} = Grid
 
 const Map = () => {
   const [foodPlaces, setFoodPlaces] = useState([]);
@@ -20,6 +23,8 @@ const Map = () => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const screens = useBreakpoint()
 
   const toggleDropdown = (e) => {
     e.preventDefault();  // Prevent the default link behavior
@@ -663,7 +668,7 @@ const Map = () => {
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21022.776116673373!2d2.0985952249338164!3d48.80389838067096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e67db475f420bd%3A0x869e00ad0d844aba!2s78000%20Versailles%2C%20France!5e0!3m2!1sen!2sin!4v1723466121545!5m2!1sen!2sin"
                     width="100%"
-                    style={{ border: 0 }}
+                    style={{ border: '0',height:screens.sm ? '' : '310px' }}
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"

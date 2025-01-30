@@ -281,7 +281,7 @@ const ProductDetails = () => {
                         // src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
-                        style={{ cursor: "pointer", height: screens.sm ? "" : "65px" }}
+                        style={{ cursor: "pointer", height: screens.sm ? "" : "65px" , borderRadius: "10px"}}
                         alt={`Thumbnail ${index + 1}`}
                         onError={(e) => (e.target.src = defaultImg)}
                       />
@@ -299,7 +299,7 @@ const ProductDetails = () => {
                       ref={mainImageRef}
                       src={mainImage}
                       alt="Product"
-                      style={{ width: "100%", cursor: "zoom-in" }}
+                      style={{ width: "100%", cursor: "zoom-in" , borderRadius: "15px"}}
                     />
                   </div>
 

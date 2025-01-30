@@ -749,6 +749,9 @@ export default function CustomComponent() {
                                                 </Link>
                                             </div>
                                         </div>
+                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                            AD
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-md-6 p-0">
@@ -764,10 +767,12 @@ export default function CustomComponent() {
                                                     href={bannerData[1]?.view_url || "/marketplace"}
                                                     className="text-decoration-none"
                                                 >
-                                                    {/* VIEW MORE */}
                                                     En savoir plus
                                                 </Link>
                                             </div>
+                                        </div>
+                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                            AD
                                         </div>
                                     </div>
                                 </div>
@@ -786,10 +791,10 @@ export default function CustomComponent() {
                                                 >
                                                     En savoir plus
                                                 </Link>
-                                                {/* <Link href="/marketplace" className="text-decoration-none">
-                        VIEW MORE
-                      </Link> */}
                                             </div>
+                                        </div>
+                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                            AD
                                         </div>
                                     </div>
                                 </div>

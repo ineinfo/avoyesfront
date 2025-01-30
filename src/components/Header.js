@@ -222,6 +222,12 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
     return null; // Don't render header on these paths
   }
 
+  const getMenuItemStyle = (path) => {
+    return pathname === path
+      ? { backgroundColor: "#EFEFEF", borderRadius: "10px" }
+      : {};
+  };
+
   return (
     <>
       <header onClick={toggleSearchPopup}>
@@ -542,7 +548,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
       {/* {pathname === "/" && <hr style={{ borderColor: "000000" }} />} */}
       <hr style={{ borderColor: "000000" }} />
 
-
+            {/* all pages menu section */}
       <section>
         <div className="top-menu-main py-3">
           <div className="container py-4">
@@ -550,24 +556,24 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/event" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/event")}>
                     <div className="img pt-3">
                       <img src="/calendar.png" alt="Dress" />
                     </div>
                     <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Sorties</p>
+                      <p style={{ fontWeight: "bold"}}>Sorties</p>
                     </div>
                   </div>
                 </Link>
               </div>
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/marketplace" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/marketplace")}>
                     <div className="img pt-3">
                       <img src="/dress.png" alt="Dress" />
                     </div>
                     <div className="text pt-3" >
-                      <p style={{ fontWeight: "bold" }}>Market Place</p>
+                      <p style={{ fontWeight: "bold" , fontSize:screens.sm? "" : "10px"  }}>Market Place</p>
                     </div>
                   </div>
                 </Link>
@@ -576,7 +582,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/map" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/map")}>
                     <div className="img pt-3">
                       <img src="/location.png" alt="Dress" />
                     </div>
@@ -588,7 +594,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
               </div>
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/foodie" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/foodie")}>
                     <div className="img pt-3">
                       <img src="/fork.png" alt="Dress" />
                     </div>
@@ -600,7 +606,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
               </div>
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/activity" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/activity")}>
                     <div className="img pt-3">
                       <img src="/puzzle.png" alt="Dress" />
                     </div>
@@ -613,7 +619,7 @@ const Header = ({ isPopupOpen, togglePopup, popupRef }) => {
 
               <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%', overflow: "hidden" }}>
                 <Link href="/challanges" className="text-decoration-none">
-                  <div className="menu-1">
+                  <div className="menu-1" style={getMenuItemStyle("/challanges")}>
                     <div className="img pt-3">
                       <img src="/goal.png" alt="Dress" />
                     </div>

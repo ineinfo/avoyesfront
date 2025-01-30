@@ -387,7 +387,7 @@ const Activity = () => {
               >
                 <div
                   className="content-box"
-                  style={screens.sm ? { width: "335px", height: "450px" } : {}}
+                  style={screens.sm ? { width: "335px", height: "450px" } : {width: "80%" , marginRight:"0"}}
                 >
                   <div className="img-zoom">
                     <img
@@ -407,12 +407,12 @@ const Activity = () => {
                       }}
                     />
                   </div>
-                  <div className="box" style={{ padding: "15px 5px" }}>
+                  <div className="box" style={screens.sm ? { padding: "15px 5px" } : {marginLeft: "95px"}}>
                     <div className="d-flex justify-content-between align-items-center">
                       <h5
                       // style={screens.sm ? { width: "70%" } : {}}
                       >
-                        <a href={`/activitydetail/${activity.id}`}>
+                        <a href={`/activitydetail/${activity.id}`} style={screens.sm ? { } : {textDecoration: "none"}}>
                           {activity.title}
                         </a>
                       </h5>
@@ -481,10 +481,10 @@ const Activity = () => {
             {...{
               infinite: true,
               speed: 500,
-              slidesToShow: 3,
+              slidesToShow:4,
               slidesToScroll: 1,
               arrows: false,
-              autoplay: false,
+              autoplay: true,
               autoplaySpeed: 2000,
               responsive: [
                 {
@@ -493,7 +493,7 @@ const Activity = () => {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     infinite: true,
-                    autoplay: false,
+                    autoplay: true,
                     autoplaySpeed: 3000,
                   },
                 },
@@ -502,7 +502,7 @@ const Activity = () => {
                   settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    autoplay: false,
+                    autoplay: true,
                     autoplaySpeed: 3000,
                   },
                 },
@@ -635,7 +635,7 @@ const Activity = () => {
             </div>
             <div className="col-md-3 feature">
               <i className="fas fa-star feature-icon"></i>
-              <h5>Des millions d'avis</h5>
+              <h5>Des millions d&apos;avis</h5>
               <p>
                 Consultez les retours honnêtes de notre communauté pour faire
                 les meilleurs choix.
@@ -646,7 +646,7 @@ const Activity = () => {
               <h5>Planifiez votre chemin</h5>
               <p>
                 Créez un itinéraire sur-mesure, adapté à vos besoins et vos
-                rêves.
+                rêves meilleurs choix..
               </p>
             </div>
           </div>
