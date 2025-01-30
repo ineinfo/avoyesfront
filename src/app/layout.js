@@ -16,6 +16,12 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+export const metadata = {
+  title: "Avöyes",
+  icons: {
+    icon: "/icon.png",
+  }
+};
 
 export default function RootLayout({ children }) {
   return (

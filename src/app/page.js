@@ -7,6 +7,9 @@ const CustomComponent = dynamic(() => import('@/components/Home'), {
 });
 export const metadata = {
   title: 'Avöyes ',
+  icons: {
+    icon: "/icon.png",
+  }
 };
 const Page = () => {
   return (
