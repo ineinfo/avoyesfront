@@ -401,6 +401,10 @@ const Foodie = () => {
                                     </label>
                                 </div> */}
 
+
+
+
+                                    <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "5px", borderRadius: "5px" }}>
                                 <h3>Catégories</h3>
                                 <div className="categories">
                                     <div key="all" className="category-item">
@@ -427,6 +431,7 @@ const Foodie = () => {
                                                 </label>
                                             </div>
                                         ))}
+                                </div>
                                 </div>
 
 
