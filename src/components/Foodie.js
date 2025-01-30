@@ -583,7 +583,7 @@ const Foodie = () => {
                                         alt="Right Banner"
                                         style={{ height: screens.sm ? 300 : 200 }}
                                     />
-                                    <div className="text" style={screens.sm ? {} : { marginTop: "-10px" }}>
+                                    <div className="text" style={screens.sm ? { marginTop: "-40px", marginLeft: "8px" } : { marginTop: "-10px" }}>
                                         <h3 style={{ fontSize: screens.sm ? "" : "20px" }}>{"Default Right Text"}</h3>
                                         <div className="view-more-btn" style={{ fontSize: screens.sm ? "" : "15px" }}>
                                             <Link
