@@ -161,6 +161,32 @@ const Foodie = () => {
             },
         ],
     };
+
+
+
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 768); 
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial check for screen size
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const toggleCategories = () => {
+        setIsOpen(!isOpen);
+    };
+
+
+
+
+
     return (
         <div id="home">
             <section
@@ -404,7 +430,7 @@ const Foodie = () => {
 
 
 
-                                    <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "5px", borderRadius: "5px" }}>
+                                    {/* <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "15px", borderRadius: "5px", width: "60%" }}>
                                 <h3>Catégories</h3>
                                 <div className="categories">
                                     <div key="all" className="category-item">
@@ -432,7 +458,72 @@ const Foodie = () => {
                                             </div>
                                         ))}
                                 </div>
-                                </div>
+                                </div> */}
+
+<div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                border: "1px solid #ccc",
+                padding: "15px",
+                borderRadius: "5px",
+                // width: "60%",
+                width: isSmallScreen ? "100%" : "60%",
+                position: "relative",
+            }}
+        >
+            {/* <h3>Catégories</h3> */}
+
+            {/* Button to open categories on small screens */}
+            {isSmallScreen && (
+                <div className="filter-btn" style={{ marginBottom: "10px" }}>
+                    <button
+                        onClick={toggleCategories}
+                        style={{
+                            padding: "8px 10px",
+                            backgroundColor: "blue",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            width: "100%",
+                        }}
+                    >
+                        Filter
+                    </button>
+                </div>
+            )}
+
+            {/* Categories section - only visible when `isOpen` is true or on larger screens */}
+            {(isOpen || !isSmallScreen) && (
+                <div className="categories" style={{ marginTop: "10px" }}>
+                    <div key="all" className="category-item" style={{ marginBottom: "8px" }}>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedFoodTypes.length === foodTypes.length}
+                                onChange={() => handleAllCategories()}
+                            />
+                            All
+                        </label>
+                    </div>
+
+                    {foodTypes.length > 0 &&
+                        foodTypes.map((foodType) => (
+                            <div key={foodType.id} className="category-item" style={{ marginBottom: "8px" }}>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedFoodTypes.includes(foodType.id)}
+                                        onChange={() => handleCategoryChange(foodType.id)}
+                                    />
+                                    {foodType.title}
+                                </label>
+                            </div>
+                        ))}
+                </div>
+            )}
+        </div>
 
 
                                 {/* <h3>Distance</h3>
