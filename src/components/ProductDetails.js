@@ -751,7 +751,7 @@ const ProductDetails = () => {
               aria-hidden="true"
             >
               <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content" style={{height: screens.sm? "750px" : "" , top:screens.sm? "45%" : "50%" , left:screens.sm?"" : "190px"}}>
+                <div className="modal-content" style={{height: screens.sm? "750px" : "" , top:screens.sm? "45%" : "50%" , left:screens.sm?"" : "175px"}}>
                   <div className="modal-header">
                     <h5
                       className="modal-title w-100 text-center write-review-head"
@@ -770,7 +770,7 @@ const ProductDetails = () => {
                     <div className="row">
                       <div className="col-lg-5">
                         <div className="img">
-                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: screens.sm? "cover" : "contain", height: screens.sm? "400px" : "200px" }} />
+                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: screens.sm? "cover" : "contain", height: screens.sm? "400px" : "350px" }} />
                           {/* <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
 
                         </div>
