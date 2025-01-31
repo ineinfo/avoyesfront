@@ -751,7 +751,7 @@ const ProductDetails = () => {
               aria-hidden="true"
             >
               <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content" style={{height: screens.sm? "750px" : "" , top:screens.sm? "45%" : "50%" , left:screens.sm?"" : "175px"}}>
+                <div className="modal-content" style={{height: screens.sm? "750px" : "" , top:screens.sm? "45%" : "50%" , left:screens.sm?"" : "178px"}}>
                   <div className="modal-header">
                     <h5
                       className="modal-title w-100 text-center write-review-head"

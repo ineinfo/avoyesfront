@@ -3,11 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchChallenges } from "@/utils/api/ChallengesApi";
 import defaultImg from "../../public/defaultImg.jpg";
+import { Grid } from 'antd';
 
 
+const {useBreakpoint} = Grid
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const screens = useBreakpoint()
 
     useEffect(() => {
         const getChallenges = async () => {
@@ -61,13 +64,13 @@ const Challenges = () => {
             <div className="challanges-breadcrumb " style={{ marginTop: '1rem' }}>
                 <div className="container-fluid p-0">
                     <div className="bread-img">
-                        <img src="/challanges-breadcrumb.png" alt="" />
-                        <div className="head-sec text-center">
+                        <img src="/challanges-breadcrumb.png" alt="" style={{objectFit:screens.sm?"":"cover"}} />
+                        <div className="head-sec text-center" style={{top:screens.sm ? '' : '5%'}}>
                             <div className="head">
-                                <h1>Join Our Exciting Challenges!</h1>
+                                <h1 style={{lineHeight:screens.sm ? '' : '15px'}}>Join Our Exciting Challenges!</h1>
                             </div>
                             <div className="para-line">
-                                <p>Find A Challenge That Suits You And Start Achieving Your Goals Today.</p>
+                                <p style={{lineHeight:screens.sm ? '' : '40px'}}>Find A Challenge That Suits You And Start Achieving Your Goals Today.</p>
                             </div>
                             <div className="breadcrumb-btn">
                                 <button type="button" className="challange-btn">EXPLORE CHALLENGES</button>
