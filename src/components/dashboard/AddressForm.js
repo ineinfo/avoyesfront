@@ -85,7 +85,7 @@ const AddressForm = ({ change }) => {
     };
 
     fetchAllStates();
-  }, [selectedCountry]);
+  }, [selectedCountry, countries]);
 
   useEffect(() => {
     const fetchAllCities = async () => {

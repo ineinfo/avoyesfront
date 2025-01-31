@@ -113,7 +113,7 @@ const Banner = () => {
                     }}
                 >
                     Soulmates or First Dates <br />
-                    <span style={{ color: "#FFD700" }}>We've Got Just the Thing.</span>
+                    <span style={{ color: "#FFD700" }}>We&apos;ve Got Just the Thing.</span>
                 </h1>
                 <p
                     style={{
@@ -122,8 +122,8 @@ const Banner = () => {
                         lineHeight: "1.6",
                     }}
                 >
-                    Whether it's a romantic night or a fun experience, we have activities to make your
-                    Valentine's Day unforgettable.
+                    Whether it&apos;s a romantic night or a fun experience, we have activities to make your
+                    Valentine&apos;s Day unforgettable.
                 </p>
                 <Button
                     type="primary"
@@ -138,7 +138,7 @@ const Banner = () => {
                         boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.3)",
                     }}
                 >
-                    Plan Valentine's Day
+                    Plan Valentine&apos;s Day
                 </Button>
             </div>
         </div>

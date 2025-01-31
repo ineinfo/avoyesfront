@@ -8,7 +8,7 @@ import { Grid } from "antd";
 
 
 
-const {useBreakpoint} = Grid
+const { useBreakpoint } = Grid
 const ActivityDetails = () => {
     const { id } = useParams();
     const [activity, setActivity] = useState(null);
@@ -151,7 +151,7 @@ const ActivityDetails = () => {
                                             id="mainImageCustom"
                                             src={mainImage}
                                             className="main-custom-img w-100"
-                                            style={{height:screens.sm ? "" : "320px"}}
+                                            style={{ height: screens.sm ? "" : "320px" }}
                                             alt="Main activity image"
                                         />
                                     </div>
@@ -163,7 +163,7 @@ const ActivityDetails = () => {
                                                 <div key={file.iid} className="col-3 col-md-3 col-lg-3 mb-2">
                                                     <img
                                                         src={file.file}
-                                                        style={{objectFit:"cover"}}
+                                                        style={{ objectFit: "cover" }}
                                                         className="custom-thumbnail w-100"
                                                         alt={`Thumbnail ${file.iid}`}
                                                         onClick={() => displayImage(file.file)}
@@ -180,7 +180,7 @@ const ActivityDetails = () => {
                                 <div className="custom-modal" id="imageModalCustom" style={{ display: 'none' }}>
                                     <div className="custom-modal-content">
                                         <span className="close-custom">&times;</span>
-                                        <img id="modalImageCustom" src="" className="modal-custom-img" />
+                                        <img id="modalImageCustom" src="" className="modal-custom-img" alt="" />
                                     </div>
                                 </div>
 
