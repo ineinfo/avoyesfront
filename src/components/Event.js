@@ -24,6 +24,7 @@ import LoadingSpinner from "./Loading";
 import { Carousel, Grid, Layout } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
+import Banner from "./Banner";
 
 const { useBreakpoint } = Grid;
 
@@ -304,10 +305,13 @@ const Event = () => {
 
   return (
     <>
+
+      <Banner />
+
       <div className="event-page">
         <div id="home">
           <section>
-            <div className="event-list-breadcrumb">
+            {/* <div className="event-list-breadcrumb">
               <img src={defaultImg.src} alt="Event Breadcrumb" />
               <div className="event-bread-text" style={screens.sm ? {} : { width: "100%" }}>
                 <h1
@@ -330,7 +334,7 @@ const Event = () => {
                   experience and connect with others.
                 </p>
               </div>
-            </div>
+            </div> */}
             {/* <Carousel dots={false} arrows={false} infinite={true} autoplay>
               <div>
                 <h3 style={contentStyle}><Layout >
@@ -571,12 +575,12 @@ const Event = () => {
                       id="myTab"
                       role="tablist"
                       style={{
-                        overflowX: "scroll",
+                        overflowX: "auto",
                         overflowY: "hidden",
                         paddingBottom: "10px",
-                        scrollbarWidth: "none", 
-                        msOverflowStyle: "none", 
                         WebkitOverflowScrolling: "touch",
+                        msOverflowStyle: "none", // Hide scrollbar for IE & Edge
+                        scrollbarWidth: "none",
                       }}
                     >
                       <li className="nav-item" role="presentation">
@@ -625,7 +629,7 @@ const Event = () => {
                                   ? "#007bff"
                                   : "#000",
                               borderRadius: "5px",
-                              padding: "5px 10px",
+                              padding: "7px 11px",
                               marginRight: "10px", // Add space between boxes
                               marginBottom: "10px", // Add space at the bottom
                               whiteSpace: "nowrap", // Prevent line breaks
