@@ -387,7 +387,7 @@ const Activity = () => {
               >
                 <div
                   className="content-box"
-                  style={screens.sm ? { width: "335px", height: "450px" } : {width: "80%" , marginRight:"0"}}
+                  style={screens.sm ? { width: "335px", height: "450px" } : {width: "80%" ,height:"100%", marginRight:"45px"}}
                 >
                   <div className="img-zoom">
                     <img
@@ -407,7 +407,7 @@ const Activity = () => {
                       }}
                     />
                   </div>
-                  <div className="box" style={screens.sm ? { padding: "15px 5px" } : {marginLeft: "95px"}}>
+                  <div className="box" style={screens.sm ? { padding: "15px 5px" } : {marginLeft: "-80px"}}>
                     <div className="d-flex justify-content-between align-items-center">
                       <h5
                       // style={screens.sm ? { width: "70%" } : {}}
@@ -531,7 +531,7 @@ const Activity = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <h5 style={{ marginBottom: "-38px" }}>
                         <a
-                          style={{ color: "black" }}
+                          style={{ color: "black" , textDecoration: "none"}}
                           href={`/activitydetail/${activity.id}`}
                         >
                           {activity.title}

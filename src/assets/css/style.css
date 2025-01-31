@@ -7690,7 +7690,7 @@ input#timePicker {
 .sticky-container-mapdtl {
     position: sticky;
     top: 100px;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 255px);
     display: flex;
     flex-direction: column;
     margin-bottom: 100px;

@@ -9,6 +9,9 @@ import { fetchPlaceDetails, fetchPopularDish, getUserData, fetchTimes, fetchFood
 import "../assets/css/style.css";
 import "../assets/css/responsive.css";
 import Cookies from 'js-cookie';
+import { Grid } from 'antd';
+
+const {useBreakpoint} = Grid
 
 const FoodDetails = () => {
   const { id } = useParams();
@@ -201,7 +204,7 @@ const FoodDetails = () => {
     { day: 'Sun', hours: '12:00 PM - 11:00 PM' }
   ];
 
-
+  const screens = useBreakpoint();
   return (
     <div className="event-page">
       <div id="home">
@@ -291,7 +294,7 @@ const FoodDetails = () => {
               <div className="gallery-container">
                 <div className="tz-gallery">
                   <div className="row">
-                    <div className="col-md-5 col-5">
+                    <div className="col-md-5 col-5" style={{height:screens.sm ? '' : '300px'}}>
                       <a
                         className="lightbox"
                         onClick={() => openLightbox(0)}
@@ -301,6 +304,7 @@ const FoodDetails = () => {
                           src={imageUrls[1]}
                           alt="Food Image 1"
                           className="map-dtl-1"
+                          style={{height:screens.sm ? '' : '290px'}}
                         />
                       </a>
                     </div>
@@ -605,7 +609,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="80"
-                              className="custom-progress-bar html5"
+                              className="custom-progress-bar html5" style={{width:screens.sm ? '' : '100%'}} 
                             >
                               <div className="progress-bar">
                                 <span style={{ width: "80%" }}>80%</span>
@@ -617,6 +621,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="20"
+                              style={{width:screens.sm ? '' : '100%'}}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -629,6 +634,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="10"
+                              style={{width:screens.sm ? '' : '100%'}}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -641,6 +647,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="50"
+                              style={{width:screens.sm ? '' : '100%'}}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -653,6 +660,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="30"
+                              style={{width:screens.sm ? '' : '100%'}}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -809,6 +817,7 @@ const FoodDetails = () => {
                           className="form-control"
                           id="datePicker"
                           value={selectedDate}
+                          placeholder='Select Date'
                           onChange={(e) => setSelectedDate(e.target.value)}
                         />
                       </div>
@@ -823,7 +832,7 @@ const FoodDetails = () => {
                           {Array.isArray(times) && times.length > 0 ? (
                             times.map((time) => (
                               <div
-                                className="col-lg-3 col-md-3"
+                                className="col-lg-3 col-md-3 col-6"
                                 key={time.id}
                               >
                                 <div className="time-btn-1">

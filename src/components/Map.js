@@ -36,6 +36,10 @@ const Map = () => {
     setIsReviewModalOpen(false);
   };
 
+  const handleReviewModalShow = () => {
+    setIsReviewModalOpen(true);
+  };
+
   useEffect(() => {
     const getFoodPlaces = async () => {
       const places = await fetchFoodPlaces();
@@ -80,8 +84,18 @@ const Map = () => {
     <>
       {/* Overlay for review modal */}
       <div
-        // className={`offcanvas-overlay ${isReviewModalOpen ? "active" : ""}`}
-        onClick={() => setIsReviewModalOpen(false)} // Click on overlay to close review modal
+        className={`offcanvas-overlay ${isReviewModalOpen ? "active" : ""}`}
+        onClick={handleReviewModalClose} // Click on overlay to close review modal
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 1040, // Ensure it is above other elements
+          display: isReviewModalOpen ? "block" : "none"
+        }}
       ></div>
 
       <div className="map-page-main py-4">
@@ -448,12 +462,16 @@ const Map = () => {
                 tabIndex="-1"
                 aria-labelledby="reviewModalLabel"
                 aria-hidden="true"
-                onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
-                onShow={() => setIsReviewModalOpen(true)} // Set state when modal is shown
+               
+              
               >
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content ">
-                    <div className="modal-header">
+                    <div className="modal-header"  
+                    onClick={(e) => e.stopPropagation()}  // Prevent overlay click from closing modal
+                onShow={handleReviewModalShow} // Set state when modal is shown
+                onHide={handleReviewModalClose} // Set state when modal is hidden
+                 >
                       <h5 className="modal-title" id="reviewModalLabel">
                         Write Your Review
                       </h5>

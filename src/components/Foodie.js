@@ -136,7 +136,7 @@ const Foodie = () => {
     const foodsliderSettings = {
         dots: false,
         infinite: true,
-        autoplay: true,
+        autoplay: false,
         arrows: false,
         slidesToShow: Math.min(uniqueFoodBlogs.length, 4), // Fix slidesToShow
         slidesToScroll: 1,
@@ -156,7 +156,7 @@ const Foodie = () => {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: false,
                 },
             },
         ],
@@ -170,7 +170,7 @@ const Foodie = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 768); 
+            setIsSmallScreen(window.innerWidth <= 768);
         };
 
         window.addEventListener('resize', handleResize);
@@ -339,7 +339,7 @@ const Foodie = () => {
                                         src={blog.image_url}
                                         alt="Blog Image"
                                         className="custom-image-slider-food-blog"
-                                        style={{ borderRadius: '10px' }}
+                                        style={{ borderRadius: '10px', width: screens.sm ? '' : '100%' }}
                                     />
                                     <p className="custom-date">
                                         <i className="fa-solid fa-calendar-days"></i>{" "}
@@ -388,7 +388,7 @@ const Foodie = () => {
 
             {/* other all in this div */}
             <div className="listing-map-detail">
-                <div className="search-container-foodie d-flex justify-content-center">
+                <div className="search-container-foodie d-flex justify-content-center" style={{ margin: screens.sm ? '' : '1px 0' }}>
                     <input
                         type="text"
                         id="search-bar"
@@ -405,8 +405,7 @@ const Foodie = () => {
                         <div className="row" style={{ display: "flex" }}>
                             {/* sidebar */}
                             <div
-                                className="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 filter-sidebar-section"
-                                style={{ display: "flex", flexDirection: "column", }}
+                                className="col-xl-2 col-lg-3 filter-sidebar-section"
                             >
                                 {/* <h3>Suggéré</h3>
                                 <div className="checkbox">
@@ -430,7 +429,7 @@ const Foodie = () => {
 
 
 
-                                    {/* <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "15px", borderRadius: "5px", width: "60%" }}>
+                                {/* <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "15px", borderRadius: "5px", width: "60%" }}>
                                 <h3>Catégories</h3>
                                 <div className="categories">
                                     <div key="all" className="category-item">
@@ -460,70 +459,108 @@ const Foodie = () => {
                                 </div>
                                 </div> */}
 
-<div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                border: "1px solid #ccc",
-                padding: "15px",
-                borderRadius: "5px",
-                // width: "60%",
-                width: isSmallScreen ? "100%" : "60%",
-                position: "relative",
-            }}
-        >
-            {/* <h3>Catégories</h3> */}
+                                <div
+                                    // style={{
+                                    //     display: "flex",
+                                    //     flexDirection: "column",
+                                    //     border: "1px solid #ccc",
+                                    //     padding: "15px",
+                                    //     borderRadius: "5px",
+                                    //     width: isSmallScreen ? "100%" : "60%",
+                                    //     position: "relative",
+                                    // }}
+                                >
+                                    {/* <h3>Catégories</h3> */}
 
-            {/* Button to open categories on small screens */}
-            {isSmallScreen && (
-                <div className="filter-btn" style={{ marginBottom: "10px" }}>
-                    <button
-                        onClick={toggleCategories}
-                        style={{
-                            padding: "8px 10px",
-                            backgroundColor: "blue",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            width: "100%",
-                        }}
-                    >
-                        Filter
-                    </button>
-                </div>
-            )}
+                                    {/* Button to open categories on small screens */}
+                                    {/* {isSmallScreen && (
+                                        <div style={{ display: "flex", width: "100%", marginBottom: "10px" }}>
+                                            <div className="filter-btn" style={{ width: "100%", display: "inline-block" }}>
+                                                <button
+                                                    onClick={toggleCategories}
+                                                    style={{
+                                                        padding: "8px 10px",
+                                                        backgroundColor: "blue",
+                                                        color: "white",
+                                                        border: "none",
+                                                        borderRadius: "5px",
+                                                        cursor: "pointer",
+                                                        width: "100%",
+                                                    }}
+                                                >
+                                                    Filter
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )} */}
 
-            {/* Categories section - only visible when `isOpen` is true or on larger screens */}
-            {(isOpen || !isSmallScreen) && (
-                <div className="categories" style={{ marginTop: "10px" }}>
-                    <div key="all" className="category-item" style={{ marginBottom: "8px" }}>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={selectedFoodTypes.length === foodTypes.length}
-                                onChange={() => handleAllCategories()}
-                            />
-                            All
-                        </label>
-                    </div>
+                                    {/* Categories section - only visible when `isOpen` is true or on larger screens */}
+                                    {(isOpen || !isSmallScreen) && (
+                                        <div className="categories" style={{ marginTop: "10px" }}>
+                                            <div key="all" className="category-item" style={{ marginBottom: "8px" }}>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedFoodTypes.length === foodTypes.length}
+                                                        onChange={() => handleAllCategories()}
+                                                    />
+                                                    All
+                                                </label>
+                                            </div>
 
-                    {foodTypes.length > 0 &&
-                        foodTypes.map((foodType) => (
-                            <div key={foodType.id} className="category-item" style={{ marginBottom: "8px" }}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedFoodTypes.includes(foodType.id)}
-                                        onChange={() => handleCategoryChange(foodType.id)}
-                                    />
-                                    {foodType.title}
-                                </label>
-                            </div>
-                        ))}
-                </div>
-            )}
-        </div>
+                                            {foodTypes.length > 0 &&
+                                                foodTypes.map((foodType) => (
+                                                    <div key={foodType.id} className="category-item" style={{ marginBottom: "8px" }}>
+                                                        <label>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedFoodTypes.includes(foodType.id)}
+                                                                onChange={() => handleCategoryChange(foodType.id)}
+                                                            />
+                                                            {foodType.title}
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            {isSmallScreen && (
+                                                <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
+                                                    <button
+                                                        className="custom-dropdown-toggle"
+                                                        type="button"
+                                                        onClick={toggleDropdown}
+                                                        style={{
+                                                            border: '1px solid #ccc',
+                                                            backgroundColor: 'white',
+                                                            color: '#000',
+                                                            padding: '10px',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                            display: 'flex',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'center',
+                                                            borderRadius: '5px'
+                                                        }}
+                                                    >
+                                                        recommandée
+                                                        <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
+                                                            ▼
+                                                        </span>
+                                                    </button>
+                                                    {isDropdownOpen && (
+                                                        <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
+                                                                recommandée
+                                                            </li>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
+                                                                le mieux noté
+                                                            </li>
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
 
 
                                 {/* <h3>Distance</h3>
@@ -553,47 +590,105 @@ const Foodie = () => {
                             {/* <!-- Second Column: Empty for now --> */}
                             <div className="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div className="restaurants">
-                                    <div className="d-flex justify-content-between responsive-column">
-                                        <h2>Top 3 des meilleurs fast-foods près de chez vous</h2>
-
-                                        {/* <!-- Sort Dropdown --> */}
-                                        <div className="mb-3">
-                                            <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block' }}>
+                                    {isSmallScreen && (
+                                        <div style={{ display: "flex", width: "100%", marginBottom: "10px" , gap: '10px'}}>
+                                            <div className="filter-btn" style={{ width: "100%", display: "inline-block" }}>
                                                 <button
-                                                    className="custom-dropdown-toggle"
-                                                    type="button"
-                                                    onClick={toggleDropdown}
+                                                    onClick={toggleCategories}
                                                     style={{
-                                                        border: '1px solid #ccc',
-                                                        backgroundColor: 'white',
-                                                        color: '#000',
-                                                        padding: '10px',
-                                                        cursor: 'pointer',
-                                                        width: '100%',
-                                                        textAlign: 'left',
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'center',
-                                                        borderRadius: '5px'
+                                                        padding: "10px 10px",
+                                                        backgroundColor: "blue",
+                                                        color: "white",
+                                                        border: "none",
+                                                        borderRadius: "5px",
+                                                        cursor: "pointer",
+                                                        width: "100%",
                                                     }}
                                                 >
-                                                    recommandée
-                                                    <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
-                                                        ▼
-                                                    </span>
+                                                    Filter
                                                 </button>
-                                                {isDropdownOpen && (
-                                                    <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
-                                                        <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
-                                                            recommandée
-                                                        </li>
-                                                        <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
-                                                            le mieux noté
-                                                        </li>
-                                                    </ul>
-                                                )}
+                                            </div>
+                                            <div className="mb-3" style={{ width: "50%", display: "inline-block" }}>
+                                                <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block' }}>
+                                                    <button
+                                                        className="custom-dropdown-toggle"
+                                                        type="button"
+                                                        onClick={toggleDropdown}
+                                                        style={{
+                                                            border: '1px solid #ccc',
+                                                            backgroundColor: 'white',
+                                                            color: '#000',
+                                                            padding: '10px',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                            display: 'flex',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'center',
+                                                            borderRadius: '5px'
+                                                        }}
+                                                    >
+                                                        recommandée
+                                                        <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
+                                                            ▼
+                                                        </span>
+                                                    </button>
+                                                    {isDropdownOpen && (
+                                                        <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
+                                                                recommandée
+                                                            </li>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
+                                                                le mieux noté
+                                                            </li>
+                                                        </ul>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
+                                    )}
+                                    <div className="d-flex justify-content-between responsive-column">
+                                        {!isSmallScreen && <h2>Top 3 des meilleurs fast-foods près de chez vous</h2>}
+                                        {/* <!-- Sort Dropdown --> */}
+                                        {!isSmallScreen && (
+                                            <div className="mb-3">
+                                                <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block' }}>
+                                                    <button
+                                                        className="custom-dropdown-toggle"
+                                                        type="button"
+                                                        onClick={toggleDropdown}
+                                                        style={{
+                                                            border: '1px solid #ccc',
+                                                            backgroundColor: 'white',
+                                                            color: '#000',
+                                                            padding: '10px',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                            display: 'flex',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'center',
+                                                            borderRadius: '5px'
+                                                        }}
+                                                    >
+                                                        recommandée
+                                                        <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
+                                                            ▼
+                                                        </span>
+                                                    </button>
+                                                    {isDropdownOpen && (
+                                                        <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
+                                                                recommandée
+                                                            </li>
+                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
+                                                                le mieux noté
+                                                            </li>
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* <!-- Restaurant List --> */}
@@ -612,6 +707,7 @@ const Foodie = () => {
                                                             // src={foodieBanner.src} 
                                                             alt={place.title}
                                                             className="img-fluid me-3"
+                                                            style={{ width: screens.sm ? '' : '170px', objectFit: 'cover', borderRadius: '5px' }}
                                                         />
                                                         <div>
                                                             <h5>
@@ -679,7 +775,7 @@ const Foodie = () => {
                                         alt="Right Banner"
                                         style={{ height: screens.sm ? 300 : 200 }}
                                     />
-                                    <div className="text" style={screens.sm ? { marginTop: "-40px", marginLeft: "8px" } : { marginTop: "-10px" }}>
+                                    <div className="text" style={screens.sm ? { marginTop: "-40px", marginLeft: "82px" } : { marginTop: "-10px", marginLeft: "20px" }}>
                                         <h3 style={{ fontSize: screens.sm ? "" : "20px" }}>{"Default Right Text"}</h3>
                                         <div className="view-more-btn" style={{ fontSize: screens.sm ? "" : "15px" }}>
                                             <Link
@@ -692,8 +788,8 @@ const Foodie = () => {
                                         </div>
                                     </div>
                                     <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
-                                            AD
-                                        </div>
+                                        AD
+                                    </div>
                                 </div>
 
                                 <div>
