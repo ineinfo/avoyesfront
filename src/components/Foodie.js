@@ -209,8 +209,8 @@ const Foodie = () => {
             <div className="must-visit-places">
                 <div className="must-visit-places-section text-center">
                     <div className="heading-area">
-                        <h2>doit visiter des endroits</h2>
-                        <p className="mt-3">des cafés à la nourriture saine</p>
+                        <h2 style={screens.sm ? {} : { fontSize: "20px" }}>doit visiter des endroits</h2>
+                        <p className="mt-3" style={screens.sm ? {} : { fontSize: "12px", marginTop: "2px" }}>des cafés à la nourriture saine</p>
                     </div>
                 </div>
                 <div className="container mt-4">
@@ -460,15 +460,15 @@ const Foodie = () => {
                                 </div> */}
 
                                 <div
-                                    // style={{
-                                    //     display: "flex",
-                                    //     flexDirection: "column",
-                                    //     border: "1px solid #ccc",
-                                    //     padding: "15px",
-                                    //     borderRadius: "5px",
-                                    //     width: isSmallScreen ? "100%" : "60%",
-                                    //     position: "relative",
-                                    // }}
+                                // style={{
+                                //     display: "flex",
+                                //     flexDirection: "column",
+                                //     border: "1px solid #ccc",
+                                //     padding: "15px",
+                                //     borderRadius: "5px",
+                                //     width: isSmallScreen ? "100%" : "60%",
+                                //     position: "relative",
+                                // }}
                                 >
                                     {/* <h3>Catégories</h3> */}
 
@@ -591,7 +591,7 @@ const Foodie = () => {
                             <div className="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div className="restaurants">
                                     {isSmallScreen && (
-                                        <div style={{ display: "flex", width: "100%", marginBottom: "10px" , gap: '10px'}}>
+                                        <div style={{ display: "flex", width: "100%", marginBottom: "10px", gap: '10px' }}>
                                             <div className="filter-btn" style={{ width: "100%", display: "inline-block" }}>
                                                 <button
                                                     onClick={toggleCategories}
