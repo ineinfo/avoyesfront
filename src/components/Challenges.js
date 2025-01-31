@@ -65,7 +65,7 @@ const Challenges = () => {
                 <div className="container-fluid p-0">
                     <div className="bread-img">
                         <img src="/challanges-breadcrumb.png" alt="" style={{objectFit:screens.sm?"":"cover"}} />
-                        <div className="head-sec text-center" style={{top:screens.sm ? '' : '5%'}}>
+                        <div className="head-sec text-center" style={{top:screens.sm ? '' : '5%', right:screens.sm ? '' : '5px'}} >
                             <div className="head">
                                 <h1 style={{lineHeight:screens.sm ? '' : '15px'}}>Join Our Exciting Challenges!</h1>
                             </div>
@@ -86,7 +86,7 @@ const Challenges = () => {
                         <i className="fa fa-search"></i>
                         <input
                             type="text"
-                            placeholder="Find a Challenge That Inspires You..."
+                            placeholder="Find a Challenge..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
