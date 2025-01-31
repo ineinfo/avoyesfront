@@ -203,9 +203,9 @@ const Map = () => {
                         height: "600px",
                       }}
                     >
-                      <div className="modal-content modal-border-radius">
+                      <div className="modal-content modal-border-radius" style={{top: screens.sm ? '50%' : ''}}>
                         <div className="modal-header"
-                          onClick={(e) => e.stopPropagation()} // Prevent overlay click from closing modal
+                          onClick={(e) => e.stopPropagation()} 
                           onShow={() => setIsReviewModalOpen(true)}
                         >
                           <h5 className="modal-title" id="exampleModalLabel">
@@ -223,7 +223,7 @@ const Map = () => {
                           style={{
                             padding: "20px",
                             height: "calc(100% - 100px)", // Adjust height to leave space for header and footer
-                            overflow: "auto", // Prevent scrolling in the body
+                            overflowX: "hidden", // Prevent scrolling in the body
                           }}
                         >
                           <button

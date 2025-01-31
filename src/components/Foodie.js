@@ -395,7 +395,7 @@ const Foodie = () => {
                         className="search-input"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
-                        placeholder="Recherchez des restaurants, cafés ou bars près de chez vous..."
+                        placeholder="Recherchez des restaurants.."
                     />
                     <i className="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
