@@ -30,12 +30,17 @@ const Foodie = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [foodBlogs, setFoodBlogs] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
     // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const screens = useBreakpoint()
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const toggleFilterDropdown = () => {
+        setIsFilterDropdownOpen(!isFilterDropdownOpen);
     };
 
     const handleDropdownItemClick = (ratingType) => {
@@ -180,7 +185,9 @@ const Foodie = () => {
     }, []);
 
     const toggleCategories = () => {
-        setIsOpen(!isOpen);
+        if (selectedFoodTypes.length === 0) {
+            setIsOpen(!isOpen);
+        }
     };
 
 
@@ -213,11 +220,13 @@ const Foodie = () => {
                         <p className="mt-3" style={screens.sm ? {} : { fontSize: "12px", marginTop: "2px" }}>des cafés à la nourriture saine</p>
                     </div>
                 </div>
-                <div className="container mt-4">
+                <div className={`container mt-4 ${screens.sm ? '' : 'mt-2'}`}>
                     <ul
                         className="nav nav-tabs d-flex justify-content-center custom-nav-tabs"
                         id="myTab"
                         role="tablist"
+                        style={screens.sm ? {} : { margin: '0 0', width: "100vw" }}
+
                     >
                         <li className="nav-item" role="presentation">
                             <a
@@ -327,7 +336,7 @@ const Foodie = () => {
 
             <div className="food-blog">
                 <div className="heading-area text-center">
-                    <h2>dernier blog</h2>
+                    <h2 style={screens.sm ? {} : { fontSize: "20px" }}>dernier blog</h2>
                     <p className="mt-3">des cafés à la nourriture saine</p>
                 </div>
                 <div className="container mt-5">
@@ -397,7 +406,7 @@ const Foodie = () => {
                         onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
                         placeholder="Recherchez des restaurants.."
                     />
-                    <i className="fa-solid fa-magnifying-glass search-icon"></i>
+                    <i className="fa-solid fa-magnifying-glass search-icon" style={{ marginRight: "2px" }}></i>
                 </div>
                 {/* <!-- food listing map  --> */}
                 <div className="filter-sidebar-foodie">
@@ -495,71 +504,7 @@ const Foodie = () => {
                                     )} */}
 
                                     {/* Categories section - only visible when `isOpen` is true or on larger screens */}
-                                    {(isOpen || !isSmallScreen) && (
-                                        <div className="categories" style={{ marginTop: "10px" }}>
-                                            <div key="all" className="category-item" style={{ marginBottom: "8px" }}>
-                                                <label>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={selectedFoodTypes.length === foodTypes.length}
-                                                        onChange={() => handleAllCategories()}
-                                                    />
-                                                    All
-                                                </label>
-                                            </div>
 
-                                            {foodTypes.length > 0 &&
-                                                foodTypes.map((foodType) => (
-                                                    <div key={foodType.id} className="category-item" style={{ marginBottom: "8px" }}>
-                                                        <label>
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={selectedFoodTypes.includes(foodType.id)}
-                                                                onChange={() => handleCategoryChange(foodType.id)}
-                                                            />
-                                                            {foodType.title}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            {isSmallScreen && (
-                                                <div className="custom-dropdown" style={{ position: 'relative', display: 'inline-block', marginTop: '10px' }}>
-                                                    <button
-                                                        className="custom-dropdown-toggle"
-                                                        type="button"
-                                                        onClick={toggleDropdown}
-                                                        style={{
-                                                            border: '1px solid #ccc',
-                                                            backgroundColor: 'white',
-                                                            color: '#000',
-                                                            padding: '10px',
-                                                            cursor: 'pointer',
-                                                            width: '100%',
-                                                            textAlign: 'left',
-                                                            display: 'flex',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center',
-                                                            borderRadius: '5px'
-                                                        }}
-                                                    >
-                                                        recommandée
-                                                        <span style={{ marginLeft: '10px', transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
-                                                            ▼
-                                                        </span>
-                                                    </button>
-                                                    {isDropdownOpen && (
-                                                        <ul className="custom-dropdown-menu" style={{ listStyle: 'none', padding: '0', margin: '0', border: '1px solid #ccc', backgroundColor: 'white', position: 'absolute', top: '100%', left: '0', width: '100%', zIndex: '1000', borderRadius: '5px' }}>
-                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('all')}>
-                                                                recommandée
-                                                            </li>
-                                                            <li style={{ padding: '10px', cursor: 'pointer' }} onClick={() => handleDropdownItemClick('highest')}>
-                                                                le mieux noté
-                                                            </li>
-                                                        </ul>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
                                 </div>
 
 
@@ -603,6 +548,7 @@ const Foodie = () => {
                                                         borderRadius: "5px",
                                                         cursor: "pointer",
                                                         width: "100%",
+                                                        fontSize: "16px" // Increased font size
                                                     }}
                                                 >
                                                     Filter
@@ -625,7 +571,8 @@ const Foodie = () => {
                                                             display: 'flex',
                                                             justifyContent: 'space-between',
                                                             alignItems: 'center',
-                                                            borderRadius: '5px'
+                                                            borderRadius: '5px',
+                                                            fontSize: "16px" // Increased font size
                                                         }}
                                                     >
                                                         recommandée
@@ -647,8 +594,40 @@ const Foodie = () => {
                                             </div>
                                         </div>
                                     )}
+
+                                    {(isOpen || !isSmallScreen) && (
+                                        <div className="categories" style={{ marginTop: "10px", display: "flex", overflowX: "auto", flexDirection: "row", gap: "20px", alignItems: "center" }}>
+                                            <div key="all" className="category-item" style={{ marginBottom: "8px", whiteSpace: "nowrap" }}>
+                                                <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedFoodTypes.length === foodTypes.length}
+                                                        onChange={() => handleAllCategories()}
+                                                    />
+                                                    All
+                                                </label>
+                                            </div>
+
+                                            {foodTypes.length > 0 &&
+                                                foodTypes.map((foodType) => (
+                                                    <div key={foodType.id} className="category-item" style={{ marginBottom: "8px", whiteSpace: "nowrap" }}>
+                                                        <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedFoodTypes.includes(foodType.id)}
+                                                                onChange={() => handleCategoryChange(foodType.id)}
+                                                            />
+                                                            {foodType.title}
+                                                        </label>
+                                                    </div>
+                                                ))}
+
+                                        </div>
+                                    )}
+
+
                                     <div className="d-flex justify-content-between responsive-column">
-                                        {!isSmallScreen && <h2>Top 3 des meilleurs fast-foods près de chez vous</h2>}
+                                        {!isSmallScreen && <h2 style={screens.sm ? {} : { fontSize: "20px" }}>Top 3 des meilleurs fast-foods près de chez vous</h2>}
                                         {/* <!-- Sort Dropdown --> */}
                                         {!isSmallScreen && (
                                             <div className="mb-3">
