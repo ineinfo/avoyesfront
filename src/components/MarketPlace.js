@@ -12,8 +12,13 @@ import defaultImg from '../../public/defaultImg.jpg';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { fetchBestFor, fetchCategories, fetchRatings, fetchTypes } from "@/utils/api/FilterApi";
 
+import {Grid} from "antd";
+
+const { useBreakpoint } = Grid;
 
 const MarketPlace = () => {
+const screens = useBreakpoint();
+
   const [showingCount, setShowingCount] = useState(12);
   const [selectedOption, setSelectedOption] = useState(" Plus récentsevents");
   const [products, setProducts] = useState([]);
