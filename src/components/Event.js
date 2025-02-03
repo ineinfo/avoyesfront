@@ -370,10 +370,10 @@ const Event = () => {
                         <img src="/cal-icon.png" alt="" />
                       </div>
                       <div className="what-text">
-                        <h3>WHAT YOU WANT</h3>
+                        <h3 style={{marginLeft:screens.sm?"":"40"}}>WHAT YOU WANT</h3>
                       </div>
                       <div className="find-best-text">
-                        <p>find the best for you</p>
+                        <p style={{marginLeft:screens.sm?"":"45"}}>find the best for you</p>
                       </div>
                     </div>
 
