@@ -12,6 +12,7 @@ import "./Carousal.css"; // Assuming your CSS is in Carousel.css
 import Link from "next/link";
 import foodieBanner from "../../public/foodie-banner.png";
 import { fetchFoodTypes } from "@/utils/api/FoodieApi";
+import { Grid } from "antd";
 
 const CustomCarousel = () => {
   return (
@@ -432,7 +433,11 @@ const CustomCarouselFour = () => {
   );
 };
 
+const { useBreakpoint } = Grid;
+
 const CustomCarouselSix = () => {
+const screens = useBreakpoint();
+
 
   const [foodItems, setFoodItems] = useState([]);
 
@@ -450,7 +455,7 @@ const CustomCarouselSix = () => {
     slidesToScroll: 1,
     arrows: false,
     dots: false,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 1000,
     prevArrow: <button className="slick-prev ">Prev</button>,
     nextArrow: <button className="slick-next">Next</button>,
@@ -487,7 +492,7 @@ const CustomCarouselSix = () => {
             {foodItems.map((item) => (
               <div key={item.id} className="col-xl-3 market-slide item">
                 <div className="market-place-product">
-                  <div className="img-wrapper">
+                  <div className="img-wrapper" style={{marginLeft:screens.sm?"":"285px"}}>
                     <div className="img position-relative">
                       <img
                         // src={
