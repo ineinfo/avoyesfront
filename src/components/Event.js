@@ -754,7 +754,7 @@ const Event = () => {
               <div className="container">
                 <div className="head">
                   {/* <h1>Featured Events</h1> */}
-                  <h1>Événements les plus tendance</h1>
+                  <h2>Événements les plus tendance</h2>
 
                   <p>
                     {/* Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences! */}

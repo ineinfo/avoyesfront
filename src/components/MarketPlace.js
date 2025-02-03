@@ -662,7 +662,7 @@ const MarketPlace = () => {
                         key={product.id}
                       >
                         <div className="market-place-product market-place-page-product">
-                          <div className="img-wrapper-market">
+                          <div className="img-wrapper-market"style={{marginLeft:screens.sm?"":"8px"}}>
                             <div className="img">
                               <img
                                 style={{ objectFit: "cover", height: "350px" }}
