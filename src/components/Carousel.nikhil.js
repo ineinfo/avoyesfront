@@ -455,7 +455,7 @@ const screens = useBreakpoint();
     slidesToScroll: 1,
     arrows: false,
     dots: false,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 1000,
     prevArrow: <button className="slick-prev ">Prev</button>,
     nextArrow: <button className="slick-next">Next</button>,
@@ -492,7 +492,7 @@ const screens = useBreakpoint();
             {foodItems.map((item) => (
               <div key={item.id} className="col-xl-3 market-slide item">
                 <div className="market-place-product">
-                  <div className="img-wrapper" style={{marginLeft:screens.sm?"":"285px"}}>
+                  <div className="img-wrapper" style={{marginLeft:screens.sm?"":"280px"}}>
                     <div className="img position-relative">
                       <img
                         // src={
