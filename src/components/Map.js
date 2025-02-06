@@ -10,7 +10,7 @@ import { Modal } from "bootstrap";
 import LoadingSpinner from "./Loading";
 import { Grid } from "antd";
 
-const {useBreakpoint} = Grid
+const { useBreakpoint } = Grid
 
 const Map = () => {
   const [foodPlaces, setFoodPlaces] = useState([]);
@@ -203,9 +203,9 @@ const Map = () => {
                         height: "600px",
                       }}
                     >
-                      <div className="modal-content modal-border-radius" style={{top: screens.sm ? '50%' : ''}}>
+                      <div className="modal-content modal-border-radius" style={{ top: screens.sm ? '50%' : '' }}>
                         <div className="modal-header"
-                          onClick={(e) => e.stopPropagation()} 
+                          onClick={(e) => e.stopPropagation()}
                           onShow={() => setIsReviewModalOpen(true)}
                         >
                           <h5 className="modal-title" id="exampleModalLabel">
@@ -462,16 +462,16 @@ const Map = () => {
                 tabIndex="-1"
                 aria-labelledby="reviewModalLabel"
                 aria-hidden="true"
-               
-              
+
+
               >
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content ">
-                    <div className="modal-header"  
-                    onClick={(e) => e.stopPropagation()}  // Prevent overlay click from closing modal
-                onShow={handleReviewModalShow} // Set state when modal is shown
-                onHide={handleReviewModalClose} // Set state when modal is hidden
-                 >
+                    <div className="modal-header"
+                      onClick={(e) => e.stopPropagation()}  // Prevent overlay click from closing modal
+                      onShow={handleReviewModalShow} // Set state when modal is shown
+                      onHide={handleReviewModalClose} // Set state when modal is hidden
+                    >
                       <h5 className="modal-title" id="reviewModalLabel">
                         Write Your Review
                       </h5>
@@ -623,7 +623,7 @@ const Map = () => {
                   </div>
                 </div> */}
 
-                <div className="menus d-flex justify-content-evenly custom-row">
+                <div className="menus d-flex justify-content-evenly custom-row" style={{ scrollbarWidth: "none" }}>
                   {/* Mapping through foodTypes to display each food item */}
                   {foodTypes.map((food, index) => (
                     <Link href="/foodie" key={index} className="text-decoration-none custom-col">
@@ -686,7 +686,7 @@ const Map = () => {
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21022.776116673373!2d2.0985952249338164!3d48.80389838067096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e67db475f420bd%3A0x869e00ad0d844aba!2s78000%20Versailles%2C%20France!5e0!3m2!1sen!2sin!4v1723466121545!5m2!1sen!2sin"
                     width="100%"
-                    style={{ border: '0',height:screens.sm ? '' : '310px' }}
+                    style={{ border: '0', height: screens.sm ? '' : '310px' }}
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"

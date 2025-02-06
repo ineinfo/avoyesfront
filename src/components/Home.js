@@ -419,7 +419,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
-                                                fontSize: "20px"
+                                                fontSize: "20px",
                                             }
                                     }
                                 >
@@ -476,8 +476,13 @@ export default function CustomComponent() {
                                                         </Link>
                                                     </div>
                                                 </div>
-                                                <div className="trand-text-box">
-                                                    <div className="date-box" style={screens.sm ? { zIndex: "1" } : { top: "51%" }}>
+                                                <div className="trand-text-box" style={screens.sm ? { minHeight: "170px", maxHeight: "170px" } : {}}>
+                                                    <div
+                                                        className="date-box"
+                                                        style={
+                                                            screens.sm ? { zIndex: "1" } : { top: "51%" }
+                                                        }
+                                                    >
                                                         {dateValid ? (
                                                             <>
                                                                 <div className="date">
@@ -501,7 +506,7 @@ export default function CustomComponent() {
                                                             href="/event"
                                                             className="text-decoration-none"
                                                         >
-                                                            <h6>{event.title}</h6>
+                                                            <h6 className="truncate">{event.title}</h6>
                                                         </Link>
                                                     </div>
                                                     <div
@@ -511,7 +516,18 @@ export default function CustomComponent() {
                                                         <div className="para">
                                                             <p className="m-0">{event.short_description}</p>
                                                         </div>
-                                                        <div className="icon" style={screens.sm ? {} : { display: "flex", justifyContent: "right", width: "100%" }}>
+                                                        <div
+                                                            className="icon"
+                                                            style={
+                                                                screens.sm
+                                                                    ? {}
+                                                                    : {
+                                                                        display: "flex",
+                                                                        justifyContent: "right",
+                                                                        width: "100%",
+                                                                    }
+                                                            }
+                                                        >
                                                             <Link
                                                                 href="/event"
                                                                 className="text-decoration-none"
@@ -601,7 +617,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
-                                                fontSize: "20px"
+                                                fontSize: "20px",
                                             }
                                     }
                                 >
@@ -631,7 +647,7 @@ export default function CustomComponent() {
                         </div>
                         <Slider
                             {...productsettings}
-                            style={{ padding: "0 25px" }}
+                            style={screens.sm ? { padding: "0" } : { padding: "0 25px" }}
                             className="product-slider pt-4"
                         >
                             {products.map((product) => (
@@ -749,7 +765,18 @@ export default function CustomComponent() {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                        <div
+                                            className="ad-btn"
+                                            style={{
+                                                position: "absolute",
+                                                top: "10px",
+                                                right: "10px",
+                                                backgroundColor: "black",
+                                                color: "white",
+                                                padding: "5px 10px",
+                                                borderRadius: "5px",
+                                            }}
+                                        >
                                             AD
                                         </div>
                                     </div>
@@ -771,7 +798,18 @@ export default function CustomComponent() {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                        <div
+                                            className="ad-btn"
+                                            style={{
+                                                position: "absolute",
+                                                top: "10px",
+                                                right: "10px",
+                                                backgroundColor: "black",
+                                                color: "white",
+                                                padding: "5px 10px",
+                                                borderRadius: "5px",
+                                            }}
+                                        >
                                             AD
                                         </div>
                                     </div>
@@ -793,7 +831,18 @@ export default function CustomComponent() {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <div className="ad-btn" style={{ position: "absolute", top: "10px", right: "10px", backgroundColor: "black", color: "white", padding: "5px 10px", borderRadius: "5px" }}>
+                                        <div
+                                            className="ad-btn"
+                                            style={{
+                                                position: "absolute",
+                                                top: "10px",
+                                                right: "10px",
+                                                backgroundColor: "black",
+                                                color: "white",
+                                                padding: "5px 10px",
+                                                borderRadius: "5px",
+                                            }}
+                                        >
                                             AD
                                         </div>
                                     </div>
@@ -817,7 +866,7 @@ export default function CustomComponent() {
                                                 display: "flex",
                                                 justifyContent: "left",
                                                 flexDirection: "column",
-                                                fontSize: "20px"
+                                                fontSize: "20px",
                                             }
                                     }
                                 >
@@ -849,6 +898,13 @@ export default function CustomComponent() {
                     </div>
                 </div>
             </section>
+            <style jsx>{`
+                .truncate {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            `}</style>
         </div>
     );
 }

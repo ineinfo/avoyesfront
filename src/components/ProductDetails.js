@@ -281,7 +281,7 @@ const ProductDetails = () => {
                         // src={defaultImg.src}
                         className="img-fluid thumbnail w-75 mb-2"
                         onClick={() => changeImage(src)}
-                        style={{ cursor: "pointer", height: screens.sm ? "" : "65px" , borderRadius: "10px"}}
+                        style={{ cursor: "pointer", height: screens.sm ? "" : "65px", borderRadius: "10px" }}
                         alt={`Thumbnail ${index + 1}`}
                         onError={(e) => (e.target.src = defaultImg)}
                       />
@@ -299,7 +299,7 @@ const ProductDetails = () => {
                       ref={mainImageRef}
                       src={mainImage}
                       alt="Product"
-                      style={{ width: "100%", cursor: "zoom-in" , borderRadius: "15px"}}
+                      style={{ width: "100%", cursor: "zoom-in", borderRadius: "15px" }}
                     />
                   </div>
 
@@ -485,7 +485,8 @@ const ProductDetails = () => {
                     style={{
                       cursor: product?.stock_status === "in_stock" ? "pointer" : "not-allowed",
                       opacity: product?.stock_status === "in_stock" ? 1 : 0.5,
-                      width: screens.sm ? "" : "100%"
+                      width: screens.sm ? "" : "100%",
+                      border: "none",
                     }}
                   >
                     ADD TO CART
@@ -751,7 +752,7 @@ const ProductDetails = () => {
               aria-hidden="true"
             >
               <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content" style={{height: screens.sm? "750px" : "" , top:screens.sm? "45%" : "50%" , left:screens.sm?"" : "178px"}}>
+                <div className="modal-content" style={{ height: screens.sm ? "750px" : "", top: screens.sm ? "45%" : "50%", left: screens.sm ? "" : "178px" }}>
                   <div className="modal-header">
                     <h5
                       className="modal-title w-100 text-center write-review-head"
@@ -770,7 +771,7 @@ const ProductDetails = () => {
                     <div className="row">
                       <div className="col-lg-5">
                         <div className="img">
-                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: screens.sm? "cover" : "contain", height: screens.sm? "400px" : "350px" }} />
+                          <img src={thumbnailImages[0] || "/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: screens.sm ? "cover" : "contain", height: screens.sm ? "400px" : "350px" }} />
                           {/* <img src={"/main-thumb.png"} alt="Main Thumbnail" style={{ objectFit: "cover", height: "400px" }} /> */}
 
                         </div>

@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,7 +31,9 @@ const DashboardLayout = ({ children }) => {
         return "profile";
       case "/dashboard/address":
         return "address";
-        
+      case "/dashboard/my-challenge":
+        return "my-challenge";
+
       case "/dashboard/changepassword":
         return "password";
       default:
@@ -112,7 +113,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <>
       {isLoading && <LoadingSpinner />}
-      <div className="breadcrumb-marketplace py-5">
+      {/* <div className="breadcrumb-marketplace py-5">
         <div className="img">
           <img src="" alt="" />
           <div className="container">
@@ -126,7 +127,7 @@ const DashboardLayout = ({ children }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <section>
         <div className="my-account-main py-5">
           <div className="container">
@@ -202,7 +203,16 @@ const DashboardLayout = ({ children }) => {
                         </p>
                       </Link>
                     </li>
-                   
+                    <li className="nav-item" role="presentation">
+                      <Link
+                        href="/dashboard/my-challenge"
+                        className={`nav-link text-dark d-flex justify-content-between align-items-center bg-white profile-tab rounded-pill-tab mb-3 ${activeTab === "my-challenge" ? "active" : ""}`}
+                      >
+                        <p className="m-0 d-flex align-items-center p-tab-font">
+                          <i className="fa-solid fa-trophy pe-2"></i>Challenges
+                        </p>
+                      </Link>
+                    </li>
                     <li className="nav-item" role="presentation">
                       <Link
                         href="/dashboard/changepassword"

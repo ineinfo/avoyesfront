@@ -75,38 +75,38 @@ const Footer = () => {
                 This company meets the highest standard of social and
                 environmental performance transparency and accountability{" "}
               </p> */}
-              <ul className="ftr-para" style={screens.sm ? { minWidth: "40vw", color: "black" } : { minWidth: "100%", color: "black" }}>
-                <li>
+              <div className="ftr-para" style={screens.sm ? { minWidth: "40vw", color: "black" } : { minWidth: "100%", color: "black" }}>
+                <div>
                   <>Réservez vos restaurants coup de cœur avec</>{" "}
                   <a href="/foodie" style={{ textDecoration: "underline" }}>
                     Foodies
                   </a>
-                </li>
-                <li>
+                </div>
+                <div>
                   <>Explorez des activités uniques grâce à</>{" "}
                   <a href="/map" style={{ textDecoration: "underline" }}>
                     notre carte interactive
                   </a>
-                </li>
-                <li>
+                </div>
+                <div>
                   <>Ne manquez aucun événement incontournable avec</>{" "}
                   <a href="/event" style={{ textDecoration: "underline" }}>
                     Sorties
                   </a>
-                </li>
-                <li>
+                </div>
+                <div>
                   <>Découvrez nos sélections pépites sur</>{" "}
                   <a href="/marketplace" style={{ textDecoration: "underline" }}>
                     Marketplace
                   </a>
-                </li>
-                <li>
+                </div>
+                <div>
                   <>Relevez des défis bien-être excitants sur</>{" "}
                   <a href="/challanges" style={{ textDecoration: "underline" }}>
                     Challenges
                   </a>
-                </li>
-              </ul>
+                </div>
+              </div>
 
 
 
