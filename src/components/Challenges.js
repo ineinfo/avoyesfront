@@ -13,6 +13,19 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const { useBreakpoint } = Grid;
+
+const buttonStyle = {
+    fontFamily: "Lato, sans-serif",
+    fontSize: "15px",
+    fontWeight: 700,
+    lineHeight: "18px",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "3px",
+    padding: "7px 0",
+    width: "100%"
+};
+
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -50,6 +63,7 @@ const Challenges = () => {
                 const joinButton = challengeElement.querySelector(
                     ".join-challange-btn"
                 );
+                console.log("challengeElement", joinButton);
                 if (joinButton.style.opacity === "1") {
                     joinButton.style.opacity = "0";
                     joinButton.style.bottom = "5px";
@@ -206,7 +220,7 @@ const Challenges = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="join-challange-btn">
+                                        <div className={screens.sm ? "join-challange-btn" : ""}>
                                             <Link
                                                 href="#"
                                                 onClick={(e) => {
@@ -219,8 +233,13 @@ const Challenges = () => {
                                                     onClick={() => {
                                                         handleJoinchallenge(challenge?.id);
                                                     }}
-                                                    style={{
+                                                    style={screens.sm ? {
                                                         backgroundColor: challenge?.enabled ? "gray" : "",
+                                                        cursor: challenge?.enabled ? "not-allowed" : "pointer",
+                                                        opacity: challenge?.enabled ? 0.6 : 1,
+                                                    } : {
+                                                        ...buttonStyle,
+                                                        backgroundColor: challenge?.enabled ? "gray" : "#0000ff",
                                                         cursor: challenge?.enabled ? "not-allowed" : "pointer",
                                                         opacity: challenge?.enabled ? 0.6 : 1,
                                                     }}
