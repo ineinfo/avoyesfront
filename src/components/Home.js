@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -22,16 +22,51 @@ import Link from "next/link";
 import axios from "axios";
 import { Grid } from "antd";
 import LoadingSpinner from "./Loading";
+import { fetchChallenges, fetchvideo } from "@/utils/api/ChallengesApi";
 
 const { useBreakpoint } = Grid;
 
 export default function CustomComponent() {
     const [events, setEvents] = useState([]);
     const [products, setProducts] = useState([]);
+    const [challenges, setChallenges] = useState([]);
     const [bannerData, setBannerData] = useState(null);
-
     const screens = useBreakpoint();
+    const [videourl, setVideourl] = useState("");
+    const [isPlaying, setIsPlaying] = useState(false);
+    let player = null;
 
+    useEffect(() => {
+        // Load YouTube IFrame API
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = () => {
+            player = new window.YT.Player("youtube-player", {
+                events: {
+                    onStateChange: (event) => {
+                        if (event.data === window.YT.PlayerState.PLAYING) {
+                            setIsPlaying(true);
+                        } else {
+                            setIsPlaying(false);
+                        }
+                    },
+                },
+            });
+        };
+    }, []);
+
+    const handlePlayPause = () => {
+        if (player) {
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+    };
     useEffect(() => {
         // Search input functionality
         const searchInput = document.getElementById("search-input");
@@ -174,51 +209,46 @@ export default function CustomComponent() {
         const fetchProductData = async () => {
             const result = await fetchProducts();
             if (result.status) {
-                setProducts(result.data); // Ensure the response structure fits here
+                setProducts(result.data);
             } else {
                 console.error(result.message);
             }
         };
+        const fetchChallengesVideo = async () => {
+            const result = await fetchvideo();
+            if (result) {
+                setVideourl(result.video_url);
+            } else {
+                console.error("Something went wrong");
+            }
+        }
+
+        const fetchTopChallenge = async () => {
+            const result = await fetchChallenges();
+            console.log("RESULT555", result);
+
+            // Sorting based on the length of the users array in descending order
+            const sortedChallenges = result
+                .sort((a, b) => (b.users?.length || 0) - (a.users?.length || 0))
+                .slice(0, 5); // Get top 3 challenges
+
+            // Extracting only required fields
+            const topChallenges = sortedChallenges.map(challenge => ({
+                name: challenge.title,
+                img: challenge.image_url,
+                followers: challenge.users?.length || 0
+            }));
+
+            console.log("Top Challenges:", topChallenges);
+            setChallenges(topChallenges);
+            return
+        };
+
         fetchProductData();
+        fetchChallengesVideo();
+        fetchTopChallenge();
     }, []);
 
-    const communities = [
-        {
-            name: "Fashionistas Unite",
-            followers: "12,300 Followers",
-            img: "/top-community-1.png",
-        },
-        {
-            name: "Chic Collective",
-            followers: "12,300 Followers",
-            img: "/top-community-2.png",
-        },
-        {
-            name: "Fashionistas Unite",
-            followers: "12,300 Followers",
-            img: "/top-community-3.png",
-        },
-        {
-            name: "Style Seekers",
-            followers: "12,300 Followers",
-            img: "/top-community-4.png",
-        },
-        {
-            name: "Glam Squad",
-            followers: "12,300 Followers",
-            img: "/top-community-5.png",
-        },
-        {
-            name: "Trendsetters",
-            followers: "12,300 Followers",
-            img: "/top-community-6.png",
-        },
-        {
-            name: "Couture Clique",
-            followers: "12,300 Followers",
-            img: "/top-community-7.png",
-        },
-    ];
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -552,57 +582,66 @@ export default function CustomComponent() {
                 </div>
             </section>
 
-            {/* <section>
-        <div className="main-community">
-          <div className="container pb-5">
-            <div className="head d-flex justify-content-between align-items-center">
-              <div className="heading">
-                <h1>
-                  <span>TOP </span> Communities
-                </h1>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xl-9 col-lg-9">
-                <div className="video-box pt-5">
-                  <div className="video-container">
-                    <video controls>
-                      <source src="/video-1.mp4" type="video/mp4" />
-                    </video>
-                    <div className="overlay"></div>
-                    <div className="img">
-                      <img src="/play.png" alt="Play" />
+            <section>
+                <div className="main-community">
+                    <div className="container pb-5">
+                        <div className="head d-flex justify-content-between align-items-center">
+                            <div className="heading">
+                                <h1>
+                                    <span>TOP </span> Challenges
+                                </h1>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xl-9 col-lg-9">
+                                <div className="video-box pt-5">
+                                    <div className="video-container">
+                                        <iframe
+                                            id="youtube-player"
+                                            width="100%"
+                                            height={screens.sm ? "520" : "200"}
+                                            src={videourl}
+                                            title="YouTube video player"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            style={{ objectFit: "cover" }}
+                                        ></iframe>
+                                        {/* {screens.sm && !isPlaying && (
+                                            <div className="overlay" onClick={handlePlayPause}>
+                                                <div className="img">
+                                                    <img src="/play.png" alt="Play" />
+                                                </div>
+                                            </div>
+                                        )} */}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xl-3 col-lg-3 pt-5">
+                                <div className="top-community-member">
+                                    <div className="head">
+                                        <h3>Top Challenges</h3>
+                                    </div>
+                                    {challenges.map((challenge, index) => (
+                                        <div key={index} className="community-member-1 d-flex align-items-center pb-3">
+                                            <div className="img">
+                                                <img src={challenge.img} alt={challenge.name} style={{ objectFit: "cover", borderRadius: "50%", height: screens.sm ? "40px" : "50px" }} />
+                                            </div>
+                                            <div className="info">
+                                                <h5 className="m-0">{challenge.name}</h5>
+                                                <p className="m-0">{challenge.participants}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <div className="see-more-link">
+                                        <Link href="/challanges" className="text-decoration-none">See More</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div className="col-xl-3 col-lg-3 pt-5">
-                <div className="top-community-member">
-                  <div className="head">
-                    <h3>Top Communities</h3>
-                  </div>
-                  {communities.map((community, index) => (
-                    <Link href="#" className="text-decoration-none" key={index}>
-                      <div className="community-member-1 d-flex align-items-center pb-3">
-                        <div className="img">
-                          <img src={community.img} alt={community.name} />
-                        </div>
-                        <div className="info">
-                          <h5 className="m-0">{community.name}</h5>
-                          <p className="m-0">{community.followers}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                  <div className="see-more-link">
-                    <Link href="#" className="text-decoration-none">See More</Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+            </section>
 
             <section>
                 <div className="market-main py-5">

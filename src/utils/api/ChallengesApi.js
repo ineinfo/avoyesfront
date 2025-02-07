@@ -76,3 +76,17 @@ export const deleteUserChallenge = async (id) => {
         return null;
     }
 };
+
+
+export const fetchvideo = async () => {
+    try {
+        const token = Cookies.get('accessToken');
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/challengesvideo/get`);
+
+
+        return response.data.data;
+    } catch (error) {
+        console.error('Error joining challenge:', error);
+        return null;
+    }
+};
