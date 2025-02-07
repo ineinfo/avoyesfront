@@ -645,7 +645,7 @@ const Map = () => {
       overflow-x: auto; /* Enable horizontal scroll */
       -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
       gap: 16px; /* Space between items */
-      scrollbar-width: thin; /* For Firefox */
+      scrollbar-width: none; /* For Firefox */
       scrollbar-color: #ccc transparent; /* Customize scrollbar color */
     }
 

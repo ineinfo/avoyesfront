@@ -436,7 +436,7 @@ const CustomCarouselFour = () => {
 const { useBreakpoint } = Grid;
 
 const CustomCarouselSix = () => {
-const screens = useBreakpoint();
+  const screens = useBreakpoint();
 
 
   const [foodItems, setFoodItems] = useState([]);
@@ -465,8 +465,8 @@ const screens = useBreakpoint();
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,  // Make sure you scroll 1 slide at a time
-        centerMode: true,    // To center slides and avoid excessive spacing
-        centerPadding: "0",
+          centerMode: true,    // To center slides and avoid excessive spacing
+          centerPadding: "0",
         },
       },
       {
@@ -487,19 +487,19 @@ const screens = useBreakpoint();
           <Slider
             {...settings}
             className="pt-4 related-product"
-            style={{ minWidth: "99vw", marginLeft: "-295px" }}
+          // style={{ minWidth: "99vw", marginLeft: "-295px" }}
           >
             {foodItems.map((item) => (
               <div key={item.id} className="col-xl-3 market-slide item">
                 <div className="market-place-product">
-                  <div className="img-wrapper" style={{marginLeft:screens.sm?"":"280px"}}>
+                  <div className="img-wrapper" style={{ marginLeft: screens.sm ? "" : "280px" }}>
                     <div className="img position-relative">
                       <img
                         // src={
                         //   item.image_url ||
                         //   "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
                         // }
-                         src={foodieBanner.src} 
+                        src={foodieBanner.src}
                         alt={item.title}
                         style={{ width: "450px", height: "380px", objectFit: "cover" }}
                       />
@@ -525,4 +525,4 @@ const screens = useBreakpoint();
   );
 };
 
-export { CustomCarousel,  CustomCarouselFour, CustomCarouselSix };
+export { CustomCarousel, CustomCarouselFour, CustomCarouselSix };
