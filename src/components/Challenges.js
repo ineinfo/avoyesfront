@@ -154,7 +154,7 @@ const Challenges = () => {
                         <i className="fa fa-search"></i>
                         <input
                             type="text"
-                            placeholder="Find a Challenge..."
+                            placeholder="Trouvez les Challenges qui vous correspondent..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />

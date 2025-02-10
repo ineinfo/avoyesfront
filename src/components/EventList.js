@@ -140,7 +140,7 @@ const EventList = () => {
                                       <p>{new Date(event.start_date).toLocaleString("default", { month: "short" })} {new Date(event.start_date).getFullYear()}</p>
                                     </div>
                                   </div>
-                                  <div className="trand-head">
+                                  <div className="trand-head" style={{ minHeight: "60px" }}>
                                     <Link href={`/${event.id}/eventdetails`} className="text-decoration-none">
                                       <h6>{event.title}</h6>
                                     </Link>

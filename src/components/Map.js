@@ -114,7 +114,7 @@ const Map = () => {
                       <i className="fa fa-search"></i>
                       <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Recherche..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                       />

@@ -44,8 +44,10 @@ const Activity = () => {
     const handleResize = () => {
       setPlaceholderText(
         window.innerWidth >= 640
-          ? "Search activities, categories, locations..."
-          : "Search..."
+          // ? "Search activities, categories, locations..."
+          // : "Search..."
+             ? "Recherche..."
+          : "Recherche..."
       );
     };
 
@@ -267,7 +269,7 @@ const Activity = () => {
             <div className="hero-overlay"></div>
             <div className="container">
               <div className="hero-content">
-                <h1>Live. Don&apos;t Just Exist.</h1>
+                <h1>Trouvez des actvités selon vos envies....</h1>
                 <p>Discover the Most Happening Events Around You</p>
                 <div className="search-bar">
                   <div className="input-group">
@@ -473,7 +475,7 @@ const Activity = () => {
       <div className="upcoming-activities mt-5">
         <div className="heading-area text-center">
           <h2 style={{ fontSize: screens.sm ? "" : "20px" }}>
-            Nos Recommandations d&apos;activités
+          NOS RECOMMANDATIONS
           </h2>
         </div>
         <div className="container mt-5">

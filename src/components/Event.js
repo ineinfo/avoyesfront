@@ -369,26 +369,25 @@ const Event = () => {
                       <div className="icon">
                         <img src="/cal-icon.png" alt="" />
                       </div>
-                      <div className="what-text">
+                      {/* <div className="what-text">
                         <h3 style={{marginLeft:screens.sm ? "" : "40%"}}>WHAT YOU WANT</h3>
-                      </div>
-                      <div className="find-best-text">
+                      </div> */}
+                      {/* <div className="find-best-text">
                         <p style={{marginLeft:screens.sm ? "" : "45%"}}>find the best for you</p>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="md-input d-flex align-items-center">
                       <div className="input-container-event">
                         <input
                           type="text"
-                          placeholder="Search..."
+                          placeholder="Recherche..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
                       </div>
 
-                      <div className="drp-mob-sec d-flex align-items-center">
-                        {/* Speaker Dropdown */}
+                      {/* <div className="drp-mob-sec d-flex align-items-center">
                         <div className="dropdown speaker-dropdwn  me-3">
                           <button
                             className="btn dropdown-toggle select-city speaker-drp d-flex justify-content-between align-items-center"
@@ -404,7 +403,6 @@ const Event = () => {
                             }}
                           >
                             {selectedSpeaker || "Speaker"}
-                            {/* <i className="fa fa-chevron-down ms-2"></i> */}
                           </button>
 
                           <ul className="dropdown-menu city-menu">
@@ -441,7 +439,6 @@ const Event = () => {
                           </ul>
                         </div>
 
-                        {/* Category Dropdown */}
                         <div className="dropdown speaker-dropdwn ">
                           <button
                             className="btn btn-light dropdown-toggle select-city speaker-drp d-flex justify-content-between align-items-center"
@@ -457,7 +454,6 @@ const Event = () => {
                             }}
                           >
                             {selectedCategory || "Category"}
-                            {/* <i className="fa fa-chevron-down ms-2"></i> */}
                           </button>
                           <ul className="dropdown-menu city-menu">
                             <li>
@@ -492,7 +488,7 @@ const Event = () => {
                             ))}
                           </ul>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -642,7 +638,7 @@ const Event = () => {
                     </ul>
                     <div
                       className="evt-head-btn"
-                      style={screens.sm ? { marginLeft: "12px", marginTop: "-30px" } : { marginTop: "-25px" }}
+                      style={screens.sm ? { marginLeft: "12px", marginTop: "-25px" } : { marginTop: "-25px" }}
                     >
                       <Link href="/eventlist">
                         <button type="button"> ALL </button>
@@ -694,7 +690,7 @@ const Event = () => {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="trand-head">
+                                  <div className="trand-head" style={{ minHeight: "60px" }}>
                                     <Link
                                       href={`/${event.id}/eventdetails`}
                                       className="text-decoration-none"

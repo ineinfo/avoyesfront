@@ -195,7 +195,7 @@ const Footer = () => {
 
 
             <div className="col-md-3">
-              <h5 className="ftr-join-head">Rejoignez notre communauté</h5>
+              <h5 className="ftr-join-head">Entrez votre email</h5>
               <div className="ftr-head-btm-border"></div>
               <form role="search" method="get" onSubmit={handleSubmit}>
                 <div className="input-container">
@@ -203,7 +203,7 @@ const Footer = () => {
                     type="email"
                     className="search-input"
                     name="subscribe"
-                    placeholder="Enter your email"
+                    placeholder="Write email"
                     value={email}
                     onChange={handleInputChange}
                     style={screens.sm ? {} : { width: "100%" }}
