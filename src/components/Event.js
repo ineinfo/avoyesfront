@@ -366,9 +366,7 @@ const Event = () => {
                 <div className="row">
                   <div className="icon-what-you-want d-flex align-items-center">
                     <div className="md-icon d-flex align-items-center rtext">
-                      <div className="icon">
-                        <img src="/cal-icon.png" alt="" />
-                      </div>
+                     
                       {/* <div className="what-text">
                         <h3 style={{marginLeft:screens.sm ? "" : "40%"}}>WHAT YOU WANT</h3>
                       </div> */}
@@ -377,12 +375,13 @@ const Event = () => {
                       </div> */}
                     </div>
 
-                    <div className="md-input d-flex align-items-center">
-                      <div className="input-container-event">
+                    <div className="md-input d-flex align-items-center" style={{minWidth: "100%"}}>
+                      <div className="input-container-event"  style={{minWidth: "100%"}}>
                         <input
                           type="text"
                           placeholder="Recherche..."
                           value={searchTerm}
+                          style={{width: "100%"}}
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
                       </div>

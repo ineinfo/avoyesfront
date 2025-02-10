@@ -413,36 +413,10 @@ const Foodie = () => {
                     <div className="container">
                         <div className="row" style={{ display: "flex" }}>
                             {/* sidebar */}
-                            <div
-                                className="col-xl-2 col-lg-3 filter-sidebar-section"
-                            >
-                                {/* <h3>Suggéré</h3>
-                                <div className="checkbox">
-                                    <label>
-                                        <input type="checkbox" />Ouvrir maintenant
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="checkbox" /> Bon pour le déjeuner
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="checkbox" /> Bon pour le dîner
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="checkbox" /> Réservations
-                                    </label>
-                                </div> */}
-
-
-
-
-                                {/* <div style={{ display: "flex", flexDirection: "column", border: "1px solid #ccc", padding: "15px", borderRadius: "5px", width: "60%" }}>
-                                <h3>Catégories</h3>
-                                <div className="categories">
-                                    <div key="all" className="category-item">
-                                        <label>
+                            <div className={`col-xl-2 col-lg-3 filter-sidebar-section ${isSmallScreen ? 'd-none' : ''}`}>
+                                <div className="categories" style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                                    <div key="all" className="category-item" style={{ marginBottom: "8px", whiteSpace: "nowrap" }}>
+                                        <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedFoodTypes.length === foodTypes.length}
@@ -451,11 +425,10 @@ const Foodie = () => {
                                             All
                                         </label>
                                     </div>
-
                                     {foodTypes.length > 0 &&
                                         foodTypes.map((foodType) => (
-                                            <div key={foodType.id} className="category-item">
-                                                <label>
+                                            <div key={foodType.id} className="category-item" style={{ marginBottom: "8px", whiteSpace: "nowrap" }}>
+                                                <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedFoodTypes.includes(foodType.id)}
@@ -466,69 +439,6 @@ const Foodie = () => {
                                             </div>
                                         ))}
                                 </div>
-                                </div> */}
-
-                                <div
-                                // style={{
-                                //     display: "flex",
-                                //     flexDirection: "column",
-                                //     border: "1px solid #ccc",
-                                //     padding: "15px",
-                                //     borderRadius: "5px",
-                                //     width: isSmallScreen ? "100%" : "60%",
-                                //     position: "relative",
-                                // }}
-                                >
-                                    {/* <h3>Catégories</h3> */}
-
-                                    {/* Button to open categories on small screens */}
-                                    {/* {isSmallScreen && (
-                                        <div style={{ display: "flex", width: "100%", marginBottom: "10px" }}>
-                                            <div className="filter-btn" style={{ width: "100%", display: "inline-block" }}>
-                                                <button
-                                                    onClick={toggleCategories}
-                                                    style={{
-                                                        padding: "8px 10px",
-                                                        backgroundColor: "blue",
-                                                        color: "white",
-                                                        border: "none",
-                                                        borderRadius: "5px",
-                                                        cursor: "pointer",
-                                                        width: "100%",
-                                                    }}
-                                                >
-                                                    Filter
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )} */}
-
-                                    {/* Categories section - only visible when `isOpen` is true or on larger screens */}
-
-                                </div>
-
-
-                                {/* <h3>Distance</h3>
-                                <div className="radio">
-                                    <label>
-                                        <input type="radio" name="distance" value="1km" /> 1 km
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="radio" name="distance" value="5km" /> 5 km
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="radio" name="distance" value="10km" /> 10 km
-                                    </label>
-                                    <br />
-                                    <label>
-                                        <input type="radio" name="distance" value="20km" /> 20 km
-                                    </label>
-                                </div>
-
-                                <h3>Tags</h3> */}
-                                <div></div>
                             </div>
 
                             {/* center */}
@@ -595,7 +505,7 @@ const Foodie = () => {
                                         </div>
                                     )}
 
-                                    {(isOpen || !isSmallScreen) && (
+                                    {(isOpen && isSmallScreen) && (
                                         <div className="categories" style={{ marginTop: "10px", display: "flex", overflowX: "auto", flexDirection: "row", gap: "20px", alignItems: "center" }}>
                                             <div key="all" className="category-item" style={{ marginBottom: "8px", whiteSpace: "nowrap" }}>
                                                 <label style={{ display: "flex", alignItems: "center", fontSize: "16px" }}>
@@ -621,11 +531,8 @@ const Foodie = () => {
                                                         </label>
                                                     </div>
                                                 ))}
-
                                         </div>
                                     )}
-
-
                                     <div className="d-flex justify-content-between responsive-column">
                                         {!isSmallScreen && <h2 style={screens.sm ? {} : { fontSize: "20px" }}>Top 3 des meilleurs fast-foods près de chez vous</h2>}
                                         {/* <!-- Sort Dropdown --> */}
