@@ -295,7 +295,8 @@ const Activity = () => {
                       onChange={handleCountryChange}
                     >
                       <option value="" selected>
-                        Country
+                        {/* Country */}
+                        Pays
                       </option>
                       {Array.isArray(countries) &&
                         countries.map((country) => (
