@@ -62,6 +62,8 @@ const Activity = () => {
     if (typeof document !== "undefined") {
       // Your code that accesses `document` goes here
     }
+    // Set default selected country to France
+    setSelectedCountry("France, Paris");
   }, []);
 
   const handleSearchChange = (event) => {
@@ -294,14 +296,14 @@ const Activity = () => {
                       value={selectedCountry} // Ensure the selected country is correctly reflected in the dropdown
                       onChange={handleCountryChange}
                     >
-                      <option value="" selected>
+                      <option value="" disabled>
                         {/* Country */}
                         Pays
                       </option>
                       {Array.isArray(countries) &&
                         countries.map((country) => (
-                          <option key={country.id} value={country.id}>
-                            {country.name}
+                          <option key={country.id} value= {`${country?.name}, ${country?.capital}`}>
+                            {`${country?.name}, ${country?.capital}`}
                           </option>
                         ))}
                     </select>
