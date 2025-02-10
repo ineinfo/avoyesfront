@@ -487,7 +487,7 @@ const CustomCarouselSix = () => {
           <Slider
             {...settings}
             className="pt-4 related-product"
-          // style={{ minWidth: "99vw", marginLeft: "-295px" }}
+          style={screens.sm ?{}:{ minWidth: "99vw", marginLeft: "-295px" }}
           >
             {foodItems.map((item) => (
               <div key={item.id} className="col-xl-3 market-slide item">
