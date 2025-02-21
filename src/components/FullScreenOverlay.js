@@ -117,7 +117,7 @@ const FullScreenOverlay = () => {
                         marginBottom: "15px",
                     }}
                 >
-                    Don't miss out on this amazing deal. Click below to explore!
+                    Don&apos;t miss out on this amazing deal. Click below to explore!
                 </motion.p>
 
                 {/* Call-to-Action Button */}
