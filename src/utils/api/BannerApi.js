@@ -23,6 +23,19 @@ const fetchBanner = async () => {
   }
 };
 
+const fetchOverlayBanner = async () => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/banner/4`);
+    console.log("banner", process.env.NEXT_PUBLIC_NEXTAUTH_URL);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching events", error);
+    return { status: false, message: "Error fetching events data" };
+  }
+};
+
+
 
 
 const fetchTopBanner = async () => {
@@ -40,4 +53,4 @@ const fetchTopBanner = async () => {
 
 
 
-export { fetchTopBanner, fetchBanner };
+export { fetchTopBanner, fetchBanner, fetchOverlayBanner };

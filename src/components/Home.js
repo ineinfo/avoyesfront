@@ -23,6 +23,7 @@ import axios from "axios";
 import { Grid } from "antd";
 import LoadingSpinner from "./Loading";
 import { fetchChallenges, fetchvideo } from "@/utils/api/ChallengesApi";
+import FullScreenOverlay from "./FullScreenOverlay";
 
 const { useBreakpoint } = Grid;
 
@@ -351,89 +352,6 @@ export default function CustomComponent() {
 
     return (
         <div id="home">
-            {/* <section>
-                <div className="top-menu-main py-3">
-                    <div className="container py-4">
-                        <div className="homecontainer" style={{ display: "flex", justifyContent: screens.sm ? "center" : 'left' }}>
-
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/marketplace" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/dress.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Market Place</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/event" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/calendar.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Event</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/map" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/location.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Map</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/activity" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/puzzle.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Activity</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/foodie" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/fork.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Foodie</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="col-custom" style={{ maxWidth: screens.sm ? "" : '30%' }}>
-                                <Link href="/challanges" className="text-decoration-none">
-                                    <div className="menu-1">
-                                        <div className="img pt-3">
-                                            <img src="/goal.png" alt="Dress" />
-                                        </div>
-                                        <div className="text pt-3">
-                                            <p>Challanges</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                      
-                        </div>
-                    </div>
-                </div>
-            </section> */}
 
             <MyCarousel />
             <section>
@@ -944,6 +862,9 @@ export default function CustomComponent() {
                     text-overflow: ellipsis;
                 }
             `}</style>
+
+
+            <FullScreenOverlay />
         </div>
     );
 }
