@@ -1,86 +1,154 @@
 import { useEffect, useState } from "react";
+import { Modal, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { Grid } from "antd";
 import { fetchOverlayBanner } from "@/utils/api/BannerApi";
 import Link from "next/link";
-
-const { useBreakpoint } = Grid;
+import { motion } from "framer-motion";
 
 const FullScreenOverlay = () => {
     const [visible, setVisible] = useState(true);
     const [data, setData] = useState({});
+
     const fetchBanner = async () => {
-        const res = await fetchOverlayBanner()
-        console.log("DataBBBBBB", res.data);
+        const res = await fetchOverlayBanner();
+        setData(res.data);
+    };
 
-        setData(res.data)
-    }
     useEffect(() => {
-        fetchBanner()
-    }, [])
+        fetchBanner();
+    }, []);
 
-    const screens = useBreakpoint()
-    if (!visible) return null; // Agar overlay band hai to kuch mat dikhana
+    if (!visible) return null;
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             style={{
                 position: "fixed",
                 top: 0,
                 left: 0,
                 width: "100vw",
                 height: "100vh",
-                backgroundColor: "rgba(0, 0, 0, 0.7)", // Grey overlay
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 zIndex: 9999,
             }}
         >
-            <div
+            <motion.div
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
                 style={{
                     position: "relative",
-                    width: screens.sm ? "30vw" : "100%",
-                    height: "50vh",
-                    backgroundColor: "White",
-                    padding: "20px",
-                    borderRadius: "10px",
+                    width: "90%",
+                    maxWidth: "400px",
+                    background: "rgba(255, 255, 255, 0.15)",
+                    backdropFilter: "blur(15px)",
+                    padding: "30px",
+                    borderRadius: "20px",
                     textAlign: "center",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center",
                     alignItems: "center",
-                    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                    boxShadow: "0px 10px 25px rgba(0, 0, 255, 0.2)",
+                    border: "2px solid rgba(255, 255, 255, 0.2)",
                 }}
             >
-                <CloseOutlined
+                {/* Close Button */}
+                <motion.div
+                    whileHover={{ rotate: 90, scale: 1.2 }}
+                    transition={{ duration: 0.3 }}
                     style={{
                         position: "absolute",
                         top: "10px",
                         right: "10px",
-                        fontSize: "20px",
                         cursor: "pointer",
-                        color: "blue",
+                        color: "#ff4d4f",
+                        fontSize: "18px",
                     }}
-                    onClick={() => setVisible(false)}
-                />
-                <img
-                    src={data?.image_url}
-                    alt="adv"
+                >
+                    <CloseOutlined onClick={() => setVisible(false)} />
+                </motion.div>
+
+                {/* Image with Animation */}
+                <motion.img
+                    src={data?.image_url || "/default-image.jpg"}
+                    alt="Advertisement"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
                     style={{
-                        width: "300px",
-                        borderRadius: "10px",
-                        marginBottom: "20px",
+                        width: "100%",
+                        maxWidth: "350px",
+                        borderRadius: "12px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 255, 0.1)",
+                        marginBottom: "15px",
                     }}
                 />
-                <h3 style={{ margin: "0", color: "#fff" }}>{data?.title}</h3>
-                <p style={{ color: "#ccc" }}>
-                    <Link href={data?.view_url || "#"} style={{ fontWeight: "bold" }}>
-                        Click here
-                    </Link> to go
-                </p>
-            </div>
-        </div>
+
+                {/* Title */}
+                <motion.h3
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    style={{
+                        color: "#fff",
+                        fontSize: "22px",
+                        fontWeight: "bold",
+                        textShadow: "0px 4px 10px rgba(0, 255, 255, 0.7)",
+                    }}
+                >
+                    {data?.title || "Exclusive Offer!"}
+                </motion.h3>
+
+                {/* Description */}
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    style={{
+                        color: "#ddd",
+                        fontSize: "16px",
+                        marginBottom: "15px",
+                    }}
+                >
+                    Don't miss out on this amazing deal. Click below to explore!
+                </motion.p>
+
+                {/* Call-to-Action Button */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                    <Link href={data?.view_url || "#"} passHref>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            style={{
+                                background: "linear-gradient(45deg, #007BFF, #00D4FF)",
+                                color: "#fff",
+                                padding: "12px 24px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                                borderRadius: "30px",
+                                border: "none",
+                                cursor: "pointer",
+                                transition: "all 0.3s ease",
+                                boxShadow: "0px 5px 15px rgba(0, 255, 255, 0.4)",
+                            }}
+                        >
+                            Explore Now 🚀
+                        </motion.button>
+                    </Link>
+                </motion.div>
+            </motion.div>
+        </motion.div>
     );
 };
 
