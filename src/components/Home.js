@@ -217,12 +217,16 @@ export default function CustomComponent() {
         };
         const fetchChallengesVideo = async () => {
             const result = await fetchvideo();
+            console.log("videopart", result);
+
             if (result) {
-                setVideourl(result.video_url);
+                const videoUrl = result.video_url;
+                const videoId = videoUrl.split("v=")[1] || videoUrl.split("/").pop().split("?")[0];
+                setVideourl(`https://www.youtube.com/embed/${videoId}`);
             } else {
                 console.error("Something went wrong");
             }
-        }
+        };
 
         const fetchTopChallenge = async () => {
             const result = await fetchChallenges();
