@@ -248,7 +248,11 @@ const MyCarousel = () => {
                     </div>
                     <div className="col-md-6 col-6">
                       <img
-                        src={banner.image_url ? banner.image_url : '/banner-img.png'}
+                        src={
+                          banner.image_url
+                            ? banner.image_url.replace('/topbanner/', '/banner/')
+                            : '/banner-img.png'
+                        }
                         // src={'/banner-img.png'}
 
                         className="d-block w-100 banner-img"
