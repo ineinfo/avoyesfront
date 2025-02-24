@@ -11,7 +11,7 @@ import "../assets/css/responsive.css";
 import Cookies from 'js-cookie';
 import { Grid } from 'antd';
 
-const {useBreakpoint} = Grid
+const { useBreakpoint } = Grid
 
 const FoodDetails = () => {
   const { id } = useParams();
@@ -294,7 +294,7 @@ const FoodDetails = () => {
               <div className="gallery-container">
                 <div className="tz-gallery">
                   <div className="row">
-                    <div className="col-md-5 col-5" style={{height:screens.sm ? '' : '300px'}}>
+                    <div className="col-md-5 col-5" style={{ height: screens.sm ? '' : '300px' }}>
                       <a
                         className="lightbox"
                         onClick={() => openLightbox(0)}
@@ -304,7 +304,7 @@ const FoodDetails = () => {
                           src={imageUrls[1]}
                           alt="Food Image 1"
                           className="map-dtl-1"
-                          style={{height:screens.sm ? '' : '290px'}}
+                          style={{ height: screens.sm ? '' : '290px' }}
                         />
                       </a>
                     </div>
@@ -396,12 +396,12 @@ const FoodDetails = () => {
                   src={imageUrls[currentImageIndex]}
                   alt="Lightbox"
                   className="gal-large-img-food"
-                  // style={{
-                  //   width: "800px",
-                  //   height: "500px",
-                  //   objectFit: "cover",
-                  //   objectPosition: "center",
-                  // }}
+                // style={{
+                //   width: "800px",
+                //   height: "500px",
+                //   objectFit: "cover",
+                //   objectPosition: "center",
+                // }}
                 />
                 <button
                   className="arrow-button next"
@@ -507,11 +507,11 @@ const FoodDetails = () => {
                       {sliderData.length > 0 ? (
                         sliderData.map((item, index) => (
                           <div key={item.id} className="map-slide">
-                            <img src={item.image_url} 
-                            alt={item.title} 
-                            style={{ objectFit: 'cover' }} 
+                            <img src={item.image_url}
+                              alt={item.title}
+                              style={{ objectFit: 'cover' }}
                             />
-                             {/* <img src={defaultUrl} 
+                            {/* <img src={defaultUrl} 
                             alt={item.title} 
                             style={{ objectFit: 'cover' }} 
                             /> */}
@@ -609,7 +609,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="80"
-                              className="custom-progress-bar html5" style={{width:screens.sm ? '' : '100%'}} 
+                              className="custom-progress-bar html5" style={{ width: screens.sm ? '' : '100%' }}
                             >
                               <div className="progress-bar">
                                 <span style={{ width: "80%" }}>80%</span>
@@ -621,7 +621,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="20"
-                              style={{width:screens.sm ? '' : '100%'}}
+                              style={{ width: screens.sm ? '' : '100%' }}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -634,7 +634,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="10"
-                              style={{width:screens.sm ? '' : '100%'}}
+                              style={{ width: screens.sm ? '' : '100%' }}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -647,7 +647,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="50"
-                              style={{width:screens.sm ? '' : '100%'}}
+                              style={{ width: screens.sm ? '' : '100%' }}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">
@@ -660,7 +660,7 @@ const FoodDetails = () => {
                             <progress
                               max="100"
                               value="30"
-                              style={{width:screens.sm ? '' : '100%'}}
+                              style={{ width: screens.sm ? '' : '100%' }}
                               className="custom-progress-bar html5"
                             >
                               <div className="progress-bar">

@@ -235,7 +235,7 @@ export default function CustomComponent() {
             // Sorting based on the length of the users array in descending order
             const sortedChallenges = result
                 .sort((a, b) => (b.users?.length || 0) - (a.users?.length || 0))
-                .slice(0, 5); // Get top 3 challenges
+                .slice(0, 6); // Get top 3 challenges
 
             // Extracting only required fields
             const topChallenges = sortedChallenges.map(challenge => ({
@@ -508,11 +508,7 @@ export default function CustomComponent() {
                 <div className="main-community">
                     <div className="container pb-5">
                         <div className="head d-flex justify-content-between align-items-center">
-                            <div className="heading">
-                                <h1>
-                                    <span>TOP </span> Challenges
-                                </h1>
-                            </div>
+
                         </div>
                         <div className="row">
                             <div className="col-xl-9 col-lg-9">
@@ -544,7 +540,7 @@ export default function CustomComponent() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-xl-3 col-lg-3 pt-5">
+                            <div className="col-xl-3 col-lg-3 pt-5" style={{ marginTop: "5px" }}>
                                 <div className="top-community-member">
                                     <div className="head">
                                         <h3>Top Challenges</h3>

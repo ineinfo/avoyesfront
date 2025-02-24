@@ -487,7 +487,7 @@ const CustomCarouselSix = () => {
           <Slider
             {...settings}
             className="pt-4 related-product"
-          style={screens.sm ?{}:{ minWidth: "99vw", marginLeft: "-298px" }}
+            style={screens.sm ? {} : { minWidth: "99vw", marginLeft: "-298px" }}
           >
             {foodItems.map((item) => (
               <div key={item.id} className="col-xl-3 market-slide item">
@@ -495,11 +495,11 @@ const CustomCarouselSix = () => {
                   <div className="img-wrapper" style={{ marginLeft: screens.sm ? "" : "280px" }}>
                     <div className="img position-relative">
                       <img
-                        // src={
-                        //   item.image_url ||
-                        //   "http://38.108.127.253:3000/uploads/food-place/1731303887667-814340589.png"
-                        // }
-                        src={foodieBanner.src}
+                        src={
+                          item?.image_url ||
+                          foodieBanner.src
+                        }
+                        // src={foodieBanner.src}
                         alt={item.title}
                         style={{ width: "450px", height: "380px", objectFit: "cover" }}
                       />

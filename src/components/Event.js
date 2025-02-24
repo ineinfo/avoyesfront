@@ -500,7 +500,7 @@ const Event = () => {
             <div className="upcoming-events-main">
               <div className="container">
                 <div className="head">
-                  <h1>Upcoming Events</h1>
+                  <h1>NOTRE SÉLECTION D&apos;ÉVÉNEMENTS</h1>
                   <p>
                     {videoData ? videoData.top_sub_heading : <LoadingSpinner />}
                   </p>
@@ -574,7 +574,7 @@ const Event = () => {
                         paddingBottom: "10px",
                         WebkitOverflowScrolling: "touch",
                         msOverflowStyle: "none", // Hide scrollbar for IE & Edge
-                        scrollbarWidth: "none",
+                        scrollbarWidth: "thin",
                       }}
                     >
                       <li className="nav-item" role="presentation">
@@ -636,7 +636,7 @@ const Event = () => {
                     </ul>
                     <div
                       className="evt-head-btn"
-                      style={screens.sm ? { marginLeft: "12px", marginTop: "-25px" } : { marginTop: "-25px" }}
+                      style={screens.sm ? { marginLeft: "12px", marginTop: "-25px" } : { marginTop: "-21px" }}
                     >
                       <Link href="/eventlist">
                         <button type="button"> ALL </button>
@@ -748,14 +748,8 @@ const Event = () => {
               <div className="container">
                 <div className="head">
                   {/* <h1>Featured Events</h1> */}
-                  <h2>Événements les plus tendance</h2>
+                  <h2 style={{ fontSize: "xxx-large" }}>Top événements sur Avöyes</h2>
 
-                  <p>
-                    {/* Exciting concerts, workshops, festivals & more - dive into a world of unforgettable experiences! */}
-                    Des soirées animées, des festivals, des événements exclusifs
-                    et bien plus encore - plongez dans un univers d expériences
-                    inoubliables !
-                  </p>
                 </div>
                 <div className="event-page-slide">
                   <Slider {...settings}>

@@ -49,6 +49,19 @@ const EventDetails = () => {
     }
   }, [categories, eventDetails]);
 
+  const getEmbedUrl = (url) => {
+    if (url.includes("maps.app.goo.gl")) {
+      // Short URL ka direct embed nahi hota, toh hum isse Google Maps Search Link me convert karenge
+      return `https://www.google.com/maps?q=${encodeURIComponent(url)}`;
+    } else if (url.includes("google.com/maps/place") || url.includes("google.com/maps/embed")) {
+      // Agar already valid embed URL hai toh use as it is
+      return url;
+    } else {
+      // Agar invalid URL hai toh default location dikhayenge
+      return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093767!2d144.9537353159042!3d-37.81720974201279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5df1f2b1e1%3A0x5045675218ce6e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sin!4v1661438306000!5m2!1sen!2sin";
+    }
+  };
+
 
   useEffect(() => {
     if (id) {
@@ -138,7 +151,11 @@ const EventDetails = () => {
                   <iframe
                     width="100%"
                     height={screens.sm ? "700" : "250"}
-                    src={`${videoUrl}?controls=0`}
+                    // src={`${videoUrl}?controls=0`}
+                    src={videoUrl
+                      .replace("https://youtu.be/", "https://www.youtube.com/watch?v=")
+                      .replace("watch?v=", "embed/")
+                    }
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -270,16 +287,14 @@ const EventDetails = () => {
                           width="100%" height="330" style={{ border: 0 }} allowFullScreen="" loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"></iframe> */}
                         <iframe
-                          src={eventDetails.map_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.7782458348!2d2.2646349990563044!3d48.85893843455474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2sin!4v1727960219961!5m2!1sen!2sin"}
+                          src={getEmbedUrl(eventDetails?.map_url)}
                           width="100%"
                           height="330"
                           style={{ border: 0 }}  // Updated to use an object
                           allowFullScreen
                           loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
-                        />
-
-
+                        ></iframe>
                       </div>
                     </div>
                     <div className="evt-ticket-btn">

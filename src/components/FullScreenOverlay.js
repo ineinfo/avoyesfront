@@ -47,7 +47,7 @@ const FullScreenOverlay = () => {
                     position: "relative",
                     width: "90%",
                     maxWidth: "400px",
-                    background: "rgba(255, 255, 255, 0.15)",
+                    background: "white",
                     backdropFilter: "blur(15px)",
                     padding: "30px",
                     borderRadius: "20px",
@@ -97,10 +97,10 @@ const FullScreenOverlay = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                     style={{
-                        color: "#fff",
+                        color: "black",
                         fontSize: "22px",
                         fontWeight: "bold",
-                        textShadow: "0px 4px 10px rgba(0, 255, 255, 0.7)",
+                        // textShadow: "0px 4px 10px rgba(0, 255, 255, 0.7)",
                     }}
                 >
                     {data?.title || "Exclusive Offer!"}
@@ -112,7 +112,7 @@ const FullScreenOverlay = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                     style={{
-                        color: "#ddd",
+                        color: "black",
                         fontSize: "16px",
                         marginBottom: "15px",
                     }}
@@ -140,10 +140,10 @@ const FullScreenOverlay = () => {
                                 border: "none",
                                 cursor: "pointer",
                                 transition: "all 0.3s ease",
-                                boxShadow: "0px 5px 15px rgba(0, 255, 255, 0.4)",
+                                // boxShadow: "0px 5px 15px rgba(0, 255, 255, 0.4)",
                             }}
                         >
-                            Explore Now 🚀
+                            Explore Now
                         </motion.button>
                     </Link>
                 </motion.div>

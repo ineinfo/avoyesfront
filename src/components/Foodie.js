@@ -256,7 +256,7 @@ const Foodie = () => {
                                     onClick={() => setSelectedFoodType(foodType.id)}
                                 >
                                     <img
-                                        src={foodType.image_url || cafe.src}
+                                        src={cafe.src}
                                         alt={foodType.title}
                                         style={{ verticalAlign: "top" }}
                                     />

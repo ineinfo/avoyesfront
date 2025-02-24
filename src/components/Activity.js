@@ -46,7 +46,7 @@ const Activity = () => {
         window.innerWidth >= 640
           // ? "Search activities, categories, locations..."
           // : "Search..."
-             ? "Recherche..."
+          ? "Recherche..."
           : "Recherche..."
       );
     };
@@ -272,7 +272,7 @@ const Activity = () => {
             <div className="container">
               <div className="hero-content">
                 <h1>Trouvez des actvités selon vos envies....</h1>
-                <p>Discover the Most Happening Events Around You</p>
+                {/* <p>Discover the Most Happening Events Around You</p> */}
                 <div className="search-bar">
                   <div className="input-group">
                     {/* Search input */}
@@ -302,7 +302,7 @@ const Activity = () => {
                       </option>
                       {Array.isArray(countries) &&
                         countries.map((country) => (
-                          <option key={country.id} value= {`${country?.name}, ${country?.capital}`}>
+                          <option key={country.id} value={`${country?.name}, ${country?.capital}`}>
                             {`${country?.name}, ${country?.capital}`}
                           </option>
                         ))}
@@ -392,7 +392,7 @@ const Activity = () => {
               >
                 <div
                   className="content-box"
-                  style={screens.sm ? { width: "335px", height: "450px" } : {width: "80%" ,height:"100%", marginRight:"45px"}}
+                  style={screens.sm ? { width: "335px", height: "450px" } : { width: "80%", height: "100%", marginRight: "45px" }}
                 >
                   <div className="img-zoom">
                     <img
@@ -412,12 +412,12 @@ const Activity = () => {
                       }}
                     />
                   </div>
-                  <div className="box" style={screens.sm ? { padding: "15px 5px" } : {marginLeft: "-80px"}}>
+                  <div className="box" style={screens.sm ? { padding: "15px 5px" } : { marginLeft: "-80px" }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <h5
                       // style={screens.sm ? { width: "70%" } : {}}
                       >
-                        <a href={`/activitydetail/${activity.id}`} style={screens.sm ? { } : {textDecoration: "none"}}>
+                        <a href={`/activitydetail/${activity.id}`} style={screens.sm ? {} : { textDecoration: "none" }}>
                           {activity.title}
                         </a>
                       </h5>
@@ -478,7 +478,7 @@ const Activity = () => {
       <div className="upcoming-activities mt-5">
         <div className="heading-area text-center">
           <h2 style={{ fontSize: screens.sm ? "" : "20px" }}>
-          NOS RECOMMANDATIONS
+            NOS RECOMMANDATIONS
           </h2>
         </div>
         <div className="container mt-5">
@@ -486,7 +486,7 @@ const Activity = () => {
             {...{
               infinite: true,
               speed: 500,
-              slidesToShow:4,
+              slidesToShow: 4,
               slidesToScroll: 1,
               arrows: false,
               autoplay: true,
@@ -536,7 +536,7 @@ const Activity = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <h5 style={{ marginBottom: "-38px" }}>
                         <a
-                          style={{ color: "black" , textDecoration: "none"}}
+                          style={{ color: "black", textDecoration: "none" }}
                           href={`/activitydetail/${activity.id}`}
                         >
                           {activity.title}

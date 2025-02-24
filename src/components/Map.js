@@ -628,7 +628,7 @@ const Map = () => {
                   {foodTypes.map((food, index) => (
                     <Link href="/foodie" key={index} className="text-decoration-none custom-col">
                       <div className="menu-1 d-flex align-items-center justify-content-between">
-                        <img src={food.image_url || cafe.src} alt={food.title} />
+                        <img src={cafe.src} alt={food.title} />
                         <p className="m-0">{food.title}</p>
                       </div>
                     </Link>

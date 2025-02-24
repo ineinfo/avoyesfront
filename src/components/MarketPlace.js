@@ -12,15 +12,15 @@ import defaultImg from '../../public/defaultImg.jpg';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { fetchBestFor, fetchCategories, fetchRatings, fetchTypes } from "@/utils/api/FilterApi";
 
-import {Grid} from "antd";
+import { Grid } from "antd";
 
 const { useBreakpoint } = Grid;
 
 const MarketPlace = () => {
-const screens = useBreakpoint();
+  const screens = useBreakpoint();
 
   const [showingCount, setShowingCount] = useState(12);
-  const [selectedOption, setSelectedOption] = useState(" Plus récentsevents");
+  const [selectedOption, setSelectedOption] = useState(" Plus récents");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -622,7 +622,7 @@ const screens = useBreakpoint();
                             data-value="3"
                             onClick={handleOptionClick}
                           >
-                             Plus récents
+                            Plus récents
                           </Link>
                         </li>
                         <li>
@@ -667,7 +667,7 @@ const screens = useBreakpoint();
                         key={product.id}
                       >
                         <div className="market-place-product market-place-page-product">
-                          <div className="img-wrapper-market"style={{marginLeft:screens.sm?"":"8px" , width:screens.sm?"":"96%"}}>
+                          <div className="img-wrapper-market" style={{ marginLeft: screens.sm ? "" : "8px", width: screens.sm ? "" : "96%" }}>
                             <div className="img">
                               <img
                                 style={{ objectFit: "cover", height: "350px" }}
