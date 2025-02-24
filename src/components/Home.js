@@ -522,13 +522,18 @@ export default function CustomComponent() {
                                             id="youtube-player"
                                             width="100%"
                                             height={screens.sm ? "520" : "200"}
-                                            src={videourl}
+                                            src={
+                                                videourl.includes("youtu.be")
+                                                    ? videourl.replace("https://youtu.be/", "https://www.youtube.com/embed/")
+                                                    : videourl.replace("watch?v=", "embed/")
+                                            }
                                             title="YouTube video player"
                                             frameBorder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowFullScreen
                                             style={{ objectFit: "cover" }}
                                         ></iframe>
+
                                         {/* {screens.sm && !isPlaying && (
                                             <div className="overlay" onClick={handlePlayPause}>
                                                 <div className="img">

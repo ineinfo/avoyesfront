@@ -366,7 +366,7 @@ const Event = () => {
                 <div className="row">
                   <div className="icon-what-you-want d-flex align-items-center">
                     <div className="md-icon d-flex align-items-center rtext">
-                     
+
                       {/* <div className="what-text">
                         <h3 style={{marginLeft:screens.sm ? "" : "40%"}}>WHAT YOU WANT</h3>
                       </div> */}
@@ -375,13 +375,13 @@ const Event = () => {
                       </div> */}
                     </div>
 
-                    <div className="md-input d-flex align-items-center" style={{minWidth: "100%"}}>
-                      <div className="input-container-event"  style={{minWidth: "100%"}}>
+                    <div className="md-input d-flex align-items-center" style={{ minWidth: "100%" }}>
+                      <div className="input-container-event" style={{ minWidth: "100%" }}>
                         <input
                           type="text"
                           placeholder="Recherche..."
                           value={searchTerm}
-                          style={{width: "100%"}}
+                          style={{ width: "100%" }}
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
                       </div>
@@ -513,17 +513,16 @@ const Event = () => {
                           id="video"
                           width="100%"
                           height="900"
-                          src={videoData.video_url.replace(
-                            "watch?v=",
-                            "embed/"
-                          )}
+                          src={videoData.video_url
+                            .replace("https://youtu.be/", "https://www.youtube.com/watch?v=")
+                            .replace("watch?v=", "embed/")
+                          }
                           title={videoData.video_title}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
-                          onPlay={handleVideoPlay}
-                          onPause={handleVideoPause}
                         ></iframe>
+
                         <div className="overlay"></div>
                         <div className="img" id="playButton">
                           {/* <img src="/play-button.png" alt="Play" /> */}
